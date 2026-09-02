@@ -14,7 +14,7 @@ export function SiteNav() {
   return (
     <header className="nav">
       <div className="wrap nav-inner">
-        <Link className="wordmark" href="/">Archie McNicol / Portfolio System</Link>
+        <Link className="wordmark" href="/">Archie McNicol</Link>
         <nav className="nav-links" aria-label="Primary navigation">
           {links.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
         </nav>

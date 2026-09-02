@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { PARTNERSHIP_ROSTER, PUBLIC_CAMPAIGNS } from "@/lib/brand-work";
 
 export const metadata = {
@@ -51,8 +52,38 @@ export default function CreatorPage() {
             {PUBLIC_CAMPAIGNS.map((campaign, index) => (
               <article className="brand-campaign" key={campaign.id}>
                 <div className="brand-campaign-number">0{index + 1}</div>
-                <div className="brand-campaign-mark" data-tone={campaign.tone} aria-hidden="true">
-                  <span>{campaign.mark}</span>
+                <div className="brand-campaign-media" data-tone={campaign.tone}>
+                  <div className="brand-campaign-logo">
+                    <Image
+                      src={campaign.logoSrc}
+                      alt={campaign.logoAlt}
+                      width={420}
+                      height={140}
+                      unoptimized
+                    />
+                  </div>
+                  <div className="brand-campaign-covers">
+                    {campaign.links
+                      .filter((link) => link.platform === "TikTok")
+                      .map((link) => (
+                        <a
+                          className="brand-campaign-cover"
+                          href={link.href}
+                          key={link.href}
+                          rel="noreferrer"
+                          target="_blank"
+                          aria-label={`${link.label} — ${campaign.brand}`}
+                        >
+                          <Image
+                            src={`/api/tiktok-cover?url=${encodeURIComponent(link.href)}`}
+                            alt={`${campaign.brand} TikTok video cover`}
+                            fill
+                            sizes="(max-width: 600px) 100vw, (max-width: 900px) 40vw, 28vw"
+                          />
+                          <span>{link.label} ↗</span>
+                        </a>
+                      ))}
+                  </div>
                 </div>
                 <div className="brand-campaign-copy">
                   <div className="brand-campaign-meta">
@@ -62,6 +93,11 @@ export default function CreatorPage() {
                   <h2>{campaign.brand}</h2>
                   <h3>{campaign.campaign}</h3>
                   <p>{campaign.summary}</p>
+                  <div className="brand-campaign-analytics" aria-label={`${campaign.brand} analytics status`}>
+                    <div><span>Views</span><strong>{campaign.analytics.views}</strong></div>
+                    <div><span>Likes / export snapshot</span><strong>{campaign.analytics.likes}</strong></div>
+                    <div><span>Data status</span><strong>{campaign.analytics.status}</strong></div>
+                  </div>
                   <div className="brand-campaign-links">
                     {campaign.links.map((link) => (
                       <a href={link.href} key={link.href} rel="noreferrer" target="_blank">

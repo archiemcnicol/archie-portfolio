@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "verify:release": "node scripts/verify-release.mjs",
+    "verify": "npm run build && npm run typecheck && npm run verify:release"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.5",

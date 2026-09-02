@@ -5,25 +5,33 @@ export type PublicCampaign = {
   period: string;
   format: string;
   summary: string;
-  mark: string;
+  logoSrc: string;
+  logoAlt: string;
   tone: "ink" | "acid" | "stone" | "blue";
-  links: { label: string; href: string }[];
+  links: { label: string; href: string; platform: "TikTok" | "Instagram" }[];
+  analytics: {
+    views: string;
+    likes: string;
+    status: string;
+  };
 };
 
 export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
   {
-    id: "nike-superawesome",
+    id: "nike",
     brand: "Nike",
-    campaign: "Nike x SuperAwesome",
+    campaign: "Nike product integration",
     period: "January 2026",
     format: "Branded product integration",
     summary:
       "A fashion-led TikTok integration combining a clear branded-content disclosure with Archie's established styling format.",
-    mark: "NK",
+    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Logo_NIKE.svg",
+    logoAlt: "Nike Swoosh logo",
     tone: "ink",
     links: [
-      { label: "Watch on TikTok", href: "https://vm.tiktok.com/ZNRrSuv3S/" },
+      { label: "Watch on TikTok", href: "https://vm.tiktok.com/ZNRrSuv3S/", platform: "TikTok" },
     ],
+    analytics: { views: "To be added", likes: "134 (export)", status: "Snapshot from 22 Jul 2026 export" },
   },
   {
     id: "boss-bottled-beyond",
@@ -33,11 +41,13 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     format: "Fragrance gifting",
     summary:
       "A polished fragrance integration shaped for short-form fashion and lifestyle audiences.",
-    mark: "BS",
+    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Boss_logo_2021.svg",
+    logoAlt: "BOSS wordmark",
     tone: "stone",
     links: [
-      { label: "Watch on TikTok", href: "https://vm.tiktok.com/ZNd7Wft36/" },
+      { label: "Watch on TikTok", href: "https://vm.tiktok.com/ZNd7Wft36/", platform: "TikTok" },
     ],
+    analytics: { views: "To be added", likes: "88 (export)", status: "Snapshot from 22 Jul 2026 export" },
   },
   {
     id: "moschino-toy",
@@ -47,15 +57,18 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     format: "TikTok + Instagram Reel",
     summary:
       "A cross-platform fragrance campaign delivered for TikTok and Instagram, with both live placements retained.",
-    mark: "MO",
+    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Moschino_logo.svg",
+    logoAlt: "Moschino wordmark",
     tone: "blue",
     links: [
-      { label: "Watch on TikTok", href: "https://vm.tiktok.com/ZNdUsJTCT/" },
+      { label: "Watch on TikTok", href: "https://vm.tiktok.com/ZNdUsJTCT/", platform: "TikTok" },
       {
         label: "Watch on Instagram",
         href: "https://www.instagram.com/reel/DLP4vh6s_Kk/?igsh=MWZoY2htZ3A3dTRlNQ==",
+        platform: "Instagram",
       },
     ],
+    analytics: { views: "To be added", likes: "93 (export)", status: "Snapshot from 22 Jul 2026 export" },
   },
   {
     id: "superdry-2024",
@@ -65,12 +78,14 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     format: "Two TikTok deliverables",
     summary:
       "Two coordinated fashion posts created and published as part of a gifted Superdry campaign.",
-    mark: "SD",
+    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Superdry_Logo_2020.svg",
+    logoAlt: "Superdry wordmark",
     tone: "acid",
     links: [
-      { label: "Watch post one", href: "https://vm.tiktok.com/ZGeEcsen9/" },
-      { label: "Watch post two", href: "https://vm.tiktok.com/ZGeoh1to7/" },
+      { label: "Watch post one", href: "https://vm.tiktok.com/ZGeEcsen9/", platform: "TikTok" },
+      { label: "Watch post two", href: "https://vm.tiktok.com/ZGeoh1to7/", platform: "TikTok" },
     ],
+    analytics: { views: "To be added", likes: "2,954 + 660 (export)", status: "Two-post snapshot from 22 Jul 2026 export" },
   },
 ];
 
@@ -81,7 +96,7 @@ export const PARTNERSHIP_ROSTER = [
   "Superdry",
   "Jean Paul Gaultier",
   "Lyle & Scott",
-  "All Points East",
+  "Sketch.co — All Points East / Tyler, The Creator",
   "Tilt / Redpill",
   "Firmoo",
   "NOTION MGMT",

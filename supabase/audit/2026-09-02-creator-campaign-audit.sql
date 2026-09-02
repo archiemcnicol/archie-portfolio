@@ -6,7 +6,7 @@ values
   ('KORA Works', 'kora-works', 'music / creator campaign', 'Paid sound-promotion work for Omar+.'),
   ('Tilt / Redpill', 'tilt-redpill', 'creator campaign', '£350 agreement and matching payment confirm completed commercial work; exact deliverable remains unresolved.'),
   ('Firmoo', 'firmoo', 'eyewear', 'Creation and payment correspondence confirms work beyond an unaccepted offer; exact content remains unresolved.'),
-  ('All Points East', 'all-points-east', 'event / entertainment', 'Promotional creator work completed in August 2026 in exchange for event tickets.'),
+  ('Sketch.co', 'sketch-co', 'event promotion', 'Ticket and promotional-content relationship for All Points East / Tyler, The Creator; All Points East is the event, not the client.'),
   ('ACBuy', 'acbuy', 'affiliate / shipping agent', 'Long-running affiliate and creator relationship; exact post mapping remains a separate audit stream.'),
   ('USFans', 'usfans', 'affiliate / shipping agent', 'Affiliate and creator relationship with verified registrations and activations.')
 on conflict (slug) do update
@@ -45,9 +45,9 @@ from (
     ('firmoo', 'Firmoo eyewear creator work', 'affiliate / creator collaboration', null::date, null::date,
      'Creation and payment correspondence confirms work beyond an unaccepted offer. Exact content and final payment status still need isolating.', 'prior correspondence evidence', 'confirmed',
      jsonb_build_object('exact_post', 'unresolved')),
-    ('all-points-east', 'Tyler, The Creator promotional content', 'event promotion', date '2026-08-26', date '2026-08-28',
-     'Two promotional pieces were completed for All Points East in exchange for event tickets.', 'prior conversation + ticket transfer evidence', 'completed',
-     jsonb_build_object('deliverables', 2, 'exact_posts', 'newer export or live links required')),
+    ('sketch-co', 'Sketch.co — All Points East / Tyler, The Creator', 'event promotion', date '2026-08-26', date '2026-08-28',
+     'Two promotional pieces were completed for Sketch.co in connection with All Points East / Tyler, The Creator in exchange for event tickets. All Points East is the event context, not the client.', 'prior conversation + ticket transfer evidence', 'completed',
+     jsonb_build_object('client', 'Sketch.co', 'event', 'All Points East', 'artist', 'Tyler, The Creator', 'deliverables', 2, 'exact_posts', 'newer export or live links required')),
     ('acbuy', 'ACBuy affiliate and creator relationship', 'affiliate / shipping-agent content', date '2025-04-01', date '2026-01-28',
      'Verified affiliate relationship with tracked invites, activations, commission and repeated creator content. Exact post mapping remains in progress.', 'affiliate records + prior conversation evidence', 'completed',
      jsonb_build_object('exact_posts', 'unresolved')),

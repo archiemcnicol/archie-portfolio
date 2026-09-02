@@ -4,7 +4,9 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "commons.wikimedia.org", pathname: "/wiki/Special:Redirect/file/**" },
     ],
+    localPatterns: [{ pathname: "/api/tiktok-cover" }],
   },
 };
 
