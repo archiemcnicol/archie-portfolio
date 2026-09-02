@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { TikTokScanner } from "@/components/tiktok-scanner";
+import "./admin.css";
 
 export const metadata = {
   title: "Content Review — Archie Portfolio Admin",
