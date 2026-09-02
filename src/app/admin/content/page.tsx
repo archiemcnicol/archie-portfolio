@@ -8,7 +8,10 @@ export const metadata = {
 };
 
 export default function ContentReviewPage() {
-  if (process.env.ENABLE_ADMIN !== "true") {
+  const adminEnabled =
+    process.env.ENABLE_ADMIN === "true" || process.env.VERCEL_ENV === "preview";
+
+  if (!adminEnabled) {
     notFound();
   }
 
