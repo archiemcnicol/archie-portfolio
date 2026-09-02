@@ -29,6 +29,37 @@
 .admin-ledger-topline > span, .admin-cell-note[data-status] { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; border: 1px solid var(--line); border-radius: 999px; padding: 6px 8px; }
 .admin-ledger-topline > span[data-status="campaign-confirmed"], .admin-cell-note[data-status="confirmed"] { background: var(--accent); color: #111; }
 .admin-cell-note { display: block; margin-top: 6px; color: var(--muted); max-width: 32ch; }
+.admin-audit-basis { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 26px; border: 1px solid var(--line); border-right: 0; }
+.admin-audit-basis > div { min-height: 112px; padding: 18px; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; gap: 12px; }
+.admin-audit-basis strong { font-size: clamp(30px, 4vw, 52px); letter-spacing: -.055em; }
+.admin-audit-basis span { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
+.admin-filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.admin-filter { border: 1px solid var(--line); background: transparent; color: var(--foreground); padding: 10px 12px; font: inherit; font-size: 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+.admin-filter span { color: var(--muted); }
+.admin-filter[data-active="true"] { background: var(--foreground); color: var(--background); }
+.admin-filter[data-active="true"] span { color: inherit; opacity: .65; }
+.admin-audit-list { display: grid; gap: 10px; margin-top: 18px; }
+.admin-audit-card { border: 1px solid var(--line); padding: 20px; display: grid; grid-template-columns: minmax(0, 1fr) 190px; gap: 28px; background: color-mix(in srgb, var(--panel) 74%, transparent); }
+.admin-audit-card h3 { margin: 16px 0 8px; font-size: clamp(22px, 2.4vw, 32px); letter-spacing: -.04em; }
+.admin-audit-card p { color: var(--muted); line-height: 1.5; max-width: 84ch; }
+.admin-audit-card small { display: block; margin-top: 14px; line-height: 1.45; }
+.admin-audit-meta { display: flex; flex-wrap: wrap; gap: 7px; }
+.admin-audit-meta span { border: 1px solid var(--line); padding: 5px 7px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+.admin-evidence-list { margin: 14px 0 0; padding-left: 18px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+.admin-audit-links { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+.admin-audit-links > a { border: 1px solid var(--line); padding: 10px 12px; color: inherit; text-decoration: none; font-size: 12px; text-align: center; }
+.admin-audit-links > a:hover { background: var(--foreground); color: var(--background); }
+.admin-audit-links > span { color: var(--muted); font-size: 11px; line-height: 1.4; }
+.admin-audit-links small { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+.admin-ledger-topline > span[data-status="confirmed-post"] { background: var(--accent); color: #111; }
+.admin-ledger-topline > span[data-status="confirmed-no-url"] { background: color-mix(in srgb, var(--accent) 35%, transparent); }
+.admin-ledger-topline > span[data-status="candidate-post"],
+.admin-ledger-topline > span[data-status="accepted-unresolved"] { background: #fff2b8; color: #28220b; }
+.admin-ledger-topline > span[data-status="offer-only"] { color: var(--muted); }
+.admin-ledger-topline > span[data-status="excluded"],
+.admin-ledger-topline > span[data-status="suspicious"] { background: #311c1c; color: #ffcece; }
+.admin-table-link { color: inherit; text-underline-offset: 3px; }
 @media (max-width: 800px) { .admin-stats { grid-template-columns: repeat(2, 1fr); } .admin-heading-row { display: block; } .admin-pill { display: inline-block; margin-top: 12px; } }
+@media (max-width: 800px) { .admin-audit-basis { grid-template-columns: repeat(2, 1fr); } .admin-audit-card { grid-template-columns: 1fr; } .admin-audit-links { flex-direction: row; align-items: center; flex-wrap: wrap; } }
 @media (max-width: 700px) { .admin-ledger { grid-template-columns: 1fr; } }
-@media (max-width: 520px) { .admin-stats { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .admin-stats, .admin-audit-basis { grid-template-columns: 1fr; } .admin-ledger-topline { align-items: flex-start; flex-direction: column; } }

@@ -40,6 +40,7 @@ export type CampaignScanMatch = {
   status: "confirmed" | "candidate" | "needs-review" | "excluded";
   confidence: number;
   summary: string;
+  tiktokUrl?: string;
 };
 
 export type ScannedTikTokPost = {
@@ -99,6 +100,7 @@ export function scanTikTokExport(
     confidence: number;
     postDates: string[];
     soundAliases?: string[];
+    tiktokUrl?: string;
     summary: string;
   }> = [],
 ): ScannedTikTokPost[] {
@@ -155,6 +157,7 @@ export function scanTikTokExport(
         status: rule.status,
         confidence: rule.confidence,
         summary: rule.summary,
+        tiktokUrl: rule.tiktokUrl,
       }));
 
     for (const campaign of campaignMatches) {

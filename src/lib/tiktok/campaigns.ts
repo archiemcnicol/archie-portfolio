@@ -14,15 +14,38 @@ export type CampaignEvidenceRule = {
   confidence: number;
   postDates: string[];
   soundAliases?: string[];
+  tiktokUrl?: string;
   summary: string;
 };
 
-export type CampaignAuditLead = {
+export type PartnershipAuditStatus =
+  | "confirmed-post"
+  | "confirmed-no-url"
+  | "candidate-post"
+  | "accepted-unresolved"
+  | "offer-only"
+  | "excluded"
+  | "suspicious";
+
+export type PartnershipAuditRecord = {
+  id: string;
   brand: string;
   campaign: string;
-  status: "campaign-confirmed" | "relationship-confirmed" | "candidate";
+  category:
+    | "Brand collaboration"
+    | "Paid sound promotion"
+    | "Affiliate partnership"
+    | "Event promotion"
+    | "Creator programme";
+  status: PartnershipAuditStatus;
+  date: string;
+  confidence: number;
   summary: string;
-  nextCheck: string;
+  evidence: string[];
+  sourceIndexes?: number[];
+  tiktokUrl?: string;
+  instagramUrl?: string;
+  nextCheck?: string;
 };
 
 export const KNOWN_BRAND_RULES: BrandRule[] = [
@@ -40,6 +63,15 @@ export const KNOWN_BRAND_RULES: BrandRule[] = [
   { brand: "ACBuy", aliases: ["acbuy"] },
   { brand: "USFans", aliases: ["usfans", "us fans"] },
   { brand: "All Points East", aliases: ["all points east", "allpointseast"] },
+  { brand: "soundcore", aliases: ["soundcore", "anker"] },
+  { brand: "Vipa Car Parts", aliases: ["vipa car parts", "vipa"] },
+  { brand: "AliExpress", aliases: ["aliexpress"] },
+  { brand: "EasyJet", aliases: ["easyjet"] },
+  { brand: "Temu", aliases: ["temu"] },
+  { brand: "Whatnot", aliases: ["whatnot"] },
+  { brand: "K Motionz & Capo Lee", aliases: ["medellin", "medellín", "k motionz", "capo lee"] },
+  { brand: "BSEARL x CA$PAR", aliases: ["bsearl", "ca$par", "believe me"] },
+  { brand: "Taylr", aliases: ["twenty four", "taylr", "duckwrth"] },
 ];
 
 export const CAMPAIGN_EVIDENCE_RULES: CampaignEvidenceRule[] = [
@@ -60,6 +92,7 @@ export const CAMPAIGN_EVIDENCE_RULES: CampaignEvidenceRule[] = [
     status: "confirmed",
     confidence: 100,
     postDates: ["2024-09-16"],
+    tiktokUrl: "https://vm.tiktok.com/ZGeEcsen9/",
     summary: "Exact posting date and live TikTok link are confirmed in the Superdry email thread.",
   },
   {
@@ -69,6 +102,7 @@ export const CAMPAIGN_EVIDENCE_RULES: CampaignEvidenceRule[] = [
     status: "confirmed",
     confidence: 100,
     postDates: ["2024-09-21"],
+    tiktokUrl: "https://vm.tiktok.com/ZGeoh1to7/",
     summary: "The second exact campaign TikTok link is confirmed in the same Superdry thread.",
   },
   {
@@ -108,6 +142,7 @@ export const CAMPAIGN_EVIDENCE_RULES: CampaignEvidenceRule[] = [
     status: "confirmed",
     confidence: 100,
     postDates: ["2025-06-23"],
+    tiktokUrl: "https://vm.tiktok.com/ZNdUsJTCT/",
     summary: "Exact live link, timestamp and completed campaign email trail via Buttermilk.",
   },
   {
@@ -127,6 +162,7 @@ export const CAMPAIGN_EVIDENCE_RULES: CampaignEvidenceRule[] = [
     status: "confirmed",
     confidence: 100,
     postDates: ["2025-10-04"],
+    tiktokUrl: "https://vm.tiktok.com/ZNd7Wft36/",
     summary:
       "The supplied BOSS live link resolves to the 4 October TikTok. Campaign requirements and completion are confirmed in prior records.",
   },
@@ -157,11 +193,441 @@ export const CAMPAIGN_EVIDENCE_RULES: CampaignEvidenceRule[] = [
     status: "confirmed",
     confidence: 100,
     postDates: ["2026-01-07"],
+    tiktokUrl: "https://vm.tiktok.com/ZNRrSuv3S/",
     summary: "Exact supplied live link and TikTok's own Branded Content disclosure confirm the post.",
   },
 ];
 
-export const CAMPAIGN_AUDIT_LEADS: CampaignAuditLead[] = [
+export const PARTNERSHIP_AUDIT_RECORDS: PartnershipAuditRecord[] = [
+  {
+    id: "superdry-august-2024-one",
+    brand: "Superdry",
+    campaign: "August 2024 TikTok campaign — post one",
+    category: "Brand collaboration",
+    status: "confirmed-post",
+    date: "16 Sep 2024",
+    confidence: 100,
+    summary: "The first of two gifted Superdry styling posts.",
+    evidence: ["Full campaign email thread", "Exact live link sent to Superdry", "TikTok export index 316"],
+    sourceIndexes: [316],
+    tiktokUrl: "https://vm.tiktok.com/ZGeEcsen9/",
+  },
+  {
+    id: "superdry-august-2024-two",
+    brand: "Superdry",
+    campaign: "August 2024 TikTok campaign — post two",
+    category: "Brand collaboration",
+    status: "confirmed-post",
+    date: "21 Sep 2024",
+    confidence: 100,
+    summary: "The second scheduled Superdry styling post.",
+    evidence: ["Same campaign thread", "Second exact live link sent to Superdry", "TikTok export index 309"],
+    sourceIndexes: [309],
+    tiktokUrl: "https://vm.tiktok.com/ZGeoh1to7/",
+  },
+  {
+    id: "sugargoo-2024",
+    brand: "SUGARGOO",
+    campaign: "Three-month influencer relationship",
+    category: "Affiliate partnership",
+    status: "candidate-post",
+    date: "Mar–Jun 2024",
+    confidence: 78,
+    summary: "The relationship and formal agreement are real; 26 March is the strongest post candidate but remains Friends-only.",
+    evidence: ["Influencer agreement", "March SUGARGOO promotion trail", "TikTok Branded Content disclosure"],
+    sourceIndexes: [470],
+    nextCheck: "Recover the live/private URL or another post-level record.",
+  },
+  {
+    id: "vipa-car-parts",
+    brand: "Vipa Car Parts",
+    campaign: "Scroll Stop paid opportunity",
+    category: "Brand collaboration",
+    status: "offer-only",
+    date: "31 Jul–1 Aug 2024",
+    confidence: 45,
+    summary: "An application form was submitted, but the agency was still waiting for the brand and no delivery evidence follows.",
+    evidence: ["Six-message Scroll Stop thread", "Application acknowledged", "No approval, live link or payment"],
+  },
+  {
+    id: "soundcore-2024",
+    brand: "soundcore / Anker",
+    campaign: "Headphones paid campaign",
+    category: "Brand collaboration",
+    status: "offer-only",
+    date: "13 Nov 2024",
+    confidence: 40,
+    summary: "A paid campaign invitation requested a rate, usage rights and a TikTok or Reel; no response or completion trail was found.",
+    evidence: ["Scroll Stop campaign email", "No reply", "No post or payment evidence"],
+  },
+  {
+    id: "superdry-ski-2025",
+    brand: "Superdry",
+    campaign: "Superdry Ski gifting",
+    category: "Brand collaboration",
+    status: "accepted-unresolved",
+    date: "13–20 Feb 2025",
+    confidence: 72,
+    summary: "Accepted in writing with two selected ski pieces. Three public trip posts remain possible deliverables.",
+    evidence: ["23 January acceptance", "Product selections", "Ski trip dates match TikTok window"],
+    sourceIndexes: [260, 259, 258],
+    nextCheck: "Resolve which of the 15, 16 or 18 February posts fulfilled the brief.",
+  },
+  {
+    id: "notion-pick-your-poison",
+    brand: "NOTION MGMT",
+    campaign: "KiLLOWEN — Pick Your Poison",
+    category: "Paid sound promotion",
+    status: "confirmed-no-url",
+    date: "10 Mar 2025",
+    confidence: 99,
+    summary: "Completed public sound promotion with approval and a three-payment trail totalling £150.",
+    evidence: ["Exact sound match", "Approval-to-publish trail", "Three £50 NOTION payments"],
+    sourceIndexes: [249],
+    nextCheck: "Recover the public TikTok URL; the export omitted it.",
+  },
+  {
+    id: "notion-chemical-fashion",
+    brand: "NOTION MGMT",
+    campaign: "Charlotte Plank — Chemical Fashion",
+    category: "Paid sound promotion",
+    status: "excluded",
+    date: "15–16 Mar 2025",
+    confidence: 100,
+    summary: "Both exact-sound records are Only You drafts, so they are not counted as completed public work.",
+    evidence: ["Exact sound match", "TikTok visibility is Only You"],
+    sourceIndexes: [245, 244],
+  },
+  {
+    id: "superdry-regift-2025",
+    brand: "Superdry",
+    campaign: "Seasonal Regift campaign",
+    category: "Brand collaboration",
+    status: "confirmed-no-url",
+    date: "Spring 2025",
+    confidence: 78,
+    summary: "A later Superdry email explicitly praises the content from the previous campaign, supporting completion beyond the invitation itself.",
+    evidence: ["26 March campaign invitation", "5 August follow-up: “loved the content you created for our last campaign”"],
+    sourceIndexes: [242, 241, 240, 238, 237, 236],
+    nextCheck: "Identify the exact Spring post from the candidate window.",
+  },
+  {
+    id: "moschino-toy-2025",
+    brand: "Moschino",
+    campaign: "Moschino Toy fragrance campaign",
+    category: "Brand collaboration",
+    status: "confirmed-post",
+    date: "23 Jun 2025",
+    confidence: 100,
+    summary: "Buttermilk approved the content and Archie returned both live links on the agreed date.",
+    evidence: ["Approval and live-date thread", "Client performance follow-ups", "TikTok export index 200"],
+    sourceIndexes: [200],
+    tiktokUrl: "https://vm.tiktok.com/ZNdUsJTCT/",
+    instagramUrl: "https://www.instagram.com/reel/DLP4vh6s_Kk/?igsh=MWZoY2htZ3A3dTRlNQ==",
+  },
+  {
+    id: "notion-all-2-u",
+    brand: "NOTION MGMT",
+    campaign: "KiLLOWEN — ALL 2 U",
+    category: "Paid sound promotion",
+    status: "confirmed-no-url",
+    date: "26 Jun 2025",
+    confidence: 99,
+    summary: "The £30 brief, exact public sound and Creator Core payout describe the same completed post.",
+    evidence: ["Instagram brief dated 25 June", "Exact TikTok sound", "Creator Core payment"],
+    sourceIndexes: [197],
+    nextCheck: "Recover the public TikTok URL; the export omitted it.",
+  },
+  {
+    id: "notion-over-you",
+    brand: "NOTION MGMT",
+    campaign: "Oppidan x Venbee — Over You",
+    category: "Paid sound promotion",
+    status: "offer-only",
+    date: "30 Jun 2025",
+    confidence: 35,
+    summary: "A £20 brief was received, but none of the following public TikToks use the supplied sound.",
+    evidence: ["Instagram brief", "No matching sound in the subsequent TikTok window", "No payment proof"],
+  },
+  {
+    id: "tilt-redpill",
+    brand: "Tilt / Redpill",
+    campaign: "Go Full Tilt creator campaign",
+    category: "Brand collaboration",
+    status: "confirmed-no-url",
+    date: "Jun–Jul 2025",
+    confidence: 100,
+    summary: "Completed commercial work is proven by the creator agreement and exact £350 payment.",
+    evidence: ["Signed creator agreement", "£350 contractual fee", "Matching Redpill payment on 18 July"],
+    nextCheck: "Recover the exact TikTok deliverable.",
+  },
+  {
+    id: "firmoo",
+    brand: "Firmoo",
+    campaign: "Eyewear creator / affiliate work",
+    category: "Brand collaboration",
+    status: "confirmed-no-url",
+    date: "Oct 2024–Jun 2025",
+    confidence: 88,
+    summary: "Creation and outstanding-payment correspondence supports real work rather than a cold offer.",
+    evidence: ["$50 creation plus view bonuses", "$100 outstanding-payment correspondence"],
+    nextCheck: "Identify the exact content and reconcile the final payment.",
+  },
+  {
+    id: "superdry-cult-afghan",
+    brand: "CULT by Superdry",
+    campaign: "Afghan coat pre-release regift",
+    category: "Brand collaboration",
+    status: "offer-only",
+    date: "5 Aug 2025",
+    confidence: 45,
+    summary: "A targeted gifting invitation was found, but the email account contains no acceptance, shipment or post trail.",
+    evidence: ["Direct Superdry invitation", "No follow-up completion evidence"],
+  },
+  {
+    id: "notion-medellin",
+    brand: "K Motionz & Capo Lee",
+    campaign: "Medellín",
+    category: "Paid sound promotion",
+    status: "offer-only",
+    date: "29 Aug 2025",
+    confidence: 30,
+    summary: "A £30 cross-post brief was received; no matching official sound appears in the following TikToks.",
+    evidence: ["Instagram brief", "Draft approval required", "No sound or payment match"],
+  },
+  {
+    id: "jean-paul-gaultier",
+    brand: "Jean Paul Gaultier",
+    campaign: "Le Male gifting",
+    category: "Brand collaboration",
+    status: "confirmed-no-url",
+    date: "Sep 2025",
+    confidence: 92,
+    summary: "The collaboration is self-confirmed in earlier professional material and the follow-up says content had already been shared.",
+    evidence: ["User's historical collaboration record", "September gifting follow-up", "Content-delivery wording"],
+    nextCheck: "Resolve the exact public post around 22–28 September; do not attach the private 29 September row by assumption.",
+  },
+  {
+    id: "notion-believe-me",
+    brand: "BSEARL x CA$PAR",
+    campaign: "Believe Me",
+    category: "Paid sound promotion",
+    status: "offer-only",
+    date: "23 Sep 2025",
+    confidence: 30,
+    summary: "A £30 fashion-content brief exists, but no subsequent post uses the required official sound.",
+    evidence: ["Instagram brief", "Draft approval required", "No sound or payment match"],
+  },
+  {
+    id: "boss-bottled-beyond",
+    brand: "BOSS",
+    campaign: "BOSS Bottled Beyond gifting",
+    category: "Brand collaboration",
+    status: "confirmed-post",
+    date: "4 Oct 2025",
+    confidence: 100,
+    summary: "The supplied live link resolves to the exact public post; the gifting brief and required disclosure are also retained.",
+    evidence: ["BOSS gifting correspondence", "Exact supplied live link", "TikTok export index 148"],
+    sourceIndexes: [148],
+    tiktokUrl: "https://vm.tiktok.com/ZNd7Wft36/",
+  },
+  {
+    id: "boss-bottled-november",
+    brand: "BOSS",
+    campaign: "BOSS Bottled — November audit lead",
+    category: "Brand collaboration",
+    status: "candidate-post",
+    date: "14 Nov 2025",
+    confidence: 82,
+    summary: "Archie directly identified this date as BOSS Bottled, but it is a second post and must remain separate from the confirmed 4 October link.",
+    evidence: ["User-identified date", "Public TikTok at export index 128"],
+    sourceIndexes: [128],
+    nextCheck: "Recover the second campaign trail or exact live link.",
+  },
+  {
+    id: "superdry-black-friday",
+    brand: "CULT by Superdry",
+    campaign: "Black Friday gifting campaign",
+    category: "Brand collaboration",
+    status: "offer-only",
+    date: "14 Nov–1 Dec 2025",
+    confidence: 45,
+    summary: "The brief requested two posts, but no acceptance, shipment or exact post submission was found.",
+    evidence: ["Targeted 3 November invitation", "No response or returned live links"],
+  },
+  {
+    id: "kora-frozen",
+    brand: "KORA Works",
+    campaign: "Omar+ — Frozen",
+    category: "Paid sound promotion",
+    status: "confirmed-no-url",
+    date: "26 Nov 2025",
+    confidence: 100,
+    summary: "Exact public sound match, £50 invoice the next day and matching £50 KORA Works payment.",
+    evidence: ["Exact TikTok sound", "Invoice dated 27 November", "Payment dated 29 November"],
+    sourceIndexes: [123],
+    nextCheck: "Recover the public TikTok URL; the export omitted it.",
+  },
+  {
+    id: "nike-superawesome",
+    brand: "Nike",
+    campaign: "Nike x SuperAwesome gifting",
+    category: "Brand collaboration",
+    status: "confirmed-post",
+    date: "7 Jan 2026",
+    confidence: 100,
+    summary: "The exact supplied live link and TikTok's own Branded Content disclosure identify the post.",
+    evidence: ["Supplied live link", "Branded Content disclosure", "TikTok export index 99"],
+    sourceIndexes: [99],
+    tiktokUrl: "https://vm.tiktok.com/ZNRrSuv3S/",
+  },
+  {
+    id: "notion-twenty-four",
+    brand: "Taylr",
+    campaign: "twenty four feat. Duckwrth",
+    category: "Paid sound promotion",
+    status: "offer-only",
+    date: "27 Jan 2026",
+    confidence: 30,
+    summary: "A £30 OOTD brief was received, but no later TikTok uses the required sound.",
+    evidence: ["Instagram brief", "Draft approval required", "No sound or payment match"],
+  },
+  {
+    id: "acbuy",
+    brand: "ACBuy / Hong Kong ACD",
+    campaign: "Affiliate creator partnership",
+    category: "Affiliate partnership",
+    status: "confirmed-no-url",
+    date: "Jan 2025–Jan 2026",
+    confidence: 100,
+    summary: "A formal monthly creator/affiliate agreement and extensive commission records confirm the relationship.",
+    evidence: ["Contract effective 15 January 2025", "Monthly salary and commission terms", "Bank and affiliate records"],
+    nextCheck: "Map the campaign's main TikTok posts; some promotion also used a separate finds account.",
+  },
+  {
+    id: "usfans",
+    brand: "USFans",
+    campaign: "Affiliate creator partnership",
+    category: "Affiliate partnership",
+    status: "confirmed-no-url",
+    date: "14 Mar–14 May 2025",
+    confidence: 90,
+    summary: "The signed PandaDoc and performance records confirm the relationship, though individual post links are not yet reconstructed.",
+    evidence: ["Completed PandaDoc", "Two-month campaign period", "Registration and activation records"],
+    nextCheck: "Recover the posts and final agreed payment terms.",
+  },
+  {
+    id: "aliexpress",
+    brand: "AliExpress",
+    campaign: "Three-video paid proposal",
+    category: "Brand collaboration",
+    status: "offer-only",
+    date: "Nov 2024",
+    confidence: 35,
+    summary: "The proposal offered $150 plus $50 product cost for three TikToks, but no completion or payment evidence was found.",
+    evidence: ["Campaign email", "No accepted-delivery or payment trail"],
+  },
+  {
+    id: "easyjet",
+    brand: "EasyJet",
+    campaign: "Two-asset paid proposal",
+    category: "Brand collaboration",
+    status: "offer-only",
+    date: "Apr 2026",
+    confidence: 35,
+    summary: "The £600 proposal included two assets and 30 days' paid usage; it does not establish completed work.",
+    evidence: ["Campaign email", "No acceptance, live post or payment"],
+  },
+  {
+    id: "temu",
+    brand: "Temu",
+    campaign: "Monthly creator invitation",
+    category: "Brand collaboration",
+    status: "offer-only",
+    date: "Apr 2026",
+    confidence: 25,
+    summary: "A recurring collaboration invitation mentioning £2,630 was found, with no completion evidence.",
+    evidence: ["Campaign email", "No acceptance, live post or payment"],
+  },
+  {
+    id: "skims-suspicious",
+    brand: "SKIMS",
+    campaign: "Unverified partner-program outreach",
+    category: "Brand collaboration",
+    status: "suspicious",
+    date: "Feb–Apr 2026",
+    confidence: 5,
+    summary: "Multiple non-official domains and inconsistent programme URLs make this unsafe to treat as a real partnership.",
+    evidence: ["Non-SKIMS sender domains", "Inconsistent application domains", "No genuine campaign trail"],
+  },
+  {
+    id: "superdry-bag-season",
+    brand: "Superdry",
+    campaign: "Bag of the Season",
+    category: "Brand collaboration",
+    status: "offer-only",
+    date: "2 Apr 2026",
+    confidence: 35,
+    summary: "A targeted gift-for-post invitation was received, but there is no acceptance or delivery trail.",
+    evidence: ["Direct Superdry campaign email", "No completed-post evidence"],
+  },
+  {
+    id: "all-points-east-2026",
+    brand: "All Points East",
+    campaign: "Tyler, The Creator event promotion",
+    category: "Event promotion",
+    status: "confirmed-no-url",
+    date: "Aug 2026",
+    confidence: 100,
+    summary: "Two promotional pieces were completed in exchange for event tickets.",
+    evidence: ["Direct campaign messages", "Completed videos", "Ticket transfer trail"],
+    nextCheck: "Add both live links; these posts are newer than the current TikTok export.",
+  },
+  {
+    id: "whatnot-creator-programme",
+    brand: "Whatnot",
+    campaign: "Men's Fashion & Sneakers Creator Programme",
+    category: "Creator programme",
+    status: "accepted-unresolved",
+    date: "Aug 2026–present",
+    confidence: 85,
+    summary: "The programme and £100 first-haul credit were accepted; approved-video delivery is still in progress.",
+    evidence: ["Direct Whatnot outreach", "Programme briefs", "Credit request confirmed"],
+    nextCheck: "Attach the first submitted shopping-haul video after approval.",
+  },
+  {
+    id: "lyle-and-scott",
+    brand: "Lyle & Scott",
+    campaign: "Historic creator collaboration",
+    category: "Brand collaboration",
+    status: "confirmed-no-url",
+    date: "Historical",
+    confidence: 88,
+    summary: "Archie's professional creator history explicitly names Lyle & Scott as a collaboration, supported by earlier outreach records.",
+    evidence: ["User's professional collaboration record", "Historical campaign evidence"],
+    nextCheck: "Recover the exact deliverable and live URL.",
+  },
+];
+
+export const CAMPAIGN_AUDIT_LEADS = PARTNERSHIP_AUDIT_RECORDS
+  .filter((record) => record.nextCheck)
+  .map((record) => ({
+    brand: record.brand,
+    campaign: record.campaign,
+    status:
+      record.status === "confirmed-no-url"
+        ? ("campaign-confirmed" as const)
+        : record.status === "candidate-post"
+          ? ("candidate" as const)
+          : ("relationship-confirmed" as const),
+    summary: record.summary,
+    nextCheck: record.nextCheck ?? "",
+  }));
+
+/*
+ * Kept as a compatibility export for any older admin view imports.
+ */
+export const LEGACY_CAMPAIGN_AUDIT_LEADS = [
   {
     brand: "Jean Paul Gaultier",
     campaign: "Le Male gifting",
@@ -199,4 +665,3 @@ export const CAMPAIGN_AUDIT_LEADS: CampaignAuditLead[] = [
     nextCheck: "Add the August posts from a newer TikTok export or their live links.",
   },
 ];
-

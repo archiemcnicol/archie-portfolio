@@ -9,12 +9,32 @@ import {
   TikTokExport,
 } from "@/lib/tiktok/scanner";
 import {
-  CAMPAIGN_AUDIT_LEADS,
   CAMPAIGN_EVIDENCE_RULES,
   KNOWN_BRAND_RULES,
+  PARTNERSHIP_AUDIT_RECORDS,
+  PartnershipAuditStatus,
 } from "@/lib/tiktok/campaigns";
 
 const DEFAULT_BRANDS = KNOWN_BRAND_RULES.map((rule) => rule.brand).join(", ");
+
+type AuditFilter = "all" | "confirmed" | "unresolved" | "offers" | "excluded";
+
+const STATUS_LABELS: Record<PartnershipAuditStatus, string> = {
+  "confirmed-post": "Confirmed + linked",
+  "confirmed-no-url": "Confirmed · URL missing",
+  "candidate-post": "Post candidate",
+  "accepted-unresolved": "Accepted · unresolved",
+  "offer-only": "Offer only",
+  excluded: "Excluded",
+  suspicious: "Suspicious",
+};
+
+function auditBucket(status: PartnershipAuditStatus): Exclude<AuditFilter, "all"> {
+  if (status === "confirmed-post" || status === "confirmed-no-url") return "confirmed";
+  if (status === "candidate-post" || status === "accepted-unresolved") return "unresolved";
+  if (status === "offer-only") return "offers";
+  return "excluded";
+}
 
 function brandRules(value: string): BrandRule[] {
   return value
@@ -35,12 +55,23 @@ export function TikTokScanner() {
   const [posts, setPosts] = useState<ScannedTikTokPost[]>([]);
   const [error, setError] = useState("");
   const [filename, setFilename] = useState("");
+  const [auditFilter, setAuditFilter] = useState<AuditFilter>("all");
 
   const candidates = useMemo(() => promotionalCandidates(posts), [posts]);
   const disclosureCount = useMemo(
     () => posts.filter((post) => Boolean(post.disclosure)).length,
     [posts],
   );
+  const filteredAudit = useMemo(
+    () =>
+      PARTNERSHIP_AUDIT_RECORDS.filter(
+        (record) => auditFilter === "all" || auditBucket(record.status) === auditFilter,
+      ),
+    [auditFilter],
+  );
+  const linkedAuditCount = PARTNERSHIP_AUDIT_RECORDS.filter(
+    (record) => record.tiktokUrl,
+  ).length;
 
   async function handleFile(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
@@ -69,26 +100,88 @@ export function TikTokScanner() {
       <section className="admin-panel">
         <div className="admin-heading-row">
           <div>
-            <div className="eyebrow">Evidence ledger</div>
-            <h2>Known campaign history</h2>
+            <div className="eyebrow">Full-account evidence ledger</div>
+            <h2>Partnership audit</h2>
             <p className="admin-muted">
-              Confirmed work, candidates and unresolved leads are deliberately kept
-              separate. A campaign can be real without the exact TikTok being known yet.
+              This separates completed work from accepted campaigns, post candidates,
+              cold offers and exclusions. A relationship is never treated as a public
+              post unless the evidence supports that step.
             </p>
           </div>
-          <span className="admin-pill">No automatic publishing</span>
+          <span className="admin-pill">Private · no automatic publishing</span>
         </div>
 
-        <div className="admin-ledger">
-          {CAMPAIGN_AUDIT_LEADS.map((lead) => (
-            <article className="admin-ledger-card" key={`${lead.brand}-${lead.campaign}`}>
-              <div className="admin-ledger-topline">
-                <strong>{lead.brand}</strong>
-                <span data-status={lead.status}>{lead.status.replaceAll("-", " ")}</span>
+        <div className="admin-audit-basis">
+          <div><strong>34,131</strong><span>Gmail messages read</span></div>
+          <div><strong>500</strong><span>TikToks cross-referenced</span></div>
+          <div><strong>{PARTNERSHIP_AUDIT_RECORDS.length}</strong><span>campaign records</span></div>
+          <div><strong>{linkedAuditCount}</strong><span>exact TikTok URLs recovered</span></div>
+        </div>
+
+        <div className="admin-filter-row" aria-label="Filter partnership audit">
+          {([
+            ["all", "All records"],
+            ["confirmed", "Confirmed work"],
+            ["unresolved", "Needs matching"],
+            ["offers", "Offers only"],
+            ["excluded", "Excluded / suspicious"],
+          ] as const).map(([value, label]) => (
+            <button
+              className="admin-filter"
+              data-active={auditFilter === value}
+              key={value}
+              onClick={() => setAuditFilter(value)}
+              type="button"
+            >
+              {label}
+              <span>
+                {value === "all"
+                  ? PARTNERSHIP_AUDIT_RECORDS.length
+                  : PARTNERSHIP_AUDIT_RECORDS.filter(
+                      (record) => auditBucket(record.status) === value,
+                    ).length}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <div className="admin-audit-list">
+          {filteredAudit.map((record) => (
+            <article className="admin-audit-card" key={record.id}>
+              <div className="admin-audit-card-main">
+                <div className="admin-ledger-topline">
+                  <strong>{record.brand}</strong>
+                  <span data-status={record.status}>{STATUS_LABELS[record.status]}</span>
+                </div>
+                <h3>{record.campaign}</h3>
+                <div className="admin-audit-meta">
+                  <span>{record.date}</span>
+                  <span>{record.category}</span>
+                  <span>{record.confidence}% confidence</span>
+                </div>
+                <p>{record.summary}</p>
+                <ul className="admin-evidence-list">
+                  {record.evidence.map((item) => <li key={item}>{item}</li>)}
+                </ul>
+                {record.nextCheck ? <small>Next check: {record.nextCheck}</small> : null}
               </div>
-              <h3>{lead.campaign}</h3>
-              <p>{lead.summary}</p>
-              <small>Next: {lead.nextCheck}</small>
+              <div className="admin-audit-links">
+                {record.tiktokUrl ? (
+                  <a href={record.tiktokUrl} rel="noreferrer" target="_blank">
+                    Open TikTok
+                  </a>
+                ) : (
+                  <span>Public URL not recovered</span>
+                )}
+                {record.instagramUrl ? (
+                  <a href={record.instagramUrl} rel="noreferrer" target="_blank">
+                    Open Instagram
+                  </a>
+                ) : null}
+                {record.sourceIndexes?.length ? (
+                  <small>TikTok index {record.sourceIndexes.join(", ")}</small>
+                ) : null}
+              </div>
             </article>
           ))}
         </div>
@@ -147,6 +240,7 @@ export function TikTokScanner() {
                     <th>Date</th>
                     <th>Likes snapshot</th>
                     <th>Brand</th>
+                    <th>Post</th>
                     <th>Confidence</th>
                     <th>Evidence</th>
                   </tr>
@@ -166,6 +260,20 @@ export function TikTokScanner() {
                         <td>
                           {campaign?.brand ?? topMatch?.brand ?? "Brand not identified"}
                           {campaign ? <small className="admin-cell-note">{campaign.campaign}</small> : null}
+                        </td>
+                        <td>
+                          {campaign?.tiktokUrl || post.mediaUrl ? (
+                            <a
+                              className="admin-table-link"
+                              href={campaign?.tiktokUrl || post.mediaUrl}
+                              rel="noreferrer"
+                              target="_blank"
+                            >
+                              Open TikTok
+                            </a>
+                          ) : (
+                            "URL missing"
+                          )}
                         </td>
                         <td>
                           {Math.max(
