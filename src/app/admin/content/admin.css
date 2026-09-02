@@ -1,0 +1,24 @@
+.admin-hero { padding-bottom: 48px; }
+.admin-page { padding-bottom: 120px; }
+.admin-stack { display: grid; gap: 16px; }
+.admin-panel { border: 1px solid var(--line); background: var(--panel); padding: 26px; }
+.admin-panel h2 { margin: 10px 0 8px; font-size: clamp(30px, 4vw, 54px); letter-spacing: -.045em; }
+.admin-muted { color: var(--muted); line-height: 1.5; max-width: 72ch; }
+.admin-error { color: #a31f1f; font-weight: 700; }
+.admin-field { display: grid; gap: 8px; margin-top: 24px; max-width: 760px; }
+.admin-field span, .admin-upload > span { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.admin-field input { width: 100%; border: 1px solid var(--line); background: var(--background); color: var(--foreground); padding: 14px 16px; font: inherit; }
+.admin-upload { display: inline-grid; gap: 10px; margin-top: 16px; padding: 18px; border: 1px dashed var(--line); cursor: pointer; }
+.admin-upload input { max-width: 100%; }
+.admin-stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-right: 0; }
+.admin-stats > div { min-height: 130px; padding: 22px; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: space-between; }
+.admin-stats strong { font-size: clamp(38px, 5vw, 70px); letter-spacing: -.06em; }
+.admin-stats span { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.admin-heading-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.admin-pill { border: 1px solid var(--line); padding: 8px 10px; border-radius: 999px; font-size: 11px; text-transform: uppercase; letter-spacing: .07em; white-space: nowrap; }
+.admin-table-wrap { overflow-x: auto; margin-top: 28px; }
+.admin-table { width: 100%; border-collapse: collapse; min-width: 850px; }
+.admin-table th, .admin-table td { text-align: left; vertical-align: top; padding: 14px; border-top: 1px solid var(--line); font-size: 13px; line-height: 1.45; }
+.admin-table th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+@media (max-width: 800px) { .admin-stats { grid-template-columns: repeat(2, 1fr); } .admin-heading-row { display: block; } .admin-pill { display: inline-block; margin-top: 12px; } }
+@media (max-width: 520px) { .admin-stats { grid-template-columns: 1fr; } }
