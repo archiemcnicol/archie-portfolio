@@ -33,6 +33,15 @@ export type ScanMatch = {
   reasons: string[];
 };
 
+export type CampaignScanMatch = {
+  id: string;
+  brand: string;
+  campaign: string;
+  status: "confirmed" | "candidate" | "needs-review" | "excluded";
+  confidence: number;
+  summary: string;
+};
+
 export type ScannedTikTokPost = {
   sourceIndex: number;
   date: string;
@@ -43,6 +52,7 @@ export type ScannedTikTokPost = {
   mediaUrl: string;
   coverUrl: string;
   matches: ScanMatch[];
+  campaignMatches: CampaignScanMatch[];
   promotionalConfidence: number;
   reasons: string[];
 };
@@ -81,6 +91,16 @@ export function getTikTokVideos(payload: TikTokExport): TikTokVideoRow[] {
 export function scanTikTokExport(
   payload: TikTokExport,
   brandRules: BrandRule[],
+  campaignRules: Array<{
+    id: string;
+    brand: string;
+    campaign: string;
+    status: CampaignScanMatch["status"];
+    confidence: number;
+    postDates: string[];
+    soundAliases?: string[];
+    summary: string;
+  }> = [],
 ): ScannedTikTokPost[] {
   return getTikTokVideos(payload).map((row, sourceIndex) => {
     const text = haystack(row);
@@ -118,6 +138,34 @@ export function scanTikTokExport(
       }
     }
 
+    const postDate = clean(row.Date).slice(0, 10);
+    const sound = clean(row.Sound).toLowerCase();
+    const campaignMatches = campaignRules
+      .filter((rule) => {
+        const dateMatches = rule.postDates.includes(postDate);
+        const soundMatches = rule.soundAliases?.some((alias) =>
+          sound.includes(alias.toLowerCase()),
+        );
+        return dateMatches && (rule.soundAliases?.length ? soundMatches : true);
+      })
+      .map((rule) => ({
+        id: rule.id,
+        brand: rule.brand,
+        campaign: rule.campaign,
+        status: rule.status,
+        confidence: rule.confidence,
+        summary: rule.summary,
+      }));
+
+    for (const campaign of campaignMatches) {
+      if (campaign.status !== "excluded") {
+        promotionalConfidence = Math.max(
+          promotionalConfidence,
+          campaign.confidence,
+        );
+      }
+    }
+
     return {
       sourceIndex,
       date: clean(row.Date),
@@ -128,6 +176,7 @@ export function scanTikTokExport(
       mediaUrl: clean(row.Link),
       coverUrl: clean(row.CoverImage),
       matches,
+      campaignMatches,
       promotionalConfidence,
       reasons,
     };
@@ -136,7 +185,12 @@ export function scanTikTokExport(
 
 export function promotionalCandidates(posts: ScannedTikTokPost[]) {
   return posts
-    .filter((post) => post.promotionalConfidence > 0 || post.matches.length > 0)
+    .filter(
+      (post) =>
+        post.promotionalConfidence > 0 ||
+        post.matches.length > 0 ||
+        post.campaignMatches.length > 0,
+    )
     .sort((a, b) => {
       if (b.promotionalConfidence !== a.promotionalConfidence) {
         return b.promotionalConfidence - a.promotionalConfidence;

@@ -8,8 +8,13 @@ import {
   ScannedTikTokPost,
   TikTokExport,
 } from "@/lib/tiktok/scanner";
+import {
+  CAMPAIGN_AUDIT_LEADS,
+  CAMPAIGN_EVIDENCE_RULES,
+  KNOWN_BRAND_RULES,
+} from "@/lib/tiktok/campaigns";
 
-const DEFAULT_BRANDS = "Superdry, Nike, Lyle & Scott, Moschino, BOSS";
+const DEFAULT_BRANDS = KNOWN_BRAND_RULES.map((rule) => rule.brand).join(", ");
 
 function brandRules(value: string): BrandRule[] {
   return value
@@ -18,7 +23,10 @@ function brandRules(value: string): BrandRule[] {
     .filter(Boolean)
     .map((brand) => ({
       brand,
-      aliases: [brand, brand.replace("&", "and")],
+      aliases:
+        KNOWN_BRAND_RULES.find(
+          (rule) => rule.brand.toLowerCase() === brand.toLowerCase(),
+        )?.aliases ?? [brand, brand.replace("&", "and")],
     }));
 }
 
@@ -43,7 +51,13 @@ export function TikTokScanner() {
       setFilename(file.name);
       const text = await file.text();
       const parsed = JSON.parse(text) as TikTokExport;
-      setPosts(scanTikTokExport(parsed, brandRules(brandInput)));
+      setPosts(
+        scanTikTokExport(
+          parsed,
+          brandRules(brandInput),
+          CAMPAIGN_EVIDENCE_RULES,
+        ),
+      );
     } catch (err) {
       setPosts([]);
       setError(err instanceof Error ? err.message : "Unable to read this export.");
@@ -52,6 +66,34 @@ export function TikTokScanner() {
 
   return (
     <div className="admin-stack">
+      <section className="admin-panel">
+        <div className="admin-heading-row">
+          <div>
+            <div className="eyebrow">Evidence ledger</div>
+            <h2>Known campaign history</h2>
+            <p className="admin-muted">
+              Confirmed work, candidates and unresolved leads are deliberately kept
+              separate. A campaign can be real without the exact TikTok being known yet.
+            </p>
+          </div>
+          <span className="admin-pill">No automatic publishing</span>
+        </div>
+
+        <div className="admin-ledger">
+          {CAMPAIGN_AUDIT_LEADS.map((lead) => (
+            <article className="admin-ledger-card" key={`${lead.brand}-${lead.campaign}`}>
+              <div className="admin-ledger-topline">
+                <strong>{lead.brand}</strong>
+                <span data-status={lead.status}>{lead.status.replaceAll("-", " ")}</span>
+              </div>
+              <h3>{lead.campaign}</h3>
+              <p>{lead.summary}</p>
+              <small>Next: {lead.nextCheck}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="admin-panel">
         <div>
           <div className="eyebrow">Historical import</div>
@@ -86,7 +128,7 @@ export function TikTokScanner() {
             <div><strong>{posts.length}</strong><span>posts in export</span></div>
             <div><strong>{disclosureCount}</strong><span>TikTok disclosures</span></div>
             <div><strong>{candidates.length}</strong><span>metadata candidates</span></div>
-            <div><strong>0</strong><span>auto-published</span></div>
+            <div><strong>{CAMPAIGN_EVIDENCE_RULES.filter((rule) => rule.status === "confirmed").length}</strong><span>confirmed evidence rules</span></div>
           </section>
 
           <section className="admin-panel">
@@ -114,15 +156,35 @@ export function TikTokScanner() {
                     const topMatch = [...post.matches].sort(
                       (a, b) => b.confidence - a.confidence,
                     )[0];
+                    const campaign = [...post.campaignMatches].sort(
+                      (a, b) => b.confidence - a.confidence,
+                    )[0];
                     return (
                       <tr key={`${post.sourceIndex}-${post.date}`}>
                         <td>{post.date || "Unknown"}</td>
                         <td>{post.likes?.toLocaleString() ?? "—"}</td>
-                        <td>{topMatch?.brand ?? "Brand not identified"}</td>
-                        <td>{Math.max(post.promotionalConfidence, topMatch?.confidence ?? 0)}%</td>
                         <td>
-                          {[...post.reasons, ...(topMatch?.reasons ?? [])].join(" · ") ||
-                            "Manual review"}
+                          {campaign?.brand ?? topMatch?.brand ?? "Brand not identified"}
+                          {campaign ? <small className="admin-cell-note">{campaign.campaign}</small> : null}
+                        </td>
+                        <td>
+                          {Math.max(
+                            post.promotionalConfidence,
+                            campaign?.confidence ?? 0,
+                            topMatch?.confidence ?? 0,
+                          )}%
+                          {campaign ? <small className="admin-cell-note" data-status={campaign.status}>{campaign.status.replaceAll("-", " ")}</small> : null}
+                        </td>
+                        <td>
+                          {[
+                            campaign?.summary,
+                            ...post.reasons,
+                            ...(topMatch?.reasons ?? []),
+                            post.visibility ? `Visibility: ${post.visibility}` : "",
+                            post.sound ? `Sound: ${post.sound}` : "",
+                          ]
+                            .filter(Boolean)
+                            .join(" · ") || "Manual review"}
                         </td>
                       </tr>
                     );

@@ -20,5 +20,15 @@
 .admin-table { width: 100%; border-collapse: collapse; min-width: 850px; }
 .admin-table th, .admin-table td { text-align: left; vertical-align: top; padding: 14px; border-top: 1px solid var(--line); font-size: 13px; line-height: 1.45; }
 .admin-table th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+.admin-ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 26px; }
+.admin-ledger-card { border: 1px solid var(--line); padding: 18px; background: color-mix(in srgb, var(--panel) 74%, transparent); }
+.admin-ledger-card h3 { margin: 18px 0 8px; font-size: 22px; letter-spacing: -.035em; }
+.admin-ledger-card p { margin: 0; color: var(--muted); line-height: 1.5; }
+.admin-ledger-card small { display: block; margin-top: 18px; line-height: 1.45; }
+.admin-ledger-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.admin-ledger-topline > span, .admin-cell-note[data-status] { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; border: 1px solid var(--line); border-radius: 999px; padding: 6px 8px; }
+.admin-ledger-topline > span[data-status="campaign-confirmed"], .admin-cell-note[data-status="confirmed"] { background: var(--accent); color: #111; }
+.admin-cell-note { display: block; margin-top: 6px; color: var(--muted); max-width: 32ch; }
 @media (max-width: 800px) { .admin-stats { grid-template-columns: repeat(2, 1fr); } .admin-heading-row { display: block; } .admin-pill { display: inline-block; margin-top: 12px; } }
+@media (max-width: 700px) { .admin-ledger { grid-template-columns: 1fr; } }
 @media (max-width: 520px) { .admin-stats { grid-template-columns: 1fr; } }
