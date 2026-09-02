@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const audience = [
-  ["Creator / brand", "/creator", "Campaigns, audience, analytics and creative work"],
+  ["Brand work", "/creator", "Campaigns, partnerships and short-form creator work"],
   ["Business", "/business", "Websites, commercial photography and social content"],
   ["Affiliate / shipping", "/affiliate", "Traffic, activations, conversions and partnerships"],
   ["Professional", "/professional", "Experience, skills, work history and selected results"],
@@ -49,8 +49,8 @@ export default function Home() {
             <div className="section-copy">Creative work with a commercial brain behind it.</div>
           </div>
           <p className="lead">
-            This homepage stays intentionally broad. More detailed analytics, campaign results,
-            commercial services and private client material will appear contextually depending on access.
+            This homepage stays intentionally broad. Brand work now has its own focused view,
+            while detailed analytics, commercial terms and private client material remain protected.
           </p>
           <div className="stats">
             <div className="stat"><b>Creator</b><small>Content & partnerships</small></div>

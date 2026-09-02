@@ -1,9 +1,124 @@
-import { PageShell } from "@/components/page-shell";
-export default function CreatorPage(){return <PageShell eyebrow="Creator / brand access" title="Creator work that can prove itself." intro="A campaign-first view combining selected creative work with the audience and performance information a brand or agency actually needs." blocks={[
-{title:"Selected campaigns",copy:"Campaign films, fashion integrations, events and paid/gifted partnerships. Each project can later hold deliverables, creative, results and a testimonial."},
-{title:"Audience & analytics",copy:"Follower growth, reach, geography, demographics and platform performance. The detailed version will become permission-controlled."},
-{title:"Creative portfolio",copy:"Photography and visual work that demonstrates taste beyond sponsored content.",href:"/photography"},
-{title:"Brand experience",copy:"Previous partnerships, campaign formats, working style and selected outcomes."},
-{title:"Packages",copy:"A private section for deliverables, usage options and commercial package information."},
-{title:"Contact",copy:"A clean hand-off from evaluation to enquiry.",href:"/contact"}
-]}/>}
+import Link from "next/link";
+import { PARTNERSHIP_ROSTER, PUBLIC_CAMPAIGNS } from "@/lib/brand-work";
+
+export const metadata = {
+  title: "Brand Work — Archie McNicol",
+  description:
+    "Selected creator campaigns, partnerships and short-form brand work by Archie McNicol.",
+};
+
+export default function CreatorPage() {
+  return (
+    <main className="brand-page">
+      <section className="brand-hero">
+        <div className="wrap brand-hero-grid">
+          <div>
+            <div className="eyebrow">Creator / brand work</div>
+            <h1>Content people watch. Partnerships that fit.</h1>
+          </div>
+          <div className="brand-hero-side">
+            <p>
+              Fashion, fragrance, lifestyle and event content shaped around a recognisable
+              point of view—not a generic ad read.
+            </p>
+            <div className="brand-actions">
+              <Link className="brand-button brand-button-primary" href="/contact">
+                Start a conversation
+              </Link>
+              <a className="brand-button" href="#selected-work">
+                View selected work
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="wrap brand-proof" aria-label="Creator overview">
+        <div><strong>25k+</strong><span>Social community</span></div>
+        <div><strong>20M+</strong><span>Views across content</span></div>
+        <div><strong>UK</strong><span>Fashion & lifestyle audience</span></div>
+        <div><strong>Short-form</strong><span>TikTok and Reels</span></div>
+      </section>
+
+      <section className="brand-section" id="selected-work">
+        <div className="wrap">
+          <div className="brand-section-heading">
+            <div className="section-title">Selected collaborations</div>
+            <p>Live examples with the campaign and format kept clear.</p>
+          </div>
+
+          <div className="brand-campaigns">
+            {PUBLIC_CAMPAIGNS.map((campaign, index) => (
+              <article className="brand-campaign" key={campaign.id}>
+                <div className="brand-campaign-number">0{index + 1}</div>
+                <div className="brand-campaign-mark" data-tone={campaign.tone} aria-hidden="true">
+                  <span>{campaign.mark}</span>
+                </div>
+                <div className="brand-campaign-copy">
+                  <div className="brand-campaign-meta">
+                    <span>{campaign.period}</span>
+                    <span>{campaign.format}</span>
+                  </div>
+                  <h2>{campaign.brand}</h2>
+                  <h3>{campaign.campaign}</h3>
+                  <p>{campaign.summary}</p>
+                  <div className="brand-campaign-links">
+                    {campaign.links.map((link) => (
+                      <a href={link.href} key={link.href} rel="noreferrer" target="_blank">
+                        {link.label} ↗
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="brand-section brand-roster-section">
+        <div className="wrap brand-roster-grid">
+          <div>
+            <div className="section-title">Partnership experience</div>
+            <p className="brand-roster-intro">
+              Selected experience across fashion, fragrance, music and live events.
+            </p>
+          </div>
+          <div className="brand-roster" aria-label="Selected partnership roster">
+            {PARTNERSHIP_ROSTER.map((brand, index) => (
+              <div key={brand}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <strong>{brand}</strong>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="brand-section">
+        <div className="wrap brand-format-grid">
+          <div className="brand-format-lead">
+            <div className="section-title">Ways to work together</div>
+            <h2>Built around the idea, platform and audience.</h2>
+          </div>
+          <div className="brand-format-list">
+            <article><span>01</span><h3>Campaign content</h3><p>Short-form concepts, product integrations and multi-post campaign delivery.</p></article>
+            <article><span>02</span><h3>Gifting & launches</h3><p>Natural fashion and lifestyle placements with clear disclosure and considered styling.</p></article>
+            <article><span>03</span><h3>Events</h3><p>Fast-turnaround promotional content before, during or immediately after an event.</p></article>
+            <article><span>04</span><h3>Cross-platform</h3><p>TikTok and Instagram delivery adapted to the way each platform is actually watched.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section className="brand-contact">
+        <div className="wrap brand-contact-inner">
+          <div className="eyebrow">Campaign enquiries</div>
+          <h2>Have a brief in mind?</h2>
+          <Link className="brand-button brand-button-primary" href="/contact">
+            Contact Archie
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
+}

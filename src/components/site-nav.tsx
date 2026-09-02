@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const links = [
-  ["Creator", "/creator"],
+  ["Brand work", "/creator"],
   ["Photography", "/photography"],
   ["Business", "/business"],
   ["Affiliate", "/affiliate"],
