@@ -2746,6 +2746,20 @@ export const PORTFOLIO_ARCHIVE_PHOTOS: ArchivePhoto[] = [
     "originalName": "DSC01454.jpg"
   },
   {
+    "id": "17ipNZ5u2WJRcVh9eDu_0CZm3Kcicy_54",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/17ipNZ5u2WJRcVh9eDu_0CZm3Kcicy_54.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20250901174730_0068_D.jpg"
+  },
+  {
+    "id": "1SkNZ4UY2b511NRe6ICpU-9m4lTnYFRGr",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1SkNZ4UY2b511NRe6ICpU-9m4lTnYFRGr.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20250901174925_0073_D.jpg"
+  },
+  {
     "id": "12BcgFiLxF5YSs1OWK9-UyBFHMrQrsvOs",
     "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/12BcgFiLxF5YSs1OWK9-UyBFHMrQrsvOs.webp",
     "width": 747,
@@ -2928,11 +2942,46 @@ export const PORTFOLIO_ARCHIVE_PHOTOS: ArchivePhoto[] = [
     "originalName": "Photo00047.jpg"
   },
   {
+    "id": "1S-zB7zX60pjVBxz0Y9i4hgg5NEbf5nmU",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1S-zB7zX60pjVBxz0Y9i4hgg5NEbf5nmU.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "Photo00052.jpg"
+  },
+  {
+    "id": "1a-Rk_JaGYq8r3M1xtcrC9AhiKViX-xGw",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1a-Rk_JaGYq8r3M1xtcrC9AhiKViX-xGw.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "Photo00053.jpg"
+  },
+  {
+    "id": "1etJ5I4TdZe9WTshepGA2ES_yK1WbK5jg",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1etJ5I4TdZe9WTshepGA2ES_yK1WbK5jg.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20251115112256_0002_D.jpg"
+  },
+  {
+    "id": "1GtK6dU4Fb29-kYWaZI1h9wDaDVZFRLww",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1GtK6dU4Fb29-kYWaZI1h9wDaDVZFRLww.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20251115112436_0009_D.jpg"
+  },
+  {
     "id": "1dZJE3g_vUAGcvT-7CB4DuWV-MfvbHE55",
     "src": "/portfolio/web/20251114_144521.jpg",
     "width": 1800,
     "height": 1013,
     "originalName": "20251114_144521.jpg"
+  },
+  {
+    "id": "1IYoe3rKs2BZCO2TkKGZ-1mYnvrbIWlJo",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1IYoe3rKs2BZCO2TkKGZ-1mYnvrbIWlJo.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20251115112453_0010_D.jpg"
   },
   {
     "id": "1CUijocKG4rV6mjWpQJj8EtI02hYbUqnb",
@@ -2942,11 +2991,53 @@ export const PORTFOLIO_ARCHIVE_PHOTOS: ArchivePhoto[] = [
     "originalName": "DSC04179.jpg"
   },
   {
+    "id": "15dDs-ptn3gXKL2-L0h1ycJqtc5Y8RK6V",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/15dDs-ptn3gXKL2-L0h1ycJqtc5Y8RK6V.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260207151715_0006_D.jpg"
+  },
+  {
+    "id": "1jOtHuVuZ0nEzwUYzAh6DjL1-93b6S-ab",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1jOtHuVuZ0nEzwUYzAh6DjL1-93b6S-ab.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260207152234_0017_D.jpg"
+  },
+  {
     "id": "1Ut3K_751y7fuMBJ68nwJ-KmzoSRDi2X9",
     "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1Ut3K_751y7fuMBJ68nwJ-KmzoSRDi2X9.webp",
     "width": 747,
     "height": 1120,
     "originalName": "DSC04672.jpg"
+  },
+  {
+    "id": "1A7b7DoZkEx3eScuAR1IDIcpRodvJl4mv",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1A7b7DoZkEx3eScuAR1IDIcpRodvJl4mv.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20251216110830_0002_D.jpg"
+  },
+  {
+    "id": "13vrSZ5nebBRArTnzcRkKDnJ5SutGWtKs",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/13vrSZ5nebBRArTnzcRkKDnJ5SutGWtKs.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260207153549_0024_D.jpg"
+  },
+  {
+    "id": "1hy7tPOOSuWwfXWyhz_gw8qdIF7Ezv2oW",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1hy7tPOOSuWwfXWyhz_gw8qdIF7Ezv2oW.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260221151435_0028_D.jpg"
+  },
+  {
+    "id": "1eBgOAZ2jMcmtML_4zk0qXgZmZpbntQop",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1eBgOAZ2jMcmtML_4zk0qXgZmZpbntQop.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260221152014_0039_D.jpg"
   },
   {
     "id": "1YF4F-7PFa-z0hXjRHCKI7X0lzLoiYUX3",
@@ -3005,11 +3096,109 @@ export const PORTFOLIO_ARCHIVE_PHOTOS: ArchivePhoto[] = [
     "originalName": "20260304_111732.jpg"
   },
   {
+    "id": "1b0O7pDiiOhCGNQylEUeXsafZrmbXPQUV",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1b0O7pDiiOhCGNQylEUeXsafZrmbXPQUV.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304155851_0004_D.jpg"
+  },
+  {
     "id": "1ZGLQkMz646-3MFNj1MmOKaso1ADC_7zC",
     "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1ZGLQkMz646-3MFNj1MmOKaso1ADC_7zC.webp",
     "width": 1120,
     "height": 631,
     "originalName": "20260304_111922.jpg"
+  },
+  {
+    "id": "12zSVxPPM4DJHXVxvuiiV_45mlnGJDsPh",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/12zSVxPPM4DJHXVxvuiiV_45mlnGJDsPh.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160015_0007_D.jpg"
+  },
+  {
+    "id": "1GCpl9I7icwrBJm9xUbFOj3EaQZ4Ezf-F",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1GCpl9I7icwrBJm9xUbFOj3EaQZ4Ezf-F.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160028_0008_D.jpg"
+  },
+  {
+    "id": "1z0UHl4qBty4bI7zLhXnmBOvA0zQG3YZ4",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1z0UHl4qBty4bI7zLhXnmBOvA0zQG3YZ4.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160100_0009_D.jpg"
+  },
+  {
+    "id": "1xnAY6LKS0RqzBVC35Q-x6wu6RHKo4sM1",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1xnAY6LKS0RqzBVC35Q-x6wu6RHKo4sM1.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160129_0010_D.jpg"
+  },
+  {
+    "id": "1XC03FcNJ0bju69Q-mBGbM2SKUG0-T7E7",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1XC03FcNJ0bju69Q-mBGbM2SKUG0-T7E7.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160425_0017_D.jpg"
+  },
+  {
+    "id": "12trhvHNaB_bCzDLBHssm6ifLZQFUrDy1",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/12trhvHNaB_bCzDLBHssm6ifLZQFUrDy1.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160439_0018_D.jpg"
+  },
+  {
+    "id": "1y6ZzSobbrWBA7SMIxDEJNwL7US6Wr3cT",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1y6ZzSobbrWBA7SMIxDEJNwL7US6Wr3cT.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160516_0019_D.jpg"
+  },
+  {
+    "id": "1Njmd8dLegbRMsG44G-xHgJ2DxbHiyHT4",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1Njmd8dLegbRMsG44G-xHgJ2DxbHiyHT4.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160529_0020_D.jpg"
+  },
+  {
+    "id": "1ap7-VhDKNGlI4VjiByMoj-JiJJmxQkBv",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1ap7-VhDKNGlI4VjiByMoj-JiJJmxQkBv.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160624_0023_D.jpg"
+  },
+  {
+    "id": "1Q4D725j0yg6juAcRJN8zVQ9NT9jxH4aB",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1Q4D725j0yg6juAcRJN8zVQ9NT9jxH4aB.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304160817_0030_D.jpg"
+  },
+  {
+    "id": "13njngoAN-i1eS499CfJerCBeObSS9EMZ",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/13njngoAN-i1eS499CfJerCBeObSS9EMZ.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304161025_0032_D.jpg"
+  },
+  {
+    "id": "1kTsS7f162fuxAgas82Y1-EtGGxjOMiW-",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1kTsS7f162fuxAgas82Y1-EtGGxjOMiW-.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304161158_0036_D.jpg"
+  },
+  {
+    "id": "1etyIl7qDZkLRmypooDcfjUtduqD5vZHA",
+    "src": "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/1etyIl7qDZkLRmypooDcfjUtduqD5vZHA.webp",
+    "width": 1120,
+    "height": 630,
+    "originalName": "DJI_20260304161206_0037_D.jpg"
   },
   {
     "id": "1p2pSGGIQgAR5fgCBJl31Fs3H4Pht4b6C",
