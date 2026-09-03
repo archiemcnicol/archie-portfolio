@@ -2,9 +2,18 @@
 
 Updated: 3 September 2026
 
-All sixteen previously-blocked Google Drive originals have now been identified, downloaded successfully and converted locally to 1120×630 WebP derivatives at quality 58. The Google Drive originals remain unchanged and private.
+All sixteen previously-blocked Google Drive originals have now been identified, downloaded successfully and converted to 1120×630 WebP derivatives at quality 58. The Google Drive originals remain unchanged and private.
 
-The remaining task is publication only: place each WebP at `public/portfolio/archive/<drive-id>.webp`, add the corresponding record to `src/lib/portfolio-archive.ts`, verify 619/619, and redeploy.
+## Durable staging copy
+
+All sixteen converted WebPs are now persisted in a dedicated private Google Drive staging folder:
+
+- Folder: `Archie Portfolio - Final 16 WebP Staging`
+- Folder ID: `1XUvrFldPrrOV1Cfg8PRHyotDpiTM_VJu`
+- Verified contents: **16 files exactly**
+- Verified state: all 16 are `image/webp`, private/not shared, downloadable, and named `<source-drive-id>.webp`.
+
+The remaining task is publication only: attach each staged WebP to `public/portfolio/archive/<drive-id>.webp`, add the corresponding record to `src/lib/portfolio-archive.ts`, verify 619/619, and redeploy.
 
 | Drive ID | Original filename | WebP bytes | Output |
 |---|---|---:|---|
@@ -30,8 +39,11 @@ Total derivative volume: **2,299,904 bytes (~2.19 MiB)**.
 ## Resolved blockers
 
 - The earlier Google Drive inline/base64 ceiling is no longer a blocker: `download_raw_file=true` with streamed file references successfully downloaded every remaining 38–46 MB original.
-- All sixteen derivatives were generated successfully in the working environment.
+- All sixteen derivatives were generated successfully.
+- The derivatives are no longer session-only: all sixteen are persisted in the staging folder above.
 
 ## Remaining transport blocker
 
-The current GitHub connector can create binary Git blobs from base64 text but does not expose a top-level local-file upload parameter. The Cloudinary upload action accepts local files conceptually, but its file parameter is nested and the connector runtime cannot rewrite proxied local mounts in that position. Direct outbound networking from the workspace is DNS-blocked. Therefore the derivatives are complete, but must not be marked published until the binary files have actually been attached to the GitHub tree or another public image host.
+The current GitHub connector can create binary Git blobs from base64 text but does not expose a top-level local-file upload parameter. The Cloudinary upload action accepts local files conceptually, but its file parameter is nested and the connector runtime cannot rewrite proxied local mounts in that position. Direct outbound networking from the workspace is DNS-blocked. The small staged files can be fetched with inline base64, so this is now strictly a connector field-handoff problem rather than an image-size problem.
+
+Do not mark the final sixteen as published until their actual binary files are present on the GitHub/jsDelivr archive path or another verified public image host.
