@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PortfolioArchive } from "@/components/portfolio-archive";
 import { PORTFOLIO_ARCHIVE_PHOTOS } from "@/lib/portfolio-archive";
+import { PORTFOLIO_FINAL_PHOTOS } from "@/lib/portfolio-final";
 import {
   PORTFOLIO_ARCHIVE,
   PORTFOLIO_CATEGORIES,
@@ -14,8 +15,13 @@ export const metadata = {
     "Selected photography and the complete visual archive from Archie McNicol.",
 };
 
+const ARCHIVE_PHOTOS = [
+  ...PORTFOLIO_ARCHIVE_PHOTOS,
+  ...PORTFOLIO_FINAL_PHOTOS,
+];
+
 export default function PhotographyPage() {
-  const availablePhotoCount = PORTFOLIO_ARCHIVE_PHOTOS.length;
+  const availablePhotoCount = ARCHIVE_PHOTOS.length;
 
   return (
     <main className="photo-page">
@@ -118,7 +124,7 @@ export default function PhotographyPage() {
               archive.
             </p>
           </div>
-          <PortfolioArchive photos={PORTFOLIO_ARCHIVE_PHOTOS} />
+          <PortfolioArchive photos={ARCHIVE_PHOTOS} />
         </div>
       </section>
 
