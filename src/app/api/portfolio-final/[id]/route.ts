@@ -54,7 +54,9 @@ export async function GET(
     return new Response("Image unavailable", { status: 502 });
   }
 
-  return new Response(image, {
+  const payload = Uint8Array.from(image).buffer;
+
+  return new Response(payload, {
     headers: {
       "Content-Type": "image/avif",
       "Cache-Control": "public, max-age=31536000, immutable",
