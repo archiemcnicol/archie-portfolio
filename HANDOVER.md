@@ -13,10 +13,12 @@ Updated: 3 September 2026
 
 ## Production deployment
 
-- Deployment: <https://archie-portfolio-9ifbz3co6-archiemcnicol002-8423.vercel.app>
-- Vercel inspector: <https://vercel.com/archiemcnicol002-8423/archie-portfolio/HA2rGh8uTdUnf3pArgHTGBb8ise8>
-- Deployment ID: `dpl_HA2rGh8uTdUnf3pArgHTGBb8ise8`
-- Current access state: deployed behind Vercel Authentication. Public visitors are redirected to Vercel sign-in until Deployment Protection is disabled for production or the Vercel connection is re-authorised for team `archiemcnicol002-8423`.
+- Latest production deployment: <https://archie-portfolio-5ar6088s7-archiemcnicol002-8423.vercel.app>
+- Production alias: <https://archie-portfolio-archiemcnicol002-8423.vercel.app>
+- Vercel inspector: <https://vercel.com/archiemcnicol002-8423/archie-portfolio/D23DQKm7bMhyXnecTZiuBZo2DHbM>
+- Deployment ID: `dpl_D23DQKm7bMhyXnecTZiuBZo2DHbM`
+- Current access state: the latest deployment responds and redirects to Vercel sign-in, confirming that it is online behind Vercel Authentication. Public visitors remain blocked until Deployment Protection is disabled for production.
+- API note: direct deployment succeeded, but status/log inspection remains unavailable because the current Vercel connection exposes zero teams and returns `403` for team `archiemcnicol002-8423`.
 
 ## Completed website work
 
@@ -53,9 +55,13 @@ The release verifier passed with four public campaigns, ten featured images and 
 
 ## Next actions
 
-1. In Vercel, open the inspector link above and disable Deployment Protection for the production environment, or re-authorise the Vercel connection for the correct team.
+1. In Vercel, open the inspector link above and disable Deployment Protection for the production environment.
 2. Confirm the public URL loads without a Vercel sign-in redirect.
 3. Finish the final 16 Drive originals, which are 38–46 MB each and exceed the connector's legacy inline-transfer ceiling.
 4. Regenerate `src/lib/portfolio-archive.ts`, run the verification commands, publish the final archive files and deploy the lightweight source bundle again.
+
+## Final-16 transfer note
+
+Cloudinary was connected and tested on 3 September 2026. It cannot consume Google Drive's private streamed `sediment://` reference, and a direct Drive download URL returns an HTML access response. The authenticated inline route stalled at the large-file boundary and was stopped; no Cloudinary asset was created. The remaining 16 originals and all Google Drive source files are unchanged.
 
 Do not discard the modified files under `public/portfolio/archive/` in the working copy: they are the smaller continuation copies and are intentionally different from the higher-quality CDN copies already committed to GitHub.
