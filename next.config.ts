@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
     ],
     localPatterns: [
       { pathname: "/api/tiktok-cover" },
+      { pathname: "/api/portfolio-final/**" },
       { pathname: "/portfolio/web/**" },
     ],
   },
