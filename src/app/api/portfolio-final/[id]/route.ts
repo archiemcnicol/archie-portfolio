@@ -1,5 +1,5 @@
 const PACK_URL =
-  "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@e2e873ece8f902956fabfd481316ddfcbfde4f81/public/portfolio/archive/final-16-avif.pack";
+  "https://raw.githubusercontent.com/archiemcnicol/archie-portfolio/e2e873ece8f902956fabfd481316ddfcbfde4f81/public/portfolio/archive/final-16-avif.pack";
 
 const INDEX: Record<string, { offset: number; length: number }> = {
   "18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3": { offset: 0, length: 10612 },
