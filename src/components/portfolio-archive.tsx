@@ -75,6 +75,11 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
           <button
             className="photo-button"
             onClick={() => setVisibleCount((count) => Math.min(count + PAGE_SIZE, photos.length))}
+            style={{
+              background: "rgba(245, 241, 234, 0.08)",
+              borderColor: "rgba(245, 241, 234, 0.72)",
+              color: "#f5f1ea",
+            }}
             type="button"
           >
             Load {Math.min(PAGE_SIZE, photos.length - visibleCount)} more
