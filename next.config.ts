@@ -11,7 +11,10 @@ const nextConfig: NextConfig = {
         pathname: "/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/**",
       },
     ],
-    localPatterns: [{ pathname: "/api/tiktok-cover" }],
+    localPatterns: [
+      { pathname: "/api/tiktok-cover" },
+      { pathname: "/portfolio/web/**" },
+    ],
   },
 };
 
