@@ -8,9 +8,8 @@ Updated: 3 September 2026
 - Archive release: `957cd9fbf5c0c91aa8a6713c9db232b888b6906c`
 - CDN delivery update: `d4fdc4fa9a0d67449a0e2a2d722d050419e8d618`
 - Latest archive checkpoint: `13022e2a4579c9222a8f461c4322c729b5e31d07`
-- Final-16 queue record: `ecdcfb44c6c16cd14c7f2fbe02c385b0c10e640e`
+- Final-16 queue record: see `FINAL_16_PORTFOLIO_IMAGES.md`
 - Branch: `main`
-- Recovery branch retained locally: `backup/pre-publish-2026-09-03`
 
 ## Production deployment
 
@@ -18,7 +17,6 @@ Updated: 3 September 2026
 - Production alias: <https://archie-portfolio-archiemcnicol002-8423.vercel.app>
 - Vercel inspector: <https://vercel.com/archiemcnicol002-8423/archie-portfolio/D23DQKm7bMhyXnecTZiuBZo2DHbM>
 - Deployment ID: `dpl_D23DQKm7bMhyXnecTZiuBZo2DHbM`
-- Current access state: the recorded deployment is behind Vercel Authentication.
 - Current connector state: `Vercel.list_teams` returns zero teams and protected deployment fetches return `403`, so production verification/deployment must not be claimed until the Vercel connection regains access to team `archiemcnicol002-8423`.
 
 ## Completed website work
@@ -45,15 +43,25 @@ Updated: 3 September 2026
 - Featured local images: **10**
 - Converted archive images currently published: **593**
 - Previously remaining Drive originals: **16**
-- Final 16 originals now identified/downloaded: **16 of 16**
-- Final 16 WebP derivatives now generated locally: **16 of 16**
-- Final 16 WebP derivatives attached to the GitHub archive tree: **0 of 16 at this checkpoint**
+- Final 16 originals identified/downloaded: **16 of 16**
+- Final 16 WebP derivatives generated: **16 of 16**
+- Final 16 WebP derivatives persisted in Drive staging: **16 of 16**
+- Final 16 WebP derivatives attached to GitHub/jsDelivr archive: **0 of 16 at this checkpoint**
 - Final target after publication: **619/619 represented**
 - Google Drive originals were not changed or deleted.
 
 All sixteen formerly blocked originals were successfully streamed from Google Drive despite being roughly 38–46 MB each. They were converted to **1120×630 WebP, quality 58**. The sixteen derivatives total **2,299,904 bytes (~2.19 MiB)**.
 
-The exact Drive IDs, original filenames and output sizes are recorded in `FINAL_16_PORTFOLIO_IMAGES.md`.
+### Durable final-16 staging
+
+The converted binaries are no longer dependent on the current workspace. They are stored in:
+
+- Google Drive folder: `Archie Portfolio - Final 16 WebP Staging`
+- Folder ID: `1XUvrFldPrrOV1Cfg8PRHyotDpiTM_VJu`
+- Verified folder contents: **exactly 16 private WebP files**
+- Naming convention: `<source-drive-id>.webp`
+
+The exact source IDs, filenames and derivative sizes are recorded in `FINAL_16_PORTFOLIO_IMAGES.md`.
 
 The final two previously unresolved source records were:
 
@@ -68,11 +76,11 @@ The final two previously unresolved source records were:
 
 The previous release verifier passed with four public campaigns, ten featured images and 603 gallery images from the 619-image Drive source. Next.js 16.3.4 built all twelve routes successfully.
 
-A fresh 619-image verification has **not** yet been claimed because the sixteen generated WebPs still need to be attached to the repository archive and added to `src/lib/portfolio-archive.ts`.
+A fresh 619-image verification has **not** yet been claimed because the sixteen staged WebPs still need to be attached to the repository archive and added to `src/lib/portfolio-archive.ts`.
 
 ## Remaining publication task
 
-1. Attach the sixteen generated WebPs listed in `FINAL_16_PORTFOLIO_IMAGES.md` to `public/portfolio/archive/<drive-id>.webp`.
+1. Attach the sixteen staged WebPs to `public/portfolio/archive/<drive-id>.webp`.
 2. Add their sixteen records to `src/lib/portfolio-archive.ts` using the existing jsDelivr URL convention.
 3. Confirm the manifest represents all **619/619** Drive source records.
 4. Run typecheck, release verification and build again.
@@ -86,5 +94,6 @@ The previous large-original blocker is solved. The only remaining issue is trans
 - Cloudinary’s upload action has its file argument nested inside `upload_request`; the connector runtime cannot rewrite proxied local mount paths in that nested position. Passing a `sediment://` connector file reference returns a file-argument rewrite error.
 - Direct outbound networking from the workspace is DNS-blocked, so the normal GitHub/Cloudinary HTTP upload endpoints cannot be called from a local script.
 - Supabase’s connected management toolset exposes database/Edge Function administration but no Storage object upload action.
+- The staged WebPs are small enough to fetch with inline base64, so this is now strictly a connector field-handoff problem rather than a file-size problem.
 
 Do not mark the final sixteen as published until their actual binary files are present on the public CDN/archive path.
