@@ -38,12 +38,12 @@ await fs.mkdir(outputDirectory, { recursive: true });
 const result = await sharp(source, { failOn: "none" })
   .rotate()
   .resize({
-    width: 1440,
-    height: 1440,
+    width: 1120,
+    height: 1120,
     fit: "inside",
     withoutEnlargement: true,
   })
-  .webp({ quality: 70, effort: 4, smartSubsample: true })
+  .webp({ quality: 58, effort: 4, smartSubsample: true })
   .toFile(outputPath);
 
 process.stdout.write(

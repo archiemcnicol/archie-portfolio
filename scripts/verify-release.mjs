@@ -55,9 +55,7 @@ for (const source of photoSources) {
   assert(fs.existsSync(assetPath), `missing portfolio asset: ${source}`);
 }
 
-const archiveSources = [
-  ...portfolioArchive.matchAll(/"src":\s*"(\/portfolio\/(?:archive|web)\/[^\"]+)"/g),
-].map(
+const archiveSources = [...portfolioArchive.matchAll(/"src":\s*"([^\"]+)"/g)].map(
   (match) => match[1],
 );
 assert(archiveSources.length > 0, "the expanded portfolio archive must not be empty");
@@ -66,7 +64,14 @@ assert(
   `expanded archive count (${archiveSources.length}) exceeds Drive source count (${archiveCount})`,
 );
 for (const source of archiveSources) {
-  const assetPath = path.join(repoRoot, "public", source.replace(/^\//, ""));
+  const isLocalFeaturedImage = source.startsWith("/portfolio/web/");
+  const isArchiveCdnImage = source.startsWith(
+    "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/",
+  );
+  assert(isLocalFeaturedImage || isArchiveCdnImage, `unexpected expanded portfolio source: ${source}`);
+  const assetPath = isLocalFeaturedImage
+    ? path.join(repoRoot, "public", source.replace(/^\//, ""))
+    : path.join(repoRoot, "public", "portfolio", "archive", path.basename(source));
   assert(fs.existsSync(assetPath), `missing expanded portfolio asset: ${source}`);
 }
 

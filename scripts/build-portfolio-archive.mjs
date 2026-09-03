@@ -6,6 +6,8 @@ import sharp from "sharp";
 const root = process.cwd();
 const sourcePath = path.join(root, "analysis", "drive-portfolio-files.json");
 const outputPath = path.join(root, "src", "lib", "portfolio-archive.ts");
+const archiveCdnBase =
+  "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive";
 
 const selectedSources = new Map([
   ["20250530_215358.jpg", "/portfolio/web/20250530_215358.jpg"],
@@ -45,8 +47,9 @@ const resolvedSourceFiles = (
 
 const photos = await Promise.all(
   resolvedSourceFiles.map(async (file) => {
-    const src = selectedSources.get(file.title) ?? `/portfolio/archive/${file.id}.webp`;
-    const assetPath = path.join(root, "public", src.replace(/^\//, ""));
+    const localSrc = selectedSources.get(file.title) ?? `/portfolio/archive/${file.id}.webp`;
+    const src = selectedSources.get(file.title) ?? `${archiveCdnBase}/${file.id}.webp`;
+    const assetPath = path.join(root, "public", localSrc.replace(/^\//, ""));
     const metadata = await sharp(assetPath).metadata();
 
     if (!metadata.width || !metadata.height) {
