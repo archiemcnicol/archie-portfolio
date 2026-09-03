@@ -5,9 +5,11 @@ import process from "node:process";
 const repoRoot = process.cwd();
 const brandWorkPath = path.join(repoRoot, "src/lib/brand-work.ts");
 const portfolioPath = path.join(repoRoot, "src/lib/portfolio.ts");
+const portfolioArchivePath = path.join(repoRoot, "src/lib/portfolio-archive.ts");
 const nextConfigPath = path.join(repoRoot, "next.config.ts");
 const brandWork = fs.readFileSync(brandWorkPath, "utf8");
 const portfolio = fs.readFileSync(portfolioPath, "utf8");
+const portfolioArchive = fs.readFileSync(portfolioArchivePath, "utf8");
 const nextConfig = fs.readFileSync(nextConfigPath, "utf8");
 
 const failures = [];
@@ -53,6 +55,21 @@ for (const source of photoSources) {
   assert(fs.existsSync(assetPath), `missing portfolio asset: ${source}`);
 }
 
+const archiveSources = [
+  ...portfolioArchive.matchAll(/"src":\s*"(\/portfolio\/(?:archive|web)\/[^\"]+)"/g),
+].map(
+  (match) => match[1],
+);
+assert(archiveSources.length > 0, "the expanded portfolio archive must not be empty");
+assert(
+  archiveSources.length <= archiveCount,
+  `expanded archive count (${archiveSources.length}) exceeds Drive source count (${archiveCount})`,
+);
+for (const source of archiveSources) {
+  const assetPath = path.join(repoRoot, "public", source.replace(/^\//, ""));
+  assert(fs.existsSync(assetPath), `missing expanded portfolio asset: ${source}`);
+}
+
 if (failures.length) {
   console.error("Release verification failed:");
   for (const failure of failures) console.error(`- ${failure}`);
@@ -60,5 +77,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Release verification passed: ${publicCampaignIds.length} public campaigns, ${publicCount} portfolio images from a ${archiveCount}-image archive.`,
+  `Release verification passed: ${publicCampaignIds.length} public campaigns, ${publicCount} featured images and ${archiveSources.length} expanded archive images from a ${archiveCount}-image Drive source.`,
 );

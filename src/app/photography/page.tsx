@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PortfolioArchive } from "@/components/portfolio-archive";
+import { PORTFOLIO_ARCHIVE_PHOTOS } from "@/lib/portfolio-archive";
 import {
   PORTFOLIO_ARCHIVE,
   PORTFOLIO_CATEGORIES,
@@ -9,10 +11,12 @@ import {
 export const metadata = {
   title: "Photography — Archie McNicol",
   description:
-    "A first edit of travel, architecture and still-life photography from Archie McNicol's visual archive.",
+    "Selected photography and the complete visual archive from Archie McNicol.",
 };
 
 export default function PhotographyPage() {
+  const availablePhotoCount = PORTFOLIO_ARCHIVE_PHOTOS.length;
+
   return (
     <main className="photo-page">
       <section className="photo-hero">
@@ -23,8 +27,8 @@ export default function PhotographyPage() {
           </div>
           <div className="photo-hero-side">
             <p>
-              A first public edit from Archie&apos;s wider portfolio: travel, built spaces and
-              quieter still-life studies, selected with the original capture metadata retained.
+              Selected travel, architecture and still-life studies, followed by an expanded
+              visual archive of {availablePhotoCount} photographs.
             </p>
             <div className="photo-hero-actions">
               <Link className="photo-button photo-button-primary" href="/contact">
@@ -38,8 +42,8 @@ export default function PhotographyPage() {
 
       <section className="wrap photo-index" aria-label="Photography index">
         <div>
-          <strong>{PORTFOLIO_ARCHIVE.publicEditCount}</strong>
-          <span>Images in this first public edit</span>
+          <strong>{availablePhotoCount}</strong>
+          <span>Photographs available to browse</span>
         </div>
         <div>
           <strong>{PORTFOLIO_CATEGORIES.length - 1}</strong>
@@ -55,8 +59,8 @@ export default function PhotographyPage() {
         <div className="wrap">
           <div className="photo-gallery-heading">
             <div>
-              <div className="section-title">The first edit</div>
-              <p>Travel, architecture and still life, laid out as a working visual archive.</p>
+              <div className="section-title">Featured edit</div>
+              <p>Ten selected frames from travel, architecture and still life.</p>
             </div>
             <div className="photo-category-list" aria-label="Photography categories">
               {PORTFOLIO_CATEGORIES.map((category) => (
@@ -95,10 +99,26 @@ export default function PhotographyPage() {
           </div>
 
           <p className="photo-gallery-note">
-            This is the first public edit from <em>{PORTFOLIO_ARCHIVE.folderName}</em>. The full
-            source archive remains available for the next round of project grouping and client
-            gallery selection.
+            A focused selection from <em>{PORTFOLIO_ARCHIVE.folderName}</em>, with the complete
+            archive available below.
           </p>
+        </div>
+      </section>
+
+      <section className="archive-section" id="expanded-archive">
+        <div className="wrap">
+          <div className="archive-heading">
+            <div>
+              <div className="section-title">Expanded archive</div>
+              <h2>{availablePhotoCount} photographs.</h2>
+            </div>
+            <p>
+              Browse the available image collection in Drive order. Open any photograph for a
+              full-screen view, then use the arrow keys or on-screen controls to move through the
+              archive.
+            </p>
+          </div>
+          <PortfolioArchive photos={PORTFOLIO_ARCHIVE_PHOTOS} />
         </div>
       </section>
 

@@ -177,6 +177,29 @@ a { color: inherit; text-decoration: none; }
 .photo-card figcaption span, .photo-card figcaption small { color:var(--muted); font-size:11px; line-height:1.35; text-transform:uppercase; letter-spacing:.08em; }
 .photo-card figcaption small { max-width:22ch; text-align:right; }
 .photo-gallery-note { max-width:720px; margin:52px 0 0; color:var(--muted); font-size:14px; line-height:1.55; }
+.archive-section { padding:104px 0 120px; border-top:1px solid var(--line); background:#111; color:#f5f1ea; }
+.archive-heading { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(280px,.5fr); gap:64px; align-items:end; margin-bottom:56px; }
+.archive-heading h2 { max-width:900px; margin:18px 0 0; font-size:clamp(58px,8vw,126px); line-height:.82; letter-spacing:-.075em; }
+.archive-heading p { margin:0; color:#aaa59d; font-size:16px; line-height:1.5; }
+.archive-grid { columns:3; column-gap:14px; }
+.archive-card { margin:0 0 14px; break-inside:avoid; background:#222; }
+.archive-card-button { display:block; width:100%; padding:0; border:0; background:transparent; color:inherit; cursor:zoom-in; }
+.archive-card img { display:block; width:100%; height:auto; transition:opacity .25s ease, transform .45s ease; }
+.archive-card-button:hover img { opacity:.88; transform:scale(1.008); }
+.archive-card-button:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+.archive-controls { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-top:44px; padding-top:20px; border-top:1px solid #343434; }
+.archive-controls span { color:#aaa59d; font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+.archive-controls .photo-button { color:#f5f1ea; }
+.archive-controls .photo-button:hover { background:var(--accent); color:#111; }
+.archive-viewer { position:fixed; z-index:1000; inset:0; display:grid; place-items:center; background:rgba(8,8,8,.97); color:#fff; }
+.archive-viewer-image { position:absolute; inset:56px 72px 72px; }
+.archive-viewer-image img { object-fit:contain; }
+.archive-viewer-close, .archive-viewer-nav { position:absolute; z-index:2; border:1px solid rgba(255,255,255,.38); background:rgba(17,17,17,.82); color:#fff; cursor:pointer; }
+.archive-viewer-close { top:18px; right:18px; min-height:42px; padding:0 14px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; }
+.archive-viewer-nav { top:50%; width:48px; height:48px; transform:translateY(-50%); font-size:24px; }
+.archive-viewer-prev { left:18px; }
+.archive-viewer-next { right:18px; }
+.archive-viewer-meta { position:absolute; z-index:2; right:72px; bottom:22px; left:72px; display:flex; justify-content:space-between; gap:24px; color:#b9b5ae; font-size:11px; text-transform:uppercase; letter-spacing:.08em; }
 .photo-enquiry { padding:120px 0; border-top:1px solid var(--line); background:var(--accent); }
 .photo-enquiry-inner { display:grid; grid-template-columns:1fr 2fr auto; align-items:end; gap:36px; }
 .photo-enquiry h2 { margin:0; font-size:clamp(56px, 9vw, 132px); line-height:.8; letter-spacing:-.075em; }
@@ -196,6 +219,8 @@ a { color: inherit; text-decoration: none; }
   .brand-contact-inner { grid-template-columns:1fr; align-items:start; }
   .brand-contact .brand-button { justify-self:start; }
   .photo-gallery-heading { align-items:flex-start; flex-direction:column; }
+  .archive-heading { grid-template-columns:1fr; gap:28px; }
+  .archive-grid { columns:2; }
   .photo-category-list { justify-content:flex-start; }
   .photo-enquiry-inner { grid-template-columns:1fr; align-items:start; }
   .photo-enquiry .photo-button { justify-self:start; }
@@ -217,6 +242,16 @@ a { color: inherit; text-decoration: none; }
   .photo-card, .photo-card-landscape { grid-column:span 1; }
   .photo-card figcaption { flex-direction:column; gap:10px; }
   .photo-card figcaption small { max-width:none; text-align:left; }
+  .archive-section { padding:76px 0 88px; }
+  .archive-heading h2 { font-size:18vw; }
+  .archive-grid { columns:1; }
+  .archive-viewer-image { inset:70px 14px 92px; }
+  .archive-viewer-nav { top:auto; bottom:24px; transform:none; }
+  .archive-viewer-prev { left:14px; }
+  .archive-viewer-next { right:14px; }
+  .archive-viewer-meta { right:76px; bottom:38px; left:76px; justify-content:center; }
+  .archive-viewer-meta span:last-child { display:none; }
+  .archive-controls { align-items:flex-start; flex-direction:column; }
   .brand-section { padding:76px 0; }
   .brand-campaign { grid-template-columns:1fr; padding:16px 0 34px; }
   .brand-campaign-number { padding:0; }
