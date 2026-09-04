@@ -1,0 +1,62 @@
+name: Finalise upgraded portfolio metadata
+
+on:
+  push:
+    branches:
+      - portfolio-metadata-final
+    paths:
+      - .github/workflows/finalise-portfolio-metadata.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalise:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: portfolio-metadata-final
+          fetch-depth: 0
+      - name: Install dependencies
+        run: npm ci
+      - name: Validate high-resolution assets and correct metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const sharp = require('sharp');
+          const fs = require('fs');
+          const path = require('path');
+          const ids = ['18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3','1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF','1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy','1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg','1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr','1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz','1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ','1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9','1XxJlFluopAC9ldRXalU_AKnELlxYX_zj','1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA','1a4XCo1YrNopaS3h1tXpUEodERRrVqePp','1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx','1eBragPkQDz_ZkDM3qtE2VRfusjF2T415','1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u','1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl','1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7'];
+          (async()=>{for(const id of ids){const f=path.join('public','portfolio','archive',id+'.webp');const m=await sharp(f).metadata();const b=fs.statSync(f).size;if(m.format!=='webp'||m.width!==1120||m.height!==630||b<40000)throw new Error(`${id}: ${m.format} ${m.width}x${m.height} ${b}`);console.log(`${id}: OK ${b}`)}})().catch(e=>{console.error(e);process.exit(1)});
+          NODE
+          python <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('src/lib/portfolio-archive.ts')
+          text=p.read_text()
+          originals={
+          '18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3':'DJI_20250703103418_0005_D.jpg','1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF':'DJI_20250831184910_0049_D.jpg','1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy':'DJI_20250831185213_0053_D.jpg','1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg':'DJI_20250831184747_0046_D.jpg','1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr':'Photo00143.jpg','1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz':'DJI_20250814155516_0066_D.jpg','1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ':'Photo00099.jpg','1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9':'Photo00041.jpg','1XxJlFluopAC9ldRXalU_AKnELlxYX_zj':'DJI_20250831184827_0047_D.jpg','1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA':'Photo00081.jpg','1a4XCo1YrNopaS3h1tXpUEodERRrVqePp':'DJI_20260304160007_0006_D.jpg','1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx':'DJI_20250814155451_0065_D.jpg','1eBragPkQDz_ZkDM3qtE2VRfusjF2T415':'DJI_20250814155425_0064_D.jpg','1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u':'DJI_20250831185020_0050_D.jpg','1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl':'DJI_20260304155932_0005_D.jpg','1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7':'DJI_20250831185228_0055_D.jpg'}
+          for i,n in originals.items():
+            pat=re.compile(r'\{\n\s+"id": "'+re.escape(i)+r'",\n\s+"src": "([^"]+)",\n\s+"width": \d+,\n\s+"height": \d+,\n\s+"originalName": "[^"]+"\n\s+\}')
+            m=pat.search(text)
+            if not m: raise SystemExit('missing '+i)
+            src=m.group(1)
+            rep='{\n    "id": "'+i+'",\n    "src": "'+src+'",\n    "width": 1120,\n    "height": 630,\n    "originalName": "'+n+'"\n  }'
+            text,c=pat.subn(rep,text,count=1)
+            if c!=1: raise SystemExit('bad count '+i)
+          p.write_text(text)
+          PY
+      - name: Build
+        run: npm run build
+      - name: Commit final metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/finalise-portfolio-metadata.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Correct high-resolution portfolio metadata'
+          git push origin HEAD:portfolio-metadata-final
