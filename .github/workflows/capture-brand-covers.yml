@@ -1,4 +1,4 @@
-name: Capture permanent campaign covers
+name: Probe TikTok profile
 
 on:
   push:
@@ -6,53 +6,50 @@ on:
       - .github/workflows/capture-brand-covers.yml
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  capture:
+  probe:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Capture stills from exported TikTok videos
+      - name: Enumerate profile videos with yt-dlp
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/campaign-videos public/brand-work
-          cat > /tmp/videos.tsv <<'EOF'
-          nike-2026-01-07.webp|https://video-no1a.tiktokv.eu/storage/v1/tos-no1a-v-0068c001-no/AAFVmMmpVSYRnQjdmSFNUQwJlRrZ0bBlVQCh2ZBR0RVl0aJlVM08GAUg1lfUgfhIGToc1wqHPa2DGQq6c38eM7BDuXOAWQ1zegBCyZJB57ZPYIMdFSOGX2DGTv8Ge0sL7BjBA?a=1233&bti=dXB2cmJ2d3dodHVwcndvYndndXYxcm53ZmJya2BoXlxwcmIrb2NebV5eXGJyaHFmOg%3D%3D&&bt=2699&ft=cpOdtEz7ThWHO-4mLGZmo0P&mime_type=video_mp4&rc=M2hsM2w5cjQ7ODMzbzczNUBpM2hsM2w5cjQ7ODMzbzczNUAvNjIyMmRrYGNhLS1kMTFzYSMvNjIyMmRrYGNhLS1kMTFzcw%3D%3D&l=20260722150529B2528A7D32FF7BAEAFC6&x-tos-algorithm=v2&x-tos-authkey=5bf25627da095a5cba28ace592de46cc&x-tos-expires=1785596781&x-tos-signature=QPHNj3QGj9xnm4j-N-KlcpsUvG8&btag=e00048000
-          boss-bottled-beyond-2025-10-04.webp|https://video-no1a.tiktokv.eu/storage/v1/tos-no1a-v-0068-no/oUH8IkEDAqfFBmeAXoSCEW6IkAFdJRA4WnBdgg?a=1233&bti=dXB2cmJ2d3dodHVwcndvYndndXYxcm53ZmJya2BoXlxwcmIrb2NebV5eXGJyaHFmOg%3D%3D&&bt=3370&ft=cpOdtEz7ThWHt-4mLGZmo0P&mime_type=video_mp4&rc=amVma205cjxsNjMzbzczNUBpamVma205cjxsNjMzbzczNUBiLjJeMmRzcmRhLS1kMTFzYSNiLjJeMmRzcmRhLS1kMTFzcw%3D%3D&l=20260722150529B2528A7D32FF7BAEAFC6&x-tos-algorithm=v2&x-tos-authkey=5bf25627da095a5cba28ace592de46cc&x-tos-expires=1785596792&x-tos-signature=jdl0ubTsWJcidS2BtngjzYU1z1A&btag=e00048000
-          moschino-toy-2025-06-23.webp|https://video-no1a.tiktokv.eu/storage/v1/tos-no1a-v-0068c001-no/o0DOAWqsGLBA1IrAEQIGeVe4EAnIAKUeLIZzOj?a=1233&bti=dXB2cmJ2d3dodHVwcndvYndndXYxcm53ZmJya2BoXlxwcmIrb2NebV5eXGJyaHFmOg%3D%3D&&bt=9808&ft=cpOdtEz7ThWHg-4mLGZmo0P&mime_type=video_mp4&rc=M2RqaXk5cnBvNDMzbzczNUBpM2RqaXk5cnBvNDMzbzczNUBwcWZhMmRjZmBhLS1kMTFzYSNwcWZhMmRjZmBhLS1kMTFzcw%3D%3D&l=20260722150529B2528A7D32FF7BAEAFC6&x-tos-algorithm=v2&x-tos-authkey=5bf25627da095a5cba28ace592de46cc&x-tos-expires=1785596751&x-tos-signature=MijAmwdjr8m4GQcxIua1egxJ49M&btag=e00078000
-          superdry-2024-09-16.webp|https://video-no1a.tiktokv.eu/storage/v1/tos-no1a-v-68c710-no/oIpQA4sBYNfbuyMRnQghQfg8oE8RTgeAeDG1AA?a=1233&bti=dXB2cmJ2d3dodHVwcndvYndndXYxcm53ZmJya2BoXlxwcmIrb2NebV5eXGJyaHFmOg%3D%3D&&bt=1422&ft=cpOdtEz7ThWHmn4mLGZmo0P&mime_type=video_mp4&rc=M2U5OXU5cjU3dTMzZjczM0BpM2U5OXU5cjU3dTMzZjczM0AxYy5tMmRjLWhgLS1kMWNzYSMxYy5tMmRjLWhgLS1kMWNzcw%3D%3D&l=20260722150529B2528A7D32FF7BAEAFC6&x-tos-algorithm=v2&x-tos-authkey=5bf25627da095a5cba28ace592de46cc&x-tos-expires=1785596796&x-tos-signature=RIdCaYm_sscc5PPJFmV2SmUFTTc&btag=e00050000
-          superdry-2024-09-21.webp|https://video-no1a.tiktokv.eu/storage/v1/tos-no1a-v-68c710-no/oMfXQF3uAGBGAgClbvRfSSXoReNu8585ESAwMe?a=1233&bti=dXB2cmJ2d3dodHVwcndvYndndXYxcm53ZmJya2BoXlxwcmIrb2NebV5eXGJyaHFmOg%3D%3D&&bt=1636&ft=cpOdtEz7ThWHU-4mLGZmo0P&mime_type=video_mp4&rc=Mzc0ZHI5cnVodTMzZjczM0BpMzc0ZHI5cnVodTMzZjczM0BqY2YxMmRzNWtgLS1kMWNzYSNqY2YxMmRzNWtgLS1kMWNzcw%3D%3D&l=20260722150529B2528A7D32FF7BAEAFC6&x-tos-algorithm=v2&x-tos-authkey=5bf25627da095a5cba28ace592de46cc&x-tos-expires=1785596795&x-tos-signature=ynBRxC7Z0aJqPbNjw8zXOIssdcQ&btag=e00050000
-          EOF
-          while IFS='|' read -r name url; do
-            [ -n "$name" ] || continue
-            mp4="/tmp/campaign-videos/${name%.webp}.mp4"
-            echo "Downloading $name"
-            curl --fail --location --retry 3 --retry-all-errors --connect-timeout 20 --max-time 120 -A 'Mozilla/5.0' "$url" -o "$mp4"
-            test "$(stat -c%s "$mp4")" -gt 50000
-            ffprobe -v error -show_entries format=duration -of default=nw=1 "$mp4"
-            if ! ffmpeg -hide_banner -loglevel error -y -ss 0.65 -i "$mp4" -frames:v 1 -vf "scale='min(900,iw)':-2" -c:v libwebp -quality 88 "public/brand-work/$name"; then
-              ffmpeg -hide_banner -loglevel error -y -ss 0.10 -i "$mp4" -frames:v 1 -vf "scale='min(900,iw)':-2" -c:v libwebp -quality 88 "public/brand-work/$name"
-            fi
-            test "$(stat -c%s "public/brand-work/$name")" -gt 5000
-          done < /tmp/videos.tsv
-          echo 'Generated covers:'
-          sha256sum public/brand-work/*.webp
-          distinct=$(sha256sum public/brand-work/*.webp | awk '{print $1}' | sort -u | wc -l)
-          test "$distinct" -eq 5
-      - name: Commit permanent covers
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/brand-work/*.webp
-          if git diff --cached --quiet; then
-            echo 'No cover changes to commit'
-          else
-            git commit -m 'Add permanent TikTok campaign covers'
-            git push origin HEAD:brand-work-refresh
+          python3 -m pip install --upgrade yt-dlp
+          yt-dlp --version
+          profile='https://www.tiktok.com/@fitswitharchie'
+          set +e
+          yt-dlp --flat-playlist --dump-single-json --playlist-end 600 "$profile" > /tmp/profile.json 2>/tmp/yt.err
+          code=$?
+          set -e
+          echo "EXIT=$code"
+          echo '--- STDERR ---'
+          cat /tmp/yt.err
+          echo '--- JSON SIZE ---'
+          wc -c /tmp/profile.json || true
+          if [ -s /tmp/profile.json ]; then
+            python3 - <<'PY'
+          import json, datetime
+          data=json.load(open('/tmp/profile.json'))
+          entries=data.get('entries') or []
+          print('ENTRIES',len(entries))
+          targets=[
+            ('Nike', datetime.datetime(2026,1,7,16,15,4,tzinfo=datetime.timezone.utc)),
+            ('BOSS', datetime.datetime(2025,10,4,14,38,20,tzinfo=datetime.timezone.utc)),
+            ('Moschino', datetime.datetime(2025,6,23,15,16,0,tzinfo=datetime.timezone.utc)),
+            ('Superdry1', datetime.datetime(2024,9,16,14,42,4,tzinfo=datetime.timezone.utc)),
+            ('Superdry2', datetime.datetime(2024,9,21,15,28,22,tzinfo=datetime.timezone.utc)),
+          ]
+          for e in entries:
+            vid=str(e.get('id') or '')
+            if not vid.isdigit():
+              continue
+            dt=datetime.datetime.fromtimestamp(int(vid)>>32, datetime.timezone.utc)
+            for name,target in targets:
+              if abs((dt-target).total_seconds()) < 86400:
+                print(name, dt.isoformat(), vid, e.get('url'), e.get('title'))
+          PY
           fi
+          exit "$code"
