@@ -1,0 +1,87 @@
+name: Apply high-resolution portfolio replacements
+
+on:
+  push:
+    branches:
+      - portfolio-hq-refresh
+    paths:
+      - .github/workflows/apply-portfolio-hq.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: portfolio-hq-refresh
+
+      - name: Download prepared high-resolution portfolio archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 180 \
+            'https://res.cloudinary.com/i1xhlvd6/raw/upload/v1788540841/archie-portfolio-transfer/portfolio-hq1120q45' \
+            --output /tmp/portfolio-hq.tar
+          mkdir -p /tmp/portfolio-hq
+          tar -xf /tmp/portfolio-hq.tar -C /tmp/portfolio-hq
+          test "$(find /tmp/portfolio-hq -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 16
+          cp /tmp/portfolio-hq/*.webp public/portfolio/archive/
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate replacement assets
+        shell: bash
+        run: |
+          node <<'NODE'
+          const sharp = require('sharp');
+          const fs = require('fs');
+          const path = require('path');
+          const ids = [
+            '18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3',
+            '1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF',
+            '1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy',
+            '1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg',
+            '1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr',
+            '1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz',
+            '1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ',
+            '1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9',
+            '1XxJlFluopAC9ldRXalU_AKnELlxYX_zj',
+            '1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA',
+            '1a4XCo1YrNopaS3h1tXpUEodERRrVqePp',
+            '1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx',
+            '1eBragPkQDz_ZkDM3qtE2VRfusjF2T415',
+            '1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u',
+            '1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl',
+            '1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7',
+          ];
+          (async () => {
+            for (const id of ids) {
+              const file = path.join('public', 'portfolio', 'archive', `${id}.webp`);
+              if (!fs.existsSync(file)) throw new Error(`Missing ${file}`);
+              const meta = await sharp(file).metadata();
+              if (meta.format !== 'webp' || meta.width !== 1120 || meta.height !== 630) {
+                throw new Error(`${id}: expected webp 1120x630, got ${meta.format} ${meta.width}x${meta.height}`);
+              }
+              if (fs.statSync(file).size < 40000) throw new Error(`${id}: unexpectedly small replacement`);
+              console.log(`${id}: ${meta.width}x${meta.height}, ${fs.statSync(file).size} bytes`);
+            }
+          })().catch((error) => { console.error(error); process.exit(1); });
+          NODE
+
+      - name: Build
+        run: npm run build
+
+      - name: Commit validated replacements
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/portfolio/archive/*.webp
+          git diff --cached --quiet && { echo 'No asset changes detected'; exit 1; }
+          git commit -m 'Replace final portfolio images with high-resolution originals'
+          git push origin HEAD:portfolio-hq-refresh
