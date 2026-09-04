@@ -16,43 +16,33 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Resolve Drive confirmation and fetch original
+      - name: Capture Drive response
         shell: bash
         run: |
           set -euo pipefail
           ID='18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3'
           UA='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/152 Safari/537.36'
-          curl -L --fail --retry 2 -A "$UA" -c /tmp/cookies.txt \
+          curl -L --fail --retry 2 -A "$UA" -c drive-cookies.txt \
             "https://drive.usercontent.google.com/download?id=${ID}&export=download&confirm=t" \
-            -o /tmp/first.bin
-          echo "First response: $(file -b /tmp/first.bin), $(wc -c < /tmp/first.bin) bytes"
-          if file /tmp/first.bin | grep -q 'JPEG image'; then
-            mv /tmp/first.bin /tmp/original.jpg
-          else
-            python3 - <<'PY'
-          import html, re, urllib.parse
-          text=open('/tmp/first.bin','r',encoding='utf-8',errors='ignore').read()
-          form=re.search(r'<form[^>]*id=["\']download-form["\'][^>]*action=["\']([^"\']+)["\'][^>]*>(.*?)</form>',text,re.I|re.S)
-          if not form:
-              print('download-form not found; useful markers:')
-              for marker in ['download-form','uuid','confirm','drive.usercontent.google.com/download','virus scan']:
-                  print(marker, marker.lower() in text.lower())
-              raise SystemExit(2)
-          action=html.unescape(form.group(1))
-          body=form.group(2)
-          params={}
-          for tag in re.findall(r'<input\b[^>]*>',body,re.I):
-              n=re.search(r'name=["\']([^"\']+)["\']',tag,re.I)
-              v=re.search(r'value=["\']([^"\']*)["\']',tag,re.I)
-              if n:
-                  params[html.unescape(n.group(1))]=html.unescape(v.group(1) if v else '')
-          print('action=',action)
-          print('params=',sorted(params.keys()))
-          open('/tmp/final-url.txt','w').write(action+'?'+urllib.parse.urlencode(params))
+            -o drive-response.html
+          echo "Captured: $(file -b drive-response.html), $(wc -c < drive-response.html) bytes"
+          python3 - <<'PY'
+          import re
+          text=open('drive-response.html','r',encoding='utf-8',errors='ignore').read()
+          urls=sorted(set(re.findall(r'https?[^"\'<> ]+',text)))
+          print('URL-like strings containing drive/download/confirm:')
+          for u in urls:
+              if any(k in u.lower() for k in ['drive','download','confirm']):
+                  print(u[:1000])
+          print('confirm contexts:')
+          for m in list(re.finditer('confirm',text,re.I))[:20]:
+              print(text[max(0,m.start()-250):m.start()+500].replace('\n',' ')[:1000])
           PY
-            FINAL_URL=$(cat /tmp/final-url.txt)
-            curl -L --fail --retry 2 -A "$UA" -b /tmp/cookies.txt "$FINAL_URL" -o /tmp/original.jpg
-          fi
-          echo "Final response: $(file -b /tmp/original.jpg), $(wc -c < /tmp/original.jpg) bytes"
-          file /tmp/original.jpg | grep -q 'JPEG image'
-          test $(wc -c < /tmp/original.jpg) -gt 10000000
+      - name: Upload captured response
+        uses: actions/upload-artifact@v4
+        with:
+          name: drive-original-response
+          path: |
+            drive-response.html
+            drive-cookies.txt
+          retention-days: 1
