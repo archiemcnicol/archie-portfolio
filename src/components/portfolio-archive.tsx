@@ -1,21 +1,131 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ArchivePhoto } from "@/lib/portfolio-archive";
 import styles from "./portfolio-archive.module.css";
 
 const PAGE_SIZE = 50;
+const DESKTOP_GAP = 14;
+const MOBILE_GAP = 10;
 
 type PortfolioArchiveProps = {
   photos: ArchivePhoto[];
 };
 
+type IndexedPhoto = {
+  photo: ArchivePhoto;
+  index: number;
+};
+
+type ArchiveRow = {
+  items: IndexedPhoto[];
+  height: number;
+};
+
+function aspectRatio(photo: ArchivePhoto) {
+  return Math.max(0.45, Math.min(2.5, photo.width / photo.height));
+}
+
+function rowHeight(items: IndexedPhoto[], width: number, gap: number) {
+  const availableWidth = Math.max(1, width - gap * Math.max(0, items.length - 1));
+  const totalRatio = items.reduce((sum, item) => sum + aspectRatio(item.photo), 0);
+  return availableWidth / Math.max(totalRatio, 0.01);
+}
+
+function buildJustifiedRows(items: IndexedPhoto[], width: number): ArchiveRow[] {
+  if (!items.length) return [];
+
+  const gap = width <= 600 ? MOBILE_GAP : DESKTOP_GAP;
+
+  // On phones, one photograph per full-width row keeps the reading order
+  // completely predictable while still eliminating empty space.
+  if (width <= 600) {
+    return items.map((item) => ({
+      items: [item],
+      height: width / aspectRatio(item.photo),
+    }));
+  }
+
+  const targetHeight = width >= 1200 ? 250 : width >= 900 ? 235 : 220;
+  const rows: IndexedPhoto[][] = [];
+  let current: IndexedPhoto[] = [];
+
+  for (const item of items) {
+    current.push(item);
+
+    if (current.length >= 2 && rowHeight(current, width, gap) <= targetHeight) {
+      rows.push(current);
+      current = [];
+    }
+  }
+
+  if (current.length) rows.push(current);
+
+  // A fixed 50-image batch can otherwise finish with one or two items.
+  // Pull items from the previous row until the final row reaches a sensible
+  // height while preserving the original left-to-right source order.
+  if (rows.length > 1) {
+    let lastIndex = rows.length - 1;
+    let last = rows[lastIndex];
+    let previous = rows[lastIndex - 1];
+
+    while (
+      rowHeight(last, width, gap) > targetHeight * 1.35 &&
+      previous.length > 2
+    ) {
+      const moved = previous.pop();
+      if (!moved) break;
+      last.unshift(moved);
+    }
+
+    if (rowHeight(last, width, gap) > targetHeight * 1.65) {
+      rows.splice(lastIndex - 1, 2, [...previous, ...last]);
+      lastIndex = rows.length - 1;
+      last = rows[lastIndex];
+      previous = rows[lastIndex - 1] ?? [];
+    }
+  }
+
+  return rows.map((row) => ({
+    items: row,
+    height: rowHeight(row, width, gap),
+  }));
+}
+
 export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [galleryWidth, setGalleryWidth] = useState(1200);
+  const galleryRef = useRef<HTMLDivElement>(null);
   const visiblePhotos = photos.slice(0, visibleCount);
   const activePhoto = activeIndex === null ? null : photos[activeIndex];
+
+  const indexedVisiblePhotos = useMemo(
+    () => visiblePhotos.map((photo, index) => ({ photo, index })),
+    [visiblePhotos],
+  );
+
+  const rows = useMemo(
+    () => buildJustifiedRows(indexedVisiblePhotos, galleryWidth),
+    [galleryWidth, indexedVisiblePhotos],
+  );
+
+  useEffect(() => {
+    const gallery = galleryRef.current;
+    if (!gallery) return;
+
+    const updateWidth = () => {
+      const nextWidth = Math.round(gallery.getBoundingClientRect().width);
+      if (nextWidth > 0) setGalleryWidth(nextWidth);
+    };
+
+    updateWidth();
+    const observer = new ResizeObserver(updateWidth);
+    observer.observe(gallery);
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -46,25 +156,39 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
 
   return (
     <>
-      <div className={styles.archiveGrid}>
-        {visiblePhotos.map((photo, index) => (
-          <figure className={`${styles.archiveCard} archive-card`} key={photo.id}>
-            <button
-              aria-label={`Open photograph ${index + 1}: ${photo.originalName}`}
-              className="archive-card-button"
-              onClick={() => setActiveIndex(index)}
-              type="button"
-            >
-              <Image
-                alt={`Portfolio photograph ${index + 1}`}
-                height={photo.height}
-                loading="lazy"
-                sizes="(max-width: 640px) 100vw, (max-width: 980px) 50vw, 33vw"
-                src={photo.src}
-                width={photo.width}
-              />
-            </button>
-          </figure>
+      <div className={styles.archiveGrid} ref={galleryRef}>
+        {rows.map((row, rowIndex) => (
+          <div
+            className={styles.archiveRow}
+            key={`${row.items[0]?.photo.id ?? rowIndex}-${rowIndex}`}
+            style={{ height: `${Math.max(90, row.height)}px` }}
+          >
+            {row.items.map(({ photo, index }) => (
+              <figure
+                className={`${styles.archiveCard} archive-card`}
+                key={photo.id}
+                style={{ flexGrow: aspectRatio(photo), flexBasis: 0 }}
+              >
+                <button
+                  aria-label={`Open photograph ${index + 1}: ${photo.originalName}`}
+                  className={`${styles.archiveCardButton} archive-card-button`}
+                  onClick={() => setActiveIndex(index)}
+                  type="button"
+                >
+                  <Image
+                    alt={`Portfolio photograph ${index + 1}`}
+                    className={styles.archiveCardImage}
+                    height={photo.height}
+                    loading="lazy"
+                    sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
+                    src={photo.src}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    width={photo.width}
+                  />
+                </button>
+              </figure>
+            ))}
+          </div>
         ))}
       </div>
 
