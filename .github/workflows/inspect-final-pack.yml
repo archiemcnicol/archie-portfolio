@@ -13,12 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Reconstruct and inspect staged chunks
+        with:
+          fetch-depth: 0
+      - name: Reconstruct and inspect historical chunks
         shell: bash
         run: |
           set -euxo pipefail
-          ls -lh .final16 || true
-          cat .final16/chunk-* > /tmp/final16.b64
+          SRC=2ecd2815efe5d5cae1b883ef250437b19e579872
+          for n in 000 001 002; do
+            git show "$SRC:.final16/chunk-$n" >> /tmp/final16.b64
+          done
           wc -c /tmp/final16.b64
           base64 -d /tmp/final16.b64 > /tmp/final16.tar
           ls -lh /tmp/final16.tar
