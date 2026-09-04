@@ -1,0 +1,108 @@
+name: Import HQ portfolio binaries
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-hq-portfolio:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download exact HQ archive from Drive
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'gdown==5.2.0'
+          gdown 'https://drive.google.com/uc?id=1qrq6_bkfvVaUUSp2b5YkK_DFQd7iqrBH' -O /tmp/portfolio-hq-16.zip
+          echo 'ea07af8e4e0ae9ee6cb57c7417844140d16e099c3350c40a8e00fcc769faff3e  /tmp/portfolio-hq-16.zip' | sha256sum -c -
+
+      - name: Verify and install all 16 binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/portfolio-hq-16
+          mkdir -p /tmp/portfolio-hq-16
+          unzip -q /tmp/portfolio-hq-16.zip -d /tmp/portfolio-hq-16
+
+          cat > /tmp/portfolio-hq-manifest.txt <<'EOF'
+          6a8fedebf083e541334620de9c45acec56ad4eac6a0de613fecac4239eec3b7a  18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3.webp
+          11b4c17e089abc7e1900cf95d54a0d56e58c97ff6102dffa2d5702bbe6a8dd80  1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF.webp
+          3d88d7df09cfb10ae481f4db8572535fb7403f3e668d252156a9f22d0ef03a35  1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy.webp
+          bd233fa2888fc3ad2004eb19ecaaf2ade0ba5ee3576e15e881e0d5c1be5b5ec8  1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg.webp
+          d48024feefe64d685d9c5d8b356a37a33f7e7e0d5c2d9d1c35fa0842a2482aef  1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr.webp
+          4c1d8775b21bdf0229b49832a9da19439bc4e9c7438117a1e9bea3c87d01f8e0  1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz.webp
+          1e5e742f0e0b376375431be53dfe641b7c52137003aac021777d32e7bc7ee89c  1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ.webp
+          b0ab37665b6ff48a29008b4ac15e7fbd3cbbe7e3494f8b6071de6389f9572e3a  1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9.webp
+          d90fbeba2984da99f5499149f893813aa66cc99a8bd4aca0c0a6273143d06abb  1XxJlFluopAC9ldRXalU_AKnELlxYX_zj.webp
+          386f95bcc2690781b41e9eaf58f90145fa45675d031dafbd2676b1ab29964154  1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA.webp
+          f033c472a38d82cc30eb30749bada080543414f03b8fcc11a13c5ef3ba90a83b  1a4XCo1YrNopaS3h1tXpUEodERRrVqePp.webp
+          3b13d9b529bb27bd18f397914e751f3c3de0f09956ebf64f8c49f9cea9e47fbd  1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx.webp
+          cdb51714c64cfdf08cbe17caf8685fecb846502b7292a54cf952ccd556020452  1eBragPkQDz_ZkDM3qtE2VRfusjF2T415.webp
+          7c814ff6289dc05274d540f086309696cdeeff4c33aaa6d91384197b6b749d56  1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u.webp
+          2d0325a2da3d8296c1be77a4e3b52fc7b0debb86e57292e3f3e2c3777b90aabf  1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl.webp
+          8cfc0569f1ac344bba7e2b11e2a09444489b59438ea65417fc42c12584e83d6e  1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7.webp
+          EOF
+          sed -i 's/^          //' /tmp/portfolio-hq-manifest.txt
+
+          test "$(find /tmp/portfolio-hq-16 -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 16
+          (cd /tmp/portfolio-hq-16 && sha256sum -c /tmp/portfolio-hq-manifest.txt)
+
+          while read -r _ file; do
+            cp "/tmp/portfolio-hq-16/$file" "public/portfolio/archive/$file"
+          done < /tmp/portfolio-hq-manifest.txt
+
+      - name: Commit exact binaries to main
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/import-hq-portfolio.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/portfolio/archive .github/workflows/import-hq-portfolio.yml
+          git diff --cached --stat
+          git diff --cached --quiet && { echo 'No binary changes detected'; exit 1; }
+          git commit -m 'Replace final 16 portfolio WebPs with verified HQ binaries'
+          git push origin HEAD:main
+
+      - name: Purge and verify jsDelivr delivery
+        shell: bash
+        run: |
+          set -euo pipefail
+          while read -r expected file; do
+            curl -fsS "https://purge.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/$file" >/dev/null || true
+          done < /tmp/portfolio-hq-manifest.txt
+
+          for attempt in $(seq 1 12); do
+            ok=1
+            while read -r expected file; do
+              curl -fsSL "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/$file" -o "/tmp/cdn-$file" || { ok=0; break; }
+              actual="$(sha256sum "/tmp/cdn-$file" | awk '{print $1}')"
+              if [ "$actual" != "$expected" ]; then
+                ok=0
+                break
+              fi
+            done < /tmp/portfolio-hq-manifest.txt
+
+            if [ "$ok" -eq 1 ]; then
+              echo 'All 16 jsDelivr assets match the verified HQ binaries.'
+              exit 0
+            fi
+            echo "CDN not fully refreshed yet (attempt $attempt/12); retrying..."
+            sleep 10
+          done
+
+          echo 'jsDelivr did not converge to all 16 verified hashes in time.' >&2
+          exit 1
