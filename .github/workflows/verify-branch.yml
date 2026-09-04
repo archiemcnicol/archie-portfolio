@@ -73,10 +73,12 @@ jobs:
             if (fs.statSync(p).size <= 1000) fail(`Final portfolio asset is suspiciously small: ${p}`);
           }
 
-          const archiveCount = [...archive.matchAll(/originalName:/g)].length;
-          const exclusions = 3;
+          const archiveCount = [...archive.matchAll(/"originalName"\s*:/g)].length;
+          if (archiveCount !== 603) fail(`Expected 603 archive records, found ${archiveCount}`);
+          const displayedCount = archiveCount + finalPaths.length - 3;
+          if (displayedCount !== 616) fail(`Expected 616 displayed photographs, found ${displayedCount}`);
           console.log(`Archive records: ${archiveCount}`);
           console.log(`Final direct records: ${finalPaths.length}`);
-          console.log(`Expected displayed photographs after exclusions: ${archiveCount + finalPaths.length - exclusions}`);
+          console.log(`Displayed photographs after exclusions: ${displayedCount}`);
           console.log(`Verified ${coverPaths.length} unique permanent Brand Work covers.`);
           NODE
