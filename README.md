@@ -1,43 +1,42 @@
-# Archie Portfolio System — v0.1
+# Archie McNicol Portfolio
 
-A modular portfolio shell built with Next.js App Router and prepared for Supabase-backed content and permissioned access.
+This repository is the stage-one production baseline for Archie McNicol's portfolio website.
 
-## Current routes
-- `/` public / universal homepage
-- `/creator`
-- `/photography`
-- `/business`
-- `/affiliate`
-- `/professional`
-- `/about`
-- `/contact`
+## Public routes
 
-## Architecture direction
-- Next.js on Vercel
-- Supabase for project/content records, analytics, authentication, RLS and private media
-- GitHub for version control
-- Role/access layer will be added after the public content architecture is visually approved
+- `/` — homepage
+- `/creator` — creator and brand work
+- `/photography` — image-only scrolling photography archive
+- `/business` — commercial work
+- `/affiliate` — affiliate performance
+- `/professional` — professional experience
+- `/about` — about
+- `/contact` — contact
+
+## Photography
+
+The photography route is intentionally gallery-only: no site navigation, hero, archive heading, filenames or footer are shown on the page. Photographs can be opened in a fullscreen viewer with previous/next navigation.
+
+The current public gallery contains 617 photographs. Standard gallery derivatives live under `public/portfolio/archive` and are described by `src/lib/portfolio-archive.ts`. The final packed delivery set uses `public/portfolio/archive/final-16-avif.pack` with records in `src/lib/portfolio-final.ts`.
+
+Full-resolution originals remain private in the source Google Drive archive and are not served by the public website. A purchase/download layer can therefore be added later without changing the public gallery foundation.
+
+## Stack
+
+- Next.js App Router
+- React
+- Vercel
+- GitHub
+- Supabase preparation for data, authentication and private functionality
 
 ## Local setup
+
 1. `npm install`
-2. Copy `.env.example` to `.env.local` and add the Supabase project URL + publishable key.
+2. Copy `.env.example` to `.env.local` and add the required Supabase values when using Supabase-backed features.
 3. `npm run dev`
 
 Do not commit `.env.local`.
 
-## Private audit helper
+## Verification
 
-The partnership audit keeps evidence separate from public copy. To create a
-local TikTok manifest for cross-referencing Gmail/DM evidence, run:
-
-```bash
-node scripts/build-tiktok-audit.mjs /path/to/user_data_tiktok.json
-```
-
-The generated `analysis/` directory is ignored and must not be deployed or
-committed. Public TikTok URLs are only added after they are independently
-verified; raw export CDN links are never presented as public links.
-
-Run `npm run verify:release` before publishing. It checks the public campaign
-metadata, logo/image configuration, TikTok links, Sketch.co attribution and
-the Google Drive archive/public-edit counts.
+Run `npm run verify` before publishing. It builds the site, type-checks the project and verifies the current public campaign and photography baseline.
