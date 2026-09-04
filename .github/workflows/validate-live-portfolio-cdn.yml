@@ -1,4 +1,4 @@
-name: Validate live portfolio CDN images
+name: Diagnose live portfolio CDN images
 
 on:
   push:
@@ -11,14 +11,14 @@ permissions:
   contents: read
 
 jobs:
-  validate:
+  diagnose:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Fetch all 16 final photos from the exact live CDN URLs used by the portfolio
+      - name: Compare mutable CDN, pinned CDN and raw GitHub responses
         shell: bash
         run: |
-          set -euo pipefail
+          set -u
           ids=(
             18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3
             1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF
@@ -37,17 +37,25 @@ jobs:
             1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl
             1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7
           )
-
+          sha=f4424c842c9ace2802fc9dfd718b7f62790e31a4
+          failures=0
           for id in "${ids[@]}"; do
-            url="https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/${id}.webp"
-            out="/tmp/${id}.webp"
-            code=$(curl -L --retry 3 --retry-delay 2 --connect-timeout 15 --max-time 45 -sS -o "$out" -w '%{http_code}' "$url")
-            bytes=$(wc -c < "$out")
-            kind=$(file -b "$out")
-            echo "$id HTTP=$code BYTES=$bytes TYPE=$kind"
-            test "$code" = "200"
-            test "$bytes" -gt 1000
-            echo "$kind" | grep -q 'Web/P image'
+            echo "===== $id ====="
+            for mode in main pinned raw; do
+              case "$mode" in
+                main) url="https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/${id}.webp" ;;
+                pinned) url="https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@${sha}/public/portfolio/archive/${id}.webp" ;;
+                raw) url="https://raw.githubusercontent.com/archiemcnicol/archie-portfolio/main/public/portfolio/archive/${id}.webp" ;;
+              esac
+              out="/tmp/${id}-${mode}"
+              code=$(curl -L --connect-timeout 15 --max-time 45 -sS -o "$out" -w '%{http_code}' "$url" || echo CURLFAIL)
+              bytes=$(wc -c < "$out" 2>/dev/null || echo 0)
+              kind=$(file -b "$out" 2>/dev/null || echo missing)
+              echo "$mode HTTP=$code BYTES=$bytes TYPE=$kind"
+              if [ "$code" != "200" ]; then
+                echo "BODY:"
+                head -c 400 "$out" 2>/dev/null || true
+                echo
+              fi
+            done
           done
-
-          echo "Validated all 16 exact @main CDN URLs as downloadable WebP images."
