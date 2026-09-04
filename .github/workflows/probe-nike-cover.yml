@@ -1,0 +1,111 @@
+name: Probe Nike TikTok cover
+
+on:
+  push:
+    branches:
+      - brand-work-final
+    paths:
+      - .github/workflows/probe-nike-cover.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install browser tooling
+        run: |
+          npm install --no-save playwright sharp
+          npx playwright install --with-deps chromium
+
+      - name: Probe Nike post
+        shell: bash
+        run: |
+          mkdir -p nike-probe
+          cat > .probe-nike.mjs <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { chromium } from 'playwright';
+          import sharp from 'sharp';
+
+          const shortUrl = 'https://vm.tiktok.com/ZNRrSuv3S/';
+          const browser = await chromium.launch({ headless: true, args: ['--disable-blink-features=AutomationControlled', '--no-sandbox'] });
+          const context = await browser.newContext({
+            viewport: { width: 430, height: 932 },
+            locale: 'en-GB',
+            timezoneId: 'Europe/London',
+            userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1',
+          });
+          const page = await context.newPage();
+          const responses = [];
+          page.on('response', response => {
+            const u = response.url();
+            if (u.includes('tiktok.com')) responses.push({ status: response.status(), url: u });
+          });
+
+          await page.goto(shortUrl, { waitUntil: 'domcontentloaded', timeout: 65000 });
+          await page.waitForTimeout(9000);
+          for (const label of ['Accept all','Accept All','Allow all','Agree','Accept']) {
+            try {
+              const b = page.getByRole('button', { name: label, exact: false }).first();
+              if (await b.isVisible({ timeout: 500 })) { await b.click(); await page.waitForTimeout(1500); break; }
+            } catch {}
+          }
+          await page.waitForTimeout(2500);
+
+          const info = await page.evaluate(() => ({
+            url: location.href,
+            title: document.title,
+            ogTitle: document.querySelector('meta[property="og:title"]')?.getAttribute('content') || '',
+            ogDescription: document.querySelector('meta[property="og:description"]')?.getAttribute('content') || '',
+            ogImage: document.querySelector('meta[property="og:image"]')?.getAttribute('content') || '',
+            twitterImage: document.querySelector('meta[name="twitter:image"]')?.getAttribute('content') || '',
+            poster: document.querySelector('video')?.getAttribute('poster') || '',
+            body: (document.body?.innerText || '').slice(0, 12000),
+            images: Array.from(document.querySelectorAll('img')).map(img => ({
+              src: img.currentSrc || img.src,
+              width: img.getBoundingClientRect().width,
+              height: img.getBoundingClientRect().height,
+              alt: img.alt || ''
+            })).filter(x => x.src && x.width >= 150 && x.height >= 200).slice(0, 30),
+          }));
+          fs.writeFileSync('nike-probe/info.json', JSON.stringify({ ...info, responses: responses.slice(-100) }, null, 2));
+          await page.screenshot({ path: 'nike-probe/page.png', fullPage: false });
+
+          const candidates = [info.ogImage, info.twitterImage, info.poster, ...info.images.map(x => x.src)].filter(Boolean);
+          let i = 0;
+          for (const url of [...new Set(candidates)]) {
+            try {
+              const r = await page.request.get(url, { headers: { referer: page.url(), accept: 'image/avif,image/webp,image/*,*/*;q=0.8' }, timeout: 30000 });
+              if (!r.ok()) continue;
+              const body = await r.body();
+              const meta = await sharp(body).metadata();
+              if (!meta.width || !meta.height || meta.width < 200 || meta.height < 200) continue;
+              await sharp(body).webp({ quality: 92 }).toFile(path.join('nike-probe', `candidate-${String(i++).padStart(2,'0')}.webp`));
+              if (i >= 12) break;
+            } catch {}
+          }
+
+          try {
+            const oembed = await page.request.get(`https://www.tiktok.com/oembed?url=${encodeURIComponent(info.url)}`, { timeout: 30000 });
+            fs.writeFileSync('nike-probe/oembed.txt', `${oembed.status()}\n${await oembed.text()}`);
+          } catch (e) {
+            fs.writeFileSync('nike-probe/oembed.txt', String(e));
+          }
+
+          console.log(JSON.stringify({ url: info.url, title: info.title, ogTitle: info.ogTitle, ogDescription: info.ogDescription, candidateCount: i }, null, 2));
+          await browser.close();
+          JS
+          node .probe-nike.mjs
+          rm .probe-nike.mjs
+
+      - name: Upload Nike probe
+        uses: actions/upload-artifact@v4
+        with:
+          name: nike-cover-probe
+          path: nike-probe/
+          retention-days: 1
