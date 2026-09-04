@@ -1,6 +1,5 @@
 import { PortfolioArchive } from "@/components/portfolio-archive";
 import { PORTFOLIO_ARCHIVE_PHOTOS } from "@/lib/portfolio-archive";
-import { PORTFOLIO_FINAL_PHOTOS } from "@/lib/portfolio-final";
 
 export const metadata = {
   title: "Photography — Archie McNicol",
@@ -15,7 +14,6 @@ const EXCLUDED_PHOTO_NAMES = new Set([
 
 const PHOTOS = [
   ...PORTFOLIO_ARCHIVE_PHOTOS,
-  ...PORTFOLIO_FINAL_PHOTOS,
 ].filter((photo) => !EXCLUDED_PHOTO_NAMES.has(photo.originalName));
 
 export default function PhotographyPage() {
