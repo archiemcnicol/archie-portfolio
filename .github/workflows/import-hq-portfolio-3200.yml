@@ -1,0 +1,208 @@
+name: Import 3200px HQ portfolio binaries
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/hq-3200-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  import-hq-portfolio-3200:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download and verify final 3200px archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check 'gdown==5.2.0' 'Pillow==11.3.0'
+          gdown 'https://drive.google.com/uc?id=1nF4GRDXNl6v9jr1wXey3SZ-gd8UfRoas' -O /tmp/portfolio-hq-16-3200.zip
+          echo '00dd751539c8cace4c06589f9746a04e046129b27fb3a90b6153286dc723cb89  /tmp/portfolio-hq-16-3200.zip' | sha256sum -c -
+
+      - name: Verify all 16 binaries and dimensions
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/portfolio-hq-16-3200
+          mkdir -p /tmp/portfolio-hq-16-3200
+          unzip -q /tmp/portfolio-hq-16-3200.zip -d /tmp/portfolio-hq-16-3200
+
+          cat > /tmp/portfolio-hq-3200-manifest.txt <<'EOF'
+          82bc15ac2108d0f8324a2c3f066b88e696f7de1c648035ef6e25abe8addbfe3e  18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3.webp
+          39493c4633f2d91df95e486d8bbacc788891645dccb794027c02fac27528ac90  1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF.webp
+          cb50695f85fbbc273dbdaf129291c38b9570e966423d7b1459484c041797fe5d  1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy.webp
+          341ef3d757b83139c7b367fe41aad7ac7b7c3362b6b4a06769447b915af85f29  1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg.webp
+          dd7bfcac147c273e920034ac26b1f8027bc2a0f66960e716fcbcbfca0f39ee28  1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr.webp
+          e2b0d035423a3be6d3e527eaec7a7841d778723eec9ae7f4cb1e87c4f9de7711  1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz.webp
+          4b159e53b801eafa761571300063a3e12c46d81042cba605ab107567fb5b60ad  1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ.webp
+          c273bbe5e06f0aba6b587931975728b91ee80865a3c88cca404c59ab4829c714  1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9.webp
+          7147abee5c3f8ac0712bbe3a761157f1c3cd504765e66e33a29e0369fed5a8a7  1XxJlFluopAC9ldRXalU_AKnELlxYX_zj.webp
+          189c8562874f9c9dba7af2cb07295a68716a6d7b46ac826fecbbdc07bafc077b  1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA.webp
+          4efafdddb717c21731a9827447f92b54f941eed68df6e078d845e4aa181afee9  1a4XCo1YrNopaS3h1tXpUEodERRrVqePp.webp
+          e1294e0707f8346713034a7e797ff45f1b681d5f527df97f94753cb61f48073a  1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx.webp
+          56d6fa11eb47272f6a34b0b774c329f628d52e7a0c1e39ba5319061e0b92b20c  1eBragPkQDz_ZkDM3qtE2VRfusjF2T415.webp
+          38d9f0b75b0d29caa0af6d828ab3c954e09fe1464d13f5ce2e5d9f0de74d3f9f  1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u.webp
+          de244aa73ab16d2f5abe042557f9daf804d6778309962c50f793eb1f5b6c8983  1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl.webp
+          0d3c74e589a60391b18f4d372b4bdbab6f6584062867143ab3730b097af52e15  1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7.webp
+          EOF
+          sed -i 's/^          //' /tmp/portfolio-hq-3200-manifest.txt
+
+          test "$(find /tmp/portfolio-hq-16-3200 -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 16
+          test "$(find /tmp/portfolio-hq-16-3200 -mindepth 1 -maxdepth 1 -type f | wc -l)" -eq 16
+          (cd /tmp/portfolio-hq-16-3200 && sha256sum -c /tmp/portfolio-hq-3200-manifest.txt)
+
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          folder = Path('/tmp/portfolio-hq-16-3200')
+          files = sorted(folder.glob('*.webp'))
+          if len(files) != 16:
+              raise SystemExit(f'Expected 16 WebPs, found {len(files)}')
+          for path in files:
+              with Image.open(path) as image:
+                  if image.format != 'WEBP':
+                      raise SystemExit(f'{path.name}: expected WEBP, got {image.format}')
+                  if image.size != (3200, 1800):
+                      raise SystemExit(f'{path.name}: expected 3200x1800, got {image.size}')
+                  image.verify()
+              print(f'{path.name}: WEBP 3200x1800 OK')
+          PY
+
+      - name: Install exact binaries and update matching metadata only
+        shell: bash
+        run: |
+          set -euo pipefail
+          while read -r _ file; do
+            cp "/tmp/portfolio-hq-16-3200/$file" "public/portfolio/archive/$file"
+          done < /tmp/portfolio-hq-3200-manifest.txt
+
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          ids = [
+              '18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3',
+              '1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF',
+              '1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy',
+              '1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg',
+              '1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr',
+              '1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz',
+              '1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ',
+              '1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9',
+              '1XxJlFluopAC9ldRXalU_AKnELlxYX_zj',
+              '1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA',
+              '1a4XCo1YrNopaS3h1tXpUEodERRrVqePp',
+              '1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx',
+              '1eBragPkQDz_ZkDM3qtE2VRfusjF2T415',
+              '1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u',
+              '1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl',
+              '1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7',
+          ]
+          path = Path('src/lib/portfolio-archive.ts')
+          text = path.read_text()
+          original = text
+
+          for photo_id in ids:
+              pattern = re.compile(
+                  r'(\{\s*"id":\s*"' + re.escape(photo_id) + r'".*?"width":\s*)1120(,\s*"height":\s*)630(,\s*"originalName":)',
+                  re.S,
+              )
+              text, count = pattern.subn(r'\g<1>3200\g<2>1800\g<3>', text, count=1)
+              if count != 1:
+                  raise SystemExit(f'Expected exactly one 1120x630 metadata block for {photo_id}; found {count}')
+
+          if text == original:
+              raise SystemExit('Metadata did not change')
+          path.write_text(text)
+          print('Updated exactly 16 portfolio metadata entries from 1120x630 to 3200x1800.')
+          PY
+
+      - name: Commit only the controlled replacement set
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/import-hq-portfolio-3200.yml .github/hq-3200-trigger
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+          while read -r _ file; do
+            git add "public/portfolio/archive/$file"
+          done < /tmp/portfolio-hq-3200-manifest.txt
+          git add src/lib/portfolio-archive.ts .github/workflows/import-hq-portfolio-3200.yml .github/hq-3200-trigger
+
+          cat > /tmp/expected-paths.txt <<'EOF'
+          .github/hq-3200-trigger
+          .github/workflows/import-hq-portfolio-3200.yml
+          public/portfolio/archive/18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3.webp
+          public/portfolio/archive/1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF.webp
+          public/portfolio/archive/1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy.webp
+          public/portfolio/archive/1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg.webp
+          public/portfolio/archive/1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr.webp
+          public/portfolio/archive/1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz.webp
+          public/portfolio/archive/1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ.webp
+          public/portfolio/archive/1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9.webp
+          public/portfolio/archive/1XxJlFluopAC9ldRXalU_AKnELlxYX_zj.webp
+          public/portfolio/archive/1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA.webp
+          public/portfolio/archive/1a4XCo1YrNopaS3h1tXpUEodERRrVqePp.webp
+          public/portfolio/archive/1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx.webp
+          public/portfolio/archive/1eBragPkQDz_ZkDM3qtE2VRfusjF2T415.webp
+          public/portfolio/archive/1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u.webp
+          public/portfolio/archive/1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl.webp
+          public/portfolio/archive/1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7.webp
+          src/lib/portfolio-archive.ts
+          EOF
+          sed -i 's/^          //' /tmp/expected-paths.txt
+          sort -o /tmp/expected-paths.txt /tmp/expected-paths.txt
+          git diff --cached --name-only | sort > /tmp/actual-paths.txt
+          diff -u /tmp/expected-paths.txt /tmp/actual-paths.txt
+
+          git diff --cached --stat
+          git diff --cached --quiet && { echo 'No changes detected'; exit 1; }
+          git commit -m 'Replace final 16 portfolio WebPs with 3200px master derivatives'
+          git push origin HEAD:main
+
+      - name: Purge and verify exact jsDelivr production bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          while read -r expected file; do
+            curl -fsS "https://purge.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/$file" >/dev/null || true
+          done < /tmp/portfolio-hq-3200-manifest.txt
+
+          for attempt in $(seq 1 18); do
+            ok=1
+            while read -r expected file; do
+              curl -fsSL "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/$file" -o "/tmp/cdn-$file" || { ok=0; break; }
+              actual="$(sha256sum "/tmp/cdn-$file" | awk '{print $1}')"
+              if [ "$actual" != "$expected" ]; then
+                echo "$file: expected $expected, got $actual"
+                ok=0
+                break
+              fi
+            done < /tmp/portfolio-hq-3200-manifest.txt
+
+            if [ "$ok" -eq 1 ]; then
+              echo 'All 16 jsDelivr assets match the verified 3200x1800 master derivatives.'
+              exit 0
+            fi
+            echo "CDN not fully refreshed yet (attempt $attempt/18); retrying..."
+            sleep 10
+          done
+
+          echo 'jsDelivr did not converge to all 16 verified 3200px hashes in time.' >&2
+          exit 1
