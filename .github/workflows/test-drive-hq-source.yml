@@ -14,23 +14,18 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Test anonymous high-resolution Drive image endpoints
+      - name: Inspect anonymous Drive response
         shell: bash
         run: |
           set -u
           id='18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3'
-          urls=(
-            "https://drive.google.com/thumbnail?id=${id}&sz=w2000"
-            "https://lh3.googleusercontent.com/d/${id}=w2000"
-            "https://drive.usercontent.google.com/download?id=${id}&export=download&confirm=t"
-            "https://drive.google.com/uc?export=download&id=${id}"
-          )
-          i=0
-          for url in "${urls[@]}"; do
-            i=$((i+1))
-            out="/tmp/test-${i}"
-            code=$(curl -L --connect-timeout 15 --max-time 45 -sS -o "$out" -w '%{http_code}' "$url" || true)
-            bytes=$(wc -c < "$out" 2>/dev/null || echo 0)
-            kind=$(file -b "$out" 2>/dev/null || echo missing)
-            echo "candidate=${i} HTTP=${code} BYTES=${bytes} TYPE=${kind}"
-          done
+          url="https://drive.google.com/thumbnail?id=${id}&sz=w2000"
+          out=/tmp/test.html
+          code=$(curl -L --connect-timeout 15 --max-time 45 -sS -o "$out" -w '%{http_code}' "$url" || true)
+          echo "HTTP=${code} BYTES=$(wc -c < "$out") TYPE=$(file -b "$out")"
+          echo 'TITLE:'
+          grep -o -m1 '<title[^>]*>[^<]*</title>' "$out" || true
+          echo 'SIGN-IN MARKERS:'
+          grep -Eio -m5 'sign in|accounts.google.com|request access|you need access|access denied|download anyway|virus scan' "$out" || true
+          echo 'GOOGLEUSERCONTENT URLS:'
+          grep -Eo 'https:[^" ]+(googleusercontent|usercontent)[^" ]+' "$out" | head -n 5 || true
