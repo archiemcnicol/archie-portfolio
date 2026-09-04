@@ -204,6 +204,39 @@
   color: #fff;
 }
 
+.partnershipGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(255, 255, 255, .22);
+  border-left: 1px solid rgba(255, 255, 255, .22);
+}
+
+.partnershipCard {
+  min-height: 150px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 26px;
+  border-right: 1px solid rgba(255, 255, 255, .22);
+  border-bottom: 1px solid rgba(255, 255, 255, .22);
+}
+
+.partnershipCard strong {
+  font-size: clamp(23px, 2.7vw, 38px);
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.partnershipCard span {
+  max-width: 360px;
+  color: #999;
+  font-size: 11px;
+  line-height: 1.45;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
 @media (max-width: 900px) {
   .campaign {
     grid-template-columns: 38px minmax(0, 1fr);
@@ -279,5 +312,14 @@
 
   .analytics {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .partnershipGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .partnershipCard {
+    min-height: 130px;
+    padding: 20px;
   }
 }
