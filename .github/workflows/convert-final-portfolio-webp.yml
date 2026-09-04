@@ -1,0 +1,71 @@
+name: Convert final portfolio images to archive WebP
+
+on:
+  push:
+    branches:
+      - portfolio-final-webp-fix
+    paths:
+      - .github/workflows/convert-final-portfolio-webp.yml
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Convert the 16 final AVIFs to the same WebP format as the working archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v ffmpeg
+          command -v ffprobe
+          mkdir -p public/portfolio/archive
+
+          ids=(
+            18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3
+            1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF
+            1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy
+            1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg
+            1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr
+            1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz
+            1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ
+            1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9
+            1XxJlFluopAC9ldRXalU_AKnELlxYX_zj
+            1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA
+            1a4XCo1YrNopaS3h1tXpUEodERRrVqePp
+            1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx
+            1eBragPkQDz_ZkDM3qtE2VRfusjF2T415
+            1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u
+            1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl
+            1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7
+          )
+
+          for id in "${ids[@]}"; do
+            src="public/portfolio/archive/final/${id}.avif"
+            out="public/portfolio/archive/${id}.webp"
+            echo "--- ${id} ---"
+            test -s "$src"
+            ffprobe -v error -show_entries stream=codec_name,width,height -of default=nw=1 "$src"
+            ffmpeg -y -v error -i "$src" -frames:v 1 -c:v libwebp -quality 88 "$out"
+            test -s "$out"
+            ffprobe -v error -show_entries stream=codec_name,width,height -of default=nw=1 "$out"
+            file "$out"
+          done
+
+          test "$(find public/portfolio/archive -maxdepth 1 -type f -name '*.webp' | grep -E '/(18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3|1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF|1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy|1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg|1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr|1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz|1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ|1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9|1XxJlFluopAC9ldRXalU_AKnELlxYX_zj|1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA|1a4XCo1YrNopaS3h1tXpUEodERRrVqePp|1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx|1eBragPkQDz_ZkDM3qtE2VRfusjF2T415|1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u|1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl|1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7)\.webp$' | wc -l)" -eq 16
+
+      - name: Commit converted WebP files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/portfolio/archive/*.webp
+          git commit -m 'Convert final portfolio photos to archive WebP format'
+          git push origin HEAD:portfolio-final-webp-fix
