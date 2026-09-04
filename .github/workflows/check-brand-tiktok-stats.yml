@@ -1,0 +1,33 @@
+name: Verify brand-work TikTok stats
+
+on:
+  push:
+    paths:
+      - '.github/workflows/check-brand-tiktok-stats.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch live TikTok stats from TikWM
+        shell: bash
+        run: |
+          set -euo pipefail
+          urls=(
+            "nike|https://vm.tiktok.com/ZNRrSuv3S/"
+            "boss|https://vm.tiktok.com/ZNd7Wft36/"
+            "moschino|https://vm.tiktok.com/ZNdUsJTCT/"
+            "superdry-one|https://vm.tiktok.com/ZGeEcsen9/"
+            "superdry-two|https://vm.tiktok.com/ZGeoh1to7/"
+          )
+
+          for entry in "${urls[@]}"; do
+            name="${entry%%|*}"
+            url="${entry#*|}"
+            echo "===== ${name} ====="
+            payload="$(curl --retry 3 --retry-delay 2 -fsSLG 'https://www.tikwm.com/api/' --data-urlencode "url=${url}" --data-urlencode 'hd=1')"
+            echo "$payload" | jq -c '{code,msg,data:(if .data then {id:.data.id,title:.data.title,author:.data.author.unique_id,play_count:.data.play_count,digg_count:.data.digg_count,comment_count:.data.comment_count,share_count:.data.share_count,create_time:.data.create_time} else null end)}'
+          done
