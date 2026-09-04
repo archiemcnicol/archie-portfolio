@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SiteNav } from "@/components/site-nav";
+import { SiteFrame } from "@/components/site-frame";
 
 export const metadata: Metadata = {
   title: "Archie McNicol — Creative Portfolio",
@@ -11,16 +11,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
-        <div className="shell">
-          <SiteNav />
-          {children}
-          <footer className="footer">
-            <div className="wrap footer-inner">
-              <span>Archie McNicol — creator / photography / digital</span>
-              <span>Selected work and collaborations</span>
-            </div>
-          </footer>
-        </div>
+        <SiteFrame>{children}</SiteFrame>
       </body>
     </html>
   );
