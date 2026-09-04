@@ -96,8 +96,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 250px;
-  height: 72px;
+  width: 285px;
+  height: 76px;
   margin: 30px 0 18px;
   overflow: visible;
 }
@@ -110,9 +110,8 @@
   object-position: left center;
 }
 
-/* The source SVGs use very different viewBoxes. These small corrections make
-   their visible marks occupy the same visual footprint rather than merely
-   assigning the same outer image dimensions. */
+/* The source SVGs use very different viewBoxes. These corrections normalise
+   the visible wordmarks rather than the invisible SVG canvas around them. */
 .logoWrap[data-brand="nike"] .logo {
   width: 190px;
   height: 58px;
@@ -124,14 +123,14 @@
 }
 
 .logoWrap[data-brand="moschino-toy"] .logo {
-  width: 225px;
-  height: 54px;
+  width: 248px;
+  height: 60px;
 }
 
 .logoWrap[data-brand="superdry-2024"] .logo {
-  width: 250px;
-  height: 62px;
-  transform: scale(1.08);
+  width: 265px;
+  height: 66px;
+  transform: scale(1.16);
   transform-origin: left center;
 }
 
@@ -152,7 +151,7 @@
 
 .analytics {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
@@ -160,11 +159,6 @@
 .analytics > div {
   min-height: 74px;
   padding: 12px 12px 12px 0;
-}
-
-.analytics > div + div {
-  padding-left: 12px;
-  border-left: 1px solid var(--line);
 }
 
 .analytics span {
@@ -203,6 +197,39 @@
 .secondaryLinks a:hover {
   background: #111;
   color: #fff;
+}
+
+.partnershipGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid rgba(255, 255, 255, .22);
+  border-left: 1px solid rgba(255, 255, 255, .22);
+}
+
+.partnershipCard {
+  min-height: 150px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 26px;
+  border-right: 1px solid rgba(255, 255, 255, .22);
+  border-bottom: 1px solid rgba(255, 255, 255, .22);
+}
+
+.partnershipCard strong {
+  font-size: clamp(23px, 2.7vw, 38px);
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.partnershipCard span {
+  max-width: 360px;
+  color: #999;
+  font-size: 11px;
+  line-height: 1.45;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 900px) {
@@ -248,8 +275,8 @@
   }
 
   .logoWrap {
-    width: 220px;
-    height: 66px;
+    width: 245px;
+    height: 70px;
     margin-top: 24px;
   }
 
@@ -262,18 +289,28 @@
     height: 52px;
   }
 
-  .logoWrap[data-brand="boss-bottled-beyond"] .logo,
-  .logoWrap[data-brand="moschino-toy"] .logo {
+  .logoWrap[data-brand="boss-bottled-beyond"] .logo {
     width: 205px;
     height: 50px;
   }
 
-  .logoWrap[data-brand="superdry-2024"] .logo {
-    width: 220px;
-    height: 56px;
+  .logoWrap[data-brand="moschino-toy"] .logo {
+    width: 225px;
+    height: 55px;
   }
 
-  .analytics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .logoWrap[data-brand="superdry-2024"] .logo {
+    width: 235px;
+    height: 60px;
+    transform: scale(1.12);
+  }
+
+  .partnershipGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .partnershipCard {
+    min-height: 130px;
+    padding: 20px;
   }
 }

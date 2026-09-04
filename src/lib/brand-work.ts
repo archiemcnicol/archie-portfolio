@@ -1,3 +1,10 @@
+export type PublicCampaignLink = {
+  label: string;
+  href: string;
+  platform: "TikTok" | "Instagram";
+  coverSrc?: string;
+};
+
 export type PublicCampaign = {
   id: string;
   brand: string;
@@ -8,12 +15,15 @@ export type PublicCampaign = {
   logoSrc: string;
   logoAlt: string;
   tone: "ink" | "acid" | "stone" | "blue";
-  links: { label: string; href: string; platform: "TikTok" | "Instagram" }[];
+  links: PublicCampaignLink[];
   analytics: {
-    views: string;
     likes: string;
-    status: string;
   };
+};
+
+export type PartnershipExperience = {
+  brand: string;
+  detail: string;
 };
 
 export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
@@ -29,9 +39,14 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     logoAlt: "Nike Swoosh logo",
     tone: "ink",
     links: [
-      { label: "Watch on TikTok", href: "https://vm.tiktok.com/ZNRrSuv3S/", platform: "TikTok" },
+      {
+        label: "Watch on TikTok",
+        href: "https://vm.tiktok.com/ZNRrSuv3S/",
+        platform: "TikTok",
+        coverSrc: "/brand-work/nike-2026-01-07.webp",
+      },
     ],
-    analytics: { views: "To be added", likes: "134 (export)", status: "Snapshot from 22 Jul 2026 export" },
+    analytics: { likes: "134" },
   },
   {
     id: "boss-bottled-beyond",
@@ -45,9 +60,14 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     logoAlt: "BOSS wordmark",
     tone: "stone",
     links: [
-      { label: "Watch on TikTok", href: "https://vm.tiktok.com/ZNd7Wft36/", platform: "TikTok" },
+      {
+        label: "Watch on TikTok",
+        href: "https://vm.tiktok.com/ZNd7Wft36/",
+        platform: "TikTok",
+        coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp",
+      },
     ],
-    analytics: { views: "To be added", likes: "88 (export)", status: "Snapshot from 22 Jul 2026 export" },
+    analytics: { likes: "88" },
   },
   {
     id: "moschino-toy",
@@ -61,14 +81,19 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     logoAlt: "Moschino wordmark",
     tone: "blue",
     links: [
-      { label: "Watch on TikTok", href: "https://vm.tiktok.com/ZNdUsJTCT/", platform: "TikTok" },
+      {
+        label: "Watch on TikTok",
+        href: "https://vm.tiktok.com/ZNdUsJTCT/",
+        platform: "TikTok",
+        coverSrc: "/brand-work/moschino-toy-2025-06-23.webp",
+      },
       {
         label: "Watch on Instagram",
         href: "https://www.instagram.com/reel/DLP4vh6s_Kk/?igsh=MWZoY2htZ3A3dTRlNQ==",
         platform: "Instagram",
       },
     ],
-    analytics: { views: "To be added", likes: "93 (export)", status: "Snapshot from 22 Jul 2026 export" },
+    analytics: { likes: "93" },
   },
   {
     id: "superdry-2024",
@@ -82,23 +107,41 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     logoAlt: "Superdry wordmark",
     tone: "acid",
     links: [
-      { label: "Watch post one", href: "https://vm.tiktok.com/ZGeEcsen9/", platform: "TikTok" },
-      { label: "Watch post two", href: "https://vm.tiktok.com/ZGeoh1to7/", platform: "TikTok" },
+      {
+        label: "Watch post one",
+        href: "https://vm.tiktok.com/ZGeEcsen9/",
+        platform: "TikTok",
+        coverSrc: "/brand-work/superdry-2024-09-16.webp",
+      },
+      {
+        label: "Watch post two",
+        href: "https://vm.tiktok.com/ZGeoh1to7/",
+        platform: "TikTok",
+        coverSrc: "/brand-work/superdry-2024-09-21.webp",
+      },
     ],
-    analytics: { views: "To be added", likes: "2,954 + 660 (export)", status: "Two-post snapshot from 22 Jul 2026 export" },
+    analytics: { likes: "660 + 2,954" },
   },
 ];
 
-export const PARTNERSHIP_ROSTER = [
-  "Nike",
-  "BOSS",
-  "Moschino",
-  "Superdry",
-  "Jean Paul Gaultier",
-  "Lyle & Scott",
-  "Sketch.co — All Points East / Tyler, The Creator",
-  "Tilt / Redpill",
-  "Firmoo",
-  "NOTION MGMT",
-  "KORA Works",
+export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
+  { brand: "Nike", detail: "Fashion product integration" },
+  { brand: "BOSS", detail: "Bottled Beyond fragrance" },
+  { brand: "Moschino", detail: "Toy fragrance campaign" },
+  { brand: "Superdry", detail: "Fashion and styling campaigns" },
+  { brand: "Jean Paul Gaultier", detail: "Le Male fragrance gifting" },
+  { brand: "Lyle & Scott", detail: "Fashion creator collaboration" },
+  { brand: "Sketch.co / All Points East", detail: "Tyler, The Creator event promotion" },
+  { brand: "Tilt / Redpill", detail: "Go Full Tilt creator campaign" },
+  { brand: "Firmoo", detail: "Eyewear creator work" },
+  {
+    brand: "NOTION MGMT",
+    detail: "KiLLOWEN — Pick Your Poison · KiLLOWEN — ALL 2 U",
+  },
+  { brand: "KORA Works", detail: "Omar+ — Frozen" },
+  { brand: "Snoop", detail: "Budgeting app partnership" },
+  { brand: "In Print We Trust", detail: "TikTok Shop creator programme" },
+  { brand: "Domno Vintage", detail: "Vintage and jewellery partnership" },
+  { brand: "The Supermade", detail: "Streetwear partnership" },
+  { brand: "Whatnot", detail: "Men's Fashion & Sneakers Creator Programme" },
 ];
