@@ -88,7 +88,7 @@ export default function CreatorPage() {
                       <span>{campaign.format}</span>
                     </div>
 
-                    <div className={styles.logoWrap}>
+                    <div className={styles.logoWrap} data-brand={campaign.id}>
                       <Image
                         className={styles.logo}
                         src={campaign.logoSrc}
@@ -102,10 +102,9 @@ export default function CreatorPage() {
                     <h3>{campaign.campaign}</h3>
                     <p className={styles.summary}>{campaign.summary}</p>
 
-                    <div className={styles.analytics} aria-label={`${campaign.brand} analytics status`}>
+                    <div className={styles.analytics} aria-label={`${campaign.brand} analytics`}>
                       <div><span>Views</span><strong>{campaign.analytics.views}</strong></div>
                       <div><span>Likes / export snapshot</span><strong>{campaign.analytics.likes}</strong></div>
-                      <div><span>Data status</span><strong>{campaign.analytics.status}</strong></div>
                     </div>
 
                     {secondaryLinks.length ? (
