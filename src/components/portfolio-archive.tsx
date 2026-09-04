@@ -231,7 +231,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
                   style={{ flexGrow: aspectRatio(photo), flexBasis: 0 }}
                 >
                   <button
-                    aria-label={`Open photograph ${index + 1}: ${photo.originalName}`}
+                    aria-label={`Open photograph ${index + 1}`}
                     className={`${styles.archiveCardButton} archive-card-button`}
                     onClick={() => setActiveIndex(index)}
                     type="button"
@@ -329,7 +329,6 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
           </button>
           <div className="archive-viewer-meta">
             <span>{String(activeIndex + 1).padStart(3, "0")} / {photos.length}</span>
-            <span>{activePhoto.originalName}</span>
           </div>
         </div>
       ) : null}
