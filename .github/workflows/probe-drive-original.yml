@@ -1,0 +1,30 @@
+name: Probe Drive original
+
+on:
+  push:
+    branches:
+      - fix-photography-hq-source
+    paths:
+      - .github/workflows/probe-drive-original.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Probe original Google Drive image
+        shell: bash
+        run: |
+          set -euxo pipefail
+          ID='18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3'
+          URL="https://drive.usercontent.google.com/download?id=${ID}&export=download&confirm=t"
+          curl -L --fail --retry 2 -A 'Mozilla/5.0' "$URL" -o /tmp/original.bin
+          file /tmp/original.bin
+          wc -c /tmp/original.bin
+          head -c 16 /tmp/original.bin | xxd
+          test $(wc -c < /tmp/original.bin) -gt 1000000
+          file /tmp/original.bin | grep -E 'JPEG|image'
