@@ -17,7 +17,6 @@ export type PublicCampaign = {
   tone: "ink" | "acid" | "stone" | "blue";
   links: PublicCampaignLink[];
   analytics: {
-    views: string;
     likes: string;
   };
 };
@@ -47,7 +46,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         coverSrc: "/brand-work/nike-2026-01-07.webp",
       },
     ],
-    analytics: { views: "To be added", likes: "134" },
+    analytics: { likes: "134" },
   },
   {
     id: "boss-bottled-beyond",
@@ -68,7 +67,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp",
       },
     ],
-    analytics: { views: "To be added", likes: "88" },
+    analytics: { likes: "88" },
   },
   {
     id: "moschino-toy",
@@ -94,7 +93,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         platform: "Instagram",
       },
     ],
-    analytics: { views: "To be added", likes: "93" },
+    analytics: { likes: "93" },
   },
   {
     id: "superdry-2024",
@@ -121,7 +120,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         coverSrc: "/brand-work/superdry-2024-09-21.webp",
       },
     ],
-    analytics: { views: "To be added", likes: "2,954 + 660" },
+    analytics: { likes: "660 + 2,954" },
   },
 ];
 
