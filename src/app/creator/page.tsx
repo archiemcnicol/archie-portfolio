@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { PARTNERSHIP_ROSTER, PUBLIC_CAMPAIGNS } from "@/lib/brand-work";
+import styles from "./brand-work.module.css";
 
 export const metadata = {
   title: "Brand Work — Archie McNicol",
@@ -49,65 +50,77 @@ export default function CreatorPage() {
           </div>
 
           <div className="brand-campaigns">
-            {PUBLIC_CAMPAIGNS.map((campaign, index) => (
-              <article className="brand-campaign" key={campaign.id}>
-                <div className="brand-campaign-number">0{index + 1}</div>
-                <div className="brand-campaign-media" data-tone={campaign.tone}>
-                  <div className="brand-campaign-logo">
-                    <Image
-                      src={campaign.logoSrc}
-                      alt={campaign.logoAlt}
-                      width={420}
-                      height={140}
-                      unoptimized
-                    />
-                  </div>
-                  <div className="brand-campaign-covers">
-                    {campaign.links
-                      .filter((link) => link.platform === "TikTok")
-                      .map((link) => (
+            {PUBLIC_CAMPAIGNS.map((campaign, index) => {
+              const tiktokLinks = campaign.links.filter((link) => link.platform === "TikTok");
+              const secondaryLinks = campaign.links.filter((link) => link.platform !== "TikTok");
+
+              return (
+                <article className={styles.campaign} key={campaign.id}>
+                  <div className={styles.number}>{String(index + 1).padStart(2, "0")}</div>
+
+                  <div className={styles.media}>
+                    <div className={styles.covers}>
+                      {tiktokLinks.map((link) => (
                         <a
-                          className="brand-campaign-cover"
+                          className={styles.cover}
                           href={link.href}
                           key={link.href}
                           rel="noreferrer"
                           target="_blank"
-                          aria-label={`${link.label} — ${campaign.brand}`}
+                          aria-label={`View ${campaign.brand} video on TikTok`}
                         >
                           <Image
                             src={`/api/tiktok-cover?url=${encodeURIComponent(link.href)}`}
                             alt={`${campaign.brand} TikTok video cover`}
                             fill
-                            sizes="(max-width: 600px) 100vw, (max-width: 900px) 40vw, 28vw"
+                            sizes="(max-width: 600px) 72vw, (max-width: 900px) 42vw, 24vw"
+                            unoptimized
                           />
-                          <span>{link.label} ↗</span>
+                          <span className={styles.coverLabel}>View on TikTok ↗</span>
                         </a>
                       ))}
+                    </div>
                   </div>
-                </div>
-                <div className="brand-campaign-copy">
-                  <div className="brand-campaign-meta">
-                    <span>{campaign.period}</span>
-                    <span>{campaign.format}</span>
+
+                  <div className={styles.copy}>
+                    <div className={styles.meta}>
+                      <span>{campaign.period}</span>
+                      <span>{campaign.format}</span>
+                    </div>
+
+                    <div className={styles.logoWrap}>
+                      <Image
+                        className={styles.logo}
+                        src={campaign.logoSrc}
+                        alt={campaign.logoAlt}
+                        width={420}
+                        height={140}
+                        unoptimized
+                      />
+                    </div>
+
+                    <h3>{campaign.campaign}</h3>
+                    <p className={styles.summary}>{campaign.summary}</p>
+
+                    <div className={styles.analytics} aria-label={`${campaign.brand} analytics status`}>
+                      <div><span>Views</span><strong>{campaign.analytics.views}</strong></div>
+                      <div><span>Likes / export snapshot</span><strong>{campaign.analytics.likes}</strong></div>
+                      <div><span>Data status</span><strong>{campaign.analytics.status}</strong></div>
+                    </div>
+
+                    {secondaryLinks.length ? (
+                      <div className={styles.secondaryLinks}>
+                        {secondaryLinks.map((link) => (
+                          <a href={link.href} key={link.href} rel="noreferrer" target="_blank">
+                            {link.label} ↗
+                          </a>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
-                  <h2>{campaign.brand}</h2>
-                  <h3>{campaign.campaign}</h3>
-                  <p>{campaign.summary}</p>
-                  <div className="brand-campaign-analytics" aria-label={`${campaign.brand} analytics status`}>
-                    <div><span>Views</span><strong>{campaign.analytics.views}</strong></div>
-                    <div><span>Likes / export snapshot</span><strong>{campaign.analytics.likes}</strong></div>
-                    <div><span>Data status</span><strong>{campaign.analytics.status}</strong></div>
-                  </div>
-                  <div className="brand-campaign-links">
-                    {campaign.links.map((link) => (
-                      <a href={link.href} key={link.href} rel="noreferrer" target="_blank">
-                        {link.label} ↗
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
