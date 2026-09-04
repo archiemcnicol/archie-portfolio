@@ -10,6 +10,8 @@
   gap: 14px;
   width: 100%;
   align-items: stretch;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 250px;
 }
 
 .archiveCard {
@@ -35,6 +37,20 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.archiveCardPlaceholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #222;
+}
+
+.archiveViewerPackedImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 @media (max-width: 600px) {
