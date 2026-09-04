@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  outputFileTracingIncludes: {
-    "/api/portfolio-final/*": ["./public/portfolio/archive/final-16-avif.pack"],
-  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
@@ -16,7 +13,6 @@ const nextConfig: NextConfig = {
     ],
     localPatterns: [
       { pathname: "/api/tiktok-cover" },
-      { pathname: "/api/portfolio-final/**" },
       { pathname: "/portfolio/web/**" },
     ],
   },
