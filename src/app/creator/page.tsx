@@ -70,7 +70,7 @@ export default function CreatorPage() {
                           aria-label={`View ${campaign.brand} video on TikTok`}
                         >
                           <Image
-                            src={`/api/tiktok-cover?url=${encodeURIComponent(link.href)}`}
+                            src={`/api/tiktok-cover?v=3&url=${encodeURIComponent(link.href)}`}
                             alt={`${campaign.brand} TikTok video cover`}
                             fill
                             sizes="(max-width: 600px) 72vw, (max-width: 900px) 42vw, 24vw"
