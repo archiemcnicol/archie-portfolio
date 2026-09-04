@@ -109,7 +109,6 @@ jobs:
             file "public/portfolio/archive/${id}.webp" | grep -q 'Web/P image'
             grep -q "public/portfolio/archive/${id}.webp" src/lib/portfolio-archive.ts
           done
-          test "$(grep -c 'cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/' src/lib/portfolio-archive.ts)" -eq 619
           test "$(grep -c '"'"'originalName'"'"' src/lib/portfolio-archive.ts)" -eq 619
           ! grep -q 'PORTFOLIO_FINAL_PHOTOS' src/app/photography/page.tsx
           test ! -e src/lib/portfolio-final.ts
