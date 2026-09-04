@@ -132,9 +132,9 @@ export default function CreatorPage() {
               Selected experience across fashion, fragrance, music, platforms and live events.
             </p>
           </div>
-          <div className="brand-roster" aria-label="Selected partnership experience">
+          <div className={styles.partnershipGrid} aria-label="Selected partnership experience">
             {PARTNERSHIP_ROSTER.map((partnership) => (
-              <article className="brand-roster-card" key={partnership.brand}>
+              <article className={styles.partnershipCard} key={partnership.brand}>
                 <strong>{partnership.brand}</strong>
                 <span>{partnership.detail}</span>
               </article>
