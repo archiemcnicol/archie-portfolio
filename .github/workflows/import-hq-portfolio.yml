@@ -2,6 +2,9 @@ name: Import HQ portfolio binaries
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/hq-import-trigger'
 
 permissions:
   contents: write
@@ -68,10 +71,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -f .github/workflows/import-hq-portfolio.yml
+          rm -f .github/workflows/import-hq-portfolio.yml .github/hq-import-trigger
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/portfolio/archive .github/workflows/import-hq-portfolio.yml
+          git add public/portfolio/archive .github/workflows/import-hq-portfolio.yml .github/hq-import-trigger
           git diff --cached --stat
           git diff --cached --quiet && { echo 'No binary changes detected'; exit 1; }
           git commit -m 'Replace final 16 portfolio WebPs with verified HQ binaries'
