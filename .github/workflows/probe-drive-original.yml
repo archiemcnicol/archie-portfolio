@@ -16,15 +16,43 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Probe original Google Drive image
+      - name: Resolve Drive confirmation and fetch original
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           ID='18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3'
-          URL="https://drive.usercontent.google.com/download?id=${ID}&export=download&confirm=t"
-          curl -L --fail --retry 2 -A 'Mozilla/5.0' "$URL" -o /tmp/original.bin
-          file /tmp/original.bin
-          wc -c /tmp/original.bin
-          head -c 16 /tmp/original.bin | xxd
-          test $(wc -c < /tmp/original.bin) -gt 1000000
-          file /tmp/original.bin | grep -E 'JPEG|image'
+          UA='Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/152 Safari/537.36'
+          curl -L --fail --retry 2 -A "$UA" -c /tmp/cookies.txt \
+            "https://drive.usercontent.google.com/download?id=${ID}&export=download&confirm=t" \
+            -o /tmp/first.bin
+          echo "First response: $(file -b /tmp/first.bin), $(wc -c < /tmp/first.bin) bytes"
+          if file /tmp/first.bin | grep -q 'JPEG image'; then
+            mv /tmp/first.bin /tmp/original.jpg
+          else
+            python3 - <<'PY'
+          import html, re, urllib.parse
+          text=open('/tmp/first.bin','r',encoding='utf-8',errors='ignore').read()
+          form=re.search(r'<form[^>]*id=["\']download-form["\'][^>]*action=["\']([^"\']+)["\'][^>]*>(.*?)</form>',text,re.I|re.S)
+          if not form:
+              print('download-form not found; useful markers:')
+              for marker in ['download-form','uuid','confirm','drive.usercontent.google.com/download','virus scan']:
+                  print(marker, marker.lower() in text.lower())
+              raise SystemExit(2)
+          action=html.unescape(form.group(1))
+          body=form.group(2)
+          params={}
+          for tag in re.findall(r'<input\b[^>]*>',body,re.I):
+              n=re.search(r'name=["\']([^"\']+)["\']',tag,re.I)
+              v=re.search(r'value=["\']([^"\']*)["\']',tag,re.I)
+              if n:
+                  params[html.unescape(n.group(1))]=html.unescape(v.group(1) if v else '')
+          print('action=',action)
+          print('params=',sorted(params.keys()))
+          open('/tmp/final-url.txt','w').write(action+'?'+urllib.parse.urlencode(params))
+          PY
+            FINAL_URL=$(cat /tmp/final-url.txt)
+            curl -L --fail --retry 2 -A "$UA" -b /tmp/cookies.txt "$FINAL_URL" -o /tmp/original.jpg
+          fi
+          echo "Final response: $(file -b /tmp/original.jpg), $(wc -c < /tmp/original.jpg) bytes"
+          file /tmp/original.jpg | grep -q 'JPEG image'
+          test $(wc -c < /tmp/original.jpg) -gt 10000000
