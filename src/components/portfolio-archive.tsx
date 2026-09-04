@@ -3,8 +3,9 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import type { ArchivePhoto } from "@/lib/portfolio-archive";
+import styles from "./portfolio-archive.module.css";
 
-const PAGE_SIZE = 36;
+const PAGE_SIZE = 50;
 
 type PortfolioArchiveProps = {
   photos: ArchivePhoto[];
@@ -45,9 +46,9 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
 
   return (
     <>
-      <div className="archive-grid">
+      <div className={styles.archiveGrid}>
         {visiblePhotos.map((photo, index) => (
-          <figure className="archive-card" key={photo.id}>
+          <figure className={`${styles.archiveCard} archive-card`} key={photo.id}>
             <button
               aria-label={`Open photograph ${index + 1}: ${photo.originalName}`}
               className="archive-card-button"
