@@ -21,13 +21,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 -m pip install --upgrade yt-dlp
+          python3 -m pip install --upgrade yt-dlp pillow
           mkdir -p public/brand-work /tmp/brand-work
           profile='https://www.tiktok.com/@fitswitharchie'
           yt-dlp --flat-playlist --dump-single-json --playlist-end 600 "$profile" > /tmp/profile.json
 
           python3 - <<'PY'
-          import json, os, subprocess, urllib.request
+          import io, json, os, urllib.request
+          from PIL import Image
 
           targets = {
               '7592653916953644310': 'nike-2026-01-07.webp',
@@ -47,25 +48,17 @@ jobs:
                   raise SystemExit(f'Missing target id {vid}')
               print('\nTARGET', vid, out)
               print('TITLE', e.get('title'))
-              print('ENTRY_KEYS', sorted(e.keys()))
-              print('THUMBNAIL', e.get('thumbnail'))
-              print('THUMBNAILS', e.get('thumbnails'))
 
-              candidates = []
-              if e.get('thumbnail'):
-                  candidates.append(e['thumbnail'])
-              for t in e.get('thumbnails') or []:
-                  if isinstance(t, dict) and t.get('url'):
-                      candidates.append(t['url'])
+              thumbs = [t for t in (e.get('thumbnails') or []) if isinstance(t, dict) and t.get('url')]
+              order = {'originCover': 0, 'dynamicCover': 1, 'cover': 2}
+              thumbs.sort(key=lambda t: order.get(str(t.get('id')), 10))
+              if not thumbs:
+                  raise SystemExit(f'No thumbnails listed for {vid}')
 
-              seen = set()
-              raw = f'/tmp/brand-work/{vid}.img'
               success = False
-              for url in candidates:
-                  if url in seen:
-                      continue
-                  seen.add(url)
-                  print('TRY', url)
+              for t in thumbs:
+                  url = t['url']
+                  print('TRY', t.get('id'), url)
                   req = urllib.request.Request(url, headers={
                       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1',
                       'Referer': 'https://www.tiktok.com/',
@@ -77,15 +70,16 @@ jobs:
                           print('STATUS', r.status, 'BYTES', len(body), 'TYPE', r.headers.get('content-type'))
                       if len(body) < 5000:
                           continue
-                      open(raw, 'wb').write(body)
+                      im = Image.open(io.BytesIO(body)).convert('RGB')
+                      print('SOURCE_SIZE', im.size)
+                      if im.width > 900:
+                          h = round(im.height * 900 / im.width)
+                          im = im.resize((900, h), Image.Resampling.LANCZOS)
                       dest = os.path.join('public', 'brand-work', out)
-                      p = subprocess.run([
-                          'ffmpeg','-hide_banner','-loglevel','error','-y','-i',raw,
-                          '-vf',"scale='min(900,iw)':-2",'-frames:v','1','-c:v','libwebp','-quality','90',dest
-                      ])
-                      if p.returncode == 0 and os.path.getsize(dest) > 5000:
+                      im.save(dest, 'WEBP', quality=90, method=6)
+                      if os.path.getsize(dest) > 5000:
+                          print('SAVED', dest, os.path.getsize(dest), im.size)
                           success = True
-                          print('SAVED', dest, os.path.getsize(dest))
                           break
                   except Exception as ex:
                       print('ERROR', type(ex).__name__, str(ex))
