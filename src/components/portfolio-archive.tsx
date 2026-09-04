@@ -7,26 +7,6 @@ import styles from "./portfolio-archive.module.css";
 
 const DESKTOP_GAP = 14;
 const MOBILE_GAP = 10;
-const FINAL_PACK_URL = "/portfolio/archive/final-16-avif.pack";
-
-const FINAL_PACK_IDS = [
-  "18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3",
-  "1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF",
-  "1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy",
-  "1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg",
-  "1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr",
-  "1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz",
-  "1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ",
-  "1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9",
-  "1XxJlFluopAC9ldRXalU_AKnELlxYX_zj",
-  "1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA",
-  "1a4XCo1YrNopaS3h1tXpUEodERRrVqePp",
-  "1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx",
-  "1eBragPkQDz_ZkDM3qtE2VRfusjF2T415",
-  "1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u",
-  "1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl",
-  "1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7",
-] as const;
 
 type PortfolioArchiveProps = {
   photos: ArchivePhoto[];
@@ -104,40 +84,9 @@ function buildJustifiedRows(items: IndexedPhoto[], width: number): ArchiveRow[] 
   }));
 }
 
-function findPackedAvifStarts(pack: ArrayBuffer) {
-  const bytes = new Uint8Array(pack);
-  const starts: number[] = [];
-
-  for (let offset = 0; offset <= bytes.length - 12; offset += 1) {
-    const hasFtyp =
-      bytes[offset + 4] === 0x66 &&
-      bytes[offset + 5] === 0x74 &&
-      bytes[offset + 6] === 0x79 &&
-      bytes[offset + 7] === 0x70;
-
-    if (!hasFtyp) continue;
-
-    const hasAvifBrand =
-      bytes[offset + 8] === 0x61 &&
-      bytes[offset + 9] === 0x76 &&
-      bytes[offset + 10] === 0x69 &&
-      (bytes[offset + 11] === 0x66 || bytes[offset + 11] === 0x73);
-
-    if (!hasAvifBrand) continue;
-
-    const boxSize = new DataView(pack, offset, 4).getUint32(0, false);
-    if (boxSize < 12 || offset + boxSize > bytes.length) continue;
-
-    starts.push(offset);
-  }
-
-  return starts;
-}
-
 export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [galleryWidth, setGalleryWidth] = useState(1200);
-  const [packedImageUrls, setPackedImageUrls] = useState<Record<string, string>>({});
   const galleryRef = useRef<HTMLDivElement>(null);
   const activePhoto = activeIndex === null ? null : photos[activeIndex];
 
@@ -150,53 +99,6 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
     () => buildJustifiedRows(indexedPhotos, galleryWidth),
     [galleryWidth, indexedPhotos],
   );
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const createdUrls: string[] = [];
-
-    async function loadPackedImages() {
-      try {
-        const response = await fetch(FINAL_PACK_URL, {
-          cache: "force-cache",
-          signal: controller.signal,
-        });
-
-        if (!response.ok) return;
-
-        const pack = await response.arrayBuffer();
-        const starts = findPackedAvifStarts(pack);
-
-        if (starts.length !== FINAL_PACK_IDS.length) return;
-
-        const urls: Record<string, string> = {};
-
-        FINAL_PACK_IDS.forEach((id, index) => {
-          const start = starts[index];
-          const end = starts[index + 1] ?? pack.byteLength;
-          if (end <= start) return;
-
-          const imageBytes = pack.slice(start, end);
-          const url = URL.createObjectURL(new Blob([imageBytes], { type: "image/avif" }));
-          createdUrls.push(url);
-          urls[id] = url;
-        });
-
-        if (!controller.signal.aborted) {
-          setPackedImageUrls(urls);
-        }
-      } catch {
-        // The regular archive remains usable even if the final pack cannot load.
-      }
-    }
-
-    void loadPackedImages();
-
-    return () => {
-      controller.abort();
-      for (const url of createdUrls) URL.revokeObjectURL(url);
-    };
-  }, []);
 
   useEffect(() => {
     const gallery = galleryRef.current;
@@ -241,11 +143,6 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
     };
   }, [activeIndex, photos.length]);
 
-  const activePackedSrc =
-    activePhoto?.src === FINAL_PACK_URL
-      ? packedImageUrls[activePhoto.id] ?? null
-      : null;
-
   return (
     <>
       <div className={styles.archiveGrid} ref={galleryRef}>
@@ -255,53 +152,31 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
             key={`${row.items[0]?.photo.id ?? rowIndex}-${rowIndex}`}
             style={{ height: `${Math.max(90, row.height)}px` }}
           >
-            {row.items.map(({ photo, index }) => {
-              const isPacked = photo.src === FINAL_PACK_URL;
-              const packedSrc = isPacked ? packedImageUrls[photo.id] ?? null : null;
-
-              return (
-                <figure
-                  className={`${styles.archiveCard} archive-card`}
-                  key={photo.id}
-                  style={{ flexGrow: aspectRatio(photo), flexBasis: 0 }}
+            {row.items.map(({ photo, index }) => (
+              <figure
+                className={`${styles.archiveCard} archive-card`}
+                key={photo.id}
+                style={{ flexGrow: aspectRatio(photo), flexBasis: 0 }}
+              >
+                <button
+                  aria-label={`Open photograph ${index + 1}`}
+                  className={`${styles.archiveCardButton} archive-card-button`}
+                  onClick={() => setActiveIndex(index)}
+                  type="button"
                 >
-                  <button
-                    aria-label={`Open photograph ${index + 1}`}
-                    className={`${styles.archiveCardButton} archive-card-button`}
-                    onClick={() => setActiveIndex(index)}
-                    type="button"
-                  >
-                    {isPacked ? (
-                      packedSrc ? (
-                        <img
-                          alt={`Portfolio photograph ${index + 1}`}
-                          className={styles.archiveCardImage}
-                          decoding="async"
-                          loading="lazy"
-                          src={packedSrc}
-                        />
-                      ) : (
-                        <span
-                          aria-hidden="true"
-                          className={styles.archiveCardPlaceholder}
-                        />
-                      )
-                    ) : (
-                      <Image
-                        alt={`Portfolio photograph ${index + 1}`}
-                        className={styles.archiveCardImage}
-                        height={photo.height}
-                        loading="lazy"
-                        sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
-                        src={photo.src}
-                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                        width={photo.width}
-                      />
-                    )}
-                  </button>
-                </figure>
-              );
-            })}
+                  <Image
+                    alt={`Portfolio photograph ${index + 1}`}
+                    className={styles.archiveCardImage}
+                    height={photo.height}
+                    loading="lazy"
+                    sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
+                    src={photo.src}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    width={photo.width}
+                  />
+                </button>
+              </figure>
+            ))}
           </div>
         ))}
       </div>
@@ -332,23 +207,13 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
             ←
           </button>
           <div className="archive-viewer-image">
-            {activePhoto.src === FINAL_PACK_URL ? (
-              activePackedSrc ? (
-                <img
-                  alt={`Portfolio photograph ${activeIndex + 1}`}
-                  className={styles.archiveViewerPackedImage}
-                  src={activePackedSrc}
-                />
-              ) : null
-            ) : (
-              <Image
-                alt={`Portfolio photograph ${activeIndex + 1}`}
-                fill
-                priority
-                sizes="100vw"
-                src={activePhoto.src}
-              />
-            )}
+            <Image
+              alt={`Portfolio photograph ${activeIndex + 1}`}
+              fill
+              priority
+              sizes="100vw"
+              src={activePhoto.src}
+            />
           </div>
           <button
             aria-label="Next photograph"
