@@ -49,11 +49,12 @@ jobs:
           archive = archive_path.read_text()
           if any(f'"id": "{photo_id}"' in archive for photo_id, _ in records):
               raise SystemExit("One or more final records are already present in the archive")
-          if not archive.rstrip().endswith("];"):
-              raise SystemExit("Unexpected portfolio archive ending")
 
           entries = []
           for photo_id, original_name in records:
+              webp = Path(f"public/portfolio/archive/{photo_id}.webp")
+              if not webp.exists() or webp.stat().st_size < 1000:
+                  raise SystemExit(f"Missing converted WebP: {webp}")
               entries.append(
                   "  {\n"
                   f'    "id": "{photo_id}",\n'
@@ -64,12 +65,13 @@ jobs:
                   "  }"
               )
 
-          archive = archive.rstrip()
-          archive = archive[:-2].rstrip()
-          if not archive.endswith("}"):
+          trimmed = archive.rstrip()
+          if not trimmed.endswith("];"):
+              raise SystemExit("Unexpected portfolio archive ending")
+          trimmed = trimmed[:-2].rstrip()
+          if not trimmed.endswith("}"):
               raise SystemExit("Unexpected final archive record")
-          archive = archive + ",\n" + ",\n".join(entries) + "\n];\n"
-          archive_path.write_text(archive)
+          archive_path.write_text(trimmed + ",\n" + ",\n".join(entries) + "\n];\n")
 
           page_path = Path("src/app/photography/page.tsx")
           page = page_path.read_text()
@@ -80,38 +82,20 @@ jobs:
           final_path = Path("src/lib/portfolio-final.ts")
           if final_path.exists():
               final_path.unlink()
-          PY
 
-      - name: Verify the 16 WebPs are normal working archive images
-        shell: bash
-        run: |
-          set -euo pipefail
-          ids=(
-            18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3
-            1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF
-            1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy
-            1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg
-            1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr
-            1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz
-            1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ
-            1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9
-            1XxJlFluopAC9ldRXalU_AKnELlxYX_zj
-            1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA
-            1a4XCo1YrNopaS3h1tXpUEodERRrVqePp
-            1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx
-            1eBragPkQDz_ZkDM3qtE2VRfusjF2T415
-            1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u
-            1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl
-            1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7
-          )
-          for id in "${ids[@]}"; do
-            test -s "public/portfolio/archive/${id}.webp"
-            file "public/portfolio/archive/${id}.webp" | grep -q 'Web/P image'
-            grep -q "public/portfolio/archive/${id}.webp" src/lib/portfolio-archive.ts
-          done
-          test "$(grep -c '"'"'originalName'"'"' src/lib/portfolio-archive.ts)" -eq 619
-          ! grep -q 'PORTFOLIO_FINAL_PHOTOS' src/app/photography/page.tsx
-          test ! -e src/lib/portfolio-final.ts
+          updated = archive_path.read_text()
+          for photo_id, _ in records:
+              expected = f"https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/{photo_id}.webp"
+              if updated.count(expected) != 1:
+                  raise SystemExit(f"Archive entry not exactly once: {photo_id}")
+          if updated.count('"originalName"') != 619:
+              raise SystemExit(f"Expected 619 archive records, found {updated.count(chr(34) + 'originalName' + chr(34))}")
+          if "PORTFOLIO_FINAL_PHOTOS" in page_path.read_text():
+              raise SystemExit("Photography page still uses the separate final-photo list")
+          if final_path.exists():
+              raise SystemExit("Separate final-photo data file still exists")
+          print("All 16 final photos now use the exact working archive WebP/CDN structure.")
+          PY
 
       - uses: actions/setup-node@v4
         with:
@@ -124,7 +108,7 @@ jobs:
           npm run build
           npm run typecheck
 
-      - name: Commit the final archive-only implementation and remove this temporary workflow
+      - name: Commit archive-only implementation and remove temporary workflow
         shell: bash
         run: |
           set -euo pipefail
