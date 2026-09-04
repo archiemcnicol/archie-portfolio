@@ -12,7 +12,7 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch live TikTok stats from TikWM
+      - name: Resolve links and fetch live TikTok stats
         shell: bash
         run: |
           set -euo pipefail
@@ -26,8 +26,11 @@ jobs:
 
           for entry in "${urls[@]}"; do
             name="${entry%%|*}"
-            url="${entry#*|}"
+            short="${entry#*|}"
             echo "===== ${name} ====="
-            payload="$(curl --retry 3 --retry-delay 2 -fsSLG 'https://www.tikwm.com/api/' --data-urlencode "url=${url}" --data-urlencode 'hd=1')"
+            canonical="$(curl --retry 3 --retry-delay 2 -LsS -o /dev/null -w '%{url_effective}' -A 'Mozilla/5.0' "$short")"
+            canonical="${canonical%%\?*}"
+            echo "canonical=${canonical}"
+            payload="$(curl --retry 3 --retry-delay 2 -fsSLG 'https://www.tikwm.com/api/' --data-urlencode "url=${canonical}" --data-urlencode 'hd=1')"
             echo "$payload" | jq -c '{code,msg,data:(if .data then {id:.data.id,title:.data.title,author:.data.author.unique_id,play_count:.data.play_count,digg_count:.data.digg_count,comment_count:.data.comment_count,share_count:.data.share_count,create_time:.data.create_time} else null end)}'
           done
