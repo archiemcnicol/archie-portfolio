@@ -28,8 +28,6 @@ const FINAL_PACK_IDS = [
   "1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7",
 ] as const;
 
-const FINAL_PACK_ID_SET = new Set<string>(FINAL_PACK_IDS);
-
 type PortfolioArchiveProps = {
   photos: ArchivePhoto[];
 };
@@ -244,7 +242,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
   }, [activeIndex, photos.length]);
 
   const activePackedSrc =
-    activePhoto && FINAL_PACK_ID_SET.has(activePhoto.id)
+    activePhoto?.src === FINAL_PACK_URL
       ? packedImageUrls[activePhoto.id] ?? null
       : null;
 
@@ -258,7 +256,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
             style={{ height: `${Math.max(90, row.height)}px` }}
           >
             {row.items.map(({ photo, index }) => {
-              const isPacked = FINAL_PACK_ID_SET.has(photo.id);
+              const isPacked = photo.src === FINAL_PACK_URL;
               const packedSrc = isPacked ? packedImageUrls[photo.id] ?? null : null;
 
               return (
@@ -334,7 +332,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
             ←
           </button>
           <div className="archive-viewer-image">
-            {FINAL_PACK_ID_SET.has(activePhoto.id) ? (
+            {activePhoto.src === FINAL_PACK_URL ? (
               activePackedSrc ? (
                 <img
                   alt={`Portfolio photograph ${activeIndex + 1}`}
