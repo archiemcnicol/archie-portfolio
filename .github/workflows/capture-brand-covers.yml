@@ -32,8 +32,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p public/brand-work debug-brand-covers
-          cat > /tmp/capture-brand-covers.mjs <<'JS'
-          import fs from 'node:fs';
+          cat > .capture-brand-covers.mjs <<'JS'
           import path from 'node:path';
           import { chromium } from 'playwright';
           import sharp from 'sharp';
@@ -180,7 +179,8 @@ jobs:
             throw new Error(`Cover capture failed for: ${failures.join(', ')}`);
           }
           JS
-          node /tmp/capture-brand-covers.mjs
+          node .capture-brand-covers.mjs
+          rm -f .capture-brand-covers.mjs
 
       - name: Upload browser debug screenshots
         if: always()
