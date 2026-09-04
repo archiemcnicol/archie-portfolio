@@ -1,0 +1,53 @@
+name: Validate live portfolio CDN images
+
+on:
+  push:
+    branches:
+      - portfolio-final-webp-fix
+    paths:
+      - .github/workflows/validate-live-portfolio-cdn.yml
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Fetch all 16 final photos from the exact live CDN URLs used by the portfolio
+        shell: bash
+        run: |
+          set -euo pipefail
+          ids=(
+            18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3
+            1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF
+            1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy
+            1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg
+            1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr
+            1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz
+            1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ
+            1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9
+            1XxJlFluopAC9ldRXalU_AKnELlxYX_zj
+            1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA
+            1a4XCo1YrNopaS3h1tXpUEodERRrVqePp
+            1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx
+            1eBragPkQDz_ZkDM3qtE2VRfusjF2T415
+            1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u
+            1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl
+            1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7
+          )
+
+          for id in "${ids[@]}"; do
+            url="https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/${id}.webp"
+            out="/tmp/${id}.webp"
+            code=$(curl -L --retry 3 --retry-delay 2 --connect-timeout 15 --max-time 45 -sS -o "$out" -w '%{http_code}' "$url")
+            bytes=$(wc -c < "$out")
+            kind=$(file -b "$out")
+            echo "$id HTTP=$code BYTES=$bytes TYPE=$kind"
+            test "$code" = "200"
+            test "$bytes" -gt 1000
+            echo "$kind" | grep -q 'Web/P image'
+          done
+
+          echo "Validated all 16 exact @main CDN URLs as downloadable WebP images."
