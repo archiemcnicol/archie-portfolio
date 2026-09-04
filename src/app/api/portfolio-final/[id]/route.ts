@@ -1,5 +1,13 @@
-const PACK_URL =
-  "https://raw.githubusercontent.com/archiemcnicol/archie-portfolio/e2e873ece8f902956fabfd481316ddfcbfde4f81/public/portfolio/archive/final-16-avif.pack";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
+const PACK_PATH = join(
+  process.cwd(),
+  "public",
+  "portfolio",
+  "archive",
+  "final-16-avif.pack",
+);
 
 const INDEX: Record<string, { offset: number; length: number }> = {
   "18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3": { offset: 0, length: 10612 },
@@ -22,6 +30,13 @@ const INDEX: Record<string, { offset: number; length: number }> = {
 
 export const runtime = "nodejs";
 
+let packPromise: Promise<Buffer> | null = null;
+
+function getPack() {
+  packPromise ??= readFile(PACK_PATH);
+  return packPromise;
+}
+
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -33,33 +48,23 @@ export async function GET(
     return new Response("Not found", { status: 404 });
   }
 
-  const start = entry.offset;
-  const end = start + entry.length - 1;
-  const upstream = await fetch(PACK_URL, {
-    headers: { Range: `bytes=${start}-${end}` },
-    cache: "force-cache",
-  });
+  try {
+    const pack = await getPack();
+    const image = pack.subarray(entry.offset, entry.offset + entry.length);
 
-  if (!upstream.ok) {
+    if (image.length !== entry.length) {
+      return new Response("Image unavailable", { status: 502 });
+    }
+
+    const payload = Uint8Array.from(image).buffer;
+
+    return new Response(payload, {
+      headers: {
+        "Content-Type": "image/avif",
+        "Cache-Control": "public, max-age=31536000, immutable",
+      },
+    });
+  } catch {
     return new Response("Image unavailable", { status: 502 });
   }
-
-  const full = Buffer.from(await upstream.arrayBuffer());
-  const image =
-    upstream.status === 206
-      ? full
-      : full.subarray(start, start + entry.length);
-
-  if (image.length !== entry.length) {
-    return new Response("Image unavailable", { status: 502 });
-  }
-
-  const payload = Uint8Array.from(image).buffer;
-
-  return new Response(payload, {
-    headers: {
-      "Content-Type": "image/avif",
-      "Cache-Control": "public, max-age=31536000, immutable",
-    },
-  });
 }
