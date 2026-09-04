@@ -15,10 +15,16 @@ export const metadata = {
     "Selected photography and the complete visual archive from Archie McNicol.",
 };
 
+const EXCLUDED_PHOTO_IDS = new Set([
+  "1gGGDUAwHTZJXgWWD9vwtKCNbX--eOmdf", // IMG_2473.jpg
+  "1lYExQ9dVJx03zNlWAiNpQf3bWg3VO4rr", // IMG_2469.jpg
+  "1EZ8i2NtqJ0KjIltmD3NODSoWXswFdjVz", // Screenshot_20200502-010759_Instagram-Enhanced.jpg
+]);
+
 const ARCHIVE_PHOTOS = [
   ...PORTFOLIO_ARCHIVE_PHOTOS,
   ...PORTFOLIO_FINAL_PHOTOS,
-];
+].filter((photo) => !EXCLUDED_PHOTO_IDS.has(photo.id));
 
 export default function PhotographyPage() {
   const availablePhotoCount = ARCHIVE_PHOTOS.length;
@@ -40,7 +46,7 @@ export default function PhotographyPage() {
               <Link className="photo-button photo-button-primary" href="/contact">
                 Discuss a project
               </Link>
-              <span>619 photographs in the source archive</span>
+              <span>{availablePhotoCount} photographs in the archive</span>
             </div>
           </div>
         </div>
