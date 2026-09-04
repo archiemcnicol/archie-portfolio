@@ -70,11 +70,11 @@ export default function CreatorPage() {
                           aria-label={`View ${campaign.brand} video on TikTok`}
                         >
                           <Image
-                            src={`/api/tiktok-cover?v=3&url=${encodeURIComponent(link.href)}`}
+                            src={link.coverSrc!}
                             alt={`${campaign.brand} TikTok video cover`}
                             fill
                             sizes="(max-width: 600px) 72vw, (max-width: 900px) 42vw, 24vw"
-                            unoptimized
+                            priority={index === 0}
                           />
                           <span className={styles.coverLabel}>View on TikTok ↗</span>
                         </a>
@@ -104,7 +104,7 @@ export default function CreatorPage() {
 
                     <div className={styles.analytics} aria-label={`${campaign.brand} analytics`}>
                       <div><span>Views</span><strong>{campaign.analytics.views}</strong></div>
-                      <div><span>Likes / export snapshot</span><strong>{campaign.analytics.likes}</strong></div>
+                      <div><span>Likes</span><strong>{campaign.analytics.likes}</strong></div>
                     </div>
 
                     {secondaryLinks.length ? (
@@ -129,15 +129,15 @@ export default function CreatorPage() {
           <div>
             <div className="section-title">Partnership experience</div>
             <p className="brand-roster-intro">
-              Selected experience across fashion, fragrance, music and live events.
+              Selected experience across fashion, fragrance, music, platforms and live events.
             </p>
           </div>
-          <div className="brand-roster" aria-label="Selected partnership roster">
-            {PARTNERSHIP_ROSTER.map((brand, index) => (
-              <div key={brand}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{brand}</strong>
-              </div>
+          <div className="brand-roster" aria-label="Selected partnership experience">
+            {PARTNERSHIP_ROSTER.map((partnership) => (
+              <article className="brand-roster-card" key={partnership.brand}>
+                <strong>{partnership.brand}</strong>
+                <span>{partnership.detail}</span>
+              </article>
             ))}
           </div>
         </div>
