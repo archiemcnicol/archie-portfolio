@@ -9,7 +9,7 @@ export function SiteFrame({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="shell">
-      {!isPhotography ? <SiteNav /> : null}
+      <SiteNav />
       {children}
       {!isPhotography ? (
         <footer className="footer">
