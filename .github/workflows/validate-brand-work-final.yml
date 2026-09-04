@@ -1,0 +1,110 @@
+name: Validate Brand Work final
+
+on:
+  push:
+    branches:
+      - brand-work-final
+    paths:
+      - .github/workflows/validate-brand-work-final.yml
+      - src/app/creator/**
+      - src/lib/brand-work.ts
+      - public/brand-work/**
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate Brand Work data and permanent covers
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const sharp = require('sharp');
+
+          const covers = [
+            ['nike-2026-01-07.webp', 15000],
+            ['boss-bottled-beyond-2025-10-04.webp', 15000],
+            ['moschino-toy-2025-06-23.webp', 15000],
+            ['superdry-2024-09-16.webp', 15000],
+            ['superdry-2024-09-21.webp', 15000],
+          ];
+
+          const data = fs.readFileSync('src/lib/brand-work.ts', 'utf8');
+          const page = fs.readFileSync('src/app/creator/page.tsx', 'utf8');
+          const css = fs.readFileSync('src/app/creator/brand-work.module.css', 'utf8');
+
+          const required = [
+            'https://vm.tiktok.com/ZNRrSuv3S/',
+            'https://vm.tiktok.com/ZNd7Wft36/',
+            'https://vm.tiktok.com/ZNdUsJTCT/',
+            'https://vm.tiktok.com/ZGeEcsen9/',
+            'https://vm.tiktok.com/ZGeoh1to7/',
+            'analytics: { likes: "134" }',
+            'analytics: { likes: "88" }',
+            'analytics: { likes: "93" }',
+            '660',
+            '2,954',
+            'Jean Paul Gaultier',
+            'Sketch.co / All Points East',
+            'NOTION MGMT',
+            'KiLLOWEN — Pick Your Poison',
+            'KiLLOWEN — ALL 2 U',
+            'KORA Works',
+            'Omar+ — Frozen',
+            'In Print We Trust',
+            'Domno Vintage',
+            'The Supermade',
+            'Whatnot',
+          ];
+          for (const value of required) {
+            if (!data.includes(value)) throw new Error(`Missing expected Brand Work value: ${value}`);
+          }
+          if (/\bviews?\s*:/i.test(data) || /data status/i.test(data) || /\(export\)/i.test(data)) {
+            throw new Error('Legacy Views/Data status/export copy remains in Brand Work data');
+          }
+          if (!page.includes('src={link.coverSrc!}')) throw new Error('Creator page is not using permanent coverSrc assets');
+          if (page.includes('/api/tiktok-cover')) throw new Error('Creator page still references the old TikTok cover API');
+          if (!css.includes('grid-template-columns: repeat(2, minmax(0, 1fr))')) throw new Error('Equal partnership grid styling missing');
+
+          (async () => {
+            const thumbs = [];
+            for (const [name, minBytes] of covers) {
+              const file = path.join('public', 'brand-work', name);
+              if (!fs.existsSync(file)) throw new Error(`Missing ${file}`);
+              const stat = fs.statSync(file);
+              if (stat.size < minBytes) throw new Error(`${name} is unexpectedly small: ${stat.size} bytes`);
+              const meta = await sharp(file).metadata();
+              if (meta.format !== 'webp') throw new Error(`${name}: expected WebP, got ${meta.format}`);
+              if (!meta.width || !meta.height || meta.width < 300 || meta.height < 300) {
+                throw new Error(`${name}: unexpectedly small dimensions ${meta.width}x${meta.height}`);
+              }
+              console.log(`${name}: ${meta.width}x${meta.height}, ${stat.size} bytes`);
+              const thumb = await sharp(file).resize(220, 390, { fit: 'cover' }).toBuffer();
+              thumbs.push(thumb);
+            }
+
+            const canvas = sharp({
+              create: { width: 1100, height: 390, channels: 3, background: '#111111' }
+            });
+            await canvas.composite(thumbs.map((input, i) => ({ input, left: i * 220, top: 0 }))).webp({ quality: 86 }).toFile('brand-work-contact-sheet.webp');
+          })().catch((error) => { console.error(error); process.exit(1); });
+          NODE
+
+      - name: Build
+        run: npm run build
+
+      - name: Upload cover contact sheet
+        uses: actions/upload-artifact@v4
+        with:
+          name: brand-work-contact-sheet
+          path: brand-work-contact-sheet.webp
+          retention-days: 1
