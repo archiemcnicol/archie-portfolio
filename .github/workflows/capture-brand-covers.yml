@@ -11,239 +11,163 @@ permissions:
 jobs:
   recover:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 12
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Install lightweight browser tooling
-        shell: bash
-        run: |
-          mkdir -p /tmp/brand-recovery
-          cd /tmp/brand-recovery
-          npm init -y >/dev/null 2>&1
-          npm install --no-audit --no-fund playwright-core sharp
-          which google-chrome || which google-chrome-stable || true
-
-      - name: Recover post IDs, metrics and covers
+      - name: Recover posts through TikWM feed
         shell: bash
         run: |
           mkdir -p debug-brand-recovery
-          cat > /tmp/brand-recovery/recover.mjs <<'JS'
-          import fs from 'node:fs';
-          import path from 'node:path';
-          import { chromium } from 'playwright-core';
-          import sharp from 'sharp';
+          python3 <<'PY'
+          import datetime as dt
+          import json
+          import os
+          import time
+          import urllib.parse
+          import urllib.request
 
-          const targets = {
-            'nike-2026-01-07': '2026-01-07',
-            'boss-bottled-beyond-2025-10-04': '2025-10-04',
-            'moschino-toy-2025-06-23': '2025-06-23',
-            'superdry-2024-09-16': '2024-09-16',
-            'superdry-2024-09-21': '2024-09-21',
-          };
-          const outDir = path.resolve(process.env.GITHUB_WORKSPACE, 'debug-brand-recovery');
-          const chrome = fs.existsSync('/usr/bin/google-chrome')
-            ? '/usr/bin/google-chrome'
-            : '/usr/bin/google-chrome-stable';
-
-          const browser = await chromium.launch({
-            executablePath: chrome,
-            headless: true,
-            args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-blink-features=AutomationControlled'],
-          });
-          const context = await browser.newContext({
-            viewport: { width: 1440, height: 1200 },
-            locale: 'en-GB',
-            timezoneId: 'Europe/London',
-            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36',
-          });
-          const page = await context.newPage();
-
-          async function dismiss(page) {
-            for (const text of ['Accept all', 'Allow all', 'Not now', 'Maybe later']) {
-              try {
-                const button = page.getByRole('button', { name: text, exact: false }).first();
-                if (await button.isVisible({ timeout: 500 })) await button.click({ timeout: 1000 });
-              } catch {}
-            }
-            for (const selector of ['[data-e2e="modal-close-inner-button"]', 'button[aria-label="Close"]']) {
-              try {
-                const el = page.locator(selector).first();
-                if (await el.isVisible({ timeout: 300 })) await el.click({ timeout: 800 });
-              } catch {}
-            }
+          OUT = 'debug-brand-recovery'
+          TARGETS = {
+              'nike-2026-01-07': '2026-01-07',
+              'boss-bottled-beyond-2025-10-04': '2025-10-04',
+              'moschino-toy-2025-06-23': '2025-06-23',
+              'superdry-2024-09-16': '2024-09-16',
+              'superdry-2024-09-21': '2024-09-21',
           }
+          UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/151 Safari/537.36'
 
-          function dateFromId(id) {
-            try {
-              const seconds = Number(BigInt(id) >> 32n);
-              return new Date(seconds * 1000).toISOString();
-            } catch { return null; }
-          }
+          def get_json(url):
+              req = urllib.request.Request(url, headers={
+                  'User-Agent': UA,
+                  'Accept': 'application/json,text/plain,*/*',
+                  'Referer': 'https://www.tikwm.com/',
+              })
+              with urllib.request.urlopen(req, timeout=40) as r:
+                  raw = r.read()
+              return json.loads(raw)
 
-          function daysBetween(a, b) {
-            return Math.abs(new Date(a).getTime() - new Date(`${b}T12:00:00Z`).getTime()) / 86400000;
-          }
+          def parse_time(value):
+              try:
+                  if isinstance(value, str) and value.isdigit():
+                      value = int(value)
+                  if isinstance(value, (int, float)):
+                      return dt.datetime.fromtimestamp(value, dt.timezone.utc)
+              except Exception:
+                  pass
+              return None
 
-          function findVideoObject(root, id) {
-            const seen = new Set();
-            function walk(value, depth = 0) {
-              if (!value || typeof value !== 'object' || depth > 16 || seen.has(value)) return null;
-              seen.add(value);
-              if (String(value.id ?? value.aweme_id ?? '') === id) {
-                if (value.stats || value.video || value.desc || value.createTime) return value;
-              }
-              if (Array.isArray(value)) {
-                for (const child of value) { const found = walk(child, depth + 1); if (found) return found; }
-              } else {
-                for (const child of Object.values(value)) { const found = walk(child, depth + 1); if (found) return found; }
-              }
-              return null;
-            }
-            return walk(root);
-          }
+          def post_time(post):
+              for key in ('create_time', 'createTime', 'created_at', 'create_time_iso'):
+                  if key in post:
+                      parsed = parse_time(post.get(key))
+                      if parsed:
+                          return parsed
+              try:
+                  vid = str(post.get('video_id') or post.get('id') or post.get('aweme_id') or '')
+                  if vid.isdigit():
+                      seconds = int(vid) >> 32
+                      return dt.datetime.fromtimestamp(seconds, dt.timezone.utc)
+              except Exception:
+                  pass
+              return None
 
-          async function structuredVideo(page, id) {
-            return page.evaluate((videoId) => {
-              const scripts = [
-                document.querySelector('#__UNIVERSAL_DATA_FOR_REHYDRATION__'),
-                document.querySelector('#SIGI_STATE'),
-              ].filter(Boolean);
-              const seen = new Set();
-              function walk(value, depth = 0) {
-                if (!value || typeof value !== 'object' || depth > 16 || seen.has(value)) return null;
-                seen.add(value);
-                if (String(value.id ?? value.aweme_id ?? '') === videoId && (value.stats || value.video || value.desc || value.createTime)) return value;
-                if (Array.isArray(value)) {
-                  for (const child of value) { const found = walk(child, depth + 1); if (found) return found; }
-                } else {
-                  for (const child of Object.values(value)) { const found = walk(child, depth + 1); if (found) return found; }
-                }
-                return null;
-              }
-              for (const script of scripts) {
-                try { const found = walk(JSON.parse(script.textContent || '{}')); if (found) return found; } catch {}
-              }
-              return null;
-            }, id);
-          }
+          def distance_days(when, target):
+              t = dt.datetime.fromisoformat(target).replace(tzinfo=dt.timezone.utc) + dt.timedelta(hours=12)
+              return abs((when - t).total_seconds()) / 86400
 
-          async function saveImage(page, url, output) {
-            if (!url || !/^https?:\/\//.test(url)) return false;
-            try {
-              const response = await page.request.get(url, { headers: { referer: page.url() }, timeout: 20000 });
-              if (!response.ok()) return false;
-              const body = await response.body();
-              const meta = await sharp(body).metadata();
-              if (!meta.width || !meta.height || meta.width < 200 || meta.height < 200) return false;
-              await sharp(body).webp({ quality: 92 }).toFile(output);
-              return true;
-            } catch { return false; }
-          }
+          info_url = 'https://www.tikwm.com/api/user/info?' + urllib.parse.urlencode({'unique_id': 'fitswitharchie'})
+          try:
+              info = get_json(info_url)
+          except Exception as exc:
+              info = {'error': str(exc)}
+          with open(os.path.join(OUT, 'user-info.json'), 'w') as f:
+              json.dump(info, f, indent=2)
+          print('user info:', json.dumps(info)[:1200])
 
-          console.log('Opening TikTok profile…');
-          await page.goto('https://www.tiktok.com/@fitswitharchie', { waitUntil: 'domcontentloaded', timeout: 60000 });
-          await page.waitForTimeout(6000);
-          await dismiss(page);
-          const discovered = new Map();
-          let stableRounds = 0;
-          let previousCount = 0;
+          cursor = '0'
+          seen = {}
+          pages = []
+          for page_no in range(1, 35):
+              url = 'https://www.tikwm.com/api/user/posts?' + urllib.parse.urlencode({
+                  'unique_id': 'fitswitharchie',
+                  'count': '35',
+                  'cursor': cursor,
+              })
+              try:
+                  payload = get_json(url)
+              except Exception as exc:
+                  print(f'page {page_no} failed: {exc}')
+                  break
+              data = payload.get('data') or {}
+              videos = data.get('videos') or data.get('items') or data.get('item_list') or []
+              if not isinstance(videos, list):
+                  videos = []
+              pages.append({'page': page_no, 'cursor': cursor, 'code': payload.get('code'), 'msg': payload.get('msg'), 'count': len(videos)})
+              for post in videos:
+                  if not isinstance(post, dict):
+                      continue
+                  key = str(post.get('video_id') or post.get('id') or post.get('aweme_id') or len(seen))
+                  seen[key] = post
+              new_cursor = str(data.get('cursor') or data.get('max_cursor') or '')
+              has_more = data.get('hasMore')
+              if has_more is None:
+                  has_more = data.get('has_more')
+              print(f'page {page_no}: {len(videos)} videos, total {len(seen)}, cursor {cursor} -> {new_cursor}, more={has_more}')
+              if not videos or not new_cursor or new_cursor == cursor or has_more is False:
+                  break
+              cursor = new_cursor
+              time.sleep(0.8)
 
-          for (let i = 0; i < 180; i++) {
-            const hrefs = await page.locator('a[href*="/video/"]').evaluateAll((els) => els.map((el) => el.href));
-            for (const href of hrefs) {
-              const match = href.match(/\/video\/(\d{15,22})/);
-              if (match) discovered.set(match[1], href.split('?')[0]);
-            }
-            if (discovered.size === previousCount) stableRounds += 1; else stableRounds = 0;
-            previousCount = discovered.size;
-            if (stableRounds >= 14 || discovered.size >= 700) break;
-            await page.evaluate(() => window.scrollBy(0, Math.max(window.innerHeight * 2.4, 2200)));
-            await page.waitForTimeout(500);
-            if (i % 20 === 0) { await dismiss(page); console.log(`scroll ${i}: ${discovered.size} videos`); }
-          }
-
-          console.log(`Discovered ${discovered.size} video links`);
-          await page.screenshot({ path: path.join(outDir, 'profile-final.png'), fullPage: false });
-
-          const posts = [...discovered].map(([id, url]) => ({ id, url, createdAt: dateFromId(id) })).filter((p) => p.createdAt);
-          const result = { profileUrl: page.url(), discoveredCount: posts.length, targets: {} };
-
-          for (const [name, targetDate] of Object.entries(targets)) {
-            const candidates = posts
-              .filter((p) => daysBetween(p.createdAt, targetDate) <= 2.0)
-              .sort((a, b) => daysBetween(a.createdAt, targetDate) - daysBetween(b.createdAt, targetDate));
-            result.targets[name] = { targetDate, candidates: [] };
-            console.log(`\n${name}: ${candidates.length} candidate(s)`);
-
-            for (const candidate of candidates.slice(0, 8)) {
-              const p = await context.newPage();
-              try {
-                await p.goto(candidate.url, { waitUntil: 'domcontentloaded', timeout: 45000 });
-                await p.waitForTimeout(4500);
-                await dismiss(p);
-                const object = await structuredVideo(p, candidate.id);
-                const stats = object?.stats || object?.statsV2 || {};
-                const dom = {};
-                for (const [key, selectors] of Object.entries({
-                  likes: ['[data-e2e="like-count"]', '[data-e2e="browse-like-count"]'],
-                  comments: ['[data-e2e="comment-count"]', '[data-e2e="browse-comment-count"]'],
-                  shares: ['[data-e2e="share-count"]', '[data-e2e="browse-share-count"]'],
-                })) {
-                  for (const selector of selectors) {
-                    try {
-                      const text = (await p.locator(selector).first().textContent({ timeout: 700 }))?.trim();
-                      if (text) { dom[key] = text; break; }
-                    } catch {}
+          posts = list(seen.values())
+          result = {'pages': pages, 'discovered': len(posts), 'targets': {}}
+          for name, target in TARGETS.items():
+              candidates = []
+              for post in posts:
+                  when = post_time(post)
+                  if not when or distance_days(when, target) > 2.0:
+                      continue
+                  stats = post.get('stats') or {}
+                  candidate = {
+                      'id': str(post.get('video_id') or post.get('id') or post.get('aweme_id') or ''),
+                      'create_time': when.isoformat(),
+                      'title': post.get('title') or post.get('desc') or post.get('description'),
+                      'likes': post.get('digg_count') or post.get('diggCount') or post.get('likes') or stats.get('diggCount') or stats.get('digg_count'),
+                      'views': post.get('play_count') or post.get('playCount') or post.get('views') or stats.get('playCount') or stats.get('play_count'),
+                      'comments': post.get('comment_count') or post.get('commentCount') or stats.get('commentCount'),
+                      'shares': post.get('share_count') or post.get('shareCount') or stats.get('shareCount'),
+                      'cover': post.get('origin_cover') or post.get('cover') or post.get('dynamic_cover') or (post.get('video') or {}).get('originCover') or (post.get('video') or {}).get('cover'),
+                      'author': post.get('author'),
+                      'distance_days': round(distance_days(when, target), 3),
                   }
-                }
-                const meta = await p.evaluate(() => ({
-                  ogImage: document.querySelector('meta[property="og:image"]')?.getAttribute('content') || null,
-                  description: document.querySelector('meta[property="og:description"]')?.getAttribute('content') || null,
-                  title: document.title,
-                }));
-                const coverCandidates = [object?.video?.originCover, object?.video?.cover, object?.video?.dynamicCover, meta.ogImage].filter(Boolean);
-                let coverFile = null;
-                for (const imageUrl of coverCandidates) {
-                  const file = path.join(outDir, `${name}-${candidate.id}.webp`);
-                  if (await saveImage(p, imageUrl, file)) { coverFile = path.basename(file); break; }
-                }
-                const entry = {
-                  ...candidate,
-                  resolvedUrl: p.url(),
-                  description: object?.desc || meta.description,
-                  createTime: object?.createTime || null,
-                  stats: {
-                    likes: stats.diggCount ?? stats.digg_count ?? stats.likes ?? null,
-                    views: stats.playCount ?? stats.play_count ?? stats.views ?? null,
-                    comments: stats.commentCount ?? stats.comment_count ?? null,
-                    shares: stats.shareCount ?? stats.share_count ?? null,
-                  },
-                  dom,
-                  coverFile,
-                  title: meta.title,
-                };
-                result.targets[name].candidates.push(entry);
-                console.log(JSON.stringify(entry));
-              } catch (error) {
-                result.targets[name].candidates.push({ ...candidate, error: String(error) });
-              } finally {
-                await p.close();
-              }
-            }
-          }
+                  candidate['_raw'] = post
+                  candidates.append(candidate)
+              candidates.sort(key=lambda c: c['distance_days'])
+              result['targets'][name] = candidates[:12]
+              print('\n' + name + ':')
+              for candidate in candidates[:12]:
+                  preview = {k:v for k,v in candidate.items() if k != '_raw'}
+                  print(json.dumps(preview, ensure_ascii=False)[:1600])
 
-          fs.writeFileSync(path.join(outDir, 'recovery.json'), JSON.stringify(result, null, 2));
-          await browser.close();
-          JS
-          cd /tmp/brand-recovery
-          node recover.mjs
+              for idx, candidate in enumerate(candidates[:12]):
+                  cover = candidate.get('cover')
+                  if not cover or not isinstance(cover, str):
+                      continue
+                  try:
+                      req = urllib.request.Request(cover, headers={'User-Agent': UA, 'Referer': 'https://www.tikwm.com/'})
+                      with urllib.request.urlopen(req, timeout=30) as r:
+                          body = r.read()
+                      if len(body) > 5000:
+                          ext = '.webp' if body[:4] == b'RIFF' else '.jpg'
+                          with open(os.path.join(OUT, f'{name}-{idx}{ext}'), 'wb') as f:
+                              f.write(body)
+                  except Exception as exc:
+                      print('cover download failed:', exc)
+
+          with open(os.path.join(OUT, 'recovery.json'), 'w') as f:
+              json.dump(result, f, indent=2, ensure_ascii=False)
+          PY
 
       - name: Upload recovery evidence
         if: always()
