@@ -79,7 +79,6 @@ function buildJustifiedRows(items: IndexedPhoto[], width: number): ArchiveRow[] 
 
   if (current.length) rows.push(current);
 
-  // Keep the final row full-width too, while preserving source order.
   if (rows.length > 1) {
     const lastIndex = rows.length - 1;
     const last = rows[lastIndex];
@@ -269,10 +268,6 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
             })}
           </div>
         ))}
-      </div>
-
-      <div className="archive-controls">
-        <span>{photos.length} photographs</span>
       </div>
 
       {activePhoto && activeIndex !== null ? (
