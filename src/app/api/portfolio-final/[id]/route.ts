@@ -29,6 +29,13 @@ const INDEX: Record<string, { offset: number; length: number }> = {
 };
 
 export const runtime = "nodejs";
+export const dynamic = "force-static";
+export const dynamicParams = false;
+export const revalidate = false;
+
+export function generateStaticParams() {
+  return Object.keys(INDEX).map((id) => ({ id }));
+}
 
 let packPromise: Promise<Buffer> | null = null;
 
