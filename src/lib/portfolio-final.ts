@@ -2,9 +2,9 @@ import type { ArchivePhoto } from "@/lib/portfolio-archive";
 
 const PACK_SRC = "/portfolio/archive/final-16-avif.pack";
 
-// These records are resolved by ID from the packed AVIF asset in PortfolioArchive.
+// Final photographs are being migrated from the legacy packed asset to ordinary static files.
 export const PORTFOLIO_FINAL_PHOTOS: ArchivePhoto[] = [
-  { id: "18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3", src: PACK_SRC, width: 800, height: 450, originalName: "DJI_20250703103418_0005_D.jpg" },
+  { id: "18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3", src: "/portfolio/archive/final/18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3.avif", width: 800, height: 450, originalName: "DJI_20250703103418_0005_D.jpg" },
   { id: "1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF", src: PACK_SRC, width: 800, height: 450, originalName: "DJI_20250831184910_0049_D.jpg" },
   { id: "1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy", src: PACK_SRC, width: 800, height: 450, originalName: "DJI_20250831185213_0053_D.jpg" },
   { id: "1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg", src: PACK_SRC, width: 800, height: 450, originalName: "DJI_20250831184747_0046_D.jpg" },
