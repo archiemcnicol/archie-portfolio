@@ -1,0 +1,47 @@
+name: Recover Nike cover from TikTok export
+
+on:
+  push:
+    branches:
+      - brand-work-final
+    paths:
+      - .github/workflows/recover-nike-from-export.yml
+
+permissions:
+  contents: read
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install sharp
+        run: npm install --no-save sharp
+
+      - name: Download exact 7 January 2026 export cover
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p nike-export
+          curl --fail --location --retry 3 --connect-timeout 20 --max-time 120 \
+            'https://p16-common-sign.tiktokcdn-eu.com/tos-no1a-p-0037-no/owUGYkCIQEcZg7zFoDpE9DRBXQfBkJzfgAUFqR~tplv-tiktokx-origin.image?dr=10386&x-expires=1785078000&x-signature=HuLwxdwyZZEuFOmXJyCd72qvHGw%3D&t=4d5b0474&ps=13740610&shp=e43adb81&shcp=7996dd0b&idc=useast2b' \
+            -o nike-export/source-image
+          node <<'NODE'
+          const sharp = require('sharp');
+          const fs = require('fs');
+          (async () => {
+            const meta = await sharp('nike-export/source-image').metadata();
+            console.log(`Export cover: ${meta.format} ${meta.width}x${meta.height}, ${fs.statSync('nike-export/source-image').size} bytes`);
+            if (!meta.width || !meta.height || meta.width < 300 || meta.height < 300) throw new Error('Export cover is unexpectedly small');
+            await sharp('nike-export/source-image').webp({ quality: 94 }).toFile('nike-export/nike-2026-01-07-export.webp');
+          })().catch(e => { console.error(e); process.exit(1); });
+          NODE
+
+      - name: Upload recovered cover
+        uses: actions/upload-artifact@v4
+        with:
+          name: nike-export-cover
+          path: nike-export/
+          retention-days: 1
