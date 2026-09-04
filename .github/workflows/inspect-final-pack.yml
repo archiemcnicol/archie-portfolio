@@ -1,0 +1,45 @@
+name: Inspect final portfolio pack
+
+on:
+  push:
+    paths:
+      - .github/workflows/inspect-final-pack.yml
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect pack structure
+        shell: bash
+        run: |
+          set -euxo pipefail
+          PACK=public/portfolio/archive/final-16-avif.pack
+          ls -lh "$PACK"
+          file "$PACK" || true
+          xxd -l 256 "$PACK" || true
+          echo "--- strings ---"
+          strings "$PACK" | head -80 || true
+          echo "--- archive probes ---"
+          unzip -l "$PACK" || true
+          tar tf "$PACK" || true
+          echo "--- AVIF signature scan ---"
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('public/portfolio/archive/final-16-avif.pack')
+          b=p.read_bytes()
+          print('size', len(b))
+          needles=[b'ftypavif', b'ftypavis', b'ftypmif1', b'ftypheic', b'PK\x03\x04']
+          for n in needles:
+              offs=[]; start=0
+              while True:
+                  i=b.find(n,start)
+                  if i<0: break
+                  offs.append(i)
+                  start=i+1
+              print(n, len(offs), offs[:40])
+          print('first64', b[:64].hex())
+          PY
