@@ -12,35 +12,9 @@ const EXCLUDED_PHOTO_NAMES = new Set([
   "Screenshot_20200502-010759_Instagram-Enhanced.jpg",
 ]);
 
-const HIGH_RES_LOCAL_IDS = new Set([
-  "18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3",
-  "1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF",
-  "1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy",
-  "1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg",
-  "1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr",
-  "1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz",
-  "1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ",
-  "1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9",
-  "1XxJlFluopAC9ldRXalU_AKnELlxYX_zj",
-  "1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA",
-  "1a4XCo1YrNopaS3h1tXpUEodERRrVqePp",
-  "1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx",
-  "1eBragPkQDz_ZkDM3qtE2VRfusjF2T415",
-  "1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u",
-  "1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl",
-  "1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7",
-]);
-
-const PHOTOS = PORTFOLIO_ARCHIVE_PHOTOS.map((photo) =>
-  HIGH_RES_LOCAL_IDS.has(photo.id)
-    ? {
-        ...photo,
-        src: `/portfolio/archive/${photo.id}.webp`,
-        width: 1120,
-        height: 630,
-      }
-    : photo,
-).filter((photo) => !EXCLUDED_PHOTO_NAMES.has(photo.originalName));
+const PHOTOS = PORTFOLIO_ARCHIVE_PHOTOS.filter(
+  (photo) => !EXCLUDED_PHOTO_NAMES.has(photo.originalName),
+);
 
 export default function PhotographyPage() {
   return (
