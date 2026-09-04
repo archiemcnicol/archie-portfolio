@@ -13,21 +13,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Trace staged transport commits
+      - name: Test Drive source access
         shell: bash
         run: |
           set -euo pipefail
-          git log --reverse --format='%H|%s' -- .final16 | while IFS='|' read -r c subject; do
-            echo "=== $c :: $subject ==="
-            git diff-tree --no-commit-id --name-status -r "$c" -- .final16 || true
-            for p in $(git diff-tree --no-commit-id --name-only -r "$c" -- .final16 | sort -u); do
-              if git cat-file -e "$c:$p" 2>/dev/null; then
-                size=$(git cat-file -s "$c:$p")
-                echo "FILE $p SIZE $size"
-                printf 'HEAD '
-                git show "$c:$p" | head -c 32 | xxd -p || true
-              fi
-            done
+          ids=(
+            18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3
+            1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF
+            1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy
+            1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg
+            1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr
+            1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz
+            1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ
+            1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9
+            1XxJlFluopAC9ldRXalU_AKnELlxYX_zj
+            1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA
+            1a4XCo1YrNopaS3h1tXpUEodERRrVqePp
+            1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx
+            1eBragPkQDz_ZkDM3qtE2VRfusjF2T415
+            1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u
+            1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl
+            1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7
+          )
+          for id in "${ids[@]}"; do
+            out="/tmp/$id"
+            code=$(curl -L -sS --max-time 30 -w '%{http_code}' -o "$out" "https://drive.usercontent.google.com/download?id=$id&export=download&confirm=t" || true)
+            echo "$id HTTP=$code SIZE=$(wc -c < "$out" 2>/dev/null || echo 0) TYPE=$(file -b "$out" 2>/dev/null || true)"
+            head -c 80 "$out" 2>/dev/null | strings | head -1 || true
           done
