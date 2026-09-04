@@ -1,0 +1,164 @@
+name: Capture brand TikTok covers
+
+on:
+  push:
+    paths:
+      - .github/workflows/capture-brand-covers.yml
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install image support
+        run: python -m pip install --disable-pip-version-check pillow
+
+      - name: Capture and store campaign covers
+        shell: bash
+        run: |
+          python <<'PY'
+          import io
+          import json
+          import os
+          import urllib.parse
+          import urllib.request
+          from PIL import Image
+
+          USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          POSTS = {
+              "nike-2026-01-07": "https://vm.tiktok.com/ZNRrSuv3S/",
+              "boss-bottled-beyond-2025-10-04": "https://vm.tiktok.com/ZNd7Wft36/",
+              "moschino-toy-2025-06-23": "https://vm.tiktok.com/ZNdUsJTCT/",
+              "superdry-2024-09-16": "https://vm.tiktok.com/ZGeEcsen9/",
+              "superdry-2024-09-21": "https://vm.tiktok.com/ZGeoh1to7/",
+          }
+
+          os.makedirs("public/brand-work", exist_ok=True)
+
+          def request(url, *, data=None, referer=None, accept="*/*"):
+              headers = {
+                  "User-Agent": USER_AGENT,
+                  "Accept": accept,
+                  "Accept-Language": "en-GB,en;q=0.9",
+              }
+              if referer:
+                  headers["Referer"] = referer
+              return urllib.request.urlopen(
+                  urllib.request.Request(url, data=data, headers=headers),
+                  timeout=35,
+              )
+
+          def expand_url(url):
+              try:
+                  with request(url) as response:
+                      return response.geturl()
+              except Exception as exc:
+                  print(f"Could not expand {url}: {exc}")
+                  return url
+
+          def tikwm_cover(url):
+              candidates = []
+              for candidate in (url, expand_url(url)):
+                  if candidate not in candidates:
+                      candidates.append(candidate)
+
+              for candidate in candidates:
+                  # TikWM supports both query-string and form-style API requests.
+                  attempts = [
+                      (f"https://www.tikwm.com/api/?url={urllib.parse.quote(candidate, safe='')}&hd=1", None),
+                      (
+                          "https://www.tikwm.com/api/",
+                          urllib.parse.urlencode({"url": candidate, "hd": "1"}).encode("utf-8"),
+                      ),
+                  ]
+                  for endpoint, body in attempts:
+                      try:
+                          with request(
+                              endpoint,
+                              data=body,
+                              referer="https://www.tikwm.com/",
+                              accept="application/json,text/plain,*/*",
+                          ) as response:
+                              payload = json.load(response)
+                          data = payload.get("data") or {}
+                          cover = (
+                              data.get("origin_cover")
+                              or data.get("cover")
+                              or data.get("dynamic_cover")
+                              or data.get("ai_dynamic_cover")
+                          )
+                          if isinstance(cover, str) and cover.startswith("http"):
+                              return cover
+                      except Exception as exc:
+                          print(f"TikWM attempt failed for {candidate}: {exc}")
+              return None
+
+          def oembed_cover(url):
+              for candidate in (expand_url(url), url):
+                  endpoint = "https://www.tiktok.com/oembed?url=" + urllib.parse.quote(candidate, safe="")
+                  try:
+                      with request(endpoint, accept="application/json") as response:
+                          payload = json.load(response)
+                      cover = payload.get("thumbnail_url")
+                      if isinstance(cover, str) and cover.startswith("http"):
+                          return cover
+                  except Exception as exc:
+                      print(f"oEmbed attempt failed for {candidate}: {exc}")
+              return None
+
+          for name, post_url in POSTS.items():
+              cover_url = tikwm_cover(post_url) or oembed_cover(post_url)
+              if not cover_url:
+                  raise RuntimeError(f"No cover URL resolved for {name}: {post_url}")
+
+              print(f"Resolved {name} -> {cover_url[:120]}...")
+              try:
+                  with request(
+                      cover_url,
+                      referer="https://www.tiktok.com/",
+                      accept="image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+                  ) as response:
+                      raw = response.read()
+              except Exception:
+                  # Some TikTok CDN hosts reject a Referer; retry without one.
+                  with request(cover_url, accept="image/avif,image/webp,image/apng,image/*,*/*;q=0.8") as response:
+                      raw = response.read()
+
+              image = Image.open(io.BytesIO(raw))
+              image.load()
+              if image.mode not in ("RGB", "RGBA"):
+                  image = image.convert("RGB")
+              if image.mode == "RGBA":
+                  background = Image.new("RGB", image.size, "white")
+                  background.paste(image, mask=image.getchannel("A"))
+                  image = background
+
+              output = f"public/brand-work/{name}.webp"
+              image.save(output, "WEBP", quality=90, method=6)
+              print(f"Saved {output}: {image.width}x{image.height}")
+          PY
+
+      - name: Commit permanent cover assets
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/brand-work/*.webp
+          if git diff --cached --quiet; then
+            echo "No cover changes to commit."
+          else
+            git commit -m "Store permanent Brand Work TikTok covers"
+            git push
+          fi
