@@ -96,8 +96,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 250px;
-  height: 72px;
+  width: 285px;
+  height: 76px;
   margin: 30px 0 18px;
   overflow: visible;
 }
@@ -110,9 +110,8 @@
   object-position: left center;
 }
 
-/* The source SVGs use very different viewBoxes. These small corrections make
-   their visible marks occupy the same visual footprint rather than merely
-   assigning the same outer image dimensions. */
+/* The source SVGs use very different viewBoxes. These corrections normalise
+   the visible wordmarks rather than the invisible SVG canvas around them. */
 .logoWrap[data-brand="nike"] .logo {
   width: 190px;
   height: 58px;
@@ -124,14 +123,14 @@
 }
 
 .logoWrap[data-brand="moschino-toy"] .logo {
-  width: 225px;
-  height: 54px;
+  width: 248px;
+  height: 60px;
 }
 
 .logoWrap[data-brand="superdry-2024"] .logo {
-  width: 250px;
-  height: 62px;
-  transform: scale(1.08);
+  width: 265px;
+  height: 66px;
+  transform: scale(1.16);
   transform-origin: left center;
 }
 
@@ -248,8 +247,8 @@
   }
 
   .logoWrap {
-    width: 220px;
-    height: 66px;
+    width: 245px;
+    height: 70px;
     margin-top: 24px;
   }
 
@@ -262,15 +261,20 @@
     height: 52px;
   }
 
-  .logoWrap[data-brand="boss-bottled-beyond"] .logo,
-  .logoWrap[data-brand="moschino-toy"] .logo {
+  .logoWrap[data-brand="boss-bottled-beyond"] .logo {
     width: 205px;
     height: 50px;
   }
 
+  .logoWrap[data-brand="moschino-toy"] .logo {
+    width: 225px;
+    height: 55px;
+  }
+
   .logoWrap[data-brand="superdry-2024"] .logo {
-    width: 220px;
-    height: 56px;
+    width: 235px;
+    height: 60px;
+    transform: scale(1.12);
   }
 
   .analytics {
