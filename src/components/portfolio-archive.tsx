@@ -9,24 +9,26 @@ const DESKTOP_GAP = 14;
 const MOBILE_GAP = 10;
 const FINAL_PACK_URL = "/portfolio/archive/final-16-avif.pack";
 
-const FINAL_PACK_INDEX: Record<string, { offset: number; length: number }> = {
-  "18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3": { offset: 0, length: 10612 },
-  "1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF": { offset: 10612, length: 22451 },
-  "1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy": { offset: 33063, length: 25787 },
-  "1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg": { offset: 58850, length: 21527 },
-  "1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr": { offset: 80377, length: 22230 },
-  "1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz": { offset: 102607, length: 29569 },
-  "1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ": { offset: 132176, length: 21739 },
-  "1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9": { offset: 153915, length: 26794 },
-  "1XxJlFluopAC9ldRXalU_AKnELlxYX_zj": { offset: 180709, length: 19835 },
-  "1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA": { offset: 200544, length: 15726 },
-  "1a4XCo1YrNopaS3h1tXpUEodERRrVqePp": { offset: 216270, length: 17842 },
-  "1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx": { offset: 234112, length: 31329 },
-  "1eBragPkQDz_ZkDM3qtE2VRfusjF2T415": { offset: 265441, length: 24461 },
-  "1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u": { offset: 289902, length: 15069 },
-  "1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl": { offset: 304971, length: 20407 },
-  "1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7": { offset: 325378, length: 29295 },
-};
+const FINAL_PACK_IDS = [
+  "18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3",
+  "1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF",
+  "1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy",
+  "1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg",
+  "1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr",
+  "1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz",
+  "1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ",
+  "1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9",
+  "1XxJlFluopAC9ldRXalU_AKnELlxYX_zj",
+  "1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA",
+  "1a4XCo1YrNopaS3h1tXpUEodERRrVqePp",
+  "1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx",
+  "1eBragPkQDz_ZkDM3qtE2VRfusjF2T415",
+  "1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u",
+  "1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl",
+  "1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7",
+] as const;
+
+const FINAL_PACK_ID_SET = new Set<string>(FINAL_PACK_IDS);
 
 type PortfolioArchiveProps = {
   photos: ArchivePhoto[];
@@ -104,6 +106,36 @@ function buildJustifiedRows(items: IndexedPhoto[], width: number): ArchiveRow[] 
   }));
 }
 
+function findPackedAvifStarts(pack: ArrayBuffer) {
+  const bytes = new Uint8Array(pack);
+  const starts: number[] = [];
+
+  for (let offset = 0; offset <= bytes.length - 12; offset += 1) {
+    const hasFtyp =
+      bytes[offset + 4] === 0x66 &&
+      bytes[offset + 5] === 0x74 &&
+      bytes[offset + 6] === 0x79 &&
+      bytes[offset + 7] === 0x70;
+
+    if (!hasFtyp) continue;
+
+    const hasAvifBrand =
+      bytes[offset + 8] === 0x61 &&
+      bytes[offset + 9] === 0x76 &&
+      bytes[offset + 10] === 0x69 &&
+      (bytes[offset + 11] === 0x66 || bytes[offset + 11] === 0x73);
+
+    if (!hasAvifBrand) continue;
+
+    const boxSize = new DataView(pack, offset, 4).getUint32(0, false);
+    if (boxSize < 12 || offset + boxSize > bytes.length) continue;
+
+    starts.push(offset);
+  }
+
+  return starts;
+}
+
 export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [galleryWidth, setGalleryWidth] = useState(1200);
@@ -135,16 +167,22 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
         if (!response.ok) return;
 
         const pack = await response.arrayBuffer();
+        const starts = findPackedAvifStarts(pack);
+
+        if (starts.length !== FINAL_PACK_IDS.length) return;
+
         const urls: Record<string, string> = {};
 
-        for (const [id, entry] of Object.entries(FINAL_PACK_INDEX)) {
-          if (entry.offset + entry.length > pack.byteLength) continue;
+        FINAL_PACK_IDS.forEach((id, index) => {
+          const start = starts[index];
+          const end = starts[index + 1] ?? pack.byteLength;
+          if (end <= start) return;
 
-          const imageBytes = pack.slice(entry.offset, entry.offset + entry.length);
+          const imageBytes = pack.slice(start, end);
           const url = URL.createObjectURL(new Blob([imageBytes], { type: "image/avif" }));
           createdUrls.push(url);
           urls[id] = url;
-        }
+        });
 
         if (!controller.signal.aborted) {
           setPackedImageUrls(urls);
@@ -206,7 +244,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
   }, [activeIndex, photos.length]);
 
   const activePackedSrc =
-    activePhoto && FINAL_PACK_INDEX[activePhoto.id]
+    activePhoto && FINAL_PACK_ID_SET.has(activePhoto.id)
       ? packedImageUrls[activePhoto.id] ?? null
       : null;
 
@@ -220,7 +258,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
             style={{ height: `${Math.max(90, row.height)}px` }}
           >
             {row.items.map(({ photo, index }) => {
-              const isPacked = Boolean(FINAL_PACK_INDEX[photo.id]);
+              const isPacked = FINAL_PACK_ID_SET.has(photo.id);
               const packedSrc = isPacked ? packedImageUrls[photo.id] ?? null : null;
 
               return (
@@ -296,7 +334,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
             ←
           </button>
           <div className="archive-viewer-image">
-            {FINAL_PACK_INDEX[activePhoto.id] ? (
+            {FINAL_PACK_ID_SET.has(activePhoto.id) ? (
               activePackedSrc ? (
                 <img
                   alt={`Portfolio photograph ${activeIndex + 1}`}
