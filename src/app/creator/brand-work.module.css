@@ -151,7 +151,7 @@
 
 .analytics {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
@@ -159,11 +159,6 @@
 .analytics > div {
   min-height: 74px;
   padding: 12px 12px 12px 0;
-}
-
-.analytics > div + div {
-  padding-left: 12px;
-  border-left: 1px solid var(--line);
 }
 
 .analytics span {
@@ -308,10 +303,6 @@
     width: 235px;
     height: 60px;
     transform: scale(1.12);
-  }
-
-  .analytics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .partnershipGrid {
