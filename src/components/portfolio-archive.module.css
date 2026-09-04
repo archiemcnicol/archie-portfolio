@@ -1,23 +1,45 @@
 .archiveGrid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 14px;
-  align-items: start;
+  width: 100%;
 }
 
-.archiveGrid .archiveCard {
+.archiveRow {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.archiveCard {
   min-width: 0;
   margin: 0;
+  overflow: hidden;
+  background: #222;
 }
 
-@media (max-width: 900px) {
-  .archiveGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.archiveCardButton {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: zoom-in;
+}
+
+.archiveCardImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 @media (max-width: 600px) {
-  .archiveGrid {
-    grid-template-columns: 1fr;
+  .archiveGrid,
+  .archiveRow {
+    gap: 10px;
   }
 }
