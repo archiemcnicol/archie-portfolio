@@ -1,0 +1,37 @@
+name: Verify clean Brand Work final
+
+on:
+  push:
+    branches:
+      - brand-work-final
+    paths:
+      - .github/workflows/verify-clean-brand-work-final.yml
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: brand-work-final
+          fetch-depth: 0
+      - run: npm ci
+      - name: Verify final delta and build
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git diff --name-only origin/main...HEAD | grep -v '^.github/workflows/verify-clean-brand-work-final.yml$' | wc -l)" -eq 1
+          git diff --name-only origin/main...HEAD | grep -qx 'public/brand-work/nike-2026-01-07.webp'
+          npm run build
+      - name: Remove verifier
+        shell: bash
+        run: |
+          rm -f .github/workflows/verify-clean-brand-work-final.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Remove final Brand Work verifier'
+          git push origin HEAD:brand-work-final
