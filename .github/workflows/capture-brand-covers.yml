@@ -1,4 +1,4 @@
-name: Probe TikTok profile
+name: Capture verified Brand Work covers
 
 on:
   push:
@@ -6,50 +6,84 @@ on:
       - .github/workflows/capture-brand-covers.yml
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  probe:
+  capture:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Enumerate profile videos with yt-dlp
+        with:
+          fetch-depth: 0
+
+      - name: Capture real TikTok thumbnails
         shell: bash
         run: |
           set -euo pipefail
           python3 -m pip install --upgrade yt-dlp
-          yt-dlp --version
-          profile='https://www.tiktok.com/@fitswitharchie'
-          set +e
-          yt-dlp --flat-playlist --dump-single-json --playlist-end 600 "$profile" > /tmp/profile.json 2>/tmp/yt.err
-          code=$?
-          set -e
-          echo "EXIT=$code"
-          echo '--- STDERR ---'
-          cat /tmp/yt.err
-          echo '--- JSON SIZE ---'
-          wc -c /tmp/profile.json || true
-          if [ -s /tmp/profile.json ]; then
-            python3 - <<'PY'
-          import json, datetime
-          data=json.load(open('/tmp/profile.json'))
-          entries=data.get('entries') or []
-          print('ENTRIES',len(entries))
-          targets=[
-            ('Nike', datetime.datetime(2026,1,7,16,15,4,tzinfo=datetime.timezone.utc)),
-            ('BOSS', datetime.datetime(2025,10,4,14,38,20,tzinfo=datetime.timezone.utc)),
-            ('Moschino', datetime.datetime(2025,6,23,15,16,0,tzinfo=datetime.timezone.utc)),
-            ('Superdry1', datetime.datetime(2024,9,16,14,42,4,tzinfo=datetime.timezone.utc)),
-            ('Superdry2', datetime.datetime(2024,9,21,15,28,22,tzinfo=datetime.timezone.utc)),
-          ]
-          for e in entries:
-            vid=str(e.get('id') or '')
-            if not vid.isdigit():
-              continue
-            dt=datetime.datetime.fromtimestamp(int(vid)>>32, datetime.timezone.utc)
-            for name,target in targets:
-              if abs((dt-target).total_seconds()) < 86400:
-                print(name, dt.isoformat(), vid, e.get('url'), e.get('title'))
-          PY
+          mkdir -p public/brand-work /tmp/brand-work
+
+          cat > /tmp/posts.tsv <<'EOF'
+          nike-2026-01-07.webp|https://www.tiktok.com/@fitswitharchie/video/7592653916953644310
+          boss-bottled-beyond-2025-10-04.webp|https://www.tiktok.com/@fitswitharchie/video/7557375899180485910
+          moschino-toy-2025-06-23.webp|https://www.tiktok.com/@fitswitharchie/video/7519140859351174422
+          superdry-2024-09-16.webp|https://www.tiktok.com/@fitswitharchie/video/7415251227971259680
+          superdry-2024-09-21.webp|https://www.tiktok.com/@fitswitharchie/video/7417118589917859105
+          EOF
+
+          while IFS='|' read -r out url; do
+            [ -n "$out" ] || continue
+            work="/tmp/brand-work/${out%.webp}"
+            rm -rf "$work"
+            mkdir -p "$work"
+            echo "=== $out ==="
+
+            set +e
+            yt-dlp --skip-download --write-thumbnail --convert-thumbnails webp \
+              -o "$work/%(id)s.%(ext)s" "$url" >"$work/yt-thumb.log" 2>&1
+            thumb_code=$?
+            set -e
+            cat "$work/yt-thumb.log"
+
+            thumb=$(find "$work" -maxdepth 1 -type f -name '*.webp' | head -1 || true)
+            if [ -n "$thumb" ] && [ "$(stat -c%s "$thumb")" -gt 5000 ]; then
+              cp "$thumb" "public/brand-work/$out"
+            else
+              echo "Thumbnail path failed (code=$thumb_code); falling back to a video frame"
+              set +e
+              yt-dlp -f 'bv*+ba/b' --merge-output-format mp4 \
+                -o "$work/video.%(ext)s" "$url" >"$work/yt-video.log" 2>&1
+              video_code=$?
+              set -e
+              cat "$work/yt-video.log"
+              video=$(find "$work" -maxdepth 1 -type f \( -name 'video.mp4' -o -name 'video.webm' -o -name 'video.mkv' \) | head -1 || true)
+              if [ "$video_code" -ne 0 ] || [ -z "$video" ]; then
+                echo "Unable to obtain media for $out"
+                exit 1
+              fi
+              ffmpeg -hide_banner -loglevel error -y -ss 0.55 -i "$video" -frames:v 1 \
+                -vf "scale='min(900,iw)':-2" -c:v libwebp -quality 90 "public/brand-work/$out"
+            fi
+
+            test "$(stat -c%s "public/brand-work/$out")" -gt 5000
+            file "public/brand-work/$out"
+          done < /tmp/posts.tsv
+
+          echo 'Cover hashes:'
+          sha256sum public/brand-work/*.webp
+          test "$(sha256sum public/brand-work/*.webp | awk '{print $1}' | sort -u | wc -l)" -eq 5
+
+      - name: Commit permanent cover assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/brand-work/*.webp
+          if git diff --cached --quiet; then
+            echo 'No cover changes to commit.'
+          else
+            git commit -m 'Add verified Brand Work TikTok covers'
+            git push origin HEAD:brand-work-refresh
           fi
-          exit "$code"
