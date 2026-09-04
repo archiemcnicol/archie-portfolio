@@ -11,14 +11,14 @@ export type PortfolioPhoto = {
 };
 
 /**
- * First public edit from the 619-image Google Drive archive. The source
- * filenames and capture metadata stay attached so the edit can be expanded
- * into projects without losing provenance.
+ * First public edit from the 616-image photography archive. The source
+ * filenames and capture metadata stay attached internally so the edit can be
+ * expanded into projects without exposing raw filenames in the public UI.
  */
 export const PORTFOLIO_ARCHIVE = {
   folderName: "My Website Portfolio Photos",
   folderId: "1tvIoVrk3UEeKXRTnvvIlxDFoepq3gTmj",
-  sourcePhotoCount: 619,
+  sourcePhotoCount: 616,
   publicEditCount: 10,
 };
 
