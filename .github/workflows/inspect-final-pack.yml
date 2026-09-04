@@ -15,35 +15,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Locate and inspect complete historical transport
+      - name: Trace staged transport commits
         shell: bash
         run: |
-          set -euxo pipefail
-          BEST=''
-          BESTCOUNT=0
-          while read -r c; do
-            count=$(git ls-tree -r --name-only "$c" .final16 2>/dev/null | grep -c '^.final16/chunk-' || true)
-            if [ "$count" -gt "$BESTCOUNT" ]; then
-              BEST="$c"
-              BESTCOUNT="$count"
-              echo "NEW_BEST $BEST $BESTCOUNT"
-            fi
-          done < <(git rev-list --all)
-          echo "BEST_COMMIT=$BEST BEST_COUNT=$BESTCOUNT"
-          git ls-tree -r --name-only "$BEST" .final16 | sort
-          : > /tmp/final16.b64
-          while read -r p; do
-            git show "$BEST:$p" >> /tmp/final16.b64
-          done < <(git ls-tree -r --name-only "$BEST" .final16 | grep '^.final16/chunk-' | sort)
-          wc -c /tmp/final16.b64
-          base64 -d /tmp/final16.b64 > /tmp/final16.tar
-          ls -lh /tmp/final16.tar
-          file /tmp/final16.tar
-          echo '--- TAR LIST ---'
-          tar tvf /tmp/final16.tar
-          mkdir -p /tmp/final16
-          tar xf /tmp/final16.tar -C /tmp/final16
-          echo '--- EXTRACTED ---'
-          find /tmp/final16 -type f -printf '%P %s bytes\n' | sort
-          echo '--- IMAGE TYPES ---'
-          find /tmp/final16 -type f -exec file {} \;
+          set -euo pipefail
+          git log --reverse --format='%H|%s' -- .final16 | while IFS='|' read -r c subject; do
+            echo "=== $c :: $subject ==="
+            git diff-tree --no-commit-id --name-status -r "$c" -- .final16 || true
+            for p in $(git diff-tree --no-commit-id --name-only -r "$c" -- .final16 | sort -u); do
+              if git cat-file -e "$c:$p" 2>/dev/null; then
+                size=$(git cat-file -s "$c:$p")
+                echo "FILE $p SIZE $size"
+                printf 'HEAD '
+                git show "$c:$p" | head -c 32 | xxd -p || true
+              fi
+            done
+          done
