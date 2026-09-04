@@ -1,4 +1,4 @@
-name: Capture brand TikTok covers
+name: Resolve brand TikTok URLs
 
 on:
   push:
@@ -6,121 +6,36 @@ on:
       - .github/workflows/capture-brand-covers.yml
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  capture:
+  resolve:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
-      - name: Install image tooling
-        run: npm install --no-save sharp
-
-      - name: Capture permanent campaign covers
+      - uses: actions/checkout@v4
+      - name: Resolve campaign short links and inspect oEmbed
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p public/brand-work
-          cat > .capture-brand-covers.mjs <<'JS'
-          import path from 'node:path';
-          import sharp from 'sharp';
-
-          const posts = {
-            'nike-2026-01-07': 'https://vm.tiktok.com/ZNRrSuv3S/',
-            'boss-bottled-beyond-2025-10-04': 'https://vm.tiktok.com/ZNd7Wft36/',
-            'moschino-toy-2025-06-23': 'https://vm.tiktok.com/ZNdUsJTCT/',
-            'superdry-2024-09-16': 'https://vm.tiktok.com/ZGeEcsen9/',
-            'superdry-2024-09-21': 'https://vm.tiktok.com/ZGeoh1to7/',
-          };
-
-          async function fetchJson(url) {
-            const response = await fetch(url, {
-              headers: {
-                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36',
-                'accept': 'application/json,text/plain,*/*',
-              },
-              redirect: 'follow',
-            });
-            const text = await response.text();
-            console.log(`oEmbed ${response.status}: ${text.slice(0, 500)}`);
-            if (!response.ok()) return null;
-            try { return JSON.parse(text); } catch { return null; }
-          }
-
-          async function saveImage(url, output) {
-            if (!url) return false;
-            try {
-              const response = await fetch(url, {
-                headers: {
-                  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/140 Safari/537.36',
-                  'referer': 'https://www.tiktok.com/',
-                  'accept': 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
-                },
-                redirect: 'follow',
-              });
-              if (!response.ok()) {
-                console.log(`Image fetch failed ${response.status}`);
-                return false;
-              }
-              const body = Buffer.from(await response.arrayBuffer());
-              const meta = await sharp(body).metadata();
-              console.log(`Candidate image ${meta.width}x${meta.height} ${url.slice(0, 180)}`);
-              if (!meta.width || !meta.height || meta.width < 180 || meta.height < 250) return false;
-              await sharp(body).webp({ quality: 91 }).toFile(output);
-              return true;
-            } catch (error) {
-              console.log(`Image error: ${String(error)}`);
-              return false;
-            }
-          }
-
-          const failures = [];
-          const hashes = new Map();
-          for (const [name, shortUrl] of Object.entries(posts)) {
-            console.log(`\n=== ${name} ===`);
-            const output = path.join('public', 'brand-work', `${name}.webp`);
-            const endpoint = `https://www.tiktok.com/oembed?url=${encodeURIComponent(shortUrl)}`;
-            const data = await fetchJson(endpoint);
-            let saved = false;
-            if (data?.thumbnail_url) saved = await saveImage(data.thumbnail_url, output);
-            if (!saved) {
-              failures.push(name);
-              continue;
-            }
-            const digest = await sharp(output).raw().toBuffer({ resolveWithObject: true });
-            const key = `${digest.info.width}x${digest.info.height}:${digest.data.subarray(0, 128).toString('base64')}`;
-            if (hashes.has(key)) {
-              console.log(`Duplicate visual detected with ${hashes.get(key)}`);
-              failures.push(name);
-            } else {
-              hashes.set(key, name);
-            }
-          }
-
-          if (failures.length) throw new Error(`Valid TikTok covers not obtained for: ${failures.join(', ')}`);
-          JS
-          node .capture-brand-covers.mjs
-          rm -f .capture-brand-covers.mjs
-
-      - name: Commit permanent cover assets
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/brand-work/*.webp
-          if git diff --cached --quiet; then
-            echo "No cover changes to commit."
-          else
-            git commit -m "Store verified Brand Work TikTok covers"
-            git push
-          fi
+          urls=(
+            'https://vm.tiktok.com/ZNRrSuv3S/'
+            'https://vm.tiktok.com/ZNd7Wft36/'
+            'https://vm.tiktok.com/ZNdUsJTCT/'
+            'https://vm.tiktok.com/ZGeEcsen9/'
+            'https://vm.tiktok.com/ZGeoh1to7/'
+          )
+          for u in "${urls[@]}"; do
+            echo "=== $u ==="
+            final=$(curl -sS -L --max-time 30 -A 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1' -o /tmp/page.html -w '%{url_effective}' "$u" || true)
+            echo "FINAL=$final"
+            echo "SIZE=$(wc -c < /tmp/page.html 2>/dev/null || echo 0)"
+            grep -oE 'https://www\.tiktok\.com/@[^"? ]+/video/[0-9]+' /tmp/page.html | head -5 || true
+            echo 'OEMBED SHORT:'
+            curl -sS --max-time 20 -A 'Mozilla/5.0' "https://www.tiktok.com/oembed?url=$(python3 -c 'import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1],safe=""))' "$u")" | head -c 1200 || true
+            echo
+            if [[ "$final" == *'/video/'* ]]; then
+              echo 'OEMBED FINAL:'
+              curl -sS --max-time 20 -A 'Mozilla/5.0' "https://www.tiktok.com/oembed?url=$(python3 -c 'import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1],safe=""))' "$final")" | head -c 1800 || true
+              echo
+            fi
+          done
