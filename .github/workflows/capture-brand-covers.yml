@@ -37,6 +37,7 @@ jobs:
           import { chromium } from 'playwright';
           import sharp from 'sharp';
 
+          // Keep these captures as static website assets so TikTok does not need to be queried at runtime.
           const posts = {
             'nike-2026-01-07': 'https://vm.tiktok.com/ZNRrSuv3S/',
             'boss-bottled-beyond-2025-10-04': 'https://vm.tiktok.com/ZNd7Wft36/',
