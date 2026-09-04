@@ -1,0 +1,52 @@
+name: Verify photography 601-616 archive restore
+
+on:
+  push:
+    branches:
+      - fix-photography-601-616-final
+    paths:
+      - src/app/photography/page.tsx
+      - .github/workflows/verify-photography-601-616.yml
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Verify archive delivery and build
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const page = fs.readFileSync('src/app/photography/page.tsx', 'utf8');
+          const archive = fs.readFileSync('src/lib/portfolio-archive.ts', 'utf8');
+          const ids = [
+            '18dAyt42f15vfiQdYb9H_Kzi1o9riwfT3','1Gg6cdrLJfcAx5BrYsgry1tg2yUSnTMUF','1KGzec0HOOtk-xtuIyINwesk0gkhWuZOy','1P59hxLoR2K7r8vPW-sSFbbsvpnIsxdHg',
+            '1RI29B5lcwkhPV5hhN6OFfJVdvyPhWThr','1Vaxigbjr4n_2lOuIzDpxe2EsIlwj3Ywz','1WeExibYtRiTUO7ToFtKmMvxaCdsf5uKJ','1XbmIFrLTgb5JExjJ-5CcQZaIyZ6Zcfu9',
+            '1XxJlFluopAC9ldRXalU_AKnELlxYX_zj','1YdZ_0FQ92NIfhnwjYeW-Mv-3RYxdCuIA','1a4XCo1YrNopaS3h1tXpUEodERRrVqePp','1bQygrUEYMOakrH-yTWtGEJHUJWNkk8Tx',
+            '1eBragPkQDz_ZkDM3qtE2VRfusjF2T415','1j9AC3EfIQNiMsMUXLoYyl1r9aQqYdm3u','1qf6tSQBBhLUXJ4CdAQ_NSMJSvD4sO2Zl','1wbTdGCRcmHMtQ2MNhnFf1-c2REc0-WO7'
+          ];
+          if (page.includes('HIGH_RES_LOCAL_IDS') || page.includes('src: `/portfolio/archive/')) throw new Error('Special local override still present');
+          for (const id of ids) {
+            const expected = `https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/${id}.webp`;
+            if (!archive.includes(expected)) throw new Error(`Missing normal archive URL for ${id}`);
+            if (!archive.includes(`\"id\": \"${id}\"`)) throw new Error(`Missing archive entry ${id}`);
+          }
+          const count1120 = ids.filter(id => {
+            const idx = archive.indexOf(`\"id\": \"${id}\"`);
+            const block = archive.slice(idx, idx + 350);
+            return block.includes('\"width\": 1120') && block.includes('\"height\": 630');
+          }).length;
+          if (count1120 !== 16) throw new Error(`Expected all 16 upgraded images at 1120x630 metadata, got ${count1120}`);
+          console.log('Verified 16/16 photos use standard jsDelivr archive delivery at 1120x630');
+          NODE
+          npm run build
