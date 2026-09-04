@@ -20,7 +20,7 @@ const PHOTOS = [
 
 export default function PhotographyPage() {
   return (
-    <main className="photography-scroll-page">
+    <main style={{ background: "#111", padding: 14 }}>
       <PortfolioArchive photos={PHOTOS} />
     </main>
   );
