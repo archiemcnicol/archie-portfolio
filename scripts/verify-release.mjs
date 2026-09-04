@@ -3,14 +3,15 @@ import path from "node:path";
 import process from "node:process";
 
 const repoRoot = process.cwd();
-const brandWorkPath = path.join(repoRoot, "src/lib/brand-work.ts");
-const portfolioPath = path.join(repoRoot, "src/lib/portfolio.ts");
-const portfolioArchivePath = path.join(repoRoot, "src/lib/portfolio-archive.ts");
-const nextConfigPath = path.join(repoRoot, "next.config.ts");
-const brandWork = fs.readFileSync(brandWorkPath, "utf8");
-const portfolio = fs.readFileSync(portfolioPath, "utf8");
-const portfolioArchive = fs.readFileSync(portfolioArchivePath, "utf8");
-const nextConfig = fs.readFileSync(nextConfigPath, "utf8");
+const read = (relativePath) => fs.readFileSync(path.join(repoRoot, relativePath), "utf8");
+const exists = (relativePath) => fs.existsSync(path.join(repoRoot, relativePath));
+
+const brandWork = read("src/lib/brand-work.ts");
+const portfolioArchive = read("src/lib/portfolio-archive.ts");
+const portfolioFinal = read("src/lib/portfolio-final.ts");
+const photographyPage = read("src/app/photography/page.tsx");
+const siteFrame = read("src/components/site-frame.tsx");
+const nextConfig = read("next.config.ts");
 
 const failures = [];
 const assert = (condition, message) => {
@@ -30,6 +31,7 @@ for (const logoSource of logoSources) {
 }
 assert(nextConfig.includes('hostname: "commons.wikimedia.org"'), "Next image config must allow the logo host");
 assert(nextConfig.includes('pathname: "/api/tiktok-cover"'), "Next image config must allow TikTok cover proxy images");
+assert(!nextConfig.includes("/api/portfolio-final"), "obsolete photography API config is still present");
 
 const tiktokLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/vm\.tiktok\.com\/[^\"]+)"/g)].map(
   (match) => match[1],
@@ -44,35 +46,54 @@ assert(
 );
 assert(!/^\s*"All Points East"\s*,?$/m.test(brandWork), "All Points East must not be listed as the client");
 
-const archiveCount = Number(portfolio.match(/sourcePhotoCount:\s*(\d+)/)?.[1] ?? 0);
-const publicCount = Number(portfolio.match(/publicEditCount:\s*(\d+)/)?.[1] ?? 0);
-const photoSources = [...portfolio.matchAll(/src:\s*"(\/portfolio\/web\/[^\"]+)"/g)].map((match) => match[1]);
-assert(archiveCount === 619, `unexpected Drive archive count: ${archiveCount}`);
-assert(publicCount === photoSources.length, `public edit count (${publicCount}) does not match photo entries (${photoSources.length})`);
-assert(publicCount > 0 && publicCount < archiveCount, "the public edit should be a deliberate subset of the archive");
-for (const source of photoSources) {
-  const assetPath = path.join(repoRoot, "public", source.replace(/^\//, ""));
-  assert(fs.existsSync(assetPath), `missing portfolio asset: ${source}`);
-}
+const excludedNames = [
+  "IMG_2473.jpg",
+  "IMG_2469.jpg",
+  "Screenshot_20200502-010759_Instagram-Enhanced.jpg",
+];
 
-const archiveSources = [...portfolioArchive.matchAll(/"src":\s*"([^\"]+)"/g)].map(
-  (match) => match[1],
-);
-assert(archiveSources.length > 0, "the expanded portfolio archive must not be empty");
-assert(
-  archiveSources.length <= archiveCount,
-  `expanded archive count (${archiveSources.length}) exceeds Drive source count (${archiveCount})`,
-);
-for (const source of archiveSources) {
-  const isLocalFeaturedImage = source.startsWith("/portfolio/web/");
-  const isArchiveCdnImage = source.startsWith(
+const archiveRecords = [...portfolioArchive.matchAll(
+  /\{\s*"id":\s*"([^"]+)",\s*"src":\s*"([^"]+)",\s*"width":\s*(\d+),\s*"height":\s*(\d+),\s*"originalName":\s*"([^"]+)"\s*\}/g,
+)].map((match) => ({
+  id: match[1],
+  src: match[2],
+  originalName: match[5],
+}));
+
+const finalRecords = [...portfolioFinal.matchAll(
+  /\{ id: "([^"]+)", src: PACK_SRC, width: (\d+), height: (\d+), originalName: "([^"]+)" \}/g,
+)].map((match) => ({ id: match[1], originalName: match[4] }));
+
+const excludedArchiveRecords = archiveRecords.filter((record) => excludedNames.includes(record.originalName));
+const excludedFinalRecords = finalRecords.filter((record) => excludedNames.includes(record.originalName));
+const publicPhotoCount =
+  archiveRecords.length + finalRecords.length - excludedArchiveRecords.length - excludedFinalRecords.length;
+
+assert(archiveRecords.length > 0, "the photography archive must not be empty");
+assert(finalRecords.length === 16, `expected 16 packed final photographs, found ${finalRecords.length}`);
+assert(publicPhotoCount === 617, `expected 617 public photographs, found ${publicPhotoCount}`);
+assert(photographyPage.includes("<PortfolioArchive photos={PHOTOS} />"), "photography page must render the scrolling archive");
+assert(!photographyPage.includes("photo-hero"), "photography hero must stay removed");
+assert(!photographyPage.includes("<h1"), "photography page must stay image-only");
+assert(siteFrame.includes('pathname === "/photography"'), "site frame must recognise the photography route");
+assert(siteFrame.includes("!isPhotography ? <SiteNav /> : null"), "photography route must hide the site navigation");
+assert(exists("public/portfolio/archive/final-16-avif.pack"), "packed final photography asset is missing");
+assert(!exists("src/app/api/portfolio-final/[id]/route.ts"), "obsolete final-photo API route still exists");
+assert(!exists("src/lib/portfolio.ts"), "superseded featured photography data still exists");
+
+for (const record of archiveRecords) {
+  if (excludedNames.includes(record.originalName)) continue;
+
+  const isLocalFeaturedImage = record.src.startsWith("/portfolio/web/");
+  const isArchiveCdnImage = record.src.startsWith(
     "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/",
   );
-  assert(isLocalFeaturedImage || isArchiveCdnImage, `unexpected expanded portfolio source: ${source}`);
+  assert(isLocalFeaturedImage || isArchiveCdnImage, `unexpected photography source: ${record.src}`);
+
   const assetPath = isLocalFeaturedImage
-    ? path.join(repoRoot, "public", source.replace(/^\//, ""))
-    : path.join(repoRoot, "public", "portfolio", "archive", path.basename(source));
-  assert(fs.existsSync(assetPath), `missing expanded portfolio asset: ${source}`);
+    ? path.join(repoRoot, "public", record.src.replace(/^\//, ""))
+    : path.join(repoRoot, "public", "portfolio", "archive", path.basename(record.src));
+  assert(fs.existsSync(assetPath), `missing photography asset: ${record.src}`);
 }
 
 if (failures.length) {
@@ -82,5 +103,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Release verification passed: ${publicCampaignIds.length} public campaigns, ${publicCount} featured images and ${archiveSources.length} expanded archive images from a ${archiveCount}-image Drive source.`,
+  `Release verification passed: ${publicCampaignIds.length} public campaigns and ${publicPhotoCount} public photographs.`,
 );
