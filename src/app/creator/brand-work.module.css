@@ -533,28 +533,47 @@
   text-transform: uppercase;
 }
 
-.archiveMetricList {
+.archiveDeliverables {
   display: grid;
-  gap: 7px;
+  gap: 8px;
   margin-top: auto;
 }
 
-.archiveMetricList > div {
+.archiveDeliverables > a {
+  display: block;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.archiveDeliverables > a:hover {
+  background: rgba(255, 255, 255, .06);
+  border-color: rgba(255, 255, 255, .42);
+}
+
+.archiveDeliverableHead {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  padding: 7px 8px;
-  border: 1px solid rgba(255, 255, 255, .2);
-  color: #b9b9b9;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.archiveDeliverableHead strong {
+  color: #ddd;
   font-size: 9px;
-  line-height: 1.35;
-  letter-spacing: .04em;
+  line-height: 1.2;
+  letter-spacing: .06em;
   text-transform: uppercase;
 }
 
-.archiveMetricList strong {
-  color: #ddd;
-  font-size: inherit;
+.archiveDeliverableHead b {
+  color: #999;
+  font-size: 11px;
+}
+
+.archiveDeliverables .archiveAnalytics {
+  margin-top: 0;
 }
 
 .archiveLinks {
@@ -576,20 +595,6 @@
 .archiveLinks a:hover {
   background: #fff;
   color: #111;
-}
-
-.archiveMuted span {
-  color: #666;
-  border-color: rgba(255, 255, 255, .1);
-  font-size: 9px;
-  line-height: 1.35;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-.archiveLinks.archiveMuted span {
-  padding: 7px 9px;
-  border: 1px solid rgba(255, 255, 255, .1);
 }
 
 @media (max-width: 900px) {
@@ -692,8 +697,7 @@
     padding: 20px;
   }
 
-  .archiveTop,
-  .archiveMetricList > div {
+  .archiveTop {
     flex-direction: column;
     gap: 8px;
   }
