@@ -51,10 +51,13 @@ for (const videoId of selectedPerformanceLinks) {
   assert(creatorPage.includes(videoId), `selected organic performance content link is missing: ${videoId}`);
 }
 assert(creatorPage.includes("PERFORMANCE_CONTENT_LINKS"), "selected organic performance must keep direct content links");
-assert(creatorPage.includes("contentAnalytics"), "selected campaign content must use the shared analytics treatment");
-assert(creatorPage.includes("archiveContentAnalytics"), "work archive content must use the shared analytics treatment");
-assert(brandConsistency.includes(".contentCard"), "Brand Work unified content card styling is missing");
-assert(brandConsistency.includes(".archiveContentCard"), "Brand Work unified archive content styling is missing");
+assert(creatorPage.includes("styles.covers"), "selected creative work must retain the preferred large-cover layout");
+assert(creatorPage.includes("styles.analytics"), "selected creative work analytics treatment is missing");
+assert(creatorPage.includes("styles.measuredDeliverables"), "multi-video campaign analytics treatment is missing");
+assert(creatorPage.includes("styles.archiveDeliverables"), "work archive must retain the preferred compact deliverable layout");
+assert(creatorPage.includes("styles.archiveLinks"), "work archive compact link treatment is missing");
+assert(brandConsistency.includes(".performanceAction"), "organic performance content action styling is missing");
+assert(brandConsistency.includes(":global(.brand-page .brand-section)"), "Brand Work compact section spacing is missing");
 
 const snoopStart = brandWork.indexOf('brand: "Snoop"');
 const snoopEnd = brandWork.indexOf('brand: "Whatnot"', snoopStart);
