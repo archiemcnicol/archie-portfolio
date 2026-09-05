@@ -13,20 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Resolve short links through TikTok oEmbed
+      - name: Inspect Urlebird profile
         shell: bash
         run: |
           set -euo pipefail
-          urls=(
-            'nike|https://vm.tiktok.com/ZNRrSuv3S/'
-            'boss|https://vm.tiktok.com/ZNd7Wft36/'
-            'moschino|https://vm.tiktok.com/ZNdUsJTCT/'
-            'superdry-one|https://vm.tiktok.com/ZGeEcsen9/'
-            'superdry-two|https://vm.tiktok.com/ZGeoh1to7/'
-          )
-          for entry in "${urls[@]}"; do
-            name="${entry%%|*}"; url="${entry#*|}"
-            echo "===== ${name} ====="
-            payload="$(curl -sSLG 'https://www.tiktok.com/oembed' --data-urlencode "url=${url}" -A 'Mozilla/5.0' -H 'Accept: application/json')"
-            echo "$payload" | jq -c '{title,author_name,author_url,html,thumbnail_url}'
-          done
+          ua='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/152 Safari/537.36'
+          curl -sSL -A "$ua" -H 'Accept-Language: en-GB,en;q=0.9' 'https://urlebird.com/user/fitswitharchie/' -o /tmp/profile.html -w 'http=%{http_code} bytes=%{size_download} effective=%{url_effective}\n'
+          echo '===== page title / identity ====='
+          grep -Eio '<title>[^<]+|@fitswitharchie|Archie McNicol' /tmp/profile.html | head -n 20 || true
+          echo '===== video href samples ====='
+          grep -Eo 'href="[^"]*/video/[^"]+"' /tmp/profile.html | head -n 50 || true
+          echo '===== IDs in page ====='
+          grep -Eo '[0-9]{19}' /tmp/profile.html | sort -u | head -n 100 || true
+          echo '===== pagination / ajax hints ====='
+          grep -Eio '.{0,100}(load more|cursor|ajax|page=|user/videos|api/).{0,180}' /tmp/profile.html | head -n 80 || true
