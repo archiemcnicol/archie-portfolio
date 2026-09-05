@@ -25,7 +25,7 @@
   align-items: start;
 }
 
-.covers > a:only-child {
+.covers > *:only-child {
   grid-column: 1 / -1;
   width: min(100%, 330px);
 }
@@ -58,6 +58,14 @@
   height: 30%;
   background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .72));
   pointer-events: none;
+}
+
+.coverStatic::after {
+  display: none;
+}
+
+.coverStatic:hover img {
+  transform: none;
 }
 
 .coverLabel {
@@ -110,8 +118,7 @@
   object-position: left center;
 }
 
-/* The source SVGs use very different viewBoxes. These corrections normalise
-   the visible wordmarks rather than the invisible SVG canvas around them. */
+/* Optical corrections compensate for the very different source SVG viewBoxes. */
 .logoWrap[data-brand="nike"] .logo {
   width: 190px;
   height: 58px;
@@ -123,14 +130,14 @@
 }
 
 .logoWrap[data-brand="moschino-toy"] .logo {
-  width: 278px;
-  height: 67px;
+  width: 292px;
+  height: 70px;
 }
 
 .logoWrap[data-brand="superdry-2024"] .logo {
-  width: 282px;
-  height: 70px;
-  transform: scale(1.22);
+  width: 296px;
+  height: 72px;
+  transform: scale(1.24);
   transform-origin: left center;
 }
 
@@ -143,15 +150,57 @@
 
 .summary {
   max-width: 620px;
-  margin: 18px 0 28px;
+  margin: 18px 0 24px;
   font-size: 17px;
   line-height: 1.5;
   color: var(--muted);
 }
 
+.credits {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 0 24px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.credits > div {
+  min-height: 82px;
+  padding: 14px;
+  background: var(--paper, #f5f2eb);
+}
+
+.credits span,
+.credits strong,
+.credits a {
+  display: block;
+}
+
+.credits span {
+  margin-bottom: 9px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.3;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.credits strong,
+.credits a {
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 800;
+}
+
+.credits a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .analytics {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
@@ -159,6 +208,11 @@
 .analytics > div {
   min-height: 74px;
   padding: 12px 12px 12px 0;
+}
+
+.analytics > div + div {
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
 }
 
 .analytics span {
@@ -173,30 +227,162 @@
 
 .analytics strong {
   display: block;
-  font-size: 14px;
-  line-height: 1.15;
-  letter-spacing: -.02em;
+  font-size: 22px;
+  line-height: 1.05;
+  letter-spacing: -.035em;
 }
 
-.secondaryLinks {
-  display: flex;
-  flex-wrap: wrap;
+.deliverables {
+  display: grid;
   gap: 8px;
   margin-top: 18px;
 }
 
-.secondaryLinks a {
-  padding: 10px 12px;
+.deliverables a {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 16px;
+  padding: 13px 40px 13px 13px;
   border: 1px solid var(--line);
+  transition: background .18s ease, color .18s ease;
+}
+
+.deliverables a:hover {
+  background: #111;
+  color: #fff;
+}
+
+.deliverables span {
+  grid-column: 1;
   font-size: 12px;
   font-weight: 800;
+  letter-spacing: .04em;
+}
+
+.deliverables small {
+  grid-column: 1;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.35;
   letter-spacing: .06em;
   text-transform: uppercase;
 }
 
-.secondaryLinks a:hover {
-  background: #111;
-  color: #fff;
+.deliverables a:hover small {
+  color: #bbb;
+}
+
+.deliverables b {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+}
+
+.brandLink {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.brandLink:hover {
+  color: #111;
+}
+
+.performanceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.performanceCard {
+  min-height: 220px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.performanceHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: baseline;
+}
+
+.performanceHead strong {
+  font-size: clamp(22px, 2.2vw, 32px);
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.performanceHead span {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-align: right;
+}
+
+.performanceCard > p {
+  margin: 10px 0 24px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.performanceNumbers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: auto;
+}
+
+.performanceNumbers span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.performanceNumbers strong {
+  display: block;
+  font-size: clamp(23px, 2.5vw, 36px);
+  line-height: 1;
+  letter-spacing: -.045em;
+}
+
+.performancePartner {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.performancePartner a {
+  color: inherit;
+  font-weight: 800;
+}
+
+.performanceNote {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .partnershipGrid {
@@ -207,29 +393,107 @@
 }
 
 .partnershipCard {
-  min-height: 150px;
+  min-height: 230px;
   padding: 22px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 26px;
+  gap: 18px;
   border-right: 1px solid rgba(255, 255, 255, .22);
   border-bottom: 1px solid rgba(255, 255, 255, .22);
 }
 
-.partnershipCard strong {
-  font-size: clamp(23px, 2.7vw, 38px);
+.archiveTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.archiveTop > strong,
+.archiveTop > a strong {
+  display: block;
+  font-size: clamp(22px, 2.4vw, 34px);
   line-height: 1;
   letter-spacing: -.045em;
 }
 
-.partnershipCard span {
-  max-width: 360px;
-  color: #999;
-  font-size: 11px;
-  line-height: 1.45;
+.archiveTop > a:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.archivePeriod {
+  flex: 0 0 auto;
+  max-width: 145px;
+  color: #888;
+  font-size: 9px;
+  line-height: 1.4;
   letter-spacing: .08em;
   text-transform: uppercase;
+  text-align: right;
+}
+
+.archiveDetail {
+  max-width: 420px;
+  margin: 0;
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.archiveCredits {
+  display: grid;
+  gap: 5px;
+  color: #8e8e8e;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.archiveCredits a {
+  color: #c5c5c5;
+  font-weight: 800;
+}
+
+.archiveCredits a:hover {
+  color: #fff;
+}
+
+.archiveAnalytics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: auto;
+}
+
+.archiveAnalytics span {
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  color: #b9b9b9;
+  font-size: 9px;
+  line-height: 1.2;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.archiveLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.archiveLinks a {
+  padding: 7px 9px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  color: #ddd;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.archiveLinks a:hover {
+  background: #fff;
+  color: #111;
 }
 
 @media (max-width: 900px) {
@@ -245,6 +509,10 @@
 
   .copy {
     padding-top: 8px;
+  }
+
+  .performanceGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -265,7 +533,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .covers > a:only-child {
+  .covers > *:only-child {
     width: min(72vw, 300px);
   }
 
@@ -295,22 +563,45 @@
   }
 
   .logoWrap[data-brand="moschino-toy"] .logo {
-    width: 250px;
-    height: 61px;
+    width: 258px;
+    height: 63px;
   }
 
   .logoWrap[data-brand="superdry-2024"] .logo {
-    width: 248px;
-    height: 63px;
-    transform: scale(1.18);
+    width: 255px;
+    height: 64px;
+    transform: scale(1.2);
   }
 
+  .credits,
+  .analytics,
+  .performanceGrid,
   .partnershipGrid {
     grid-template-columns: 1fr;
   }
 
-  .partnershipCard {
-    min-height: 130px;
+  .analytics > div + div {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .performanceCard {
+    min-height: 195px;
     padding: 20px;
+  }
+
+  .partnershipCard {
+    min-height: 210px;
+    padding: 20px;
+  }
+
+  .archiveTop {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .archivePeriod {
+    text-align: left;
   }
 }
