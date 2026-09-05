@@ -9,12 +9,12 @@ export const metadata: Metadata = {
 };
 
 const roles = [
-  ["01", "CapCut UK", "2023 — present", "Creator community management, challenge operations, payments, reporting and issue escalation.", "/professional/capcut"],
+  ["01", "CapCut UK", "2023 — present", "Creator community management, challenge operations, payments, reporting, moderation and issue escalation.", "/professional/capcut"],
   ["02", "Content creator", "2024 — present", "@fitswitharchie, campaign production, client delivery and a 25K+ fashion and lifestyle community.", "/creator"],
   ["03", "Performance partnerships", "2024 — 2026", "Affiliate work tracked beyond reach into registration, activation, parcel and freight behaviour.", "/affiliate"],
-  ["04", "Photography", "Ongoing", "Travel, aerial, event and lifestyle work across a 600+ image public archive.", "/photography"],
+  ["04", "Photography", "2018 — present", "Photography developed from an early creative interest around 2018 into travel, aerial, event and lifestyle work across a 600+ image public archive.", "/photography"],
   ["05", "Digital projects", "2026 — present", "Web builds, portfolio systems, analytics workflows and content infrastructure.", "/business"],
-  ["06", "Full background", "CV / timeline", "Education, chronology, working areas and the connections between each part of the portfolio.", "/cv"],
+  ["06", "Full background", "CV / timeline", "Education, chronology, independent projects, working areas and the connections between each part of the portfolio.", "/cv"],
 ] as const;
 
 export default function ProfessionalPage() {
@@ -53,9 +53,10 @@ export default function ProfessionalPage() {
         <div className="wrap">
           <span>How it connects</span>
           <p>
-            Community management built the operational side; creator work built the audience and
-            client side; affiliate work added performance measurement; photography and digital work
-            widened the output. The point is the combination, not six unrelated job titles.
+            Photography built the visual foundation; community management built the operational side;
+            creator work built the audience and client side; affiliate work added performance
+            measurement; digital work connected the systems around it. The point is the combination,
+            not a set of unrelated job titles.
           </p>
           <Link href="/cv">View the complete timeline →</Link>
         </div>
