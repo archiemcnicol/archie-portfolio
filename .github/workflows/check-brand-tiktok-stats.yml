@@ -11,70 +11,30 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 8
     steps:
-      - name: Install Playwright
-        run: |
-          npm init -y >/dev/null 2>&1
-          npm install playwright@latest >/dev/null 2>&1
-          npx playwright install --with-deps chromium >/dev/null 2>&1
-      - name: Recover live profile video IDs by scrolling
+      - name: Inspect short-link redirects with multiple clients
         shell: bash
         run: |
-          node <<'JS'
-          const { chromium } = require('playwright');
-
-          const targets = [
-            { name: 'boss', when: Date.parse('2025-10-04T14:38:20Z') / 1000 },
-            { name: 'moschino', when: Date.parse('2025-06-23T15:16:00Z') / 1000 },
-            { name: 'superdry-one', when: Date.parse('2024-09-16T14:42:04Z') / 1000 },
-            { name: 'superdry-two', when: Date.parse('2024-09-21T15:28:22Z') / 1000 },
-          ];
-
-          function tsFromId(id) {
-            try { return Number(BigInt(id) >> 32n); } catch { return 0; }
-          }
-
-          (async () => {
-            const browser = await chromium.launch({ headless: true });
-            const context = await browser.newContext({
-              locale: 'en-GB',
-              timezoneId: 'Europe/London',
-              viewport: { width: 1440, height: 1100 },
-              userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Safari/537.36',
-            });
-            const page = await context.newPage();
-            await page.goto('https://www.tiktok.com/@fitswitharchie', { waitUntil: 'domcontentloaded', timeout: 60000 });
-            await page.waitForTimeout(5000);
-
-            const ids = new Set();
-            let stagnant = 0;
-            let previous = 0;
-            for (let i = 0; i < 80; i++) {
-              const hrefs = await page.locator('a[href*="/video/"]').evaluateAll(as => as.map(a => a.href));
-              for (const href of hrefs) {
-                const m = href.match(/\/video\/(\d+)/);
-                if (m) ids.add(m[1]);
-              }
-              const times = [...ids].map(tsFromId).filter(Boolean);
-              const oldest = times.length ? Math.min(...times) : 0;
-              console.log(`round=${i} ids=${ids.size} oldest=${oldest ? new Date(oldest*1000).toISOString() : 'none'} url=${page.url()}`);
-              if (ids.size === previous) stagnant++; else stagnant = 0;
-              previous = ids.size;
-              if (oldest && oldest <= Date.parse('2024-09-15T00:00:00Z')/1000) break;
-              if (stagnant >= 8) break;
-              await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-              await page.mouse.wheel(0, 18000);
-              await page.waitForTimeout(1800);
-            }
-
-            const rows = [...ids].map(id => ({ id, ts: tsFromId(id) })).sort((a,b) => b.ts-a.ts);
-            console.log('===== TARGET MATCHES =====');
-            for (const t of targets) {
-              const ranked = rows.map(r => ({...r, delta: Math.abs(r.ts - t.when)})).sort((a,b)=>a.delta-b.delta).slice(0,5);
-              console.log(t.name, JSON.stringify(ranked.map(r => ({id:r.id, time:new Date(r.ts*1000).toISOString(), delta_seconds:r.delta}))));
-            }
-            console.log('total ids', rows.length);
-            await browser.close();
-          })().catch(err => { console.error(err); process.exit(1); });
-          JS
+          set -u
+          urls=(
+            'nike|https://vm.tiktok.com/ZNRrSuv3S/'
+            'boss|https://vm.tiktok.com/ZNd7Wft36/'
+            'moschino|https://vm.tiktok.com/ZNdUsJTCT/'
+            'superdry-one|https://vm.tiktok.com/ZGeEcsen9/'
+            'superdry-two|https://vm.tiktok.com/ZGeoh1to7/'
+          )
+          uas=(
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1'
+            'Mozilla/5.0 (Linux; Android 15; Pixel 9 Pro) AppleWebKit/537.36 Chrome/152 Mobile Safari/537.36'
+            'com.zhiliaoapp.musically/2023600030 (Linux; U; Android 15; en_GB; Pixel 9 Pro; Build/AP3A.241205.015; Cronet/TTNetVersion:5f9640e5 2025-01-01)'
+          )
+          for entry in "${urls[@]}"; do
+            name="${entry%%|*}"; url="${entry#*|}"
+            echo "===== ${name} ====="
+            for ua in "${uas[@]}"; do
+              echo "--- UA: ${ua:0:55} ---"
+              curl -sS -D - -o /dev/null --max-redirs 0 -A "$ua" -H 'Accept-Language: en-GB,en;q=0.9' "$url" \
+                | grep -Ei '^(HTTP/|location:|set-cookie:)' | head -n 12 || true
+            done
+          done
