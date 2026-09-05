@@ -102,9 +102,11 @@ export default function CreatorPage() {
                     <h3>{campaign.campaign}</h3>
                     <p className={styles.summary}>{campaign.summary}</p>
 
-                    <div className={styles.analytics} aria-label={`${campaign.brand} likes`}>
-                      <div><span>Likes</span><strong>{campaign.analytics.likes}</strong></div>
-                    </div>
+                    {campaign.analytics ? (
+                      <div className={styles.analytics} aria-label={`${campaign.brand} likes`}>
+                        <div><span>Likes</span><strong>{campaign.analytics.likes}</strong></div>
+                      </div>
+                    ) : null}
 
                     {secondaryLinks.length ? (
                       <div className={styles.secondaryLinks}>
