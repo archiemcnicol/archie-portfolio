@@ -13,26 +13,49 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Probe canonical Nike post metadata
+      - name: Search TikWM for campaign posts
         shell: bash
         run: |
-          set -u
-          canonical='https://www.tiktok.com/@7342225099493606432/video/7592280935027035414'
-          echo '===== TikWM canonical ====='
-          curl -sSLG 'https://www.tikwm.com/api/' --data-urlencode "url=${canonical}" --data-urlencode 'hd=1' \
-            | jq -c '{code,msg,data:(if .data then {id:.data.id,title:.data.title,author:.data.author.unique_id,play_count:.data.play_count,digg_count:.data.digg_count,comment_count:.data.comment_count,share_count:.data.share_count,create_time:.data.create_time} else null end)}' || true
-          echo '===== TikTok oEmbed ====='
-          curl -sSLG 'https://www.tiktok.com/oembed' --data-urlencode "url=${canonical}" \
-            -A 'Mozilla/5.0' -H 'Accept: application/json' | head -c 4000 || true
-          echo
-          echo '===== TikTok canonical page status + selected metadata ====='
-          curl -sSL -A 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/152 Safari/537.36' \
-            -H 'Accept-Language: en-GB,en;q=0.9' "$canonical" -o /tmp/page.html -w 'http=%{http_code} bytes=%{size_download} effective=%{url_effective}\n' || true
-          python3 - <<'PY'
-          import re
-          from pathlib import Path
-          text = Path('/tmp/page.html').read_text(errors='ignore') if Path('/tmp/page.html').exists() else ''
-          for pat in [r'"diggCount":\s*(\d+)', r'"playCount":\s*(\d+)', r'"commentCount":\s*(\d+)', r'"shareCount":\s*(\d+)', r'"uniqueId":"([^"]+)', r'7592280935027035414']:
-              m = re.search(pat, text)
-              print(pat, '=>', m.group(1) if m and m.lastindex else bool(m))
+          set -euo pipefail
+          python3 <<'PY'
+          import json
+          import urllib.parse
+          import urllib.request
+          import datetime as dt
+
+          queries = ['BOSS fitswitharchie', 'Moschino fitswitharchie', 'Superdry fitswitharchie', 'fitswitharchie boss bottled beyond', 'fitswitharchie moschino toy']
+          ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/152 Safari/537.36'
+
+          for query in queries:
+              print('\n===== QUERY:', query, '=====')
+              url = 'https://www.tikwm.com/api/feed/search?' + urllib.parse.urlencode({'keywords': query, 'count': 30, 'cursor': 0, 'hd': 1})
+              req = urllib.request.Request(url, headers={'User-Agent': ua, 'Accept':'application/json, text/plain, */*', 'Referer':'https://www.tikwm.com/'})
+              try:
+                  with urllib.request.urlopen(req, timeout=40) as r:
+                      payload = json.loads(r.read())
+              except Exception as e:
+                  print('request failed:', repr(e)); continue
+              print('code=', payload.get('code'), 'msg=', payload.get('msg'))
+              data = payload.get('data') or {}
+              videos = data.get('videos') or data.get('items') or []
+              if not videos and isinstance(data, list): videos = data
+              print('videos=', len(videos))
+              for v in videos:
+                  author = v.get('author') or {}
+                  uid = author.get('unique_id') if isinstance(author, dict) else None
+                  title = v.get('title') or v.get('desc') or ''
+                  if uid == 'fitswitharchie' or 'fitswitharchie' in title.lower():
+                      ts = v.get('create_time')
+                      try: when = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).isoformat()
+                      except Exception: when = str(ts)
+                      print(json.dumps({
+                          'id': str(v.get('video_id') or v.get('id') or ''),
+                          'date': when,
+                          'author': uid,
+                          'title': title,
+                          'likes': v.get('digg_count'),
+                          'views': v.get('play_count'),
+                          'comments': v.get('comment_count'),
+                          'shares': v.get('share_count'),
+                      }, ensure_ascii=False))
           PY
