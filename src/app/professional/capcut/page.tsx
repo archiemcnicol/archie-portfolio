@@ -4,17 +4,19 @@ import styles from "./capcut.module.css";
 
 export const metadata: Metadata = {
   title: "CapCut UK Community Management",
-  description: "Detailed professional experience from more than three years supporting the CapCut UK creator community.",
+  description: "Detailed professional experience from more than three years supporting the CapCut UK creator community and creator-facing operations.",
   alternates: { canonical: "/professional/capcut" },
 };
 
 const responsibilities = [
-  ["Creator support", "Front-line communication with UK creators: questions, programme guidance, clarifications and issue follow-up."],
-  ["Challenge operations", "Supporting recurring creator challenges, participation questions, winner communication and changing programme structures."],
-  ["Payments", "Creator-facing payment administration and follow-up, including status communication and escalations when runs are delayed."],
-  ["Bug escalation", "Collecting creator-reported problems, reproducing enough context to make them useful and passing them to the relevant team for review."],
-  ["Reporting", "Weekly workload and activity reporting, including quantified creator interactions, support themes and operational follow-ups."],
-  ["Team liaison", "Acting as a bridge between UK creators and central teams so policy, programme and product information reaches the community clearly."],
+  ["Creator support", "Front-line communication with creators: questions, programme guidance, clarifications, support follow-up and making central-team information understandable."],
+  ["Community moderation", "Day-to-day Discord moderation, announcements and community upkeep so creator spaces stay useful rather than becoming passive noticeboards."],
+  ["Challenge operations", "Supporting recurring creator challenges, participation questions, winner communication, template requirements, grading and changing programme structures."],
+  ["Payments & bonuses", "Creator-facing payment and bonus administration, including status communication, checking programme requirements and escalating delayed or unclear runs."],
+  ["Bug escalation", "Collecting creator-reported product problems, getting enough reproduction context to make them actionable and routing them to the relevant team for review."],
+  ["Reporting", "Weekly workload and activity reporting, including quantified creator interactions, support themes, challenge work, bugs and operational follow-ups."],
+  ["Multi-market systems", "Experience with community systems spanning UK, French and German creator servers, while the main creator-facing responsibility remains the UK community."],
+  ["Team liaison", "Acting as a bridge between UK creators and central teams so policy, programme, payment and product information moves in both directions clearly."],
 ] as const;
 
 export default function CapCutPage() {
@@ -29,7 +31,7 @@ export default function CapCutPage() {
           <div className={styles.heroMeta}>
             <div><span>Role</span><strong>Community Manager / creator operations</strong></div>
             <div><span>Experience</span><strong>3+ years</strong></div>
-            <div><span>Market</span><strong>United Kingdom</strong></div>
+            <div><span>Primary market</span><strong>United Kingdom</strong></div>
           </div>
         </div>
       </section>
