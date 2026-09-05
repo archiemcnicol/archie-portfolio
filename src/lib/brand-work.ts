@@ -54,6 +54,7 @@ export type SelectedPerformance = {
   period?: string;
   views: string;
   likes: string;
+  brandUrl?: string;
   campaignPartner?: string;
   partnerUrl?: string;
 };
@@ -71,28 +72,38 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     logoAlt: "Nike Swoosh logo",
     tone: "ink",
     brandUrl: "https://www.nike.com/gb/",
+    campaignPartner: "SuperAwesome",
+    partnerUrl: "https://www.superawesome.com/",
+    managedBy: [
+      { name: "Ryan Herrieff", organisation: "SuperAwesome", role: "Campaign contact" },
+    ],
     links: [
       {
-        label: "Nike TikTok",
+        label: "Watch on TikTok · 7 Jan 2026",
+        href: "https://vm.tiktok.com/ZNRrSuv3S/",
         platform: "TikTok",
         coverSrc: "/brand-work/nike-2026-01-07.webp",
-        analytics: { views: "22.5K", likes: "1,077" },
       },
     ],
-    analytics: { views: "22.5K", likes: "1,077" },
+    analytics: { views: "2.9K", likes: "134" },
   },
   {
     id: "boss-bottled-beyond",
     brand: "BOSS",
     campaign: "BOSS Bottled fragrance work",
     period: "October 2025 — January 2026",
-    format: "2 TikTok fragrance integrations",
+    format: "2 fragrance integrations",
     summary:
       "Two separate BOSS Bottled fragrance promotions translated into polished, platform-native fashion and lifestyle content.",
     logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Boss_logo_2021.svg",
     logoAlt: "BOSS wordmark",
     tone: "stone",
     brandUrl: "https://www.hugoboss.com/uk/",
+    campaignPartner: "Socially Powerful",
+    partnerUrl: "https://sociallypowerful.com/",
+    managedBy: [
+      { name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Account Executive" },
+    ],
     links: [
       {
         label: "Video 01 · 4 Oct 2025",
@@ -102,10 +113,10 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         analytics: { views: "1.8K", likes: "88" },
       },
       {
-        label: "Video 02 · 7 Jan 2026",
-        href: "https://vm.tiktok.com/ZNRrSuv3S/",
+        label: "Video 02 · 6 Jan 2026",
+        href: "https://www.tiktok.com/@7342225099493606432/video/7592280935027035414",
         platform: "TikTok",
-        analytics: { views: "2.9K", likes: "134" },
+        analytics: { views: "22.5K", likes: "1,077" },
       },
     ],
   },
@@ -136,7 +147,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
       },
       {
         label: "Watch on Instagram",
-        href: "https://www.instagram.com/reel/DLP4vh6s_Kk/?igsh=MWZoY2htZ3A3dTRlNQ==",
+        href: "https://www.instagram.com/reel/DLP4vh6s_Kk/",
         platform: "Instagram",
       },
     ],
@@ -149,7 +160,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     period: "September 2024",
     format: "TikTok styling video",
     summary:
-      "A fashion-led styling brief commissioned directly by Superdry and developed into a native TikTok deliverable. One live campaign video remains in the portfolio.",
+      "A fashion-led styling brief commissioned directly by Superdry and developed into a native short-form deliverable. One live campaign video remains in the portfolio.",
     logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Superdry_Logo_2020.svg",
     logoAlt: "Superdry wordmark",
     tone: "acid",
@@ -177,6 +188,7 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
     period: "8 Jul 2025",
     views: "914.6K",
     likes: "5.4K",
+    brandUrl: "https://www.tilt.app/",
     campaignPartner: "Redpill",
   },
   {
@@ -186,6 +198,7 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
     period: "7 Jul 2025",
     views: "637.9K",
     likes: "4.1K",
+    brandUrl: "https://www.tilt.app/",
     campaignPartner: "Redpill",
   },
   {
@@ -218,6 +231,7 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
     period: "1 May 2025",
     views: "46.5K",
     likes: "1.7K",
+    brandUrl: "https://www.lyleandscott.com/",
     campaignPartner: "CheekySport",
   },
 ];
@@ -226,27 +240,36 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "Nike",
     detail: "Fashion product integration",
-    period: "Jan 2026",
+    period: "7 Jan 2026",
     brandUrl: "https://www.nike.com/gb/",
-    analytics: { views: "22.5K", likes: "1,077" },
+    campaignPartner: "SuperAwesome",
+    partnerUrl: "https://www.superawesome.com/",
+    managedBy: [{ name: "Ryan Herrieff", organisation: "SuperAwesome", role: "Campaign contact" }],
+    analytics: { views: "2.9K", likes: "134" },
+    links: [
+      { label: "TikTok", href: "https://vm.tiktok.com/ZNRrSuv3S/", platform: "TikTok" },
+    ],
   },
   {
     brand: "BOSS",
     detail: "Two BOSS Bottled fragrance integrations",
     period: "Oct 2025 — Jan 2026",
     brandUrl: "https://www.hugoboss.com/uk/",
+    campaignPartner: "Socially Powerful",
+    partnerUrl: "https://sociallypowerful.com/",
+    managedBy: [{ name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Account Executive" }],
     links: [
       {
-        label: "Video 01",
+        label: "TikTok · video 01",
         href: "https://vm.tiktok.com/ZNd7Wft36/",
         platform: "TikTok",
         analytics: { views: "1.8K", likes: "88" },
       },
       {
-        label: "Video 02",
-        href: "https://vm.tiktok.com/ZNRrSuv3S/",
+        label: "TikTok · video 02",
+        href: "https://www.tiktok.com/@7342225099493606432/video/7592280935027035414",
         platform: "TikTok",
-        analytics: { views: "2.9K", likes: "134" },
+        analytics: { views: "22.5K", likes: "1,077" },
       },
     ],
   },
@@ -264,11 +287,7 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     analytics: { views: "2.8K", likes: "93" },
     links: [
       { label: "TikTok", href: "https://vm.tiktok.com/ZNdUsJTCT/", platform: "TikTok" },
-      {
-        label: "Instagram",
-        href: "https://www.instagram.com/reel/DLP4vh6s_Kk/?igsh=MWZoY2htZ3A3dTRlNQ==",
-        platform: "Instagram",
-      },
+      { label: "Instagram", href: "https://www.instagram.com/reel/DLP4vh6s_Kk/", platform: "Instagram" },
     ],
   },
   {
@@ -306,6 +325,7 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "All Points East · Tyler, The Creator",
     detail: "Two event-promotion videos",
+    period: "Aug 2026",
     campaignPartner: "Skitch",
     partnerUrl: "https://skitch.co/",
   },
@@ -315,6 +335,7 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     period: "7–8 Jul 2025",
     brandUrl: "https://www.tilt.app/",
     campaignPartner: "Redpill",
+    analytics: { views: "1.55M", likes: "9.5K" },
   },
   {
     brand: "KiLLOWEN",
@@ -417,6 +438,10 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "Whatnot",
     detail: "Men's Fashion & Sneakers Creator Programme",
+    period: "Aug 2026",
     brandUrl: "https://www.whatnot.com/",
+    links: [
+      { label: "TikTok haul", href: "https://vm.tiktok.com/ZGdQeggsV/", platform: "TikTok" },
+    ],
   },
 ];
