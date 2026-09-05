@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { EDUCATION, EXPERIENCE } from "@/lib/profile-data";
+import { BACKGROUND_MILESTONES, EDUCATION, EXPERIENCE, TOOLKIT } from "@/lib/profile-data";
 import { PUBLIC_PROFILE } from "@/lib/site";
 import styles from "./cv.module.css";
 
@@ -11,14 +11,24 @@ export const metadata: Metadata = {
 };
 
 const disciplines = [
-  ["Creator production", "Concepts, styling, presenting, filming, editing and campaign delivery for short-form platforms."],
-  ["Community operations", "Creator support, challenge operations, payments, reporting, issue escalation and central-team communication."],
-  ["Photography", "Travel, aerial, event and lifestyle capture, editing, curation and portfolio presentation."],
-  ["Performance", "Registration, activation, parcel and freight reporting for creator-led affiliate partnerships."],
-  ["Digital", "Next.js, Vercel, GitHub, Supabase and practical content/asset systems."],
+  ["Creator production", "Concepts, styling, presenting, filming, editing and campaign delivery for TikTok and Instagram."],
+  ["Community operations", "Creator support, moderation, challenge operations, payments, reporting, issue escalation and central-team communication."],
+  ["Photography", "Travel, aerial, event and lifestyle capture, editing, curation and portfolio presentation, developed from an interest that began around 2018."],
+  ["Performance", "Registration, activation, parcel and freight reporting for creator-led affiliate and commerce partnerships."],
+  ["Digital", "Web builds, asset systems, analytics workflows and practical publishing infrastructure."],
 ] as const;
 
-const selectedClients = ["Nike", "BOSS", "Moschino", "Superdry", "Lyle & Scott", "DAVIDOFF", "Whatnot", "Sketch.co / All Points East"];
+const selectedClients = [
+  "Nike",
+  "BOSS",
+  "Moschino",
+  "Superdry",
+  "Lyle & Scott",
+  "DAVIDOFF",
+  "Jean Paul Gaultier",
+  "Whatnot",
+  "Sketch.co / All Points East",
+];
 
 export default function CvPage() {
   return (
@@ -31,7 +41,7 @@ export default function CvPage() {
           </div>
           <aside className={styles.heroMeta}>
             <div><span>Based</span><strong>{PUBLIC_PROFILE.location}</strong></div>
-            <div><span>Focus</span><strong>Creator · Photography · Community · Digital</strong></div>
+            <div><span>Focus</span><strong>Creator · Community · Photography · Digital</strong></div>
             <div><span>Contact</span><a href={`mailto:${PUBLIC_PROFILE.email}`}>{PUBLIC_PROFILE.email} ↗</a></div>
           </aside>
         </div>
@@ -41,16 +51,30 @@ export default function CvPage() {
         <div className="wrap">
           <span>Profile</span>
           <p>
-            A creator and operator who has built public-facing content work alongside more than three
-            years of creator-community experience. The portfolio now connects brand campaigns,
-            photography, performance partnerships and digital builds rather than treating them as
-            separate careers.
+            A creator, community manager and photographer whose work developed across several lanes
+            rather than one traditional career path. Photography started first, around 2018; creator
+            community operations, short-form content, performance partnerships and digital projects
+            were then built around the same mix of creativity, audience understanding and practical delivery.
           </p>
         </div>
       </section>
 
+      <section className={`wrap ${styles.backgroundSection}`}>
+        <div className={styles.sectionLabel}>Background / chronology</div>
+        <div className={styles.backgroundTimeline}>
+          {BACKGROUND_MILESTONES.map((item, index) => (
+            <article key={`${item.period}-${item.title}`}>
+              <span className={styles.index}>{String(index + 1).padStart(2, "0")}</span>
+              <div className={styles.when}>{item.period}</div>
+              <h2>{item.title}</h2>
+              <p>{item.copy}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className={`wrap ${styles.cvSection}`}>
-        <div className={styles.sectionLabel}>Experience</div>
+        <div className={styles.sectionLabel}>Current / recent experience</div>
         <div className={styles.timeline}>
           {EXPERIENCE.map((item, index) => (
             <Link className={styles.timelineRow} href={item.href} key={item.title}>
@@ -93,6 +117,21 @@ export default function CvPage() {
               <p>{copy}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className={styles.toolkitSection}>
+        <div className="wrap">
+          <div className={styles.sectionLabel}>Toolkit / practical experience</div>
+          <div className={styles.toolkitGrid}>
+            {TOOLKIT.map((group, index) => (
+              <article key={group.title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{group.title}</h3>
+                <div>{group.items.map((item) => <small key={item}>{item}</small>)}</div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
