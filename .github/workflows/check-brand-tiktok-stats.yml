@@ -11,45 +11,25 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 8
     steps:
-      - name: Query TikWM feed using numeric user ID
+      - name: Inspect Creafico analyzer frontend
         shell: bash
         run: |
           set -euo pipefail
-          python3 <<'PY'
-          import json, urllib.parse, urllib.request, time, datetime as dt
-          user_id = '7342225099493606432'
-          cursor = '0'
-          targets = [
-            dt.datetime(2025,10,4,14,38,20,tzinfo=dt.timezone.utc),
-            dt.datetime(2025,6,23,15,16,0,tzinfo=dt.timezone.utc),
-            dt.datetime(2024,9,16,14,42,4,tzinfo=dt.timezone.utc),
-          ]
-          for page in range(1, 80):
-              url='https://www.tikwm.com/api/user/posts?' + urllib.parse.urlencode({'user_id':user_id,'count':35,'cursor':cursor})
-              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Accept':'application/json','Referer':'https://www.tikwm.com/'})
-              try:
-                  with urllib.request.urlopen(req,timeout=45) as r:
-                      body=r.read()
-                  payload=json.loads(body)
-              except Exception as e:
-                  print('REQUEST ERROR',repr(e)); break
-              print('page',page,'code',payload.get('code'),'msg',payload.get('msg'))
-              data=payload.get('data') or {}
-              videos=data.get('videos') or []
-              print('count',len(videos),'cursor',data.get('cursor'),'hasMore',data.get('hasMore'))
-              for v in videos:
-                  try: when=dt.datetime.fromtimestamp(int(v.get('create_time')),dt.timezone.utc)
-                  except: continue
-                  for target in targets:
-                      if abs((when-target).total_seconds()) < 3*86400:
-                          print('CANDIDATE',json.dumps({'id':v.get('video_id') or v.get('id'),'time':when.isoformat(),'title':v.get('title'),'likes':v.get('digg_count'),'views':v.get('play_count'),'author':(v.get('author') or {}).get('unique_id')},ensure_ascii=False))
-              if not videos or data.get('hasMore') is False: break
-              nxt=data.get('cursor')
-              if nxt in (None,'',cursor): break
-              cursor=str(nxt)
-              oldest=min((int(v.get('create_time') or 9999999999) for v in videos),default=9999999999)
-              if oldest < int(dt.datetime(2024,9,13,tzinfo=dt.timezone.utc).timestamp()): break
-              time.sleep(0.8)
-          PY
+          base='https://www.creafico.com'
+          page='/tmp/page.html'
+          curl -fsSL -A 'Mozilla/5.0' "$base/tools/tiktok-profile-analyzer" -o "$page"
+          echo "page bytes=$(wc -c < "$page")"
+          echo '===== scripts ====='
+          grep -oE 'src="[^"]+\.js[^"]*"' "$page" | sed 's/^src="//;s/"$//' | tail -n 30 | tee /tmp/scripts.txt
+          echo '===== inline clues ====='
+          grep -Eio '.{0,120}(tiktok|analy[sz]e|api/|username).{0,220}' "$page" | head -n 80 || true
+          i=0
+          while IFS= read -r src; do
+            i=$((i+1))
+            case "$src" in http*) url="$src";; *) url="$base$src";; esac
+            curl -fsSL -A 'Mozilla/5.0' "$url" -o "/tmp/s${i}.js" || continue
+            echo "===== script $i $src ====="
+            grep -Eio '.{0,180}(tiktok|analy[sz]e|/api/|profile-analyzer|username).{0,300}' "/tmp/s${i}.js" | head -n 80 || true
+          done < /tmp/scripts.txt
