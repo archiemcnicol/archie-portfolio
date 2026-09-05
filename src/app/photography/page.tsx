@@ -4,7 +4,7 @@ import { PORTFOLIO_ARCHIVE_PHOTOS } from "@/lib/portfolio-archive";
 
 export const metadata: Metadata = {
   title: "Photography — Archie McNicol",
-  description: "Travel, aerial, event and lifestyle photography by Archie McNicol, including a large public portfolio archive.",
+  description: "Travel, aerial, event and lifestyle photography by Archie McNicol, whose photography journey began around 2018 and developed through 2019–20.",
   alternates: { canonical: "/photography" },
 };
 
@@ -22,51 +22,27 @@ const PHOTOS = PORTFOLIO_ARCHIVE_PHOTOS
 export default function PhotographyPage() {
   return (
     <main style={{ background: "#111", color: "#f5f1ea" }}>
-      <section
-        style={{
-          borderBottom: "1px solid rgba(245, 241, 234, 0.16)",
-          padding: "34px 20px 30px",
-        }}
-      >
-        <div style={{ margin: "0 auto", maxWidth: 1440 }}>
-          <div
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: ".14em",
-              marginBottom: 10,
-              opacity: 0.58,
-              textTransform: "uppercase",
-            }}
-          >
-            Photography
+      <section className="photo-archive-hero">
+        <div className="wrap photo-archive-hero-grid">
+          <div>
+            <div className="photo-archive-kicker">Photography / since 2018</div>
+            <h1>Entire photography portfolio.</h1>
           </div>
-          <h1
-            style={{
-              fontSize: "clamp(38px, 5vw, 72px)",
-              letterSpacing: "-.055em",
-              lineHeight: 0.94,
-              margin: 0,
-            }}
-          >
-            Entire Photography Portfolio
-          </h1>
-          <div
-            style={{
-              fontSize: 12,
-              letterSpacing: ".08em",
-              marginTop: 14,
-              opacity: 0.58,
-              textTransform: "uppercase",
-            }}
-          >
-            {PHOTOS.length} photographs
+          <div className="photo-archive-side">
+            <p>
+              Photography started as an early creative interest around 2018, developed through
+              2019–20 and has grown into travel, aerial, event and lifestyle work across the UK and
+              internationally.
+            </p>
+            <div className="photo-archive-count">{PHOTOS.length} photographs in the public archive</div>
           </div>
         </div>
       </section>
 
-      <section style={{ padding: 14 }}>
-        <PortfolioArchive photos={PHOTOS} />
+      <section className="photo-archive-gallery">
+        <div className="wrap">
+          <PortfolioArchive photos={PHOTOS} />
+        </div>
       </section>
     </main>
   );
