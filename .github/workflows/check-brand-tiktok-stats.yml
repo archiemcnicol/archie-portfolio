@@ -11,26 +11,86 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
     steps:
-      - name: Resolve links and fetch live TikTok stats
+      - name: Fetch profile history and target campaign stats
         shell: bash
         run: |
           set -euo pipefail
-          urls=(
-            "nike|https://vm.tiktok.com/ZNRrSuv3S/"
-            "boss|https://vm.tiktok.com/ZNd7Wft36/"
-            "moschino|https://vm.tiktok.com/ZNdUsJTCT/"
-            "superdry-one|https://vm.tiktok.com/ZGeEcsen9/"
-            "superdry-two|https://vm.tiktok.com/ZGeoh1to7/"
-          )
+          python3 <<'PY'
+          import datetime as dt
+          import json
+          import time
+          import urllib.parse
+          import urllib.request
 
-          for entry in "${urls[@]}"; do
-            name="${entry%%|*}"
-            short="${entry#*|}"
-            echo "===== ${name} ====="
-            canonical="$(curl --retry 3 --retry-delay 2 -LsS -o /dev/null -w '%{url_effective}' -A 'Mozilla/5.0' "$short")"
-            canonical="${canonical%%\?*}"
-            echo "canonical=${canonical}"
-            payload="$(curl --retry 3 --retry-delay 2 -fsSLG 'https://www.tikwm.com/api/' --data-urlencode "url=${canonical}" --data-urlencode 'hd=1')"
-            echo "$payload" | jq -c '{code,msg,data:(if .data then {id:.data.id,title:.data.title,author:.data.author.unique_id,play_count:.data.play_count,digg_count:.data.digg_count,comment_count:.data.comment_count,share_count:.data.share_count,create_time:.data.create_time} else null end)}'
-          done
+          BASE = 'https://www.tikwm.com/api/user/posts'
+          USER = 'fitswitharchie'
+          TARGETS = {
+              'nike': dt.date(2026, 1, 7),
+              'boss': dt.date(2025, 10, 4),
+              'moschino': dt.date(2025, 6, 23),
+              'superdry-one': dt.date(2024, 9, 16),
+              'superdry-two': dt.date(2024, 9, 21),
+          }
+          found = {k: [] for k in TARGETS}
+          cursor = '0'
+          seen_ids = set()
+
+          def get_json(url):
+              req = urllib.request.Request(url, headers={
+                  'User-Agent': 'Mozilla/5.0',
+                  'Accept': 'application/json',
+              })
+              with urllib.request.urlopen(req, timeout=45) as r:
+                  return json.loads(r.read())
+
+          for page in range(1, 80):
+              qs = urllib.parse.urlencode({'unique_id': USER, 'count': 35, 'cursor': cursor})
+              payload = get_json(BASE + '?' + qs)
+              data = payload.get('data') or {}
+              videos = data.get('videos') or []
+              print(f'page={page} count={len(videos)} cursor={cursor}')
+              if not videos:
+                  print('No videos returned; payload=', json.dumps(payload)[:1000])
+                  break
+
+              oldest = None
+              for video in videos:
+                  vid = str(video.get('video_id') or video.get('id') or '')
+                  if not vid or vid in seen_ids:
+                      continue
+                  seen_ids.add(vid)
+                  ts = video.get('create_time')
+                  try:
+                      when = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc)
+                  except Exception:
+                      continue
+                  day = when.date()
+                  oldest = day if oldest is None or day < oldest else oldest
+                  for name, target in TARGETS.items():
+                      if day == target:
+                          found[name].append({
+                              'id': vid,
+                              'date_utc': when.isoformat(),
+                              'author': ((video.get('author') or {}).get('unique_id')),
+                              'title': video.get('title'),
+                              'play_count': video.get('play_count'),
+                              'digg_count': video.get('digg_count'),
+                              'comment_count': video.get('comment_count'),
+                              'share_count': video.get('share_count'),
+                          })
+
+              if oldest and oldest <= dt.date(2024, 9, 15):
+                  break
+              next_cursor = data.get('cursor')
+              has_more = data.get('hasMore')
+              if has_more is False or next_cursor in (None, '', cursor):
+                  print('Stopping: no more pagination')
+                  break
+              cursor = str(next_cursor)
+              time.sleep(0.7)
+
+          print('===== TARGET RESULTS =====')
+          print(json.dumps(found, indent=2, ensure_ascii=False))
+          PY
