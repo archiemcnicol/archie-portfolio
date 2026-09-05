@@ -79,13 +79,13 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     ],
     links: [
       {
-        label: "Watch on TikTok · 7 Jan 2026",
-        href: "https://vm.tiktok.com/ZNRrSuv3S/",
+        label: "Watch on TikTok",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7592280935027035414",
         platform: "TikTok",
         coverSrc: "/brand-work/nike-2026-01-07.webp",
       },
     ],
-    analytics: { views: "2.9K", likes: "134" },
+    analytics: { views: "22.5K", likes: "1,077" },
   },
   {
     id: "boss-bottled-beyond",
@@ -107,16 +107,16 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     links: [
       {
         label: "Video 01 · 4 Oct 2025",
-        href: "https://vm.tiktok.com/ZNd7Wft36/",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910",
         platform: "TikTok",
         coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp",
         analytics: { views: "1.8K", likes: "88" },
       },
       {
-        label: "Video 02 · 6 Jan 2026",
-        href: "https://www.tiktok.com/@7342225099493606432/video/7592280935027035414",
+        label: "Video 02 · 7 Jan 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310",
         platform: "TikTok",
-        analytics: { views: "22.5K", likes: "1,077" },
+        analytics: { views: "2.9K", likes: "134" },
       },
     ],
   },
@@ -141,7 +141,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     links: [
       {
         label: "Watch on TikTok",
-        href: "https://vm.tiktok.com/ZNdUsJTCT/",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7519140859351174422",
         platform: "TikTok",
         coverSrc: "/brand-work/moschino-toy-2025-06-23.webp",
       },
@@ -171,7 +171,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     links: [
       {
         label: "Watch on TikTok",
-        href: "https://vm.tiktok.com/ZGeEcsen9/",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7415251227971259680",
         platform: "TikTok",
         coverSrc: "/brand-work/superdry-2024-09-16.webp",
       },
@@ -240,14 +240,14 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "Nike",
     detail: "Fashion product integration",
-    period: "7 Jan 2026",
+    period: "6 Jan 2026",
     brandUrl: "https://www.nike.com/gb/",
     campaignPartner: "SuperAwesome",
     partnerUrl: "https://www.superawesome.com/",
     managedBy: [{ name: "Ryan Herrieff", organisation: "SuperAwesome", role: "Campaign contact" }],
-    analytics: { views: "2.9K", likes: "134" },
+    analytics: { views: "22.5K", likes: "1,077" },
     links: [
-      { label: "TikTok", href: "https://vm.tiktok.com/ZNRrSuv3S/", platform: "TikTok" },
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7592280935027035414", platform: "TikTok" },
     ],
   },
   {
@@ -260,16 +260,16 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     managedBy: [{ name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Account Executive" }],
     links: [
       {
-        label: "TikTok · video 01",
-        href: "https://vm.tiktok.com/ZNd7Wft36/",
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910",
         platform: "TikTok",
         analytics: { views: "1.8K", likes: "88" },
       },
       {
-        label: "TikTok · video 02",
-        href: "https://www.tiktok.com/@7342225099493606432/video/7592280935027035414",
+        label: "TikTok 2",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310",
         platform: "TikTok",
-        analytics: { views: "22.5K", likes: "1,077" },
+        analytics: { views: "2.9K", likes: "134" },
       },
     ],
   },
@@ -286,7 +286,7 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     ],
     analytics: { views: "2.8K", likes: "93" },
     links: [
-      { label: "TikTok", href: "https://vm.tiktok.com/ZNdUsJTCT/", platform: "TikTok" },
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7519140859351174422", platform: "TikTok" },
       { label: "Instagram", href: "https://www.instagram.com/reel/DLP4vh6s_Kk/", platform: "Instagram" },
     ],
   },
@@ -298,7 +298,7 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     managedBy: [{ name: "Lydia Shute", organisation: "Superdry", role: "Campaign contact" }],
     analytics: { views: "28.6K", likes: "665" },
     links: [
-      { label: "TikTok", href: "https://vm.tiktok.com/ZGeEcsen9/", platform: "TikTok" },
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7415251227971259680", platform: "TikTok" },
     ],
   },
   {
@@ -308,7 +308,10 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     brandUrl: "https://www.lyleandscott.com/",
     campaignPartner: "CheekySport",
     partnerUrl: "https://cheekysport.com/",
-    analytics: { views: "46.5K", likes: "1.7K" },
+    analytics: { views: "46.5K", likes: "1,676" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7499465138953653526", platform: "TikTok" },
+    ],
   },
   {
     brand: "DAVIDOFF",
@@ -317,17 +320,30 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     brandUrl: "https://www.zinodavidoff.com/",
     campaignPartner: "Disrupt Marketing",
     partnerUrl: "https://disruptmarketing.co/",
-    managedBy: [
-      { name: "Alice Mangazzi", organisation: "Disrupt Marketing", role: "Campaign management" },
-    ],
+    managedBy: [{ name: "Alice Mangazzi", organisation: "Disrupt Marketing", role: "Campaign management" }],
     analytics: { views: "2.1K", likes: "62" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7523993384546077974", platform: "TikTok" },
+    ],
   },
   {
-    brand: "All Points East · Tyler, The Creator",
-    detail: "Two event-promotion videos",
+    brand: "Sketch.co",
+    detail: "All Points East / Tyler, The Creator · two event-promotion videos",
     period: "Aug 2026",
-    campaignPartner: "Skitch",
-    partnerUrl: "https://skitch.co/",
+    links: [
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
+        platform: "TikTok",
+        analytics: { views: "11.6K", likes: "374" },
+      },
+      {
+        label: "TikTok 2",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008",
+        platform: "TikTok",
+        analytics: { views: "16.6K", likes: "1,048" },
+      },
+    ],
   },
   {
     brand: "TILT",
@@ -335,15 +351,31 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     period: "7–8 Jul 2025",
     brandUrl: "https://www.tilt.app/",
     campaignPartner: "Redpill",
-    analytics: { views: "1.55M", likes: "9.5K" },
+    links: [
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7524371608803265814",
+        platform: "TikTok",
+        analytics: { views: "637.9K", likes: "4.1K" },
+      },
+      {
+        label: "TikTok 2",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7524743379410881814",
+        platform: "TikTok",
+        analytics: { views: "914.6K", likes: "5.4K" },
+      },
+    ],
   },
   {
     brand: "KiLLOWEN",
     detail: "Pick Your Poison · music promotion",
-    period: "2025",
+    period: "10 Mar 2025",
     campaignPartner: "NOTION MGMT",
     partnerUrl: "https://notionmgmt.com/",
     analytics: { views: "271.3K", likes: "18K" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7480232374132018434", platform: "TikTok" },
+    ],
   },
   {
     brand: "Domno Vintage",
@@ -351,6 +383,9 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     period: "7 May 2025",
     brandUrl: "https://domno.com/",
     analytics: { views: "5.2K", likes: "135" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7501481439297293590", platform: "TikTok" },
+    ],
   },
   {
     brand: "The Supermade",
@@ -358,90 +393,163 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     period: "2 Jun 2025",
     brandUrl: "https://www.thesupermade.com/en-uk/",
     analytics: { views: "2.1K", likes: "67" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7511393518951091478", platform: "TikTok" },
+    ],
   },
   {
     brand: "Inflation",
     detail: "Fashion collaboration",
     period: "15 May 2025",
     analytics: { views: "5.2K", likes: "182" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7504690174270557462", platform: "TikTok" },
+    ],
   },
   {
     brand: "WINTR",
     detail: "Fashion collaboration",
     period: "13 Dec 2024",
-    analytics: { views: "92.5K", likes: "3.5K" },
+    analytics: { views: "92.5K", likes: "3,514" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7447955753240939808", platform: "TikTok" },
+    ],
   },
   {
-    brand: "Fermi",
-    detail: "Fashion collaboration",
+    brand: "Firmoo",
+    detail: "Eyewear creator work",
     period: "8 Nov 2024",
     analytics: { views: "24.5K", likes: "816" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7434975842251394336", platform: "TikTok" },
+    ],
   },
   {
     brand: "TEE CLAN",
     detail: "Streetwear collaboration",
     period: "6 Nov 2024",
     brandUrl: "https://teeclan.store/",
-    analytics: { views: "15K", likes: "496" },
+    analytics: { views: "14.9K", likes: "496" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7434213429142900000", platform: "TikTok" },
+    ],
   },
   {
     brand: "VSZN",
     detail: "Fashion collaboration",
     period: "Oct 2024",
-    analytics: { views: "34.5K", likes: "1.5K" },
+    analytics: { views: "34.5K", likes: "1,542" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7430871224265313568", platform: "TikTok" },
+    ],
   },
   {
     brand: "SPYDA",
     detail: "Fashion collaboration",
     period: "24 Oct 2024",
     analytics: { views: "18.3K", likes: "742" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7429383030269070625", platform: "TikTok" },
+    ],
   },
   {
     brand: "Unfounded Studios",
     detail: "Fashion content and delivered campaign assets",
     period: "Jul + Oct 2024",
+    links: [
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7395243777901858081",
+        platform: "TikTok",
+        analytics: { views: "12.4K", likes: "559" },
+      },
+      {
+        label: "TikTok 2",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7427512816929639712",
+        platform: "TikTok",
+        analytics: { views: "12.9K", likes: "609" },
+      },
+    ],
   },
   {
     brand: "ALY",
     detail: "Jewellery collaboration",
     period: "4 Sep 2024",
     analytics: { views: "403.5K", likes: "29.8K" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7410796625053945120", platform: "TikTok" },
+    ],
   },
   {
     brand: "Nowhere Specific",
     detail: "Fashion collaboration",
+    period: "Sep 2024",
     brandUrl: "https://nowherespecificclothing.com/",
-    analytics: { views: "27.1K", likes: "1.1K" },
+    analytics: { views: "27.1K", likes: "1,056" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7410423230105701664", platform: "TikTok" },
+    ],
   },
   {
     brand: "In Print We Trust",
-    detail: "TikTok Shop creator programme",
+    detail: "Fashion creator collaboration",
     period: "28 Aug 2024",
     analytics: { views: "20.5K", likes: "842" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7408212871684885792", platform: "TikTok" },
+    ],
   },
   {
     brand: "Vintage Crest",
-    detail: "Fashion collaboration",
+    detail: "Vintage fashion collaboration",
     period: "20 Aug 2024",
     analytics: { views: "32.5K", likes: "980" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7405270388193692961", platform: "TikTok" },
+    ],
   },
   {
     brand: "Offshore Clothing",
-    detail: "Jewellery collaboration",
+    detail: "Fashion collaboration",
     period: "27 Jul 2024",
     analytics: { views: "17.1K", likes: "625" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7396362773879459104", platform: "TikTok" },
+    ],
   },
-  { brand: "Jean Paul Gaultier", detail: "Le Male fragrance gifting" },
-  { brand: "Firmoo", detail: "Eyewear creator work" },
-  { brand: "KORA Works", detail: "Omar+ — Frozen" },
-  { brand: "Snoop", detail: "Budgeting app partnership" },
+  {
+    brand: "Jean Paul Gaultier",
+    detail: "Le Male fragrance gifting",
+    period: "Sep 2025",
+    analytics: { views: "2.8K", likes: "164" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7552940839467633923", platform: "TikTok" },
+    ],
+  },
+  {
+    brand: "KORA Works",
+    detail: "Omar+ — Frozen · paid music promotion",
+    period: "26 Nov 2025",
+    analytics: { views: "7.7K", likes: "195" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7577072259290991894", platform: "TikTok" },
+    ],
+  },
+  {
+    brand: "Snoop",
+    detail: "Budgeting app creator campaign promoted through TikTok One",
+    brandUrl: "https://snoop.app/",
+    campaignPartner: "Redpill",
+    managedBy: [{ name: "Candyce", organisation: "Redpill", role: "Campaign management" }],
+  },
   {
     brand: "Whatnot",
-    detail: "Men's Fashion & Sneakers Creator Programme",
-    period: "Aug 2026",
+    detail: "Men's Fashion & Sneakers Creator Programme · shopping haul",
+    period: "3 Sep 2026",
     brandUrl: "https://www.whatnot.com/",
+    analytics: { views: "1.1K", likes: "37" },
     links: [
-      { label: "TikTok haul", href: "https://vm.tiktok.com/ZGdQeggsV/", platform: "TikTok" },
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok" },
     ],
   },
 ];
