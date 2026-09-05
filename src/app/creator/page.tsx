@@ -49,6 +49,57 @@ export default function CreatorPage() {
       <section className="brand-section" id="selected-work">
         <div className="wrap">
           <div className="brand-section-heading">
+            <div className="section-title">Selected organic performance</div>
+            <p>
+              A small selection of stronger outcomes across paid and gifted creative. These are
+              examples of what individual pieces achieved, not guaranteed campaign benchmarks.
+            </p>
+          </div>
+
+          <div className={styles.performanceGrid} aria-label="Selected organic campaign performance">
+            {SELECTED_PERFORMANCE.map((item) => (
+              <article className={styles.performanceCard} key={item.id}>
+                <div className={styles.performanceHead}>
+                  <strong>{item.brand}</strong>
+                  {item.period ? <span>{item.period}</span> : null}
+                </div>
+                {item.campaign ? <p>{item.campaign}</p> : null}
+                <div className={styles.performanceNumbers}>
+                  <div><span>Views</span><strong>{item.views}</strong></div>
+                  <div><span>Likes</span><strong>{item.likes}</strong></div>
+                </div>
+                <div className={styles.performancePartner}>
+                  <span>Brand / client: </span>
+                  {item.brandUrl ? (
+                    <a href={item.brandUrl} rel="noreferrer" target="_blank">{item.brand} ↗</a>
+                  ) : (
+                    <strong>{item.brand}</strong>
+                  )}
+                  {item.campaignPartner ? (
+                    <>
+                      <span> · via </span>
+                      {item.partnerUrl ? (
+                        <a href={item.partnerUrl} rel="noreferrer" target="_blank">{item.campaignPartner} ↗</a>
+                      ) : (
+                        <strong>{item.campaignPartner}</strong>
+                      )}
+                    </>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <p className={styles.performanceNote}>
+            Selected organic results. Performance varies by brief, distribution, paid support and
+            platform conditions.
+          </p>
+        </div>
+      </section>
+
+      <section className="brand-section">
+        <div className="wrap">
+          <div className="brand-section-heading">
             <div className="section-title">Selected creative work</div>
             <p>
               Campaigns selected for the brief, execution and deliverables—not simply because a
@@ -206,57 +257,6 @@ export default function CreatorPage() {
         </div>
       </section>
 
-      <section className="brand-section">
-        <div className="wrap">
-          <div className="brand-section-heading">
-            <div className="section-title">Selected organic performance</div>
-            <p>
-              A small selection of stronger outcomes across paid and gifted creative. These are
-              examples of what individual pieces achieved, not guaranteed campaign benchmarks.
-            </p>
-          </div>
-
-          <div className={styles.performanceGrid} aria-label="Selected organic campaign performance">
-            {SELECTED_PERFORMANCE.map((item) => (
-              <article className={styles.performanceCard} key={item.id}>
-                <div className={styles.performanceHead}>
-                  <strong>{item.brand}</strong>
-                  {item.period ? <span>{item.period}</span> : null}
-                </div>
-                {item.campaign ? <p>{item.campaign}</p> : null}
-                <div className={styles.performanceNumbers}>
-                  <div><span>Views</span><strong>{item.views}</strong></div>
-                  <div><span>Likes</span><strong>{item.likes}</strong></div>
-                </div>
-                <div className={styles.performancePartner}>
-                  <span>Brand / client: </span>
-                  {item.brandUrl ? (
-                    <a href={item.brandUrl} rel="noreferrer" target="_blank">{item.brand} ↗</a>
-                  ) : (
-                    <strong>{item.brand}</strong>
-                  )}
-                  {item.campaignPartner ? (
-                    <>
-                      <span> · via </span>
-                      {item.partnerUrl ? (
-                        <a href={item.partnerUrl} rel="noreferrer" target="_blank">{item.campaignPartner} ↗</a>
-                      ) : (
-                        <strong>{item.campaignPartner}</strong>
-                      )}
-                    </>
-                  ) : null}
-                </div>
-              </article>
-            ))}
-          </div>
-
-          <p className={styles.performanceNote}>
-            Selected organic results. Performance varies by brief, distribution, paid support and
-            platform conditions.
-          </p>
-        </div>
-      </section>
-
       <section className="brand-section brand-roster-section" id="work-archive">
         <div className="wrap brand-roster-grid">
           <div>
@@ -269,7 +269,8 @@ export default function CreatorPage() {
           <div className={styles.partnershipGrid} aria-label="Brand work archive">
             {PARTNERSHIP_ROSTER.map((partnership, index) => {
               const publicLinks = partnership.links?.filter((link) => link.href) ?? [];
-              const linkMetrics = partnership.links?.filter((link) => link.analytics) ?? [];
+              const metricLinks = publicLinks.filter((link) => link.analytics);
+              const simpleLinks = publicLinks.filter((link) => !link.analytics);
 
               return (
                 <article className={styles.partnershipCard} key={`${partnership.brand}-${index}`}>
@@ -304,7 +305,9 @@ export default function CreatorPage() {
                     </span>
                     {partnership.managedBy?.length ? (
                       <span>
-                        Commissioned / managed by {partnership.managedBy.map((contact) => contact.name).join(" · ")}
+                        Commissioned / managed by {partnership.managedBy.map((contact) => (
+                          contact.organisation ? `${contact.name} · ${contact.organisation}` : contact.name
+                        )).join(" · ")}
                       </span>
                     ) : null}
                   </div>
@@ -314,24 +317,33 @@ export default function CreatorPage() {
                       <span>{partnership.analytics.views} views</span>
                       <span>{partnership.analytics.likes} likes</span>
                     </div>
-                  ) : linkMetrics.length ? (
-                    <div className={styles.archiveMetricList}>
-                      {linkMetrics.map((link) => (
-                        <div key={`${partnership.brand}-${link.label}-metric`}>
-                          <strong>{link.label}</strong>
-                          <span>{link.analytics!.views} views · {link.analytics!.likes} likes</span>
-                        </div>
+                  ) : null}
+
+                  {metricLinks.length ? (
+                    <div className={styles.archiveDeliverables}>
+                      {metricLinks.map((link) => (
+                        <a
+                          href={link.href}
+                          key={`${partnership.brand}-${link.label}-metric`}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          <div className={styles.archiveDeliverableHead}>
+                            <strong>{link.label}</strong>
+                            <b>↗</b>
+                          </div>
+                          <div className={styles.archiveAnalytics}>
+                            <span>{link.analytics!.views} views</span>
+                            <span>{link.analytics!.likes} likes</span>
+                          </div>
+                        </a>
                       ))}
                     </div>
-                  ) : (
-                    <div className={`${styles.archiveAnalytics} ${styles.archiveMuted}`}>
-                      <span>Performance not archived</span>
-                    </div>
-                  )}
+                  ) : null}
 
-                  {publicLinks.length ? (
+                  {simpleLinks.length ? (
                     <div className={styles.archiveLinks}>
-                      {publicLinks.map((link) => (
+                      {simpleLinks.map((link) => (
                         <a
                           href={link.href}
                           key={`${partnership.brand}-${link.label}`}
@@ -342,11 +354,7 @@ export default function CreatorPage() {
                         </a>
                       ))}
                     </div>
-                  ) : (
-                    <div className={`${styles.archiveLinks} ${styles.archiveMuted}`}>
-                      <span>Public content link not archived</span>
-                    </div>
-                  )}
+                  ) : null}
                 </article>
               );
             })}
