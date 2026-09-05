@@ -1,0 +1,20 @@
+name: Verify Snoop post
+on:
+  push:
+    paths:
+      - '.github/workflows/check-snoop.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install yt-dlp
+        run: pip install -q --upgrade yt-dlp
+      - name: Inspect candidate
+        run: |
+          yt-dlp --skip-download --print 'ID=%(id)s\nDATE=%(upload_date)s\nVIEWS=%(view_count)s\nLIKES=%(like_count)s\nTITLE=%(title)s\nDESCRIPTION=%(description)s\nURL=%(webpage_url)s' 'https://www.tiktok.com/@fitswitharchie/video/7571490410309258519' || true
