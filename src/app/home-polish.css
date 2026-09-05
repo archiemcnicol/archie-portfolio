@@ -1,0 +1,36 @@
+.audience-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.audience-card {
+  min-width: 0;
+  min-height: 160px;
+}
+
+.home-background-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 28px;
+  margin-top: 28px;
+}
+
+@media (max-width: 900px) {
+  .audience-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .audience-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .audience-card {
+    min-height: 128px;
+  }
+
+  .home-background-actions {
+    display: grid;
+    gap: 14px;
+  }
+}
