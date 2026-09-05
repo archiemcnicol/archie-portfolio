@@ -22,6 +22,23 @@ export function SiteNav() {
     setMenuOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [menuOpen]);
+
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
@@ -61,7 +78,11 @@ export function SiteNav() {
         </button>
       </div>
 
-      <div className={`mobile-nav ${menuOpen ? "mobile-nav-open" : ""}`} id="mobile-navigation">
+      <div
+        aria-hidden={!menuOpen}
+        className={`mobile-nav ${menuOpen ? "mobile-nav-open" : ""}`}
+        id="mobile-navigation"
+      >
         <nav className="wrap mobile-nav-inner" aria-label="Mobile navigation">
           {links.map(([label, href], index) => (
             <Link
@@ -69,6 +90,7 @@ export function SiteNav() {
               className={isActive(href) ? "nav-link-active" : undefined}
               href={href}
               key={href}
+              tabIndex={menuOpen ? 0 : -1}
             >
               <span>{String(index + 1).padStart(2, "0")}</span>
               <strong>{label}</strong>
