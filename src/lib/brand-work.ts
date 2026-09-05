@@ -122,7 +122,7 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   { brand: "Superdry", detail: "Fashion and styling campaigns" },
   { brand: "Jean Paul Gaultier", detail: "Le Male fragrance gifting" },
   { brand: "Lyle & Scott", detail: "Fashion creator collaboration" },
-  { brand: "Sketch.co / All Points East", detail: "Tyler, The Creator event promotion" },
+  { brand: "Skitch.co / All Points East", detail: "Tyler, The Creator event promotion" },
   { brand: "Tilt / Redpill", detail: "Go Full Tilt creator campaign" },
   { brand: "Firmoo", detail: "Eyewear creator work" },
   {
