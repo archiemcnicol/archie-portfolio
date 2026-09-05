@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 };
 
 const chapters = [
-  ["01", "Background", "The CV-style timeline: education, work, creator growth and the projects that shaped the portfolio.", "/cv"],
+  ["01", "Background", "The full chronology from photography beginnings around 2018 through community work, creator growth, independent projects and the move into full-time creative work.", "/cv"],
   ["02", "Creator work", "Campaigns, collaborations, creative execution and public performance across @fitswitharchie.", "/creator"],
   ["03", "Professional", "Community management, creator operations and the work behind the public-facing creative output.", "/professional"],
   ["04", "Performance", "Affiliate partnerships measured through registrations, activations, parcels and downstream conversion.", "/affiliate"],
-  ["05", "Photography", "The complete public photography archive across travel, aerial, event and lifestyle work.", "/photography"],
+  ["05", "Photography", "The complete public archive, built on a photography journey that started around 2018 and developed through 2019–20.", "/photography"],
   ["06", "Digital", "Web builds, content systems and commercial projects that connect creative work with useful infrastructure.", "/business"],
 ] as const;
 
@@ -29,7 +29,7 @@ export default function AboutPage() {
           </div>
           <div className={styles.heroSide}>
             <p>
-              A Buckinghamshire-based creator, photographer and community manager working across
+              A Buckinghamshire-based creator, community manager and photographer working across
               short-form content, creator operations, performance partnerships and digital projects.
             </p>
             <Link className={styles.inlineLink} href="/cv">Open full background →</Link>
@@ -49,9 +49,9 @@ export default function AboutPage() {
       <section className={styles.statement}>
         <div className="wrap">
           <p>
-            The useful version of the story is not a short biography. The creator work, CapCut
-            community role, affiliate projects, photography and web work all developed alongside
-            each other, and each one has its own evidence, history and outcomes.
+            The useful version of the story is not a short biography. Photography came first;
+            creator work, CapCut community operations, performance partnerships and digital projects
+            then developed around it, with each area carrying its own work, history and outcomes.
           </p>
         </div>
       </section>
