@@ -16,7 +16,7 @@ const findings = [];
 for (const [label, pattern] of patterns) {
   const current = spawnSync(
     "git",
-    ["grep", "-I", "-n", "-E", pattern, "--", ".", ...exclusions],
+    ["grep", "-I", "-n", "-E", "-e", pattern, "--", ".", ...exclusions],
     { encoding: "utf8" },
   );
 
