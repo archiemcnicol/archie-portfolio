@@ -1,5 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Archie McNicol A mark">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Archie McNicol framed A mark">
   <rect width="64" height="64" rx="14" fill="#111111"/>
-  <path d="M14 49 27.2 15h9.6L50 49h-8.3l-3-8.2H25.2L22.2 49H14Zm13.6-15h8.8L32 21.7 27.6 34Z" fill="#F5F1EA"/>
-  <circle cx="49" cy="15" r="5" fill="#D8FF34"/>
+  <path d="M13 21V13h8" fill="none" stroke="#D8FF34" stroke-width="3" stroke-linecap="square"/>
+  <path d="M51 43v8h-8" fill="none" stroke="#D8FF34" stroke-width="3" stroke-linecap="square"/>
+  <path d="M32 15 47.5 49h-7.2l-3.2-7.7H26.9L23.7 49h-7.2L32 15Zm-2.7 20.2h5.4L32 28.7l-2.7 6.5Z" fill="#F5F1EA"/>
 </svg>
