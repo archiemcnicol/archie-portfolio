@@ -13,17 +13,27 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Inspect Urlebird profile
+      - name: Try alternate TikTok short-link hosts
         shell: bash
         run: |
-          set -euo pipefail
-          ua='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/152 Safari/537.36'
-          curl -sSL -A "$ua" -H 'Accept-Language: en-GB,en;q=0.9' 'https://urlebird.com/user/fitswitharchie/' -o /tmp/profile.html -w 'http=%{http_code} bytes=%{size_download} effective=%{url_effective}\n'
-          echo '===== page title / identity ====='
-          grep -Eio '<title>[^<]+|@fitswitharchie|Archie McNicol' /tmp/profile.html | head -n 20 || true
-          echo '===== video href samples ====='
-          grep -Eo 'href="[^"]*/video/[^"]+"' /tmp/profile.html | head -n 50 || true
-          echo '===== IDs in page ====='
-          grep -Eo '[0-9]{19}' /tmp/profile.html | sort -u | head -n 100 || true
-          echo '===== pagination / ajax hints ====='
-          grep -Eio '.{0,100}(load more|cursor|ajax|page=|user/videos|api/).{0,180}' /tmp/profile.html | head -n 80 || true
+          set -u
+          codes=(
+            'nike|ZNRrSuv3S'
+            'boss|ZNd7Wft36'
+            'moschino|ZNdUsJTCT'
+            'superdry-one|ZGeEcsen9'
+            'superdry-two|ZGeoh1to7'
+          )
+          ua='Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1'
+          for entry in "${codes[@]}"; do
+            name="${entry%%|*}"; code="${entry#*|}"
+            echo "===== ${name} ====="
+            for url in \
+              "https://vm.tiktok.com/${code}/" \
+              "https://vt.tiktok.com/${code}/" \
+              "https://www.tiktok.com/t/${code}/"; do
+              echo "--- ${url} ---"
+              curl -sS -L --max-redirs 8 -o /dev/null -w 'http=%{http_code} effective=%{url_effective}\n' \
+                -A "$ua" -H 'Accept-Language: en-GB,en;q=0.9' "$url" || true
+            done
+          done
