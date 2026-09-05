@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "verify:security": "node scripts/scan-secrets.mjs",
+    "verify:security": "node scripts/scan-secrets.mjs && node scripts/verify-security-config.mjs",
     "verify:release": "node scripts/verify-release.mjs",
     "verify": "npm run verify:security && npm run build && npm run typecheck && npm run verify:release"
   },
