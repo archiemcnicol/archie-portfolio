@@ -29,6 +29,18 @@ assert(!proxy.includes("VERCEL_ENV"), "preview deployments must not bypass admin
 assert(!adminPage.includes("VERCEL_ENV"), "admin page must not auto-enable on preview deployments");
 assert(adminPage.includes('process.env.ENABLE_ADMIN === "true"'), "admin page must fail closed unless explicitly enabled");
 
+assert(proxy.includes("function logSecurityEvent"), "blocked admin access must emit security logs");
+for (const event of [
+  "admin_disabled_probe",
+  "admin_auth_missing",
+  "admin_auth_malformed",
+  "admin_auth_invalid",
+]) {
+  assert(proxy.includes(event), `security event is missing: ${event}`);
+}
+assert(!/console\.(?:warn|log|error)[\s\S]{0,240}authorization/i.test(proxy), "security logs must not include Authorization headers");
+assert(!/console\.(?:warn|log|error)[\s\S]{0,240}cookie/i.test(proxy), "security logs must not include cookies");
+
 for (const header of [
   "Strict-Transport-Security",
   "X-Content-Type-Options",
