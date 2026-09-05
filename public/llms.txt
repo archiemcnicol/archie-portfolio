@@ -1,28 +1,31 @@
 # Archie McNicol
 
-Archie McNicol is a UK content creator, photographer, community manager and digital creative based in Buckinghamshire.
+Archie McNicol is a UK content creator, community manager, photographer and digital creative based in Buckinghamshire.
 
 ## Public portfolio
 - / — portfolio overview
 - /creator — brand campaigns, creator work and selected performance
-- /photography — public photography archive
+- /photography — public photography archive and photography background
 - /business — commercial and digital work index
 - /business/web — web and digital project detail
 - /affiliate — affiliate and performance analytics dashboard
 - /affiliate/acbuy — ACBuy performance case study
 - /affiliate/usfans — USFans performance case study
 - /professional — professional experience index
-- /professional/capcut — CapCut UK community-management experience
+- /professional/capcut — CapCut UK community-management and creator-operations experience
 - /about — profile and chapter index
-- /cv — CV-style background, education and experience timeline
+- /cv — CV-style background, chronology, education, toolkit and experience
 - /contact — public contact routes
 
 ## Public profile
 - Creator handle: @fitswitharchie
-- Focus: fashion and lifestyle short-form content, photography, creator communities, performance partnerships and digital projects
+- Focus: fashion and lifestyle short-form content, creator communities, photography, performance partnerships and digital projects
 - Creator audience: 25K+ social community
 - Creator content: 20M+ views across content
-- Community experience: 3+ years supporting UK creators and community operations for CapCut
+- Community experience: 3+ years supporting creator communities and operations for CapCut, with UK as the primary market
+- Photography: journey began around 2018 and developed through 2019–20 into travel, aerial, event and lifestyle work
+- Photography archive: 616 public photographs
+- Education: completed A-levels in Geography, Media Studies and Photography in 2026 before moving directly into full-time creative work
 - Location: Buckinghamshire, United Kingdom
 
 ## Contact and profiles
