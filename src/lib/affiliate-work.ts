@@ -47,5 +47,6 @@ export const AFFILIATE_ARCHIVE = [
     name: "Showview",
     period: "From 5 May 2024 · 2 months",
     description: "Earlier affiliate partnership retained as part of the performance-work timeline.",
+    href: null,
   },
 ] as const;
