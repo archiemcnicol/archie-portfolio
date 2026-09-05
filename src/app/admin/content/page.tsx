@@ -4,14 +4,16 @@ import "./admin.css";
 
 export const metadata = {
   title: "Content Review — Archie Portfolio Admin",
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: false, noarchive: true },
 };
 
 export default function ContentReviewPage() {
-  const adminEnabled =
-    process.env.ENABLE_ADMIN === "true" || process.env.VERCEL_ENV === "preview";
+  const adminConfigured =
+    process.env.ENABLE_ADMIN === "true" &&
+    Boolean(process.env.ADMIN_USERNAME) &&
+    Boolean(process.env.ADMIN_PASSWORD);
 
-  if (!adminEnabled) {
+  if (!adminConfigured) {
     notFound();
   }
 
