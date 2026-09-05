@@ -53,10 +53,18 @@ export default function OpenGraphImage() {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 24, maxWidth: 980 }}>
-          <div style={{ fontSize: 78, fontWeight: 700, letterSpacing: "-0.045em", lineHeight: 0.98 }}>
-            Creator. Photographer.
-            <br />
-            Digital creative.
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              fontSize: 78,
+              fontWeight: 700,
+              letterSpacing: "-0.045em",
+              lineHeight: 0.98,
+            }}
+          >
+            <span>Creator. Photographer.</span>
+            <span>Digital creative.</span>
           </div>
           <div style={{ color: "#c9c4bb", fontSize: 28, lineHeight: 1.35 }}>
             Brand work · Photography · Performance · Professional
