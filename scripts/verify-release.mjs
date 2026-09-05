@@ -7,12 +7,15 @@ const read = (relativePath) => fs.readFileSync(path.join(repoRoot, relativePath)
 const exists = (relativePath) => fs.existsSync(path.join(repoRoot, relativePath));
 
 const brandWork = read("src/lib/brand-work.ts");
+const creatorPage = read("src/app/creator/page.tsx");
+const brandConsistency = read("src/app/creator/brand-work-consistency.module.css");
 const portfolioArchive = read("src/lib/portfolio-archive.ts");
 const photographyPage = read("src/app/photography/page.tsx");
 const portfolioComponent = read("src/components/portfolio-archive.tsx");
 const nextConfig = read("next.config.ts");
 const siteConfig = read("src/lib/site.ts");
 const llms = read("public/llms.txt");
+const icon = read("src/app/icon.svg");
 
 const failures = [];
 const assert = (condition, message) => {
@@ -36,6 +39,23 @@ const tiktokLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/www\.tiktok\.com
 assert(tiktokLinks.length >= 20, `expected a substantial canonical TikTok archive, found ${tiktokLinks.length} links`);
 assert(!brandWork.includes("https://vm.tiktok.com/"), "legacy TikTok short links remain in brand-work data");
 
+const selectedPerformanceLinks = [
+  "7524743379410881814",
+  "7524371608803265814",
+  "7410796625053945120",
+  "7480232374132018434",
+  "7447955753240939808",
+  "7499465138953653526",
+];
+for (const videoId of selectedPerformanceLinks) {
+  assert(creatorPage.includes(videoId), `selected organic performance content link is missing: ${videoId}`);
+}
+assert(creatorPage.includes("PERFORMANCE_CONTENT_LINKS"), "selected organic performance must keep direct content links");
+assert(creatorPage.includes("contentAnalytics"), "selected campaign content must use the shared analytics treatment");
+assert(creatorPage.includes("archiveContentAnalytics"), "work archive content must use the shared analytics treatment");
+assert(brandConsistency.includes(".contentCard"), "Brand Work unified content card styling is missing");
+assert(brandConsistency.includes(".archiveContentCard"), "Brand Work unified archive content styling is missing");
+
 const snoopStart = brandWork.indexOf('brand: "Snoop"');
 const snoopEnd = brandWork.indexOf('brand: "Whatnot"', snoopStart);
 const snoopSection = snoopStart >= 0 && snoopEnd > snoopStart ? brandWork.slice(snoopStart, snoopEnd) : "";
@@ -46,6 +66,9 @@ assert(!/Redpill|Candyce/i.test(snoopSection), "Snoop entry still contains the r
 assert(siteConfig.includes('email: "fitswitharchie@gmail.com"'), "public contact email must be fitswitharchie@gmail.com");
 assert(!siteConfig.includes("archiemcnicol002@gmail.com"), "personal email remains in public site config");
 assert(!llms.includes("archiemcnicol002@gmail.com"), "personal email remains in llms.txt");
+
+assert(!icon.includes("<circle"), "favicon must not regress to the notification-dot treatment");
+assert(icon.includes("stroke=\"#D8FF34\""), "favicon framing detail is missing");
 
 const excludedNames = new Set(["IMG_2473.jpg", "IMG_2469.jpg", "Screenshot_20200502-010759_Instagram-Enhanced.jpg"]);
 const archiveRecords = [...portfolioArchive.matchAll(/\{\s*"id":\s*"([^"]+)",\s*"src":\s*"([^"]+)",\s*"width":\s*(\d+),\s*"height":\s*(\d+),\s*"originalName":\s*"([^"]+)"\s*\}/g)].map((match) => ({ id: match[1], src: match[2], originalName: match[5] }));
@@ -73,6 +96,8 @@ const requiredPublicFiles = [
   "src/lib/site.ts",
   "src/lib/profile-data.ts",
   "src/lib/affiliate-work.ts",
+  "src/app/creator/brand-work-consistency.module.css",
+  "src/app/identity-polish.css",
 ];
 for (const file of requiredPublicFiles) assert(exists(file), `required public/SEO file is missing: ${file}`);
 
@@ -103,4 +128,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log(`Release verification passed: ${publicCampaignIds.length} selected campaigns, ${tiktokLinks.length} archived TikTok links, ${publicRecords.length} public photographs and ${publicPages.length} checked public pages.`);
+console.log(`Release verification passed: ${publicCampaignIds.length} selected campaigns, ${selectedPerformanceLinks.length} linked organic-performance posts, ${tiktokLinks.length} archived TikTok links, ${publicRecords.length} public photographs and ${publicPages.length} checked public pages.`);
