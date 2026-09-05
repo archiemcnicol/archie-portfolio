@@ -60,6 +60,8 @@ export default function CreatorPage() {
             {PUBLIC_CAMPAIGNS.map((campaign, index) => {
               const coverLinks = campaign.links.filter((link) => link.coverSrc);
               const publicLinks = campaign.links.filter((link) => link.href);
+              const measuredDeliverables = publicLinks.filter((link) => link.analytics);
+              const standardLinks = publicLinks.filter((link) => !link.analytics);
 
               return (
                 <article className={styles.campaign} key={campaign.id}>
@@ -154,9 +156,29 @@ export default function CreatorPage() {
                       </div>
                     ) : null}
 
-                    {publicLinks.length ? (
+                    {measuredDeliverables.length ? (
+                      <div className={styles.measuredDeliverables} aria-label={`${campaign.brand} deliverable performance`}>
+                        {measuredDeliverables.map((link) => (
+                          <div className={styles.measuredDeliverable} key={`${campaign.id}-${link.label}-performance`}>
+                            <div className={styles.deliverableHead}>
+                              <strong>{link.label}</strong>
+                              <span>{link.platform}</span>
+                            </div>
+                            <div className={styles.analytics}>
+                              <div><span>Views</span><strong>{link.analytics!.views}</strong></div>
+                              <div><span>Likes</span><strong>{link.analytics!.likes}</strong></div>
+                            </div>
+                            <a href={link.href} rel="noreferrer" target="_blank">
+                              View on {link.platform} ↗
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+
+                    {standardLinks.length ? (
                       <div className={styles.deliverables} aria-label={`${campaign.brand} content links`}>
-                        {publicLinks.map((link) => (
+                        {standardLinks.map((link) => (
                           <a
                             href={link.href}
                             key={`${campaign.id}-${link.label}-link`}
@@ -164,11 +186,7 @@ export default function CreatorPage() {
                             target="_blank"
                           >
                             <span>{link.label}</span>
-                            {link.analytics ? (
-                              <small>{link.analytics.views} views · {link.analytics.likes} likes</small>
-                            ) : (
-                              <small>{link.platform}</small>
-                            )}
+                            <small>{link.platform}</small>
                             <b>↗</b>
                           </a>
                         ))}
@@ -210,18 +228,24 @@ export default function CreatorPage() {
                   <div><span>Views</span><strong>{item.views}</strong></div>
                   <div><span>Likes</span><strong>{item.likes}</strong></div>
                 </div>
-                {item.campaignPartner ? (
-                  <div className={styles.performancePartner}>
-                    Campaign partner:{" "}
-                    {item.partnerUrl ? (
-                      <a href={item.partnerUrl} rel="noreferrer" target="_blank">
-                        {item.campaignPartner} ↗
-                      </a>
-                    ) : (
-                      item.campaignPartner
-                    )}
-                  </div>
-                ) : null}
+                <div className={styles.performancePartner}>
+                  <span>Brand / client: </span>
+                  {item.brandUrl ? (
+                    <a href={item.brandUrl} rel="noreferrer" target="_blank">{item.brand} ↗</a>
+                  ) : (
+                    <strong>{item.brand}</strong>
+                  )}
+                  {item.campaignPartner ? (
+                    <>
+                      <span> · via </span>
+                      {item.partnerUrl ? (
+                        <a href={item.partnerUrl} rel="noreferrer" target="_blank">{item.campaignPartner} ↗</a>
+                      ) : (
+                        <strong>{item.campaignPartner}</strong>
+                      )}
+                    </>
+                  ) : null}
+                </div>
               </article>
             ))}
           </div>
@@ -243,66 +267,89 @@ export default function CreatorPage() {
             </p>
           </div>
           <div className={styles.partnershipGrid} aria-label="Brand work archive">
-            {PARTNERSHIP_ROSTER.map((partnership, index) => (
-              <article className={styles.partnershipCard} key={`${partnership.brand}-${index}`}>
-                <div className={styles.archiveTop}>
-                  {partnership.brandUrl ? (
-                    <a href={partnership.brandUrl} rel="noreferrer" target="_blank">
+            {PARTNERSHIP_ROSTER.map((partnership, index) => {
+              const publicLinks = partnership.links?.filter((link) => link.href) ?? [];
+              const linkMetrics = partnership.links?.filter((link) => link.analytics) ?? [];
+
+              return (
+                <article className={styles.partnershipCard} key={`${partnership.brand}-${index}`}>
+                  <div className={styles.archiveTop}>
+                    {partnership.brandUrl ? (
+                      <a href={partnership.brandUrl} rel="noreferrer" target="_blank">
+                        <strong>{partnership.brand}</strong>
+                      </a>
+                    ) : (
                       <strong>{partnership.brand}</strong>
-                    </a>
-                  ) : (
-                    <strong>{partnership.brand}</strong>
-                  )}
-                  {partnership.period ? <span className={styles.archivePeriod}>{partnership.period}</span> : null}
-                </div>
+                    )}
+                    {partnership.period ? <span className={styles.archivePeriod}>{partnership.period}</span> : null}
+                  </div>
 
-                <p className={styles.archiveDetail}>{partnership.detail}</p>
+                  <p className={styles.archiveDetail}>{partnership.detail}</p>
 
-                {(partnership.campaignPartner || partnership.managedBy?.length) ? (
                   <div className={styles.archiveCredits}>
-                    {partnership.campaignPartner ? (
-                      <span>
-                        Campaign partner:{" "}
-                        {partnership.partnerUrl ? (
-                          <a href={partnership.partnerUrl} rel="noreferrer" target="_blank">
-                            {partnership.campaignPartner} ↗
-                          </a>
-                        ) : (
-                          partnership.campaignPartner
-                        )}
-                      </span>
-                    ) : null}
+                    <span>
+                      Brand / client: <strong>{partnership.brand}</strong>
+                      {partnership.campaignPartner ? (
+                        <>
+                          {" · via "}
+                          {partnership.partnerUrl ? (
+                            <a href={partnership.partnerUrl} rel="noreferrer" target="_blank">
+                              {partnership.campaignPartner} ↗
+                            </a>
+                          ) : (
+                            <strong>{partnership.campaignPartner}</strong>
+                          )}
+                        </>
+                      ) : null}
+                    </span>
                     {partnership.managedBy?.length ? (
                       <span>
-                        Managed by {partnership.managedBy.map((contact) => contact.name).join(" · ")}
+                        Commissioned / managed by {partnership.managedBy.map((contact) => contact.name).join(" · ")}
                       </span>
                     ) : null}
                   </div>
-                ) : null}
 
-                {partnership.analytics ? (
-                  <div className={styles.archiveAnalytics}>
-                    <span>{partnership.analytics.views} views</span>
-                    <span>{partnership.analytics.likes} likes</span>
-                  </div>
-                ) : null}
+                  {partnership.analytics ? (
+                    <div className={styles.archiveAnalytics}>
+                      <span>{partnership.analytics.views} views</span>
+                      <span>{partnership.analytics.likes} likes</span>
+                    </div>
+                  ) : linkMetrics.length ? (
+                    <div className={styles.archiveMetricList}>
+                      {linkMetrics.map((link) => (
+                        <div key={`${partnership.brand}-${link.label}-metric`}>
+                          <strong>{link.label}</strong>
+                          <span>{link.analytics!.views} views · {link.analytics!.likes} likes</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className={`${styles.archiveAnalytics} ${styles.archiveMuted}`}>
+                      <span>Performance not archived</span>
+                    </div>
+                  )}
 
-                {partnership.links?.some((link) => link.href) ? (
-                  <div className={styles.archiveLinks}>
-                    {partnership.links.filter((link) => link.href).map((link) => (
-                      <a
-                        href={link.href}
-                        key={`${partnership.brand}-${link.label}`}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {link.label} ↗
-                      </a>
-                    ))}
-                  </div>
-                ) : null}
-              </article>
-            ))}
+                  {publicLinks.length ? (
+                    <div className={styles.archiveLinks}>
+                      {publicLinks.map((link) => (
+                        <a
+                          href={link.href}
+                          key={`${partnership.brand}-${link.label}`}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {link.label} ↗
+                        </a>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className={`${styles.archiveLinks} ${styles.archiveMuted}`}>
+                      <span>Public content link not archived</span>
+                    </div>
+                  )}
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
