@@ -6,11 +6,21 @@ import {
   SELECTED_PERFORMANCE,
 } from "@/lib/brand-work";
 import styles from "./brand-work.module.css";
+import consistency from "./brand-work-consistency.module.css";
 
 export const metadata = {
   title: "Brand Work — Archie McNicol",
   description:
     "Selected creator campaigns, UGC, short-form brand work and campaign outcomes by Archie McNicol.",
+};
+
+const PERFORMANCE_CONTENT_LINKS: Record<string, string> = {
+  "tilt-2025-07-08": "https://www.tiktok.com/@fitswitharchie/video/7524743379410881814",
+  "tilt-2025-07-07": "https://www.tiktok.com/@fitswitharchie/video/7524371608803265814",
+  "aly-2024-09-04": "https://www.tiktok.com/@fitswitharchie/video/7410796625053945120",
+  "killowen-pick-your-poison": "https://www.tiktok.com/@fitswitharchie/video/7480232374132018434",
+  "wintr-2024-12-13": "https://www.tiktok.com/@fitswitharchie/video/7447955753240939808",
+  "lyle-scott-2025-05-01": "https://www.tiktok.com/@fitswitharchie/video/7499465138953653526",
 };
 
 export default function CreatorPage() {
@@ -56,31 +66,40 @@ export default function CreatorPage() {
           </div>
 
           <div className={styles.performanceGrid} aria-label="Selected organic campaign performance">
-            {SELECTED_PERFORMANCE.map((item, index) => (
-              <article className={styles.performanceCard} key={item.id}>
-                <span className={styles.performanceIndex}>{String(index + 1).padStart(2, "0")}</span>
-                <div className={styles.performanceIdentity}>
-                  <div className={styles.performanceHead}>
-                    <strong>{item.brand}</strong>
-                    {item.period ? <span>{item.period}</span> : null}
+            {SELECTED_PERFORMANCE.map((item, index) => {
+              const contentHref = PERFORMANCE_CONTENT_LINKS[item.id];
+
+              return (
+                <article className={`${styles.performanceCard} ${consistency.performanceCardLinked}`} key={item.id}>
+                  <span className={styles.performanceIndex}>{String(index + 1).padStart(2, "0")}</span>
+                  <div className={styles.performanceIdentity}>
+                    <div className={styles.performanceHead}>
+                      <strong>{item.brand}</strong>
+                      {item.period ? <span>{item.period}</span> : null}
+                    </div>
+                    {item.campaign ? <p>{item.campaign}</p> : <p>Organic creator performance</p>}
                   </div>
-                  {item.campaign ? <p>{item.campaign}</p> : <p>Organic creator performance</p>}
-                </div>
-                <div className={styles.performanceNumbers}>
-                  <div><span>Views</span><strong>{item.views}</strong></div>
-                  <div><span>Likes</span><strong>{item.likes}</strong></div>
-                </div>
-                <div className={styles.performancePartner}>
-                  <span>Client</span>
-                  {item.brandUrl ? <a href={item.brandUrl} rel="noreferrer" target="_blank">{item.brand} ↗</a> : <strong>{item.brand}</strong>}
-                  {item.campaignPartner ? (
-                    <small>
-                      via {item.partnerUrl ? <a href={item.partnerUrl} rel="noreferrer" target="_blank">{item.campaignPartner} ↗</a> : <strong>{item.campaignPartner}</strong>}
-                    </small>
+                  <div className={styles.performanceNumbers}>
+                    <div><span>Views</span><strong>{item.views}</strong></div>
+                    <div><span>Likes</span><strong>{item.likes}</strong></div>
+                  </div>
+                  <div className={styles.performancePartner}>
+                    <span>Client</span>
+                    {item.brandUrl ? <a href={item.brandUrl} rel="noreferrer" target="_blank">{item.brand} ↗</a> : <strong>{item.brand}</strong>}
+                    {item.campaignPartner ? (
+                      <small>
+                        via {item.partnerUrl ? <a href={item.partnerUrl} rel="noreferrer" target="_blank">{item.campaignPartner} ↗</a> : <strong>{item.campaignPartner}</strong>}
+                      </small>
+                    ) : null}
+                  </div>
+                  {contentHref ? (
+                    <a className={consistency.performanceAction} href={contentHref} rel="noreferrer" target="_blank">
+                      View TikTok ↗
+                    </a>
                   ) : null}
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
 
           <p className={styles.performanceNote}>Performance varies by brief, distribution, paid support and platform conditions.</p>
@@ -95,63 +114,84 @@ export default function CreatorPage() {
           </div>
 
           <div className="brand-campaigns">
-            {PUBLIC_CAMPAIGNS.map((campaign, index) => {
-              const coverLinks = campaign.links.filter((link) => link.coverSrc);
-              const publicLinks = campaign.links.filter((link) => link.href);
-              const measuredDeliverables = publicLinks.filter((link) => link.analytics);
-              const standardLinks = publicLinks.filter((link) => !link.analytics);
+            {PUBLIC_CAMPAIGNS.map((campaign, index) => (
+              <article className={styles.campaign} key={campaign.id}>
+                <div className={styles.number}>{String(index + 1).padStart(2, "0")}</div>
 
-              return (
-                <article className={styles.campaign} key={campaign.id}>
-                  <div className={styles.number}>{String(index + 1).padStart(2, "0")}</div>
-                  <div className={styles.media}>
-                    <div className={styles.covers}>
-                      {coverLinks.map((link) => {
-                        const image = <Image src={link.coverSrc!} alt={`${campaign.brand} campaign video cover`} fill sizes="(max-width: 600px) 72vw, (max-width: 900px) 42vw, 24vw" priority={index === 0} />;
-                        return link.href ? (
-                          <a className={styles.cover} href={link.href} key={`${campaign.id}-${link.label}`} rel="noreferrer" target="_blank" aria-label={`View ${campaign.brand} video on ${link.platform}`}>
-                            {image}<span className={styles.coverLabel}>View on {link.platform} ↗</span>
-                          </a>
-                        ) : <div className={`${styles.cover} ${styles.coverStatic}`} key={`${campaign.id}-${link.label}`}>{image}</div>;
-                      })}
-                    </div>
-                  </div>
+                <div className={styles.media}>
+                  <div className={consistency.contentList} aria-label={`${campaign.brand} campaign content`}>
+                    {campaign.links.map((link, linkIndex) => {
+                      const analytics = link.analytics ?? (linkIndex === 0 ? campaign.analytics : undefined);
+                      const thumbnail = link.coverSrc ? (
+                        <Image
+                          src={link.coverSrc}
+                          alt={`${campaign.brand} campaign video cover`}
+                          fill
+                          sizes="(max-width: 430px) 92px, (max-width: 700px) 104px, 122px"
+                          priority={index === 0 && linkIndex === 0}
+                        />
+                      ) : (
+                        <span className={consistency.contentPlaceholder}><strong>{link.platform}</strong></span>
+                      );
 
-                  <div className={styles.copy}>
-                    <div className={styles.meta}><span>{campaign.period}</span><span>{campaign.format}</span></div>
-                    <div className={styles.logoWrap} data-brand={campaign.id}>
-                      <Image className={styles.logo} src={campaign.logoSrc} alt={campaign.logoAlt} width={420} height={140} unoptimized />
-                    </div>
-                    <h3>{campaign.campaign}</h3>
-                    <p className={styles.summary}>{campaign.summary}</p>
+                      return (
+                        <article className={consistency.contentCard} key={`${campaign.id}-${link.label}`}>
+                          {link.href ? (
+                            <a
+                              aria-label={`View ${campaign.brand} content on ${link.platform}`}
+                              className={consistency.contentThumb}
+                              href={link.href}
+                              rel="noreferrer"
+                              target="_blank"
+                            >
+                              {thumbnail}
+                            </a>
+                          ) : (
+                            <div className={consistency.contentThumb}>{thumbnail}</div>
+                          )}
 
-                    {(campaign.campaignPartner || campaign.managedBy?.length) ? (
-                      <div className={styles.credits}>
-                        {campaign.campaignPartner ? <div><span>Campaign partner</span>{campaign.partnerUrl ? <a href={campaign.partnerUrl} rel="noreferrer" target="_blank">{campaign.campaignPartner} ↗</a> : <strong>{campaign.campaignPartner}</strong>}</div> : null}
-                        {campaign.managedBy?.length ? <div><span>Commissioned / managed by</span><strong>{campaign.managedBy.map((contact) => contact.name).join(" · ")}</strong></div> : null}
-                      </div>
-                    ) : null}
-
-                    {campaign.analytics ? <div className={styles.analytics} aria-label={`${campaign.brand} performance`}><div><span>Views</span><strong>{campaign.analytics.views}</strong></div><div><span>Likes</span><strong>{campaign.analytics.likes}</strong></div></div> : null}
-
-                    {measuredDeliverables.length ? (
-                      <div className={styles.measuredDeliverables} aria-label={`${campaign.brand} deliverable performance`}>
-                        {measuredDeliverables.map((link) => (
-                          <div className={styles.measuredDeliverable} key={`${campaign.id}-${link.label}-performance`}>
-                            <div className={styles.deliverableHead}><strong>{link.label}</strong><span>{link.platform}</span></div>
-                            <div className={styles.analytics}><div><span>Views</span><strong>{link.analytics!.views}</strong></div><div><span>Likes</span><strong>{link.analytics!.likes}</strong></div></div>
-                            <a href={link.href} rel="noreferrer" target="_blank">View on {link.platform} ↗</a>
+                          <div className={consistency.contentInfo}>
+                            <div className={consistency.contentTopline}>
+                              <strong>{link.label}</strong>
+                              <span>{link.platform}</span>
+                            </div>
+                            <div className={consistency.contentAnalytics} aria-label={`${link.label} performance`}>
+                              <div><span>Views</span><strong>{analytics?.views ?? "—"}</strong></div>
+                              <div><span>Likes</span><strong>{analytics?.likes ?? "—"}</strong></div>
+                            </div>
+                            {link.href ? (
+                              <a className={consistency.contentCta} href={link.href} rel="noreferrer" target="_blank">
+                                View on {link.platform} ↗
+                              </a>
+                            ) : (
+                              <span className={consistency.contentCta}>Public link unavailable</span>
+                            )}
                           </div>
-                        ))}
-                      </div>
-                    ) : null}
-
-                    {standardLinks.length ? <div className={styles.deliverables} aria-label={`${campaign.brand} content links`}>{standardLinks.map((link) => <a href={link.href} key={`${campaign.id}-${link.label}-link`} rel="noreferrer" target="_blank"><span>{link.label}</span><small>{link.platform}</small><b>↗</b></a>)}</div> : null}
-                    {campaign.brandUrl ? <a className={styles.brandLink} href={campaign.brandUrl} rel="noreferrer" target="_blank">Visit {campaign.brand} ↗</a> : null}
+                        </article>
+                      );
+                    })}
                   </div>
-                </article>
-              );
-            })}
+                </div>
+
+                <div className={styles.copy}>
+                  <div className={styles.meta}><span>{campaign.period}</span><span>{campaign.format}</span></div>
+                  <div className={styles.logoWrap} data-brand={campaign.id}>
+                    <Image className={styles.logo} src={campaign.logoSrc} alt={campaign.logoAlt} width={420} height={140} unoptimized />
+                  </div>
+                  <h3>{campaign.campaign}</h3>
+                  <p className={styles.summary}>{campaign.summary}</p>
+
+                  {(campaign.campaignPartner || campaign.managedBy?.length) ? (
+                    <div className={styles.credits}>
+                      {campaign.campaignPartner ? <div><span>Campaign partner</span>{campaign.partnerUrl ? <a href={campaign.partnerUrl} rel="noreferrer" target="_blank">{campaign.campaignPartner} ↗</a> : <strong>{campaign.campaignPartner}</strong>}</div> : null}
+                      {campaign.managedBy?.length ? <div><span>Commissioned / managed by</span><strong>{campaign.managedBy.map((contact) => contact.name).join(" · ")}</strong></div> : null}
+                    </div>
+                  ) : null}
+
+                  {campaign.brandUrl ? <a className={styles.brandLink} href={campaign.brandUrl} rel="noreferrer" target="_blank">Visit {campaign.brand} ↗</a> : null}
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -165,8 +205,6 @@ export default function CreatorPage() {
           <div className={styles.partnershipGrid} aria-label="Brand work archive">
             {PARTNERSHIP_ROSTER.map((partnership, index) => {
               const publicLinks = partnership.links?.filter((link) => link.href) ?? [];
-              const metricLinks = publicLinks.filter((link) => link.analytics);
-              const simpleLinks = publicLinks.filter((link) => !link.analytics);
 
               return (
                 <article className={styles.partnershipCard} key={`${partnership.brand}-${index}`}>
@@ -179,9 +217,38 @@ export default function CreatorPage() {
                     <span>Brand / client: <strong>{partnership.brand}</strong>{partnership.campaignPartner ? <>{" · via "}{partnership.partnerUrl ? <a href={partnership.partnerUrl} rel="noreferrer" target="_blank">{partnership.campaignPartner} ↗</a> : <strong>{partnership.campaignPartner}</strong>}</> : null}</span>
                     {partnership.managedBy?.length ? <span>Commissioned / managed by {partnership.managedBy.map((contact) => contact.organisation ? `${contact.name} · ${contact.organisation}` : contact.name).join(" · ")}</span> : null}
                   </div>
-                  {partnership.analytics ? <div className={styles.archiveAnalytics}><span>{partnership.analytics.views} views</span><span>{partnership.analytics.likes} likes</span></div> : null}
-                  {metricLinks.length ? <div className={styles.archiveDeliverables}>{metricLinks.map((link) => <a href={link.href} key={`${partnership.brand}-${link.label}-metric`} rel="noreferrer" target="_blank"><div className={styles.archiveDeliverableHead}><strong>{link.label}</strong><b>↗</b></div><div className={styles.archiveAnalytics}><span>{link.analytics!.views} views</span><span>{link.analytics!.likes} likes</span></div></a>)}</div> : null}
-                  {simpleLinks.length ? <div className={styles.archiveLinks}>{simpleLinks.map((link) => <a href={link.href} key={`${partnership.brand}-${link.label}`} rel="noreferrer" target="_blank">{link.label} ↗</a>)}</div> : null}
+
+                  {publicLinks.length ? (
+                    <div className={consistency.archiveContentList} aria-label={`${partnership.brand} public content`}>
+                      {publicLinks.map((link, linkIndex) => {
+                        const analytics = link.analytics ?? (linkIndex === 0 ? partnership.analytics : undefined);
+                        return (
+                          <a
+                            className={consistency.archiveContentCard}
+                            href={link.href}
+                            key={`${partnership.brand}-${link.label}-content`}
+                            rel="noreferrer"
+                            target="_blank"
+                          >
+                            <div className={consistency.archiveContentHead}>
+                              <strong>{link.label}</strong>
+                              <span>{link.platform}</span>
+                            </div>
+                            <b className={consistency.archiveContentArrow}>↗</b>
+                            <div className={consistency.archiveContentAnalytics}>
+                              <div><span>Views</span><strong>{analytics?.views ?? "—"}</strong></div>
+                              <div><span>Likes</span><strong>{analytics?.likes ?? "—"}</strong></div>
+                            </div>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  ) : partnership.analytics ? (
+                    <div className={consistency.archiveOverviewAnalytics} aria-label={`${partnership.brand} performance`}>
+                      <div><span>Views</span><strong>{partnership.analytics.views}</strong></div>
+                      <div><span>Likes</span><strong>{partnership.analytics.likes}</strong></div>
+                    </div>
+                  ) : null}
                 </article>
               );
             })}
