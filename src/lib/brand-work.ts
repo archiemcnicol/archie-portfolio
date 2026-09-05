@@ -16,7 +16,7 @@ export type PublicCampaign = {
   logoAlt: string;
   tone: "ink" | "acid" | "stone" | "blue";
   links: PublicCampaignLink[];
-  analytics: {
+  analytics?: {
     likes: string;
   };
 };
@@ -46,7 +46,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         coverSrc: "/brand-work/nike-2026-01-07.webp",
       },
     ],
-    analytics: { likes: "134" },
+    analytics: { likes: "140" },
   },
   {
     id: "boss-bottled-beyond",
@@ -67,7 +67,6 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp",
       },
     ],
-    analytics: { likes: "88" },
   },
   {
     id: "moschino-toy",
@@ -93,34 +92,26 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         platform: "Instagram",
       },
     ],
-    analytics: { likes: "93" },
   },
   {
     id: "superdry-2024",
     brand: "Superdry",
-    campaign: "Two-part styling campaign",
+    campaign: "Superdry styling campaign",
     period: "September 2024",
-    format: "Two TikTok deliverables",
+    format: "TikTok styling video",
     summary:
-      "Two coordinated fashion posts created and published as part of a gifted Superdry campaign.",
+      "A fashion-led styling video created and published as part of a gifted Superdry campaign.",
     logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Superdry_Logo_2020.svg",
     logoAlt: "Superdry wordmark",
     tone: "acid",
     links: [
       {
-        label: "Watch post one",
+        label: "Watch on TikTok",
         href: "https://vm.tiktok.com/ZGeEcsen9/",
         platform: "TikTok",
         coverSrc: "/brand-work/superdry-2024-09-16.webp",
       },
-      {
-        label: "Watch post two",
-        href: "https://vm.tiktok.com/ZGeoh1to7/",
-        platform: "TikTok",
-        coverSrc: "/brand-work/superdry-2024-09-21.webp",
-      },
     ],
-    analytics: { likes: "660 + 2,954" },
   },
 ];
 
