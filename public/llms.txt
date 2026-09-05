@@ -6,25 +6,30 @@ Archie McNicol is a UK content creator, photographer, community manager and digi
 - / — portfolio overview
 - /creator — brand campaigns, creator work and selected performance
 - /photography — public photography archive
-- /business — commercial web, photography and content work
-- /affiliate — affiliate and performance partnership experience
-- /professional — community management and professional experience
-- /about — background and disciplines
+- /business — commercial and digital work index
+- /business/web — web and digital project detail
+- /affiliate — affiliate and performance analytics dashboard
+- /affiliate/acbuy — ACBuy performance case study
+- /affiliate/usfans — USFans performance case study
+- /professional — professional experience index
+- /professional/capcut — CapCut UK community-management experience
+- /about — profile and chapter index
+- /cv — CV-style background, education and experience timeline
 - /contact — public contact routes
 
 ## Public profile
 - Creator handle: @fitswitharchie
-- Focus: fashion and lifestyle short-form content, photography, creator communities and digital projects
+- Focus: fashion and lifestyle short-form content, photography, creator communities, performance partnerships and digital projects
 - Creator audience: 25K+ social community
 - Creator content: 20M+ views across content
 - Community experience: 3+ years supporting UK creators and community operations for CapCut
 - Location: Buckinghamshire, United Kingdom
 
 ## Contact and profiles
-- Email: archiemcnicol002@gmail.com
+- Email: fitswitharchie@gmail.com
 - TikTok: https://www.tiktok.com/@fitswitharchie
 - LinkedIn: https://uk.linkedin.com/in/archie-mcnicol-73b5a5283
 - Pexels: https://www.pexels.com/@archie-mcnicol-559645417
 - GitHub: https://github.com/archiemcnicol
 
-Private admin routes, source datasets, private analytics and unpublished commercial terms are intentionally excluded from this file.
+Private admin routes, source datasets, private analytics, home address, personal contact details and unpublished commercial terms are intentionally excluded from this file.

@@ -7,10 +7,15 @@ Production portfolio for Archie McNicol — content creator, photographer, commu
 - `/` — portfolio overview
 - `/creator` — creator campaigns, brand work and selected performance
 - `/photography` — public photography archive
-- `/business` — commercial web, photography and content work
-- `/affiliate` — affiliate and performance partnership experience
-- `/professional` — community management and professional experience
-- `/about` — background and disciplines
+- `/business` — commercial and digital work index
+- `/business/web` — web and digital project detail
+- `/affiliate` — performance analytics dashboard
+- `/affiliate/acbuy` — ACBuy performance case study
+- `/affiliate/usfans` — USFans performance case study
+- `/professional` — professional experience index
+- `/professional/capcut` — CapCut UK community-management detail
+- `/about` — profile and chapter index
+- `/cv` — CV-style background, education and experience timeline
 - `/contact` — public contact routes
 
 ## Photography
@@ -23,20 +28,18 @@ Original filenames are used only on the server for curation and exclusion rules.
 
 Public creator data lives in `src/lib/brand-work.ts`. Client names, campaign partners and commissioning contacts are intentionally represented as separate fields so agencies or distribution platforms are not mistaken for the end client. Public links use canonical TikTok video URLs where they have been recovered and verified.
 
+## Profile and performance data
+
+- `src/lib/profile-data.ts` holds the public CV/experience timeline used across About, CV and Professional pages.
+- `src/lib/affiliate-work.ts` holds source-period-labelled affiliate data for the public ACBuy and USFans analytics pages.
+- Public contact email: `fitswitharchie@gmail.com`.
+- Personal contact information and unpublished commercial terms must not be added to public data files.
+
 ## Discoverability
 
-The site uses Next.js metadata routes and file conventions for:
+The site uses Next.js metadata routes and file conventions for route-specific metadata, canonical URLs, `sitemap.xml`, `robots.txt`, `llms.txt`, Person/WebSite structured data, a custom 404 page and the site favicon.
 
-- route-specific titles and descriptions
-- canonical URLs
-- `sitemap.xml`
-- `robots.txt`
-- `llms.txt`
-- Person and WebSite structured data
-- a custom 404 page
-- the site favicon
-
-Private `/admin/` and `/api/` routes are excluded from crawling. Admin content also remains unavailable in production unless explicitly enabled.
+Private `/admin/` and `/api/` routes are excluded from crawling. Admin content remains unavailable in production unless explicitly enabled.
 
 ## Stack
 
@@ -44,7 +47,8 @@ Private `/admin/` and `/api/` routes are excluded from crawling. Admin content a
 - React
 - Vercel
 - GitHub
-- Supabase for private data and future authenticated functionality
+- Supabase for private recovery/source data and future authenticated functionality
+- Cloudinary available for managed media workflows
 
 ## Local setup
 
@@ -58,4 +62,4 @@ Do not commit `.env.local`.
 
 ## Verification
 
-Run `npm run verify` before publishing. It builds the site, type-checks the project and checks the current public campaign, photography and SEO baseline. GitHub Actions also runs the same verification on pushes and pull requests targeting `main`, giving the project an independent build check even when an external deployment provider is rate-limited.
+Run `npm run verify` before publishing. It builds the site, type-checks the project and checks the public campaign, photography, contact and route baseline. GitHub Actions runs the same verification on pushes and pull requests targeting `main`.

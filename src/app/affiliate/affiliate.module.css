@@ -1,0 +1,100 @@
+.page { background: #111; color: #f5f1ea; }
+.hero { padding: 108px 0 78px; }
+.heroGrid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(320px, .6fr); gap: 72px; align-items: end; }
+.kicker, .kickerDark { color: #777; font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+.hero h1 { max-width: 1040px; margin: 18px 0 0; font-size: clamp(66px, 9.6vw, 150px); line-height: .82; letter-spacing: -.078em; }
+.heroSide { padding-left: 28px; border-left: 1px solid rgba(255,255,255,.24); }
+.heroSide p { margin: 0 0 28px; color: #aaa; font-size: clamp(19px, 1.9vw, 28px); line-height: 1.18; letter-spacing: -.025em; }
+.heroSide a, .usfans a { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.heroSide a:hover { color: #d8ff34; }
+
+.metricRail { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid rgba(255,255,255,.24); border-bottom: 1px solid rgba(255,255,255,.24); }
+.metricRail > div { min-height: 178px; padding: 23px 22px 22px 0; display: flex; flex-direction: column; }
+.metricRail > div + div { padding-left: 22px; border-left: 1px solid rgba(255,255,255,.24); }
+.metricRail span, .metricRail small { color: #777; font-size: 9px; letter-spacing: .09em; text-transform: uppercase; }
+.metricRail strong { margin-top: auto; font-size: clamp(38px, 5vw, 76px); line-height: .9; letter-spacing: -.065em; }
+.metricRail small { margin-top: 8px; }
+
+.dashboard { padding: 104px 0 110px; background: #d8ff34; color: #111; }
+.dashboardHead { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr); gap: 60px; align-items: end; }
+.dashboardHead span { color: rgba(17,17,17,.56); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.dashboardHead h2 { margin: 14px 0 0; font-size: clamp(52px, 7vw, 104px); line-height: .85; letter-spacing: -.07em; }
+.dashboardHead p { max-width: 620px; margin: 0; color: rgba(17,17,17,.62); font-size: 16px; line-height: 1.5; }
+.chart { height: 410px; display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; align-items: end; margin-top: 64px; padding-top: 30px; border-top: 1px solid rgba(17,17,17,.25); }
+.month { height: 100%; display: grid; grid-template-rows: 1fr auto auto; gap: 6px; min-width: 0; }
+.barStage { min-height: 0; display: flex; align-items: end; }
+.registrationBar { position: relative; width: 100%; min-height: 18px; background: #111; transition: transform .18s ease; }
+.month:hover .registrationBar { transform: translateY(-5px); }
+.registrationBar > span { position: absolute; left: 50%; top: -20px; transform: translateX(-50%); font-size: 8px; font-weight: 800; white-space: nowrap; }
+.activationBar { position: absolute; left: 0; right: 0; bottom: 0; min-height: 5px; background: #2955ff; }
+.month > strong { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.month > small { overflow: hidden; color: rgba(17,17,17,.56); font-size: 8px; white-space: nowrap; text-overflow: ellipsis; }
+.legend { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 24px; color: rgba(17,17,17,.64); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend i { width: 13px; height: 13px; display: inline-block; }
+.legendRegistration { background: #111; }
+.legendActivation { background: #2955ff; }
+
+.funnelSection { padding: 112px 0 118px; }
+.funnelGrid { display: grid; grid-template-columns: minmax(280px, .75fr) minmax(0, 1.25fr); gap: 74px; }
+.funnelIntro > span { color: #777; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.funnelIntro h2 { margin: 24px 0 20px; font-size: clamp(46px, 6vw, 86px); line-height: .9; letter-spacing: -.065em; }
+.funnelIntro p { max-width: 460px; margin: 0; color: #999; font-size: 15px; line-height: 1.55; }
+.funnel { border-top: 1px solid rgba(255,255,255,.25); }
+.funnel > div { position: relative; display: grid; grid-template-columns: 44px minmax(140px, .55fr) minmax(0, 1.45fr); gap: 18px; align-items: center; min-height: 112px; border-bottom: 1px solid rgba(255,255,255,.25); overflow: hidden; }
+.funnel > div > span { color: #666; font-size: 9px; }
+.funnel strong { font-size: clamp(32px, 4vw, 62px); line-height: .9; letter-spacing: -.06em; z-index: 2; }
+.funnel p { margin: 0; color: #999; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; z-index: 2; }
+.funnel i { position: absolute; left: 0; bottom: 0; height: 3px; background: #d8ff34; }
+
+.usfans { padding: 108px 0 112px; background: #f5f1ea; color: #111; }
+.usfansGrid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(420px, .85fr); gap: 72px; align-items: end; }
+.kickerDark { color: var(--muted); }
+.usfans h2 { max-width: 870px; margin: 18px 0 26px; font-size: clamp(54px, 7.5vw, 112px); line-height: .86; letter-spacing: -.07em; }
+.usfans p { max-width: 690px; margin: 0 0 28px; color: var(--muted); font-size: 17px; line-height: 1.5; }
+.usfans a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.usfansNumbers { border-top: 1px solid var(--line); }
+.usfansNumbers > div { min-height: 122px; padding: 18px 0; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 8px 24px; border-bottom: 1px solid var(--line); }
+.usfansNumbers span { align-self: start; color: var(--muted); font-size: 9px; letter-spacing: .09em; text-transform: uppercase; }
+.usfansNumbers strong { grid-column: 2; grid-row: 1 / 3; align-self: center; font-size: clamp(42px, 5vw, 72px); line-height: .9; letter-spacing: -.06em; }
+.usfansNumbers small { color: var(--muted); font-size: 10px; }
+.usfansEmphasis { background: #2955ff; color: #fff; margin: 0 -18px; padding-left: 18px !important; padding-right: 18px !important; border-bottom: 0 !important; }
+.usfansEmphasis span, .usfansEmphasis small { color: rgba(255,255,255,.65); }
+
+.archive { padding: 104px 0 112px; }
+.archiveHead { display: grid; grid-template-columns: minmax(180px, .45fr) minmax(0, 1.55fr); gap: 48px; margin-bottom: 28px; }
+.archiveHead span { color: #777; font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.archiveHead p { max-width: 650px; margin: 0; color: #999; font-size: 15px; line-height: 1.5; }
+.archiveRows { border-top: 1px solid rgba(255,255,255,.24); }
+.archiveRow { display: grid; grid-template-columns: 44px minmax(160px, .5fr) minmax(160px, .55fr) minmax(0, 1.35fr) 28px; gap: 22px; align-items: center; min-height: 104px; border-bottom: 1px solid rgba(255,255,255,.24); }
+a.archiveRow:hover { color: #d8ff34; }
+.archiveRow > span, .archiveRow > small { color: #666; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.archiveRow strong { font-size: clamp(24px, 3vw, 44px); letter-spacing: -.045em; }
+.archiveRow p { max-width: 620px; margin: 0; color: #999; font-size: 12px; line-height: 1.5; }
+.archiveRow b { justify-self: end; }
+
+@media (max-width: 960px) {
+  .heroGrid, .dashboardHead, .funnelGrid, .usfansGrid { grid-template-columns: 1fr; gap: 38px; }
+  .metricRail { grid-template-columns: repeat(2, 1fr); }
+  .metricRail > div:nth-child(3) { border-left: 0; border-top: 1px solid rgba(255,255,255,.24); }
+  .metricRail > div:nth-child(4) { border-top: 1px solid rgba(255,255,255,.24); }
+  .chart { overflow-x: auto; grid-template-columns: repeat(12, minmax(64px, 1fr)); }
+  .archiveRow { grid-template-columns: 36px minmax(150px, .6fr) minmax(0, 1.4fr) 24px; }
+  .archiveRow > small { grid-column: 2; }
+  .archiveRow p { grid-column: 3 / -1; }
+}
+
+@media (max-width: 620px) {
+  .hero { padding: 72px 0 56px; }
+  .hero h1 { font-size: clamp(58px, 19vw, 98px); }
+  .heroSide { padding-left: 0; border-left: 0; }
+  .metricRail > div { min-height: 138px; }
+  .dashboard { padding: 78px 0 84px; }
+  .chart { height: 330px; }
+  .funnel > div { grid-template-columns: 30px 1fr; gap: 10px; padding: 18px 0; }
+  .funnel p { grid-column: 2; }
+  .archiveHead { grid-template-columns: 1fr; gap: 12px; }
+  .archiveRow { grid-template-columns: 30px 1fr 24px; gap: 10px; padding: 18px 0; }
+  .archiveRow > small, .archiveRow p { grid-column: 2 / -1; }
+  .archiveRow b { grid-column: 3; grid-row: 1; }
+}
