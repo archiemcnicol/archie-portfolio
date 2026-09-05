@@ -47,7 +47,6 @@ export function SiteNav() {
         <Link className="site-brand" href="/" aria-label="Archie McNicol — home">
           <span className="brand-mark" aria-hidden="true">
             <span className="brand-mark-letter">A</span>
-            <span className="brand-mark-dot" />
           </span>
           <span className="site-brand-name">Archie McNicol</span>
         </Link>
