@@ -13,10 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Inspect short-link redirects with multiple clients
+      - name: Resolve short links through TikTok oEmbed
         shell: bash
         run: |
-          set -u
+          set -euo pipefail
           urls=(
             'nike|https://vm.tiktok.com/ZNRrSuv3S/'
             'boss|https://vm.tiktok.com/ZNd7Wft36/'
@@ -24,17 +24,9 @@ jobs:
             'superdry-one|https://vm.tiktok.com/ZGeEcsen9/'
             'superdry-two|https://vm.tiktok.com/ZGeoh1to7/'
           )
-          uas=(
-            'Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1'
-            'Mozilla/5.0 (Linux; Android 15; Pixel 9 Pro) AppleWebKit/537.36 Chrome/152 Mobile Safari/537.36'
-            'com.zhiliaoapp.musically/2023600030 (Linux; U; Android 15; en_GB; Pixel 9 Pro; Build/AP3A.241205.015; Cronet/TTNetVersion:5f9640e5 2025-01-01)'
-          )
           for entry in "${urls[@]}"; do
             name="${entry%%|*}"; url="${entry#*|}"
             echo "===== ${name} ====="
-            for ua in "${uas[@]}"; do
-              echo "--- UA: ${ua:0:55} ---"
-              curl -sS -D - -o /dev/null --max-redirs 0 -A "$ua" -H 'Accept-Language: en-GB,en;q=0.9' "$url" \
-                | grep -Ei '^(HTTP/|location:|set-cookie:)' | head -n 12 || true
-            done
+            payload="$(curl -sSLG 'https://www.tiktok.com/oembed' --data-urlencode "url=${url}" -A 'Mozilla/5.0' -H 'Accept: application/json')"
+            echo "$payload" | jq -c '{title,author_name,author_url,html,thumbnail_url}'
           done
