@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./polish.css";
+import "./home-polish.css";
 import { SiteFrame } from "@/components/site-frame";
 import { PUBLIC_PROFILE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
@@ -48,7 +49,7 @@ const personSchema = {
   name: SITE_NAME,
   url: SITE_URL,
   email: `mailto:${PUBLIC_PROFILE.email}`,
-  jobTitle: "Content creator, photographer and community manager",
+  jobTitle: "Content creator, community manager and photographer",
   homeLocation: { "@type": "Place", name: "Buckinghamshire, United Kingdom" },
   sameAs: [
     PUBLIC_PROFILE.tiktok,
