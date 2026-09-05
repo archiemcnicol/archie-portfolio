@@ -11,29 +11,45 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
-      - name: Try alternate TikTok short-link hosts
+      - name: Query TikWM feed using numeric user ID
         shell: bash
         run: |
-          set -u
-          codes=(
-            'nike|ZNRrSuv3S'
-            'boss|ZNd7Wft36'
-            'moschino|ZNdUsJTCT'
-            'superdry-one|ZGeEcsen9'
-            'superdry-two|ZGeoh1to7'
-          )
-          ua='Mozilla/5.0 (iPhone; CPU iPhone OS 18_6 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1'
-          for entry in "${codes[@]}"; do
-            name="${entry%%|*}"; code="${entry#*|}"
-            echo "===== ${name} ====="
-            for url in \
-              "https://vm.tiktok.com/${code}/" \
-              "https://vt.tiktok.com/${code}/" \
-              "https://www.tiktok.com/t/${code}/"; do
-              echo "--- ${url} ---"
-              curl -sS -L --max-redirs 8 -o /dev/null -w 'http=%{http_code} effective=%{url_effective}\n' \
-                -A "$ua" -H 'Accept-Language: en-GB,en;q=0.9' "$url" || true
-            done
-          done
+          set -euo pipefail
+          python3 <<'PY'
+          import json, urllib.parse, urllib.request, time, datetime as dt
+          user_id = '7342225099493606432'
+          cursor = '0'
+          targets = [
+            dt.datetime(2025,10,4,14,38,20,tzinfo=dt.timezone.utc),
+            dt.datetime(2025,6,23,15,16,0,tzinfo=dt.timezone.utc),
+            dt.datetime(2024,9,16,14,42,4,tzinfo=dt.timezone.utc),
+          ]
+          for page in range(1, 80):
+              url='https://www.tikwm.com/api/user/posts?' + urllib.parse.urlencode({'user_id':user_id,'count':35,'cursor':cursor})
+              req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0','Accept':'application/json','Referer':'https://www.tikwm.com/'})
+              try:
+                  with urllib.request.urlopen(req,timeout=45) as r:
+                      body=r.read()
+                  payload=json.loads(body)
+              except Exception as e:
+                  print('REQUEST ERROR',repr(e)); break
+              print('page',page,'code',payload.get('code'),'msg',payload.get('msg'))
+              data=payload.get('data') or {}
+              videos=data.get('videos') or []
+              print('count',len(videos),'cursor',data.get('cursor'),'hasMore',data.get('hasMore'))
+              for v in videos:
+                  try: when=dt.datetime.fromtimestamp(int(v.get('create_time')),dt.timezone.utc)
+                  except: continue
+                  for target in targets:
+                      if abs((when-target).total_seconds()) < 3*86400:
+                          print('CANDIDATE',json.dumps({'id':v.get('video_id') or v.get('id'),'time':when.isoformat(),'title':v.get('title'),'likes':v.get('digg_count'),'views':v.get('play_count'),'author':(v.get('author') or {}).get('unique_id')},ensure_ascii=False))
+              if not videos or data.get('hasMore') is False: break
+              nxt=data.get('cursor')
+              if nxt in (None,'',cursor): break
+              cursor=str(nxt)
+              oldest=min((int(v.get('create_time') or 9999999999) for v in videos),default=9999999999)
+              if oldest < int(dt.datetime(2024,9,13,tzinfo=dt.timezone.utc).timestamp()): break
+              time.sleep(0.8)
+          PY
