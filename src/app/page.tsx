@@ -1,10 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const audience = [
   ["Brand work", "/creator", "Campaigns, partnerships and short-form creator work"],
+  ["Photography", "/photography", "Travel, drone, event and lifestyle photography"],
   ["Business", "/business", "Websites, commercial photography and social content"],
-  ["Affiliate / shipping", "/affiliate", "Traffic, activations, conversions and partnerships"],
-  ["Professional", "/professional", "Experience, skills, work history and selected results"],
+  ["Professional", "/professional", "Community management, creative operations and experience"],
+];
+
+const selectedWork = [
+  ["Creator", "Campaign films & fashion content", "/creator"],
+  ["Photography", "Travel, events & aerial work", "/photography"],
+  ["Commercial", "Web, content & digital projects", "/business"],
 ];
 
 export default function Home() {
@@ -12,11 +23,11 @@ export default function Home() {
     <main>
       <section className="hero">
         <div className="wrap">
-          <div className="eyebrow">Creator · Photographer · Digital Creative</div>
+          <div className="eyebrow">Creator · Photographer · Community Manager</div>
           <h1 className="display">One body of work.<br />Different ways in.</h1>
           <p className="lead">
-            A modular portfolio built to move seamlessly between creator work, photography,
-            commercial projects, digital services and performance-led partnerships.
+            Archie McNicol is a Buckinghamshire-based creator and photographer working across
+            fashion and lifestyle content, brand campaigns, community management and digital projects.
           </p>
           <div className="audience-grid">
             {audience.map(([title, href, copy]) => (
@@ -32,12 +43,14 @@ export default function Home() {
         <div className="wrap">
           <div className="section-head">
             <div className="section-title">Selected work</div>
-            <div className="section-copy">A visual first impression before the numbers, decks and case studies.</div>
+            <div className="section-copy">Creator work, photography and digital projects built for different audiences.</div>
           </div>
           <div className="work-grid">
-            <article className="work-card"><span className="work-kicker">Creator</span><h3>Campaign films & fashion content</h3></article>
-            <article className="work-card"><span className="work-kicker">Photography</span><h3>Travel, events & lifestyle</h3></article>
-            <article className="work-card"><span className="work-kicker">Commercial</span><h3>Brands, businesses & digital builds</h3></article>
+            {selectedWork.map(([kicker, title, href]) => (
+              <Link className="work-card" href={href} key={href}>
+                <span className="work-kicker">{kicker}</span><h3>{title} →</h3>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -46,18 +59,21 @@ export default function Home() {
         <div className="wrap">
           <div className="section-head">
             <div className="section-title">About</div>
-            <div className="section-copy">Creative work with a commercial brain behind it.</div>
+            <div className="section-copy">Creative work with the operational experience to back it up.</div>
           </div>
           <p className="lead">
-            This homepage stays intentionally broad. Brand work now has its own focused view,
-            while detailed analytics, commercial terms and private client material remain protected.
+            Alongside growing @fitswitharchie and delivering campaigns for brands including Nike,
+            BOSS, Moschino and Superdry, Archie has spent more than three years supporting UK creators
+            and community operations for CapCut. Photography, web work and performance-led partnerships
+            sit alongside that same mix of creative and commercial experience.
           </p>
           <div className="stats">
-            <div className="stat"><b>Creator</b><small>Content & partnerships</small></div>
-            <div className="stat"><b>Photo</b><small>Portfolio & commissions</small></div>
-            <div className="stat"><b>Digital</b><small>Web & social services</small></div>
-            <div className="stat"><b>Data</b><small>Performance & analytics</small></div>
+            <div className="stat"><b>25K+</b><small>Social community</small></div>
+            <div className="stat"><b>20M+</b><small>Views across creator content</small></div>
+            <div className="stat"><b>3+ yrs</b><small>Creator community experience</small></div>
+            <div className="stat"><b>UK</b><small>Buckinghamshire based</small></div>
           </div>
+          <p style={{ marginTop: 28 }}><Link className="cta" href="/about">More about Archie →</Link></p>
         </div>
       </section>
     </main>

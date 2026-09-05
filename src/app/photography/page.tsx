@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import { PortfolioArchive } from "@/components/portfolio-archive";
 import { PORTFOLIO_ARCHIVE_PHOTOS } from "@/lib/portfolio-archive";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Photography — Archie McNicol",
-  description: "Photography by Archie McNicol.",
+  description: "Travel, aerial, event and lifestyle photography by Archie McNicol, including a large public portfolio archive.",
+  alternates: { canonical: "/photography" },
 };
 
 const EXCLUDED_PHOTO_NAMES = new Set([
@@ -12,9 +14,10 @@ const EXCLUDED_PHOTO_NAMES = new Set([
   "Screenshot_20200502-010759_Instagram-Enhanced.jpg",
 ]);
 
-const PHOTOS = PORTFOLIO_ARCHIVE_PHOTOS.filter(
-  (photo) => !EXCLUDED_PHOTO_NAMES.has(photo.originalName),
-);
+// Keep filenames server-side. The client gallery only receives fields it actually renders.
+const PHOTOS = PORTFOLIO_ARCHIVE_PHOTOS
+  .filter((photo) => !EXCLUDED_PHOTO_NAMES.has(photo.originalName))
+  .map(({ id, src, width, height }) => ({ id, src, width, height }));
 
 export default function PhotographyPage() {
   return (

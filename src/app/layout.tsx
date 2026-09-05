@@ -1,16 +1,76 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SiteFrame } from "@/components/site-frame";
+import { PUBLIC_PROFILE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Archie McNicol — Creative Portfolio",
-  description: "Creator, photographer and digital creative portfolio.",
+  metadataBase: new URL(SITE_URL),
+  title: `${SITE_NAME} — Creator, Photographer & Digital Creative`,
+  description: SITE_DESCRIPTION,
+  applicationName: `${SITE_NAME} Portfolio`,
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  keywords: [
+    "Archie McNicol",
+    "fitswitharchie",
+    "UK content creator",
+    "photographer",
+    "community manager",
+    "brand content",
+    "TikTok creator",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: `${SITE_NAME} Portfolio`,
+    title: `${SITE_NAME} — Creator, Photographer & Digital Creative`,
+    description: SITE_DESCRIPTION,
+    url: "/",
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE_NAME} — Creator, Photographer & Digital Creative`,
+    description: SITE_DESCRIPTION,
+  },
+  robots: { index: true, follow: true },
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE_NAME,
+  url: SITE_URL,
+  email: `mailto:${PUBLIC_PROFILE.email}`,
+  jobTitle: "Content creator, photographer and community manager",
+  homeLocation: { "@type": "Place", name: "Buckinghamshire, United Kingdom" },
+  sameAs: [
+    PUBLIC_PROFILE.tiktok,
+    PUBLIC_PROFILE.linkedin,
+    PUBLIC_PROFILE.pexels,
+    PUBLIC_PROFILE.github,
+  ],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: `${SITE_NAME} Portfolio`,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  author: { "@type": "Person", name: SITE_NAME },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en-GB">
       <body>
+        <script
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema).replace(/</g, "\\u003c") }}
+          type="application/ld+json"
+        />
+        <script
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema).replace(/</g, "\\u003c") }}
+          type="application/ld+json"
+        />
         <SiteFrame>{children}</SiteFrame>
       </body>
     </html>

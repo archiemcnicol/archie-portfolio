@@ -1,25 +1,42 @@
 # Archie McNicol Portfolio
 
-This repository is the stage-one production baseline for Archie McNicol's portfolio website.
+Production portfolio for Archie McNicol — content creator, photographer, community manager and digital creative based in Buckinghamshire, UK.
 
 ## Public routes
 
-- `/` — homepage
-- `/creator` — creator and brand work
-- `/photography` — image-only scrolling photography archive
-- `/business` — commercial work
-- `/affiliate` — affiliate performance
-- `/professional` — professional experience
-- `/about` — about
-- `/contact` — contact
+- `/` — portfolio overview
+- `/creator` — creator campaigns, brand work and selected performance
+- `/photography` — public photography archive
+- `/business` — commercial web, photography and content work
+- `/affiliate` — affiliate and performance partnership experience
+- `/professional` — community management and professional experience
+- `/about` — background and disciplines
+- `/contact` — public contact routes
 
 ## Photography
 
-The photography route is intentionally gallery-only: no site navigation, hero, archive heading, filenames or footer are shown on the page. Photographs can be opened in a fullscreen viewer with previous/next navigation.
+The photography route renders a large scrolling archive with a fullscreen viewer. Full-resolution originals remain private in the source Google Drive archive; the public site serves web-ready derivatives described by `src/lib/portfolio-archive.ts`.
 
-The current public gallery contains 617 photographs. Standard gallery derivatives live under `public/portfolio/archive` and are described by `src/lib/portfolio-archive.ts`. The final packed delivery set uses `public/portfolio/archive/final-16-avif.pack` with records in `src/lib/portfolio-final.ts`.
+Original filenames are used only on the server for curation and exclusion rules. Before the archive crosses the React Server Component boundary, each record is reduced to the fields the client gallery needs: ID, image URL, width and height.
 
-Full-resolution originals remain private in the source Google Drive archive and are not served by the public website. A purchase/download layer can therefore be added later without changing the public gallery foundation.
+## Creator work
+
+Public creator data lives in `src/lib/brand-work.ts`. Client names, campaign partners and commissioning contacts are intentionally represented as separate fields so agencies or distribution platforms are not mistaken for the end client. Public links use canonical TikTok video URLs where they have been recovered and verified.
+
+## Discoverability
+
+The site uses Next.js metadata routes and file conventions for:
+
+- route-specific titles and descriptions
+- canonical URLs
+- `sitemap.xml`
+- `robots.txt`
+- `llms.txt`
+- Person and WebSite structured data
+- a custom 404 page
+- the site favicon
+
+Private `/admin/` and `/api/` routes are excluded from crawling. Admin content also remains unavailable in production unless explicitly enabled.
 
 ## Stack
 
@@ -27,16 +44,18 @@ Full-resolution originals remain private in the source Google Drive archive and 
 - React
 - Vercel
 - GitHub
-- Supabase preparation for data, authentication and private functionality
+- Supabase for private data and future authenticated functionality
 
 ## Local setup
 
 1. `npm install`
-2. Copy `.env.example` to `.env.local` and add the required Supabase values when using Supabase-backed features.
-3. `npm run dev`
+2. Copy `.env.example` to `.env.local`.
+3. Set `NEXT_PUBLIC_SITE_URL` to the canonical production origin when running outside Vercel's automatic production URL environment.
+4. Add the Supabase public URL and publishable key when using Supabase-backed features.
+5. `npm run dev`
 
 Do not commit `.env.local`.
 
 ## Verification
 
-Run `npm run verify` before publishing. It builds the site, type-checks the project and verifies the current public campaign and photography baseline.
+Run `npm run verify` before publishing. It builds the site, type-checks the project and checks the current public campaign, photography and SEO baseline. GitHub Actions also runs the same verification on pushes and pull requests targeting `main`, giving the project an independent build check even when an external deployment provider is rate-limited.

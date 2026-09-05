@@ -537,10 +537,9 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   },
   {
     brand: "Snoop",
-    detail: "Budgeting app creator campaign promoted through TikTok One",
+    detail: "Budgeting app creator campaign distributed through TikTok One",
     brandUrl: "https://snoop.app/",
-    campaignPartner: "Redpill",
-    managedBy: [{ name: "Candyce", organisation: "Redpill", role: "Campaign management" }],
+    campaignPartner: "Creators at For You Advertising",
   },
   {
     brand: "Whatnot",

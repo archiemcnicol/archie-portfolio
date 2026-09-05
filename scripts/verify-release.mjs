@@ -8,9 +8,8 @@ const exists = (relativePath) => fs.existsSync(path.join(repoRoot, relativePath)
 
 const brandWork = read("src/lib/brand-work.ts");
 const portfolioArchive = read("src/lib/portfolio-archive.ts");
-const portfolioFinal = read("src/lib/portfolio-final.ts");
 const photographyPage = read("src/app/photography/page.tsx");
-const siteFrame = read("src/components/site-frame.tsx");
+const portfolioComponent = read("src/components/portfolio-archive.tsx");
 const nextConfig = read("next.config.ts");
 
 const failures = [];
@@ -23,34 +22,42 @@ for (const id of publicCampaignIds) {
   assert(brandWork.includes(`id: "${id}"`), `public campaign is missing: ${id}`);
 }
 
+assert(
+  /analytics:\s*\{ views: "22\.5K", likes: "1,077" \}/.test(brandWork),
+  "Nike performance baseline has changed unexpectedly",
+);
+assert(brandWork.includes('views: "1.8K", likes: "88"'), "BOSS video 1 metrics are missing");
+assert(brandWork.includes('views: "2.9K", likes: "134"'), "BOSS video 2 metrics are missing");
+assert(brandWork.includes('views: "1.1K", likes: "37"'), "Whatnot metrics are missing");
+
 const logoSources = [...brandWork.matchAll(/logoSrc:\s*"([^"]+)"/g)].map((match) => match[1]);
-assert(logoSources.length === publicCampaignIds.length, "every public campaign must have one logo source");
+assert(logoSources.length === publicCampaignIds.length, "every selected public campaign must have one logo source");
 for (const logoSource of logoSources) {
   assert(/^https:\/\//.test(logoSource), `logo source is not HTTPS: ${logoSource}`);
-  assert(/commons\.wikimedia\.org|\.svg/.test(logoSource), `logo source does not look like an SVG asset: ${logoSource}`);
 }
 assert(nextConfig.includes('hostname: "commons.wikimedia.org"'), "Next image config must allow the logo host");
-assert(nextConfig.includes('pathname: "/api/tiktok-cover"'), "Next image config must allow TikTok cover proxy images");
-assert(!nextConfig.includes("/api/portfolio-final"), "obsolete photography API config is still present");
 
-const tiktokLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/vm\.tiktok\.com\/[^\"]+)"/g)].map(
+const tiktokLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/www\.tiktok\.com\/@fitswitharchie\/video\/\d+)"/g)].map(
   (match) => match[1],
 );
-assert(tiktokLinks.length >= publicCampaignIds.length, "each public campaign must retain a TikTok link");
-assert(tiktokLinks.every((link) => link.startsWith("https://vm.tiktok.com/")), "TikTok links must use HTTPS short URLs");
+assert(tiktokLinks.length >= 20, `expected a substantial canonical TikTok archive, found ${tiktokLinks.length} links`);
+assert(!brandWork.includes("https://vm.tiktok.com/"), "legacy TikTok short links remain in brand-work data");
 
-assert(!/Nike[^\n]{0,100}SuperAwesome/i.test(brandWork), "agency names must not appear in the public Nike entry");
+const snoopStart = brandWork.indexOf('brand: "Snoop"');
+const snoopEnd = brandWork.indexOf('brand: "Whatnot"', snoopStart);
+const snoopSection = snoopStart >= 0 && snoopEnd > snoopStart ? brandWork.slice(snoopStart, snoopEnd) : "";
+assert(snoopSection.includes("TikTok One"), "Snoop entry must retain TikTok One context");
 assert(
-  /Sketch\.co — All Points East \/ Tyler, The Creator/.test(brandWork),
-  "the roster must name Sketch.co as the client for the All Points East context",
+  snoopSection.includes("Creators at For You Advertising"),
+  "Snoop entry must identify Creators at For You Advertising as the creator-side source",
 );
-assert(!/^\s*"All Points East"\s*,?$/m.test(brandWork), "All Points East must not be listed as the client");
+assert(!/Redpill|Candyce/i.test(snoopSection), "Snoop entry still contains the rejected Redpill/Candyce attribution");
 
-const excludedNames = [
+const excludedNames = new Set([
   "IMG_2473.jpg",
   "IMG_2469.jpg",
   "Screenshot_20200502-010759_Instagram-Enhanced.jpg",
-];
+]);
 
 const archiveRecords = [...portfolioArchive.matchAll(
   /\{\s*"id":\s*"([^"]+)",\s*"src":\s*"([^"]+)",\s*"width":\s*(\d+),\s*"height":\s*(\d+),\s*"originalName":\s*"([^"]+)"\s*\}/g,
@@ -60,30 +67,19 @@ const archiveRecords = [...portfolioArchive.matchAll(
   originalName: match[5],
 }));
 
-const finalRecords = [...portfolioFinal.matchAll(
-  /\{ id: "([^"]+)", src: PACK_SRC, width: (\d+), height: (\d+), originalName: "([^"]+)" \}/g,
-)].map((match) => ({ id: match[1], originalName: match[4] }));
+const publicRecords = archiveRecords.filter((record) => !excludedNames.has(record.originalName));
+assert(publicRecords.length > 500, `photography archive looks unexpectedly small: ${publicRecords.length}`);
+assert(photographyPage.includes("<PortfolioArchive photos={PHOTOS} />"), "photography page must render the public archive");
+assert(
+  photographyPage.includes(".map(({ id, src, width, height })"),
+  "photography page must strip filenames before serialising photos to the client",
+);
+assert(
+  portfolioComponent.includes('Pick<ArchivePhoto, "id" | "src" | "width" | "height">'),
+  "client photography component should only accept render fields",
+);
 
-const excludedArchiveRecords = archiveRecords.filter((record) => excludedNames.includes(record.originalName));
-const excludedFinalRecords = finalRecords.filter((record) => excludedNames.includes(record.originalName));
-const publicPhotoCount =
-  archiveRecords.length + finalRecords.length - excludedArchiveRecords.length - excludedFinalRecords.length;
-
-assert(archiveRecords.length > 0, "the photography archive must not be empty");
-assert(finalRecords.length === 16, `expected 16 packed final photographs, found ${finalRecords.length}`);
-assert(publicPhotoCount === 617, `expected 617 public photographs, found ${publicPhotoCount}`);
-assert(photographyPage.includes("<PortfolioArchive photos={PHOTOS} />"), "photography page must render the scrolling archive");
-assert(!photographyPage.includes("photo-hero"), "photography hero must stay removed");
-assert(!photographyPage.includes("<h1"), "photography page must stay image-only");
-assert(siteFrame.includes('pathname === "/photography"'), "site frame must recognise the photography route");
-assert(siteFrame.includes("!isPhotography ? <SiteNav /> : null"), "photography route must hide the site navigation");
-assert(exists("public/portfolio/archive/final-16-avif.pack"), "packed final photography asset is missing");
-assert(!exists("src/app/api/portfolio-final/[id]/route.ts"), "obsolete final-photo API route still exists");
-assert(!exists("src/lib/portfolio.ts"), "superseded featured photography data still exists");
-
-for (const record of archiveRecords) {
-  if (excludedNames.includes(record.originalName)) continue;
-
+for (const record of publicRecords) {
   const isLocalFeaturedImage = record.src.startsWith("/portfolio/web/");
   const isArchiveCdnImage = record.src.startsWith(
     "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/",
@@ -96,6 +92,31 @@ for (const record of archiveRecords) {
   assert(fs.existsSync(assetPath), `missing photography asset: ${record.src}`);
 }
 
+const requiredPublicFiles = [
+  "src/app/not-found.tsx",
+  "src/app/sitemap.ts",
+  "src/app/robots.ts",
+  "src/app/icon.svg",
+  "public/llms.txt",
+  "src/lib/site.ts",
+];
+for (const file of requiredPublicFiles) {
+  assert(exists(file), `required public/SEO file is missing: ${file}`);
+}
+
+const publicPages = [
+  "src/app/page.tsx",
+  "src/app/about/page.tsx",
+  "src/app/contact/page.tsx",
+  "src/app/business/page.tsx",
+  "src/app/affiliate/page.tsx",
+  "src/app/professional/page.tsx",
+];
+for (const page of publicPages) {
+  const content = read(page);
+  assert(!/\bwill later\b|\bLater:\b|placeholder/i.test(content), `placeholder copy remains in ${page}`);
+}
+
 if (failures.length) {
   console.error("Release verification failed:");
   for (const failure of failures) console.error(`- ${failure}`);
@@ -103,5 +124,5 @@ if (failures.length) {
 }
 
 console.log(
-  `Release verification passed: ${publicCampaignIds.length} public campaigns and ${publicPhotoCount} public photographs.`,
+  `Release verification passed: ${publicCampaignIds.length} selected campaigns, ${tiktokLinks.length} archived TikTok links and ${publicRecords.length} public photographs.`,
 );

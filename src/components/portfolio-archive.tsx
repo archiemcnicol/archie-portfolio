@@ -8,12 +8,14 @@ import styles from "./portfolio-archive.module.css";
 const DESKTOP_GAP = 14;
 const MOBILE_GAP = 10;
 
+type PortfolioPhoto = Pick<ArchivePhoto, "id" | "src" | "width" | "height">;
+
 type PortfolioArchiveProps = {
-  photos: ArchivePhoto[];
+  photos: PortfolioPhoto[];
 };
 
 type IndexedPhoto = {
-  photo: ArchivePhoto;
+  photo: PortfolioPhoto;
   index: number;
 };
 
@@ -22,7 +24,7 @@ type ArchiveRow = {
   height: number;
 };
 
-function aspectRatio(photo: ArchivePhoto) {
+function aspectRatio(photo: PortfolioPhoto) {
   return Math.max(0.45, Math.min(2.5, photo.width / photo.height));
 }
 
@@ -64,10 +66,7 @@ function buildJustifiedRows(items: IndexedPhoto[], width: number): ArchiveRow[] 
     const last = rows[lastIndex];
     const previous = rows[lastIndex - 1];
 
-    while (
-      rowHeight(last, width, gap) > targetHeight * 1.35 &&
-      previous.length > 2
-    ) {
+    while (rowHeight(last, width, gap) > targetHeight * 1.35 && previous.length > 2) {
       const moved = previous.pop();
       if (!moved) break;
       last.unshift(moved);
@@ -199,9 +198,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
           <button
             aria-label="Previous photograph"
             className="archive-viewer-nav archive-viewer-prev"
-            onClick={() =>
-              setActiveIndex((activeIndex - 1 + photos.length) % photos.length)
-            }
+            onClick={() => setActiveIndex((activeIndex - 1 + photos.length) % photos.length)}
             type="button"
           >
             ←
