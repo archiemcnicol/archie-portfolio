@@ -1,12 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
-import { PARTNERSHIP_ROSTER, PUBLIC_CAMPAIGNS } from "@/lib/brand-work";
+import {
+  PARTNERSHIP_ROSTER,
+  PUBLIC_CAMPAIGNS,
+  SELECTED_PERFORMANCE,
+} from "@/lib/brand-work";
 import styles from "./brand-work.module.css";
 
 export const metadata = {
   title: "Brand Work — Archie McNicol",
   description:
-    "Selected creator campaigns, partnerships and short-form brand work by Archie McNicol.",
+    "Selected creator campaigns, UGC, short-form brand work and campaign outcomes by Archie McNicol.",
 };
 
 export default function CreatorPage() {
@@ -16,12 +20,12 @@ export default function CreatorPage() {
         <div className="wrap brand-hero-grid">
           <div>
             <div className="eyebrow">Creator / brand work</div>
-            <h1>Content people watch. Partnerships that fit.</h1>
+            <h1>From brief to final cut.</h1>
           </div>
           <div className="brand-hero-side">
             <p>
-              Fashion, fragrance, lifestyle and event content shaped around a recognisable
-              point of view—not a generic ad read.
+              Platform-native fashion, fragrance, lifestyle and event content developed around
+              the brief—from concept and styling through filming, editing and final delivery.
             </p>
             <div className="brand-actions">
               <Link className="brand-button brand-button-primary" href="/contact">
@@ -45,14 +49,17 @@ export default function CreatorPage() {
       <section className="brand-section" id="selected-work">
         <div className="wrap">
           <div className="brand-section-heading">
-            <div className="section-title">Selected collaborations</div>
-            <p>Live examples with the campaign and format kept clear.</p>
+            <div className="section-title">Selected creative work</div>
+            <p>
+              Campaigns selected for the brief, execution and deliverables—not simply because a
+              post received the largest distribution.
+            </p>
           </div>
 
           <div className="brand-campaigns">
             {PUBLIC_CAMPAIGNS.map((campaign, index) => {
-              const tiktokLinks = campaign.links.filter((link) => link.platform === "TikTok");
-              const secondaryLinks = campaign.links.filter((link) => link.platform !== "TikTok");
+              const coverLinks = campaign.links.filter((link) => link.coverSrc);
+              const publicLinks = campaign.links.filter((link) => link.href);
 
               return (
                 <article className={styles.campaign} key={campaign.id}>
@@ -60,25 +67,38 @@ export default function CreatorPage() {
 
                   <div className={styles.media}>
                     <div className={styles.covers}>
-                      {tiktokLinks.map((link) => (
-                        <a
-                          className={styles.cover}
-                          href={link.href}
-                          key={link.href}
-                          rel="noreferrer"
-                          target="_blank"
-                          aria-label={`View ${campaign.brand} video on TikTok`}
-                        >
+                      {coverLinks.map((link) => {
+                        const image = (
                           <Image
                             src={link.coverSrc!}
-                            alt={`${campaign.brand} TikTok video cover`}
+                            alt={`${campaign.brand} campaign video cover`}
                             fill
                             sizes="(max-width: 600px) 72vw, (max-width: 900px) 42vw, 24vw"
                             priority={index === 0}
                           />
-                          <span className={styles.coverLabel}>View on TikTok ↗</span>
-                        </a>
-                      ))}
+                        );
+
+                        return link.href ? (
+                          <a
+                            className={styles.cover}
+                            href={link.href}
+                            key={`${campaign.id}-${link.label}`}
+                            rel="noreferrer"
+                            target="_blank"
+                            aria-label={`View ${campaign.brand} video on ${link.platform}`}
+                          >
+                            {image}
+                            <span className={styles.coverLabel}>View on {link.platform} ↗</span>
+                          </a>
+                        ) : (
+                          <div
+                            className={`${styles.cover} ${styles.coverStatic}`}
+                            key={`${campaign.id}-${link.label}`}
+                          >
+                            {image}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
@@ -102,20 +122,63 @@ export default function CreatorPage() {
                     <h3>{campaign.campaign}</h3>
                     <p className={styles.summary}>{campaign.summary}</p>
 
+                    {(campaign.campaignPartner || campaign.managedBy?.length) ? (
+                      <div className={styles.credits}>
+                        {campaign.campaignPartner ? (
+                          <div>
+                            <span>Campaign partner</span>
+                            {campaign.partnerUrl ? (
+                              <a href={campaign.partnerUrl} rel="noreferrer" target="_blank">
+                                {campaign.campaignPartner} ↗
+                              </a>
+                            ) : (
+                              <strong>{campaign.campaignPartner}</strong>
+                            )}
+                          </div>
+                        ) : null}
+                        {campaign.managedBy?.length ? (
+                          <div>
+                            <span>Commissioned / managed by</span>
+                            <strong>
+                              {campaign.managedBy.map((contact) => contact.name).join(" · ")}
+                            </strong>
+                          </div>
+                        ) : null}
+                      </div>
+                    ) : null}
+
                     {campaign.analytics ? (
-                      <div className={styles.analytics} aria-label={`${campaign.brand} likes`}>
+                      <div className={styles.analytics} aria-label={`${campaign.brand} performance`}>
+                        <div><span>Views</span><strong>{campaign.analytics.views}</strong></div>
                         <div><span>Likes</span><strong>{campaign.analytics.likes}</strong></div>
                       </div>
                     ) : null}
 
-                    {secondaryLinks.length ? (
-                      <div className={styles.secondaryLinks}>
-                        {secondaryLinks.map((link) => (
-                          <a href={link.href} key={link.href} rel="noreferrer" target="_blank">
-                            {link.label} ↗
+                    {publicLinks.length ? (
+                      <div className={styles.deliverables} aria-label={`${campaign.brand} content links`}>
+                        {publicLinks.map((link) => (
+                          <a
+                            href={link.href}
+                            key={`${campaign.id}-${link.label}-link`}
+                            rel="noreferrer"
+                            target="_blank"
+                          >
+                            <span>{link.label}</span>
+                            {link.analytics ? (
+                              <small>{link.analytics.views} views · {link.analytics.likes} likes</small>
+                            ) : (
+                              <small>{link.platform}</small>
+                            )}
+                            <b>↗</b>
                           </a>
                         ))}
                       </div>
+                    ) : null}
+
+                    {campaign.brandUrl ? (
+                      <a className={styles.brandLink} href={campaign.brandUrl} rel="noreferrer" target="_blank">
+                        Visit {campaign.brand} ↗
+                      </a>
                     ) : null}
                   </div>
                 </article>
@@ -125,19 +188,119 @@ export default function CreatorPage() {
         </div>
       </section>
 
-      <section className="brand-section brand-roster-section">
-        <div className="wrap brand-roster-grid">
-          <div>
-            <div className="section-title">Partnership experience</div>
-            <p className="brand-roster-intro">
-              Selected experience across fashion, fragrance, music, platforms and live events.
+      <section className="brand-section">
+        <div className="wrap">
+          <div className="brand-section-heading">
+            <div className="section-title">Selected organic performance</div>
+            <p>
+              A small selection of stronger outcomes across paid and gifted creative. These are
+              examples of what individual pieces achieved, not guaranteed campaign benchmarks.
             </p>
           </div>
-          <div className={styles.partnershipGrid} aria-label="Selected partnership experience">
-            {PARTNERSHIP_ROSTER.map((partnership) => (
-              <article className={styles.partnershipCard} key={partnership.brand}>
-                <strong>{partnership.brand}</strong>
-                <span>{partnership.detail}</span>
+
+          <div className={styles.performanceGrid} aria-label="Selected organic campaign performance">
+            {SELECTED_PERFORMANCE.map((item) => (
+              <article className={styles.performanceCard} key={item.id}>
+                <div className={styles.performanceHead}>
+                  <strong>{item.brand}</strong>
+                  {item.period ? <span>{item.period}</span> : null}
+                </div>
+                {item.campaign ? <p>{item.campaign}</p> : null}
+                <div className={styles.performanceNumbers}>
+                  <div><span>Views</span><strong>{item.views}</strong></div>
+                  <div><span>Likes</span><strong>{item.likes}</strong></div>
+                </div>
+                {item.campaignPartner ? (
+                  <div className={styles.performancePartner}>
+                    Campaign partner:{" "}
+                    {item.partnerUrl ? (
+                      <a href={item.partnerUrl} rel="noreferrer" target="_blank">
+                        {item.campaignPartner} ↗
+                      </a>
+                    ) : (
+                      item.campaignPartner
+                    )}
+                  </div>
+                ) : null}
+              </article>
+            ))}
+          </div>
+
+          <p className={styles.performanceNote}>
+            Selected organic results. Performance varies by brief, distribution, paid support and
+            platform conditions.
+          </p>
+        </div>
+      </section>
+
+      <section className="brand-section brand-roster-section" id="work-archive">
+        <div className="wrap brand-roster-grid">
+          <div>
+            <div className="section-title">Work archive</div>
+            <p className="brand-roster-intro">
+              A broader record of brand, agency, music and event work, with campaign partners and
+              commissioning contacts kept distinct from the client name.
+            </p>
+          </div>
+          <div className={styles.partnershipGrid} aria-label="Brand work archive">
+            {PARTNERSHIP_ROSTER.map((partnership, index) => (
+              <article className={styles.partnershipCard} key={`${partnership.brand}-${index}`}>
+                <div className={styles.archiveTop}>
+                  {partnership.brandUrl ? (
+                    <a href={partnership.brandUrl} rel="noreferrer" target="_blank">
+                      <strong>{partnership.brand}</strong>
+                    </a>
+                  ) : (
+                    <strong>{partnership.brand}</strong>
+                  )}
+                  {partnership.period ? <span className={styles.archivePeriod}>{partnership.period}</span> : null}
+                </div>
+
+                <p className={styles.archiveDetail}>{partnership.detail}</p>
+
+                {(partnership.campaignPartner || partnership.managedBy?.length) ? (
+                  <div className={styles.archiveCredits}>
+                    {partnership.campaignPartner ? (
+                      <span>
+                        Campaign partner:{" "}
+                        {partnership.partnerUrl ? (
+                          <a href={partnership.partnerUrl} rel="noreferrer" target="_blank">
+                            {partnership.campaignPartner} ↗
+                          </a>
+                        ) : (
+                          partnership.campaignPartner
+                        )}
+                      </span>
+                    ) : null}
+                    {partnership.managedBy?.length ? (
+                      <span>
+                        Managed by {partnership.managedBy.map((contact) => contact.name).join(" · ")}
+                      </span>
+                    ) : null}
+                  </div>
+                ) : null}
+
+                {partnership.analytics ? (
+                  <div className={styles.archiveAnalytics}>
+                    <span>{partnership.analytics.views} views</span>
+                    <span>{partnership.analytics.likes} likes</span>
+                  </div>
+                ) : null}
+
+                {partnership.links?.some((link) => link.href) ? (
+                  <div className={styles.archiveLinks}>
+                    {partnership.links.filter((link) => link.href).map((link) => (
+                      <a
+                        href={link.href}
+                        key={`${partnership.brand}-${link.label}`}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        {link.label} ↗
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
               </article>
             ))}
           </div>
@@ -147,14 +310,14 @@ export default function CreatorPage() {
       <section className="brand-section">
         <div className="wrap brand-format-grid">
           <div className="brand-format-lead">
-            <div className="section-title">Ways to work together</div>
-            <h2>Built around the idea, platform and audience.</h2>
+            <div className="section-title">Creative services</div>
+            <h2>Built around the brief, platform and audience.</h2>
           </div>
           <div className="brand-format-list">
-            <article><span>01</span><h3>Campaign content</h3><p>Short-form concepts, product integrations and multi-post campaign delivery.</p></article>
-            <article><span>02</span><h3>Gifting & launches</h3><p>Natural fashion and lifestyle placements with clear disclosure and considered styling.</p></article>
-            <article><span>03</span><h3>Events</h3><p>Fast-turnaround promotional content before, during or immediately after an event.</p></article>
-            <article><span>04</span><h3>Cross-platform</h3><p>TikTok and Instagram delivery adapted to the way each platform is actually watched.</p></article>
+            <article><span>01</span><h3>Brief to concept</h3><p>Turning campaign objectives into a short-form idea that feels natural to the platform and audience.</p></article>
+            <article><span>02</span><h3>Styling & production</h3><p>Product styling, filming and on-camera delivery built around the agreed creative direction.</p></article>
+            <article><span>03</span><h3>Edit & delivery</h3><p>Platform-native editing, revisions and final asset delivery for organic or paid campaign use.</p></article>
+            <article><span>04</span><h3>Cross-platform</h3><p>TikTok and Instagram outputs adapted to how each platform is actually watched.</p></article>
           </div>
         </div>
       </section>
