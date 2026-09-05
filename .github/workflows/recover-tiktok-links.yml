@@ -10,15 +10,26 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install tools
         run: pip install -q --upgrade yt-dlp
-      - name: Extract profile performance
+      - name: Find Snoop campaign candidates
         continue-on-error: true
         run: |
-          echo '=== YTDLP STATS START ==='
-          yt-dlp --flat-playlist --playlist-end 500 --print '%(id)s|%(timestamp)s|%(view_count)s|%(like_count)s|%(title)s|%(webpage_url)s' 'https://www.tiktok.com/@fitswitharchie' || true
-          echo '=== YTDLP STATS END ==='
+          yt-dlp --flat-playlist --playlist-end 500 --print '%(id)s|%(timestamp)s|%(view_count)s|%(like_count)s|%(title)s|%(webpage_url)s' 'https://www.tiktok.com/@fitswitharchie' > /tmp/posts.txt || true
+          echo '=== KEYWORD CANDIDATES ==='
+          grep -Ei 'snoop|budget|money|saving|save |spend|finance|bank|cash|app|broke|student' /tmp/posts.txt || true
+          echo '=== MAY-JUL 2025 ==='
+          python - <<'PY'
+          import datetime
+          for line in open('/tmp/posts.txt', encoding='utf-8'):
+              parts=line.rstrip('\n').split('|',5)
+              if len(parts)<6: continue
+              try: ts=int(parts[1])
+              except: continue
+              d=datetime.datetime.utcfromtimestamp(ts)
+              if datetime.datetime(2025,5,1) <= d < datetime.datetime(2025,8,1):
+                  print(d.date(), line.rstrip())
+          PY
