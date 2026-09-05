@@ -11,51 +11,70 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
-      - name: Search TikWM for campaign posts
+      - name: Install Playwright
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install playwright@latest >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+      - name: Recover live profile video IDs by scrolling
         shell: bash
         run: |
-          set -euo pipefail
-          python3 <<'PY'
-          import json
-          import urllib.parse
-          import urllib.request
-          import datetime as dt
+          node <<'JS'
+          const { chromium } = require('playwright');
 
-          queries = ['BOSS fitswitharchie', 'Moschino fitswitharchie', 'Superdry fitswitharchie', 'fitswitharchie boss bottled beyond', 'fitswitharchie moschino toy']
-          ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/152 Safari/537.36'
+          const targets = [
+            { name: 'boss', when: Date.parse('2025-10-04T14:38:20Z') / 1000 },
+            { name: 'moschino', when: Date.parse('2025-06-23T15:16:00Z') / 1000 },
+            { name: 'superdry-one', when: Date.parse('2024-09-16T14:42:04Z') / 1000 },
+            { name: 'superdry-two', when: Date.parse('2024-09-21T15:28:22Z') / 1000 },
+          ];
 
-          for query in queries:
-              print('\n===== QUERY:', query, '=====')
-              url = 'https://www.tikwm.com/api/feed/search?' + urllib.parse.urlencode({'keywords': query, 'count': 30, 'cursor': 0, 'hd': 1})
-              req = urllib.request.Request(url, headers={'User-Agent': ua, 'Accept':'application/json, text/plain, */*', 'Referer':'https://www.tikwm.com/'})
-              try:
-                  with urllib.request.urlopen(req, timeout=40) as r:
-                      payload = json.loads(r.read())
-              except Exception as e:
-                  print('request failed:', repr(e)); continue
-              print('code=', payload.get('code'), 'msg=', payload.get('msg'))
-              data = payload.get('data') or {}
-              videos = data.get('videos') or data.get('items') or []
-              if not videos and isinstance(data, list): videos = data
-              print('videos=', len(videos))
-              for v in videos:
-                  author = v.get('author') or {}
-                  uid = author.get('unique_id') if isinstance(author, dict) else None
-                  title = v.get('title') or v.get('desc') or ''
-                  if uid == 'fitswitharchie' or 'fitswitharchie' in title.lower():
-                      ts = v.get('create_time')
-                      try: when = dt.datetime.fromtimestamp(int(ts), dt.timezone.utc).isoformat()
-                      except Exception: when = str(ts)
-                      print(json.dumps({
-                          'id': str(v.get('video_id') or v.get('id') or ''),
-                          'date': when,
-                          'author': uid,
-                          'title': title,
-                          'likes': v.get('digg_count'),
-                          'views': v.get('play_count'),
-                          'comments': v.get('comment_count'),
-                          'shares': v.get('share_count'),
-                      }, ensure_ascii=False))
-          PY
+          function tsFromId(id) {
+            try { return Number(BigInt(id) >> 32n); } catch { return 0; }
+          }
+
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            const context = await browser.newContext({
+              locale: 'en-GB',
+              timezoneId: 'Europe/London',
+              viewport: { width: 1440, height: 1100 },
+              userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Safari/537.36',
+            });
+            const page = await context.newPage();
+            await page.goto('https://www.tiktok.com/@fitswitharchie', { waitUntil: 'domcontentloaded', timeout: 60000 });
+            await page.waitForTimeout(5000);
+
+            const ids = new Set();
+            let stagnant = 0;
+            let previous = 0;
+            for (let i = 0; i < 80; i++) {
+              const hrefs = await page.locator('a[href*="/video/"]').evaluateAll(as => as.map(a => a.href));
+              for (const href of hrefs) {
+                const m = href.match(/\/video\/(\d+)/);
+                if (m) ids.add(m[1]);
+              }
+              const times = [...ids].map(tsFromId).filter(Boolean);
+              const oldest = times.length ? Math.min(...times) : 0;
+              console.log(`round=${i} ids=${ids.size} oldest=${oldest ? new Date(oldest*1000).toISOString() : 'none'} url=${page.url()}`);
+              if (ids.size === previous) stagnant++; else stagnant = 0;
+              previous = ids.size;
+              if (oldest && oldest <= Date.parse('2024-09-15T00:00:00Z')/1000) break;
+              if (stagnant >= 8) break;
+              await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+              await page.mouse.wheel(0, 18000);
+              await page.waitForTimeout(1800);
+            }
+
+            const rows = [...ids].map(id => ({ id, ts: tsFromId(id) })).sort((a,b) => b.ts-a.ts);
+            console.log('===== TARGET MATCHES =====');
+            for (const t of targets) {
+              const ranked = rows.map(r => ({...r, delta: Math.abs(r.ts - t.when)})).sort((a,b)=>a.delta-b.delta).slice(0,5);
+              console.log(t.name, JSON.stringify(ranked.map(r => ({id:r.id, time:new Date(r.ts*1000).toISOString(), delta_seconds:r.delta}))));
+            }
+            console.log('total ids', rows.length);
+            await browser.close();
+          })().catch(err => { console.error(err); process.exit(1); });
+          JS
