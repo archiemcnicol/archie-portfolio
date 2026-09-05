@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "verify:security": "node scripts/scan-secrets.mjs",
     "verify:release": "node scripts/verify-release.mjs",
-    "verify": "npm run build && npm run typecheck && npm run verify:release"
+    "verify": "npm run verify:security && npm run build && npm run typecheck && npm run verify:release"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.5",
