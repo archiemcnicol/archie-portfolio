@@ -51,7 +51,10 @@ for (const header of [
   assert(nextConfig.includes(header), `security header missing: ${header}`);
 }
 
-assert(!exists("src/app/api/tiktok-cover/route.ts"), "unused public TikTok proxy endpoint must stay removed");
+// The public portfolio currently has no server API surface. If one is introduced,
+// this guard intentionally fails so authentication, input validation and durable
+// rate limiting are reviewed for the real endpoint instead of assumed globally.
+assert(!exists("src/app/api"), "public API routes require explicit security and rate-limit review");
 assert(!nextConfig.includes('/api/tiktok-cover'), "removed TikTok proxy must not remain in image configuration");
 
 // The only intentional raw HTML is static JSON-LD. Keep the '<' escaping that prevents
