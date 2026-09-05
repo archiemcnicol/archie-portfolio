@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -8,10 +9,11 @@ import {
 import styles from "./brand-work.module.css";
 import consistency from "./brand-work-consistency.module.css";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Brand Work — Archie McNicol",
   description:
     "Selected creator campaigns, UGC, short-form brand work and campaign outcomes by Archie McNicol.",
+  alternates: { canonical: "/creator" },
 };
 
 const PERFORMANCE_CONTENT_LINKS: Record<string, string> = {

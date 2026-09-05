@@ -5,6 +5,7 @@
 }
 
 .archiveRow {
+  content-visibility: auto;
   display: flex;
   gap: 14px;
   width: 100%;

@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     url: "/",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${SITE_NAME} — Creator, Photographer & Digital Creative`,
     description: SITE_DESCRIPTION,
   },

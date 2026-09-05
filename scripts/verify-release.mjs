@@ -12,6 +12,8 @@ const brandConsistency = read("src/app/creator/brand-work-consistency.module.css
 const portfolioArchive = read("src/lib/portfolio-archive.ts");
 const photographyPage = read("src/app/photography/page.tsx");
 const portfolioComponent = read("src/components/portfolio-archive.tsx");
+const portfolioStyles = read("src/components/portfolio-archive.module.css");
+const rootLayout = read("src/app/layout.tsx");
 const nextConfig = read("next.config.ts");
 const siteConfig = read("src/lib/site.ts");
 const llms = read("public/llms.txt");
@@ -51,6 +53,7 @@ for (const videoId of selectedPerformanceLinks) {
   assert(creatorPage.includes(videoId), `selected organic performance content link is missing: ${videoId}`);
 }
 assert(creatorPage.includes("PERFORMANCE_CONTENT_LINKS"), "selected organic performance must keep direct content links");
+assert(creatorPage.includes('alternates: { canonical: "/creator" }'), "Brand Work canonical URL is missing");
 assert(creatorPage.includes("styles.covers"), "selected creative work must retain the preferred large-cover layout");
 assert(creatorPage.includes("styles.analytics"), "selected creative work analytics treatment is missing");
 assert(creatorPage.includes("styles.measuredDeliverables"), "multi-video campaign analytics treatment is missing");
@@ -72,6 +75,7 @@ assert(!llms.includes("archiemcnicol002@gmail.com"), "personal email remains in 
 
 assert(!icon.includes("<circle"), "favicon must not regress to the notification-dot treatment");
 assert(icon.includes("stroke=\"#D8FF34\""), "favicon framing detail is missing");
+assert(rootLayout.includes('card: "summary_large_image"'), "large Twitter/X share cards must remain enabled");
 
 const excludedNames = new Set(["IMG_2473.jpg", "IMG_2469.jpg", "Screenshot_20200502-010759_Instagram-Enhanced.jpg"]);
 const archiveRecords = [...portfolioArchive.matchAll(/\{\s*"id":\s*"([^"]+)",\s*"src":\s*"([^"]+)",\s*"width":\s*(\d+),\s*"height":\s*(\d+),\s*"originalName":\s*"([^"]+)"\s*\}/g)].map((match) => ({ id: match[1], src: match[2], originalName: match[5] }));
@@ -80,6 +84,9 @@ assert(publicRecords.length > 500, `photography archive looks unexpectedly small
 assert(photographyPage.includes("<PortfolioArchive photos={PHOTOS} />"), "photography page must render the public archive");
 assert(photographyPage.includes(".map(({ id, src, width, height })"), "photography page must strip filenames before serialising photos to the client");
 assert(portfolioComponent.includes('Pick<ArchivePhoto, "id" | "src" | "width" | "height">'), "client photography component should only accept render fields");
+assert(portfolioStyles.includes("content-visibility: auto"), "photography archive must preserve off-screen rendering containment");
+assert(portfolioComponent.includes("returnFocusRef"), "photography viewer must restore focus after closing");
+assert(portfolioComponent.includes("closeButtonRef"), "photography viewer must focus its close control when opened");
 
 for (const record of publicRecords) {
   const isLocalFeaturedImage = record.src.startsWith("/portfolio/web/");
@@ -95,6 +102,8 @@ const requiredPublicFiles = [
   "src/app/sitemap.ts",
   "src/app/robots.ts",
   "src/app/icon.svg",
+  "src/app/opengraph-image.tsx",
+  "src/app/twitter-image.tsx",
   "public/llms.txt",
   "src/lib/site.ts",
   "src/lib/profile-data.ts",

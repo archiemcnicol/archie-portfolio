@@ -87,6 +87,9 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [galleryWidth, setGalleryWidth] = useState(1200);
   const galleryRef = useRef<HTMLDivElement>(null);
+  const viewerRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const returnFocusRef = useRef<HTMLButtonElement | null>(null);
   const activePhoto = activeIndex === null ? null : photos[activeIndex];
 
   const indexedPhotos = useMemo(
@@ -98,6 +101,15 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
     () => buildJustifiedRows(indexedPhotos, galleryWidth),
     [galleryWidth, indexedPhotos],
   );
+
+  function openPhoto(index: number, trigger: HTMLButtonElement) {
+    returnFocusRef.current = trigger;
+    setActiveIndex(index);
+  }
+
+  function closePhoto() {
+    setActiveIndex(null);
+  }
 
   useEffect(() => {
     const gallery = galleryRef.current;
@@ -116,27 +128,56 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
   }, []);
 
   useEffect(() => {
-    if (activeIndex === null) return;
+    if (activeIndex === null) {
+      returnFocusRef.current?.focus();
+      returnFocusRef.current = null;
+      return;
+    }
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const focusFrame = window.requestAnimationFrame(() => closeButtonRef.current?.focus());
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setActiveIndex(null);
+      if (event.key === "Escape") {
+        closePhoto();
+        return;
+      }
       if (event.key === "ArrowLeft") {
         setActiveIndex((current) =>
           current === null ? null : (current - 1 + photos.length) % photos.length,
         );
+        return;
       }
       if (event.key === "ArrowRight") {
         setActiveIndex((current) =>
           current === null ? null : (current + 1) % photos.length,
         );
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = Array.from(
+        viewerRef.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      );
+      if (!focusable.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => {
+      window.cancelAnimationFrame(focusFrame);
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onKeyDown);
     };
@@ -160,7 +201,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
                 <button
                   aria-label={`Open photograph ${index + 1}`}
                   className={`${styles.archiveCardButton} archive-card-button`}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={(event) => openPhoto(index, event.currentTarget)}
                   type="button"
                 >
                   <Image
@@ -185,12 +226,14 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
           aria-label={`Photograph ${activeIndex + 1} of ${photos.length}`}
           aria-modal="true"
           className="archive-viewer"
+          ref={viewerRef}
           role="dialog"
         >
           <button
             aria-label="Close photograph"
             className="archive-viewer-close"
-            onClick={() => setActiveIndex(null)}
+            onClick={closePhoto}
+            ref={closeButtonRef}
             type="button"
           >
             Close
