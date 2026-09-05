@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./polish.css";
 import "./home-polish.css";
+import "./identity-polish.css";
 import { SiteFrame } from "@/components/site-frame";
 import { PUBLIC_PROFILE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
