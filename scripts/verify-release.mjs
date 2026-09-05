@@ -86,9 +86,10 @@ for (const record of publicRecords) {
   );
   assert(isLocalFeaturedImage || isArchiveCdnImage, `unexpected photography source: ${record.src}`);
 
+  const sourcePath = isArchiveCdnImage ? new URL(record.src).pathname : record.src;
   const assetPath = isLocalFeaturedImage
-    ? path.join(repoRoot, "public", record.src.replace(/^\//, ""))
-    : path.join(repoRoot, "public", "portfolio", "archive", path.basename(record.src));
+    ? path.join(repoRoot, "public", sourcePath.replace(/^\//, ""))
+    : path.join(repoRoot, "public", "portfolio", "archive", path.basename(sourcePath));
   assert(fs.existsSync(assetPath), `missing photography asset: ${record.src}`);
 }
 
