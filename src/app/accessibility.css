@@ -1,0 +1,38 @@
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: max(10px, env(safe-area-inset-left));
+  z-index: 1000;
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  padding: 0 14px;
+  border: 1px solid var(--accent);
+  background: #111;
+  color: #f5f1ea;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transform: translateY(calc(-100% - 20px));
+  transition: transform 140ms ease;
+}
+
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.site-content {
+  min-width: 0;
+}
+
+.site-content:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
+}

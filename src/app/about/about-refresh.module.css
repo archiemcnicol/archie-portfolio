@@ -1,0 +1,124 @@
+.background {
+  background: #111;
+  color: #f4f4f1;
+}
+
+.mergedTimeline {
+  padding-top: clamp(82px, 8vw, 108px);
+}
+
+.timelineStatic {
+  cursor: default;
+}
+
+.timelineStatic:hover {
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+}
+
+.timelineStatic:hover [class*="index"],
+.timelineStatic:hover [class*="when"] {
+  color: #707070;
+}
+
+.timelineStatic:hover [class*="role"] strong,
+.timelineStatic:hover [class*="detail"] p {
+  color: #aaa;
+}
+
+.timelineStatic:hover [class*="tags"] span {
+  border-color: rgba(255,255,255,.22);
+  color: #aaa;
+}
+
+.timelineMarker {
+  justify-self: end;
+  align-self: start;
+  color: #555;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.partnerLine {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,.2);
+}
+
+.partnerLine > span {
+  display: block;
+  margin-bottom: 9px;
+  color: #777;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.partnerNames {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.partnerNames span {
+  padding: 6px 8px;
+  border: 1px solid rgba(255,255,255,.22);
+  color: #bbb;
+  font-size: 8px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.socialSection {
+  padding: 0;
+  background: #111;
+  color: #f4f4f1;
+  border-top: 1px solid rgba(255,255,255,.22);
+}
+
+.socialGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0,1fr));
+}
+
+.socialGrid a {
+  min-width: 0;
+  min-height: 76px;
+  padding: 18px 16px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid rgba(255,255,255,.22);
+  color: #bcbcbc;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.socialGrid a:first-child { padding-left: 0; }
+.socialGrid a:hover { color: #fff; }
+
+@media (max-width: 900px) {
+  .socialGrid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .socialGrid a:nth-child(n+4) { border-top: 1px solid rgba(255,255,255,.22); }
+  .socialGrid a:nth-child(3n) { border-right: 0; }
+}
+
+@media (max-width: 650px) {
+  .timelineMarker {
+    grid-column: 3;
+    grid-row: 1 / 3;
+  }
+}
+
+@media (max-width: 560px) {
+  .socialGrid { grid-template-columns: 1fr 1fr; }
+  .socialGrid a:nth-child(n+3) { border-top: 1px solid rgba(255,255,255,.22); }
+  .socialGrid a:nth-child(3n) { border-right: 1px solid rgba(255,255,255,.22); }
+  .socialGrid a:nth-child(2n) { border-right: 0; }
+}

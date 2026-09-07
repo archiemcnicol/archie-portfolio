@@ -1,0 +1,92 @@
+/* Shared list interaction polish.
+   Each interactive row paints only inside its own bounds, and index numbers sit
+   inside the grid instead of colliding with the dividing rules. */
+
+.about-experience-section [class*="timeline"] > a,
+.about-chapters [class*="chapterList"] > a,
+.professional-index [class*="roles"] > a,
+.digital-services [class*="services"] > a,
+main [class*="routeList"] > a {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  contain: paint;
+  box-shadow: none !important;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.about-background-section [class*="backgroundTimeline"] > article,
+.capcut-responsibilities [class*="responsibilityList"] > article {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.about-experience-section [class*="timeline"] > a > :first-child,
+.about-chapters [class*="chapterList"] > a > :first-child,
+.professional-index [class*="roles"] > a > :first-child,
+.digital-services [class*="services"] > a > :first-child,
+main [class*="routeList"] > a > :first-child,
+.about-background-section [class*="backgroundTimeline"] > article > :first-child,
+.capcut-responsibilities [class*="responsibilityList"] > article > :first-child {
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+  border: 0;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: .08em;
+}
+
+/* Remove the old external hover shadows. They made one row visually bleed into
+   the next and are unnecessary now that the rows have a clean contained fill. */
+.about-experience-section [class*="timeline"] > a:hover,
+.about-chapters [class*="chapterList"] > a:hover,
+.professional-index [class*="roles"] > a:hover,
+.digital-services [class*="services"] > a:hover,
+main [class*="routeList"] > a:hover {
+  box-shadow: none !important;
+}
+
+/* Keyboard selection follows the same single-row boundary. */
+.about-experience-section [class*="timeline"] > a:focus-visible,
+.about-chapters [class*="chapterList"] > a:focus-visible,
+.professional-index [class*="roles"] > a:focus-visible,
+.digital-services [class*="services"] > a:focus-visible,
+main [class*="routeList"] > a:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: -1px;
+  box-shadow: none !important;
+}
+
+@media (max-width: 650px) {
+  .about-experience-section [class*="timeline"] > a,
+  .about-chapters [class*="chapterList"] > a,
+  .professional-index [class*="roles"] > a,
+  .digital-services [class*="services"] > a,
+  main [class*="routeList"] > a,
+  .about-background-section [class*="backgroundTimeline"] > article,
+  .capcut-responsibilities [class*="responsibilityList"] > article {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+/* Touchscreens should not retain decorative hover fills after a tap. */
+@media (hover: none), (pointer: coarse) {
+  .about-experience-section [class*="timeline"] > a:hover,
+  .about-chapters [class*="chapterList"] > a:hover,
+  .professional-index [class*="roles"] > a:hover,
+  main [class*="routeList"] > a:hover {
+    background: transparent !important;
+    color: inherit !important;
+  }
+
+  .digital-services [class*="services"] > a:hover {
+    background: transparent !important;
+    color: inherit !important;
+  }
+}

@@ -1,0 +1,148 @@
+.page {
+  min-height: 100vh;
+  background: #000;
+  color: #f4f4f1;
+}
+
+.intro {
+  background: #222;
+  border-top: 1px solid rgba(255,255,255,.04);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.introInner {
+  min-height: 86px;
+  padding: 14px clamp(12px, 2vw, 28px);
+  display: grid;
+  grid-template-columns: minmax(120px, .65fr) minmax(0, 1.7fr) minmax(90px, .65fr);
+  gap: 20px;
+  align-items: center;
+}
+
+.backLink,
+.photoCount,
+.identity p {
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  font-stretch: condensed;
+  font-weight: 800;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.backLink {
+  width: fit-content;
+  color: #d1d1ce;
+}
+
+.backLink:hover { color: #fff; }
+
+.identity {
+  min-width: 0;
+  text-align: center;
+}
+
+.identity h1 {
+  margin: 0;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(22px, 2.2vw, 34px);
+  font-stretch: condensed;
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: .95;
+  text-transform: uppercase;
+}
+
+.identity p {
+  margin: 7px 0 0;
+  color: #8f8f8b;
+}
+
+.photoCount {
+  justify-self: end;
+  color: #a2a29e;
+}
+
+.gallery {
+  padding: 6px;
+  background: #000;
+}
+
+.projectNav {
+  padding: 6px;
+  background: #000;
+  border-top: 1px solid #111;
+}
+
+.projectNav > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.projectNav a,
+.projectNav > div > span {
+  min-height: 124px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  background: #222;
+  color: #f4f4f1;
+}
+
+.projectNav a:last-child { text-align: right; align-items: flex-end; }
+
+.projectNav small {
+  color: #777;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  font-stretch: condensed;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.projectNav strong {
+  max-width: 22ch;
+  font-size: clamp(17px, 1.8vw, 26px);
+  font-weight: 700;
+  letter-spacing: -.035em;
+  line-height: 1;
+}
+
+.projectNav a:hover {
+  background: #f1f1ef;
+  color: #111;
+}
+
+@media (max-width: 680px) {
+  .introInner {
+    min-height: 74px;
+    padding: 12px 10px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .identity h1 { font-size: 19px; }
+  .identity p { font-size: 7px; }
+  .backLink,
+  .photoCount { font-size: 8px; }
+
+  .gallery,
+  .projectNav { padding: 4px; }
+
+  .projectNav > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .projectNav a,
+  .projectNav > div > span {
+    min-height: 100px;
+    padding: 16px;
+  }
+
+  .projectNav a:last-child { text-align: left; align-items: flex-start; }
+}

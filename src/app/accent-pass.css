@@ -1,0 +1,152 @@
+/* Colour is reserved for information that benefits from emphasis.
+   Lists, indexes and navigation stay neutral so interaction remains precise.
+   Photography remains the monochrome visual anchor for the site. */
+
+:root {
+  --accent: #d8ff34;
+  --accent-blue: #2955ff;
+  --accent-coral: #ff6846;
+  --accent-stone: #c58b62;
+}
+
+/* Homepage: one proof point carries colour; the rest of the hierarchy comes
+   from scale, photography and contrast rather than decorative accents. */
+.home-page [class*="proofGrid"] > div:nth-child(2) {
+  background: var(--accent);
+  color: #111;
+}
+
+.home-page [class*="proofGrid"] > div:nth-child(2) span {
+  color: rgba(17,17,17,.62) !important;
+}
+
+/* Brand work: retain colour where it belongs to campaign presentation and the
+   primary invitation to work together, not on generic result rows. */
+.brand-page .brand-button-primary {
+  border-color: #111 !important;
+  background: var(--accent) !important;
+  color: #111 !important;
+}
+
+.brand-page .brand-button-primary:hover {
+  background: #111 !important;
+  color: #fff !important;
+}
+
+.brand-page [data-tone="acid"] {
+  background: var(--accent) !important;
+  color: #111 !important;
+}
+
+.brand-page [data-tone="blue"] {
+  background: var(--accent-blue) !important;
+  color: #fff !important;
+}
+
+.brand-page [data-tone="stone"] {
+  background: var(--accent-stone) !important;
+  color: #111 !important;
+}
+
+.brand-page [data-tone="ink"] {
+  background: #222 !important;
+  color: #f4f4f1 !important;
+}
+
+.brand-contact {
+  background: var(--accent-blue) !important;
+  color: #fff !important;
+}
+
+.brand-contact .brand-button-primary {
+  background: var(--accent) !important;
+  color: #111 !important;
+}
+
+/* Professional: cross-border communication is the key differentiator, so this
+   is the one coloured section on the professional index. */
+.professional-bridge {
+  background: var(--accent-blue) !important;
+  color: #fff !important;
+}
+
+.professional-bridge span,
+.professional-bridge p,
+.professional-bridge a {
+  color: #fff !important;
+}
+
+.professional-bridge a {
+  border-color: rgba(255,255,255,.78) !important;
+}
+
+/* Performance: colour has a literal data meaning. */
+.performance-dashboard [class*="registrationBar"] {
+  background: var(--accent) !important;
+}
+
+.performance-dashboard [class*="parcelBar"] {
+  background: var(--accent-blue) !important;
+}
+
+.performance-dashboard [class*="legendRegistration"] {
+  background: var(--accent) !important;
+}
+
+.performance-dashboard [class*="legendParcel"] {
+  background: var(--accent-blue) !important;
+}
+
+/* About: the A* is a genuine proof point, so it gets a single restrained
+   highlight. Experience lists and toolkit cards stay neutral. */
+.about-education [class*="subjects"] span:first-child {
+  border-color: #111 !important;
+  background: var(--accent);
+  color: #111;
+}
+
+/* Contact: the email band is the primary action and therefore earns colour.
+   The enquiry list itself stays monochrome and precise. */
+main [class*="emailBand"] {
+  background: var(--accent-blue) !important;
+  color: #fff !important;
+}
+
+main [class*="emailBand"] span {
+  color: rgba(255,255,255,.7) !important;
+}
+
+/* CapCut: keep colour attached to the two strongest ideas. The hero returns to
+   charcoal so the UK ↔ Shanghai bridge and the operating loop carry emphasis. */
+.capcut-hero {
+  background: #222 !important;
+  color: #f4f4f1 !important;
+}
+
+.capcut-intro {
+  background: var(--accent-blue) !important;
+  color: #fff !important;
+}
+
+.capcut-intro span,
+.capcut-intro p {
+  color: #fff !important;
+}
+
+.capcut-workflow {
+  background: var(--accent) !important;
+  color: #111 !important;
+}
+
+.capcut-workflow span,
+.capcut-workflow p,
+.capcut-workflow strong {
+  color: #111 !important;
+}
+
+/* Photography remains untouched by the accent system. */
+.photo-page,
+[class*="photographyPage"],
+[class*="portfolioArchive"] {
+  --accent: #d9d9d4;
+}

@@ -1,0 +1,249 @@
+.page {
+  background: #111;
+  color: #f4f4f1;
+}
+
+.hero {
+  padding: clamp(72px, 8vw, 104px) 0 clamp(58px, 7vw, 82px);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+  gap: clamp(34px, 6vw, 68px);
+  align-items: end;
+}
+
+.kicker {
+  color: #777;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 980px;
+  margin: 18px 0 0;
+  font-size: clamp(58px, 8.2vw, 124px);
+  line-height: .84;
+  letter-spacing: -.072em;
+}
+
+.hero p {
+  max-width: 520px;
+  margin: 0;
+  color: #999;
+  font-size: clamp(18px, 1.7vw, 25px);
+  line-height: 1.22;
+  letter-spacing: -.025em;
+}
+
+.emailBand {
+  padding: clamp(52px, 6vw, 72px) 0;
+  border-top: 1px solid rgba(255,255,255,.12);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  background: #222;
+  color: #f4f4f1;
+}
+
+.emailBand span {
+  display: block;
+  margin-bottom: 18px;
+  color: #777;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.emailBand a {
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: clamp(28px, 4.6vw, 64px);
+  font-weight: 650;
+  line-height: .96;
+  letter-spacing: -.05em;
+  overflow-wrap: anywhere;
+}
+
+.emailBand a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 7px;
+}
+
+.emailBand b {
+  flex: 0 0 auto;
+  font-size: .45em;
+}
+
+.routes {
+  padding: clamp(76px, 8vw, 102px) 0 clamp(82px, 8vw, 108px);
+}
+
+.routeHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 20px;
+  color: #777;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.routeHead p {
+  margin: 0;
+}
+
+.routeList {
+  border-top: 1px solid rgba(255,255,255,.22);
+}
+
+.route {
+  display: grid;
+  grid-template-columns: 40px minmax(190px, .7fr) minmax(0, 1.3fr) 24px;
+  gap: 20px;
+  align-items: center;
+  min-height: 104px;
+  border-bottom: 1px solid rgba(255,255,255,.22);
+  transition: color .16s ease, background .16s ease;
+}
+
+.route:hover {
+  color: #111;
+  background: #f1f1ed;
+  box-shadow: 14px 0 #f1f1ed, -14px 0 #f1f1ed;
+}
+
+.route > span {
+  color: #666;
+  font-size: 9px;
+}
+
+.route strong {
+  font-size: clamp(24px, 3vw, 44px);
+  line-height: .98;
+  letter-spacing: -.046em;
+}
+
+.route p {
+  max-width: 620px;
+  margin: 0;
+  color: #999;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.route:hover p,
+.route:hover > span {
+  color: #555;
+}
+
+.route b {
+  justify-self: end;
+}
+
+.socials {
+  border-top: 1px solid rgba(255,255,255,.22);
+}
+
+.socials .wrap {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.socials a {
+  min-width: 0;
+  min-height: 74px;
+  padding: 16px 16px 16px 0;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid rgba(255,255,255,.22);
+  color: #bcbcbc;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.socials a + a {
+  padding-left: 16px;
+}
+
+.socials a:hover {
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .hero p {
+    max-width: 640px;
+  }
+
+  .socials .wrap {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .socials a:nth-child(2) {
+    border-right: 0;
+  }
+
+  .socials a:nth-child(n+3) {
+    border-top: 1px solid rgba(255,255,255,.22);
+  }
+}
+
+@media (max-width: 620px) {
+  .hero {
+    padding-top: 56px;
+  }
+
+  .hero h1 {
+    font-size: clamp(50px, 15vw, 78px);
+  }
+
+  .emailBand a {
+    align-items: flex-end;
+    font-size: clamp(27px, 8.5vw, 42px);
+  }
+
+  .routeHead {
+    display: grid;
+    gap: 8px;
+  }
+
+  .route {
+    grid-template-columns: 28px 1fr 22px;
+    gap: 9px 12px;
+    min-height: 0;
+    padding: 18px 0;
+  }
+
+  .route p {
+    grid-column: 2 / -1;
+  }
+
+  .route b {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .route:hover {
+    box-shadow: 10px 0 #f1f1ed, -10px 0 #f1f1ed;
+  }
+}

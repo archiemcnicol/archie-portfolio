@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Archie McNicol framed A mark">
+  <rect width="64" height="64" rx="14" fill="#111111"/>
+  <path d="M13 21V13h8" fill="none" stroke="#D8FF34" stroke-width="3" stroke-linecap="square"/>
+  <path d="M51 43v8h-8" fill="none" stroke="#D8FF34" stroke-width="3" stroke-linecap="square"/>
+  <path d="M32 15 47.5 49h-7.2l-3.2-7.7H26.9L23.7 49h-7.2L32 15Zm-2.7 20.2h5.4L32 28.7l-2.7 6.5Z" fill="#F5F1EA"/>
+</svg>

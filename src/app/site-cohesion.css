@@ -1,0 +1,119 @@
+:root {
+  --background: #f1f1ef;
+  --foreground: #111111;
+  --muted: #6f6f6b;
+  --line: rgba(17,17,17,.16);
+  --panel: rgba(255,255,255,.46);
+  --accent: #d9d9d4;
+}
+
+/* Shared utility language: borrow the portfolio's condensed, restrained chrome
+   without flattening the bold editorial typography used inside each page. */
+.eyebrow,
+.section-title,
+.brand-button,
+.photo-button,
+.brand-campaign-meta,
+.brand-roster-section,
+.footer-column > span {
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-stretch: condensed;
+}
+
+.brand-page {
+  background: #f1f1ef;
+  color: #111;
+}
+
+.brand-hero {
+  background: #f1f1ef;
+  border-bottom: 1px solid rgba(17,17,17,.12);
+}
+
+.brand-button {
+  border-radius: 0;
+}
+
+.brand-button-primary {
+  border-color: #222;
+  background: #222;
+  color: #f4f4f1;
+}
+
+.brand-button-primary:hover {
+  border-color: #111;
+  background: #111;
+  color: #fff;
+}
+
+.brand-proof {
+  border-color: rgba(17,17,17,.16);
+}
+
+.brand-proof > div {
+  border-color: rgba(17,17,17,.16);
+}
+
+.brand-roster-section {
+  background: #111;
+  color: #f4f4f1;
+}
+
+.brand-campaign-media[data-tone="acid"],
+.brand-campaign-media[data-tone="blue"],
+.brand-campaign-media[data-tone="stone"],
+.brand-campaign-media[data-tone="ink"] {
+  background: #222;
+  color: #f4f4f1;
+}
+
+/* CSS-module campaign rows retain their editorial layout, but the old neon
+   performance hover no longer breaks the shared palette. */
+.brand-page [class*="performanceCard"]:hover {
+  background: rgba(255,255,255,.04) !important;
+  color: #f4f4f1 !important;
+}
+
+.brand-page [class*="performanceCard"]:hover [class*="performanceNumbers"] strong {
+  color: #f4f4f1 !important;
+}
+
+.brand-contact {
+  border-top: 1px solid rgba(255,255,255,.12);
+  background: #222;
+  color: #f4f4f1;
+}
+
+.brand-contact .brand-button-primary {
+  border-color: #f4f4f1;
+  background: #f4f4f1;
+  color: #111;
+}
+
+.brand-contact .brand-button-primary:hover {
+  background: transparent;
+  color: #f4f4f1;
+}
+
+/* Keep ordinary text pages on the same off-white paper used around Photography. */
+.page-hero,
+.section,
+.brand-section {
+  border-color: rgba(17,17,17,.14);
+}
+
+/* Buttons and small controls should feel like the portfolio toolbar: square,
+   quiet borders, no glossy treatment. */
+.cta,
+.brand-button,
+.photo-button,
+.closingActions a {
+  border-radius: 0 !important;
+}
+
+@media (max-width: 880px) {
+  .brand-hero,
+  .brand-page {
+    background: #f1f1ef;
+  }
+}
