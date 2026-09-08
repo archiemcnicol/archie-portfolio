@@ -80,10 +80,11 @@ export function TikTokFramePreview({
         loading="eager"
         src={staticFrame}
         style={{
+          background: "#080808",
           display: "block",
           height: "100%",
           inset: 0,
-          objectFit: "cover",
+          objectFit: "contain",
           objectPosition: "center",
           pointerEvents: "none",
           position: "absolute",
