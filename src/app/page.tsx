@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 const TRAVEL_PORTRAIT =
-  "https://res.cloudinary.com/i1xhlvd6/image/upload/c_scale,w_1014/e_sharpen/f_auto/q_auto:best/v1788665251/archie-greece.webp";
+  "https://res.cloudinary.com/i1xhlvd6/image/upload/c_scale,w_1014/e_sharpen/f_auto/q_auto:best/v1788834592/archie-greece.webp";
 
 const EXCLUDED_PHOTO_NAMES = new Set([
   "IMG_2473.jpg",
