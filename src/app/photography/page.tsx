@@ -27,10 +27,6 @@ const RAW_PHOTOS = PORTFOLIO_ARCHIVE_PHOTOS.filter(
 
 const PHOTOS = buildPhotographyCatalogue(RAW_PHOTOS);
 
-// Release-check compatibility markers for the original archive invariants:
-// <PortfolioArchive photos={PHOTOS} />
-// .map(({ id, src, width, height })
-
 function oneBased<T>(items: T[], number?: number) {
   if (!number || number < 1) return undefined;
   return items[number - 1];
