@@ -2,15 +2,12 @@
 
 import { useEffect, useMemo, useRef } from "react";
 
-// Exact user-approved 9:16 cover frames. The verified v3 WebP binaries are delivered
-// through jsDelivr from an immutable, reachable production commit, matching the delivery
-// path already used successfully by the photography archive. This bypasses Vercel public-
-// asset handling, Next image optimisation and TikTok player timing.
+// Nike and Superdry use exact user-approved, verified local JPEG cover frames.
+// These files are committed as real JPEG binaries in /public/brand-work, so they avoid
+// TikTok frame timing, remote-CDN delivery and Next image optimisation entirely.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
-  "7592280935027035414":
-    "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@f811ba435984fbb605d8c2fe053169e865fa04a7/public/brand-work/nike-preferred-cover-v3.webp",
-  "7415251227971259680":
-    "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@f811ba435984fbb605d8c2fe053169e865fa04a7/public/brand-work/superdry-preferred-cover-v3.webp",
+  "7592280935027035414": "/brand-work/nike-cover-approved.jpg",
+  "7415251227971259680": "/brand-work/superdry-cover-approved.jpg",
 };
 
 export function TikTokFramePreview({
@@ -79,15 +76,14 @@ export function TikTokFramePreview({
         alt=""
         aria-hidden="true"
         className={className}
-        decoding="async"
+        decoding="sync"
         loading="eager"
         src={staticFrame}
         style={{
-          background: "#080808",
           display: "block",
           height: "100%",
           inset: 0,
-          objectFit: "contain",
+          objectFit: "cover",
           objectPosition: "center",
           pointerEvents: "none",
           position: "absolute",
