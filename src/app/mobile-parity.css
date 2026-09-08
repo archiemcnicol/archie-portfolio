@@ -65,9 +65,24 @@
 
   /* Keep the Photography toolbar recognisable instead of reducing Filter to an
      unexplained icon on touch screens. */
-  .photo-page + * [class*="filterButton"] span,
   [class*="explorer"] [class*="filterButton"] span {
     display: inline !important;
+  }
+
+  /* Photography project pages keep previous/next as the same visual pair used on
+     desktop. Two compact cards fit normal phone widths without sacrificing clarity. */
+  [class*="projectNav"] > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  [class*="projectNav"] a,
+  [class*="projectNav"] > div > span {
+    min-width: 0;
+  }
+
+  [class*="projectNav"] a:last-child {
+    align-items: flex-end !important;
+    text-align: right !important;
   }
 
   /* Shared rows should never force the viewport wider than the device. */
@@ -141,6 +156,16 @@
   .home-route-photo-card p {
     max-width: 60% !important;
   }
+
+  [class*="projectNav"] a,
+  [class*="projectNav"] > div > span {
+    min-height: 92px !important;
+    padding: 13px !important;
+  }
+
+  [class*="projectNav"] strong {
+    font-size: 16px !important;
+  }
 }
 
 @media (max-width: 360px) {
@@ -160,5 +185,14 @@
     padding-left: 0 !important;
     border-top: 1px solid rgba(17,17,17,.18) !important;
     border-left: 0 !important;
+  }
+
+  [class*="projectNav"] > div {
+    grid-template-columns: 1fr !important;
+  }
+
+  [class*="projectNav"] a:last-child {
+    align-items: flex-start !important;
+    text-align: left !important;
   }
 }
