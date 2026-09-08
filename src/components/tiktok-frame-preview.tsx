@@ -1,14 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useMemo, useRef } from "react";
 
-// Curated cover positions for videos that appear in more than one place on the site.
-// Keeping these here means homepage and Brand Work previews cannot drift apart.
-const PREVIEW_SEEK_OVERRIDES: Record<string, number> = {
-  // Nike — move past the first close frame so both shoeboxes are visible.
-  "7592280935027035414": 1.3,
-  // Superdry — wait for the opening zoom to pull back to the centred on-screen frame.
-  "7415251227971259680": 2.6,
+// These two campaigns have deliberately curated stills. Using the same source everywhere
+// keeps the homepage and Brand Work page aligned with the selected cover composition rather
+// than allowing TikTok player timing to surface a different frame on each load.
+const STATIC_FRAME_PREVIEWS: Record<string, string> = {
+  "7592280935027035414": "/brand-work/nike-2026-01-07.webp",
+  "7415251227971259680": "/brand-work/superdry-2024-09-16.webp",
 };
 
 export function TikTokFramePreview({
@@ -23,7 +23,7 @@ export function TikTokFramePreview({
   title?: string;
 }) {
   const frameRef = useRef<HTMLIFrameElement>(null);
-  const effectiveSeekTo = PREVIEW_SEEK_OVERRIDES[videoId] ?? seekTo;
+  const staticFrame = STATIC_FRAME_PREVIEWS[videoId];
   const src = useMemo(
     () =>
       `https://www.tiktok.com/player/v1/${videoId}?controls=0&progress_bar=0&play_button=0&volume_control=0&fullscreen_button=0&timestamp=0&loop=0&autoplay=0&music_info=0&description=0&rel=0&native_context_menu=0`,
@@ -31,6 +31,8 @@ export function TikTokFramePreview({
   );
 
   useEffect(() => {
+    if (staticFrame) return;
+
     const frame = frameRef.current;
     if (!frame) return;
 
@@ -40,7 +42,7 @@ export function TikTokFramePreview({
 
     const sendPreviewPosition = () => {
       frame.contentWindow?.postMessage(
-        { type: "seekTo", value: effectiveSeekTo, "x-tiktok-player": true },
+        { type: "seekTo", value: seekTo, "x-tiktok-player": true },
         "*",
       );
       frame.contentWindow?.postMessage(
@@ -67,7 +69,21 @@ export function TikTokFramePreview({
       if (retryTwo) window.clearTimeout(retryTwo);
       if (retryThree) window.clearTimeout(retryThree);
     };
-  }, [effectiveSeekTo]);
+  }, [seekTo, staticFrame]);
+
+  if (staticFrame) {
+    return (
+      <Image
+        alt=""
+        aria-hidden="true"
+        className={className}
+        fill
+        sizes="(max-width: 600px) 100vw, (max-width: 1050px) 48vw, 32vw"
+        src={staticFrame}
+        style={{ objectFit: "cover", objectPosition: "center" }}
+      />
+    );
+  }
 
   return (
     <iframe
