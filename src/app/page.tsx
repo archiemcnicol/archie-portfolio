@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 const TRAVEL_PORTRAIT =
-  "https://res.cloudinary.com/i1xhlvd6/image/upload/c_scale,w_1014/e_sharpen/f_auto/q_auto:best/v1788834592/archie-greece.webp";
+  "https://res.cloudinary.com/i1xhlvd6/image/upload/c_scale,w_1000/e_sharpen/q_auto:best/v1788834592/archie-greece.webp";
 
 const EXCLUDED_PHOTO_NAMES = new Set([
   "IMG_2473.jpg",
@@ -86,6 +86,7 @@ export default function Home() {
                 priority
                 sizes="(max-width: 760px) 52vw, (max-width: 1050px) 54vw, 24vw"
                 src={TRAVEL_PORTRAIT}
+                unoptimized
               />
               <span className={styles.imageLabel}><b>Personal / travel</b><b>About →</b></span>
             </Link>
