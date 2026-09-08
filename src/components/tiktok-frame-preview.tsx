@@ -2,11 +2,15 @@
 
 import { useEffect, useMemo, useRef } from "react";
 
-// Exact user-approved 9:16 cover frames. These are committed source assets rather than
-// inferred TikTok timestamps, so the framing and on-screen text are deterministic.
+// Exact user-approved 9:16 cover frames. These are ordinary JPEGs served from the same
+// jsDelivr-backed GitHub path used by the photography archive, pinned to the immutable
+// commit that contains the verified binaries. This avoids TikTok timing, Vercel public
+// asset delivery, Next image optimisation and the earlier broken WebP copies.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
-  "7592280935027035414": "/brand-work/nike-preferred-cover-v3.webp",
-  "7415251227971259680": "/brand-work/superdry-preferred-cover-v3.webp",
+  "7592280935027035414":
+    "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@5e16b3d84fbfebe494a3d03a2a4078356ab8580a/public/brand-work/nike-preferred-cover-final-20260908.jpg",
+  "7415251227971259680":
+    "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@5e16b3d84fbfebe494a3d03a2a4078356ab8580a/public/brand-work/superdry-preferred-cover-final-20260908.jpg",
 };
 
 export function TikTokFramePreview({
@@ -71,18 +75,21 @@ export function TikTokFramePreview({
 
   if (staticFrame) {
     return (
-      <span
+      <img
+        alt=""
         aria-hidden="true"
         className={className}
+        decoding="async"
+        loading="eager"
+        src={staticFrame}
         style={{
-          backgroundColor: "#080808",
-          backgroundImage: `url(${staticFrame})`,
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "contain",
+          background: "#080808",
           display: "block",
           height: "100%",
           inset: 0,
+          objectFit: "contain",
+          objectPosition: "center",
+          pointerEvents: "none",
           position: "absolute",
           width: "100%",
           zIndex: 0,
