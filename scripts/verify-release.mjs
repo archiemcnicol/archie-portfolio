@@ -11,6 +11,8 @@ const creatorPage = read("src/app/creator/page.tsx");
 const brandConsistency = read("src/app/creator/brand-work-consistency.module.css");
 const portfolioArchive = read("src/lib/portfolio-archive.ts");
 const photographyPage = read("src/app/photography/page.tsx");
+const photographySeries = read("src/lib/photography-series.ts");
+const photographyExplorer = read("src/components/photography-explorer.tsx");
 const portfolioComponent = read("src/components/portfolio-archive.tsx");
 const portfolioStyles = read("src/components/portfolio-archive.module.css");
 const rootLayout = read("src/app/layout.tsx");
@@ -101,9 +103,15 @@ const excludedNames = new Set(["IMG_2473.jpg", "IMG_2469.jpg", "Screenshot_20200
 const archiveRecords = [...portfolioArchive.matchAll(/\{\s*"id":\s*"([^"]+)",\s*"src":\s*"([^"]+)",\s*"width":\s*(\d+),\s*"height":\s*(\d+),\s*"originalName":\s*"([^"]+)"\s*\}/g)].map((match) => ({ id: match[1], src: match[2], originalName: match[5] }));
 const publicRecords = archiveRecords.filter((record) => !excludedNames.has(record.originalName));
 assert(publicRecords.length > 500, `photography archive looks unexpectedly small: ${publicRecords.length}`);
-assert(photographyPage.includes("<PortfolioArchive photos={PHOTOS} />"), "photography page must render the public archive");
-assert(photographyPage.includes(".map(({ id, src, width, height })"), "photography page must strip filenames before serialising photos to the client");
-assert(portfolioComponent.includes('Pick<ArchivePhoto, "id" | "src" | "width" | "height">'), "client photography component should only accept render fields");
+
+const catalogueType = photographySeries.match(/export type CataloguePhoto = ([\s\S]*?)\n};/)?.[0] ?? "";
+assert(catalogueType.length > 0, "CataloguePhoto public client type could not be located");
+assert(catalogueType.includes('Pick<ArchivePhoto, "id" | "src" | "width" | "height">'), "CataloguePhoto must derive its archive fields from the approved public render subset");
+assert(!catalogueType.includes("originalName"), "original photography filenames must not enter CataloguePhoto client data");
+assert(photographyPage.includes("buildPhotographyCatalogue(RAW_PHOTOS)"), "photography page must pass archive records through the public catalogue builder");
+assert(photographyPage.includes("<PhotographyExplorer photos={PHOTOS} series={SERIES} />"), "photography page must render the current filtered photography explorer");
+assert(photographyExplorer.includes("photos: CataloguePhoto[]"), "photography explorer must only accept public CataloguePhoto records");
+assert(portfolioComponent.includes("type PortfolioPhoto = CataloguePhoto"), "portfolio viewer must consume the public CataloguePhoto type");
 assert(portfolioStyles.includes("content-visibility: auto"), "photography archive must preserve off-screen rendering containment");
 assert(portfolioComponent.includes("returnFocusRef"), "photography viewer must restore focus after closing");
 assert(portfolioComponent.includes("closeButtonRef"), "photography viewer must focus its close control when opened");
