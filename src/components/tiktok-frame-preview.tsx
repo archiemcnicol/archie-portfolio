@@ -3,11 +3,9 @@
 import Image from "next/image";
 import { useEffect, useMemo, useRef } from "react";
 
-// These two campaigns have deliberately curated stills. Using the same source everywhere
-// keeps the homepage and Brand Work page aligned with the selected cover composition rather
-// than allowing TikTok player timing to surface a different frame on each load.
+// Superdry uses a deliberately curated still. Nike stays on the live TikTok player so
+// the selected frame preserves the original 9:16 composition and on-screen text.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
-  "7592280935027035414": "/brand-work/nike-2026-01-07.webp",
   "7415251227971259680": "/brand-work/superdry-2024-09-16.webp",
 };
 
@@ -80,7 +78,7 @@ export function TikTokFramePreview({
         fill
         sizes="(max-width: 600px) 100vw, (max-width: 1050px) 48vw, 32vw"
         src={staticFrame}
-        style={{ objectFit: "cover", objectPosition: "center" }}
+        style={{ background: "#080808", objectFit: "contain", objectPosition: "center" }}
       />
     );
   }
