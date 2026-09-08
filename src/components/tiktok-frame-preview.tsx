@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useMemo, useRef } from "react";
 
-// Exact user-approved 9:16 cover frames. These are committed source assets rather than
-// inferred TikTok timestamps, so the framing and on-screen text are deterministic.
+// Exact user-approved cover frames. Serve these directly rather than through Next/Image
+// so they cannot be replaced by a stale optimised derivative or fail in the image optimiser.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
-  "7592280935027035414": "/brand-work/nike-preferred-cover.webp",
-  "7415251227971259680": "/brand-work/superdry-preferred-cover.webp",
+  "7592280935027035414": "/brand-work/nike-preferred-cover.webp?v=3",
+  "7415251227971259680": "/brand-work/superdry-preferred-cover.webp?v=3",
 };
 
 export function TikTokFramePreview({
@@ -72,18 +71,20 @@ export function TikTokFramePreview({
 
   if (staticFrame) {
     return (
-      <Image
+      <img
         alt=""
         aria-hidden="true"
         className={className}
-        fill
-        priority={videoId === "7592280935027035414"}
-        sizes="(max-width: 600px) 360px, (max-width: 1050px) 380px, 360px"
+        decoding="async"
+        fetchPriority={videoId === "7592280935027035414" ? "high" : "auto"}
         src={staticFrame}
         style={{
           background: "#080808",
+          display: "block",
+          height: "100%",
           objectFit: "contain",
           objectPosition: "center",
+          width: "100%",
         }}
       />
     );
