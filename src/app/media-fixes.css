@@ -66,15 +66,16 @@
   }
 }
 
-/* Give selected campaign media more visual weight. */
+/* Give selected campaign media enough presence without letting a single 9:16 post
+   dominate the whole campaign row. */
 .brand-page .brand-campaigns > article {
-  grid-template-columns: 46px minmax(300px, .9fr) minmax(0, 1.1fr) !important;
-  gap: 32px !important;
+  grid-template-columns: 46px minmax(270px, .78fr) minmax(0, 1.22fr) !important;
+  gap: 30px !important;
 }
 
 .brand-page .brand-campaigns > article > div:nth-child(2) {
   width: 100% !important;
-  max-width: 520px;
+  max-width: 500px;
 }
 
 .brand-page .brand-campaigns > article > div:nth-child(2) > div {
@@ -83,12 +84,12 @@
 
 .brand-page .brand-campaigns > article > div:nth-child(2) > div > :only-child {
   width: 100% !important;
-  max-width: 440px !important;
+  max-width: 360px !important;
 }
 
-/* BOSS has two deliverables, so allow its media pair to use the full media column. */
+/* BOSS has two deliverables, so allow its media pair to use more of the media column. */
 .brand-page .brand-campaigns > article:nth-child(2) > div:nth-child(2) {
-  max-width: 620px;
+  max-width: 590px;
 }
 
 /* Make the two BOSS performance blocks read like the same Views/Likes treatment used
@@ -127,8 +128,8 @@
   margin-top: 9px !important;
 }
 
-/* As soon as the page becomes narrower, stack media above copy and let the videos
-   use the available line length instead of shrinking inside the old narrow column. */
+/* At narrower desktop/tablet widths, stack media above copy so it stays legible,
+   but retain a restrained maximum for single vertical posts. */
 @media (max-width: 1050px) {
   .brand-page .brand-campaigns > article {
     grid-template-columns: 34px minmax(0, 1fr) !important;
@@ -141,11 +142,11 @@
   }
 
   .brand-page .brand-campaigns > article > div:nth-child(2) {
-    max-width: 720px !important;
+    max-width: 620px !important;
   }
 
   .brand-page .brand-campaigns > article > div:nth-child(2) > div > :only-child {
-    max-width: 440px !important;
+    max-width: 380px !important;
   }
 }
 
@@ -166,8 +167,8 @@
   }
 
   .brand-page .brand-campaigns > article > div:nth-child(2) > div > :only-child {
-    width: 100% !important;
-    max-width: none !important;
+    width: min(100%, 360px) !important;
+    max-width: 360px !important;
   }
 
   .brand-page [aria-label="BOSS deliverable performance"] {
@@ -188,5 +189,10 @@
 @media (max-width: 430px) {
   .brand-page .brand-campaigns > article > div:nth-child(2) > div {
     grid-template-columns: 1fr !important;
+  }
+
+  .brand-page .brand-campaigns > article > div:nth-child(2) > div > :only-child {
+    width: min(100%, 340px) !important;
+    max-width: 340px !important;
   }
 }
