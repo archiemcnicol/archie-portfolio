@@ -71,20 +71,21 @@ export function TikTokFramePreview({
 
   if (staticFrame) {
     return (
-      <img
-        alt=""
+      <span
         aria-hidden="true"
         className={className}
-        decoding="async"
-        loading="eager"
-        src={staticFrame}
         style={{
-          background: "#080808",
+          backgroundColor: "#080808",
+          backgroundImage: `url(${staticFrame})`,
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "contain",
           display: "block",
           height: "100%",
-          objectFit: "contain",
-          objectPosition: "center",
+          inset: 0,
+          position: "absolute",
           width: "100%",
+          zIndex: 0,
         }}
       />
     );
