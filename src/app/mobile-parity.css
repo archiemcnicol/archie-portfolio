@@ -1,0 +1,164 @@
+/* Mobile parity pass.
+   Preserve the desktop visual hierarchy on smaller screens while allowing layouts to
+   stack where space genuinely requires it. Loaded after every earlier polish layer. */
+
+@media (max-width: 760px) {
+  html,
+  body,
+  .shell {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  main,
+  section,
+  article,
+  .wrap {
+    min-width: 0;
+  }
+
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  /* Homepage route cards should keep the same side-image composition as desktop.
+     An older mobile pass changed Photography into a full-width top image, which made
+     it read like a different component and produced an awkward crop. */
+  .home-route-photo-card {
+    height: 238px !important;
+    min-height: 238px !important;
+  }
+
+  .home-route-photo-card::after {
+    background: linear-gradient(
+      90deg,
+      rgba(17,17,17,.995) 0%,
+      rgba(17,17,17,.95) 39%,
+      rgba(17,17,17,.72) 58%,
+      rgba(17,17,17,.1) 90%
+    ) !important;
+  }
+
+  .home-route-photo-media {
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    width: 60% !important;
+    height: auto !important;
+  }
+
+  .home-route-photo-media img {
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+
+  .home-route-photo-card h3 {
+    max-width: 62% !important;
+  }
+
+  .home-route-photo-card p {
+    max-width: 55% !important;
+  }
+
+  /* Keep the Photography toolbar recognisable instead of reducing Filter to an
+     unexplained icon on touch screens. */
+  .photo-page + * [class*="filterButton"] span,
+  [class*="explorer"] [class*="filterButton"] span {
+    display: inline !important;
+  }
+
+  /* Shared rows should never force the viewport wider than the device. */
+  .brand-page .brand-campaigns,
+  .performance-metrics,
+  .brand-page [aria-label="BOSS deliverable performance"] {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  /* Desktop Brand Work uses a compact proof rail. A 2x2 rail on phones keeps that
+     same visual rhythm better than turning it into four unrelated full-width rows. */
+  .brand-page .brand-proof {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .brand-page .brand-proof > div {
+    min-width: 0;
+    min-height: 104px !important;
+    padding: 14px 12px !important;
+  }
+
+  /* Keep campaign media aligned to the same left edge as its copy and prevent a
+     single vertical post from becoming wider than the usable phone viewport. */
+  .brand-page .brand-campaigns > article > div:nth-child(2) {
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-self: start;
+  }
+
+  .brand-page .brand-campaigns > article > div:nth-child(2) > div > :only-child {
+    width: min(100%, 360px) !important;
+    max-width: 360px !important;
+    justify-self: start;
+  }
+
+  /* The two BOSS deliverables stay paired on normal phone widths, matching the
+     desktop relationship. Very narrow devices fall back to one column below. */
+  .brand-page [aria-label="BOSS deliverable performance"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .brand-page [aria-label="BOSS deliverable performance"] > div {
+    min-width: 0;
+    padding: 12px 12px 12px 0 !important;
+  }
+
+  .brand-page [aria-label="BOSS deliverable performance"] > div + div {
+    padding-left: 12px !important;
+    border-top: 0 !important;
+    border-left: 1px solid rgba(17,17,17,.18) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-route-photo-card {
+    height: 230px !important;
+    min-height: 230px !important;
+  }
+
+  .home-route-photo-media {
+    width: 60% !important;
+  }
+
+  .home-route-photo-card h3 {
+    max-width: 68% !important;
+  }
+
+  .home-route-photo-card p {
+    max-width: 60% !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-page .brand-proof {
+    grid-template-columns: 1fr !important;
+  }
+
+  .brand-page [aria-label="BOSS deliverable performance"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .brand-page [aria-label="BOSS deliverable performance"] > div {
+    padding: 12px 0 !important;
+  }
+
+  .brand-page [aria-label="BOSS deliverable performance"] > div + div {
+    padding-left: 0 !important;
+    border-top: 1px solid rgba(17,17,17,.18) !important;
+    border-left: 0 !important;
+  }
+}
