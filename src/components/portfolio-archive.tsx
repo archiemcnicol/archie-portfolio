@@ -8,7 +8,6 @@ import styles from "./portfolio-archive.module.css";
 const DESKTOP_GAP = 14;
 const MOBILE_GAP = 10;
 
-// Legacy release invariant marker: Pick<ArchivePhoto, "id" | "src" | "width" | "height">
 type PortfolioPhoto = CataloguePhoto;
 
 type PortfolioArchiveProps = {
