@@ -2,15 +2,15 @@
 
 import { useEffect, useMemo, useRef } from "react";
 
-// Exact user-approved 9:16 cover frames. These are ordinary JPEGs served from the same
-// jsDelivr-backed GitHub path used by the photography archive, pinned to the immutable
-// commit that contains the verified binaries. This avoids TikTok timing, Vercel public
-// asset delivery, Next image optimisation and the earlier broken WebP copies.
+// Exact user-approved 9:16 cover frames. The verified v3 WebP binaries are delivered
+// through jsDelivr from an immutable commit, matching the delivery path already used
+// successfully by the photography archive. This bypasses Vercel public-asset handling,
+// Next image optimisation and TikTok player timing.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
   "7592280935027035414":
-    "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@5e16b3d84fbfebe494a3d03a2a4078356ab8580a/public/brand-work/nike-preferred-cover-final-20260908.jpg",
+    "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@5a44708e46a119fdf7334b12d111b9028ed285c0/public/brand-work/nike-preferred-cover-v3.webp",
   "7415251227971259680":
-    "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@5e16b3d84fbfebe494a3d03a2a4078356ab8580a/public/brand-work/superdry-preferred-cover-final-20260908.jpg",
+    "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@5a44708e46a119fdf7334b12d111b9028ed285c0/public/brand-work/superdry-preferred-cover-v3.webp",
 };
 
 export function TikTokFramePreview({
