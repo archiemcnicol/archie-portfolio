@@ -5,12 +5,44 @@ import { NIKE_APPROVED_COVER } from "@/lib/nike-cover-data";
 import { SUPERDRY_APPROVED_COVER } from "@/lib/superdry-cover-data";
 
 // User-approved static covers for Nike and Superdry. Other campaigns continue to use
-// TikTok's live player. The static versions deliberately include a lightweight TikTok
-// attribution layer so they retain the same platform identity as the live previews.
+// TikTok's live player. Static covers retain the same platform identity and visual rhythm
+// as the live previews without inventing engagement counts.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
   "7592280935027035414": NIKE_APPROVED_COVER,
   "7415251227971259680": SUPERDRY_APPROVED_COVER,
 };
+
+function HeartIcon() {
+  return (
+    <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 24 24" width="16">
+      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6a5.5 5.5 0 0 0 1-8.8Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.9" />
+    </svg>
+  );
+}
+
+function CommentIcon() {
+  return (
+    <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 24 24" width="16">
+      <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.2 9.2 0 0 1-3.8-.9L3 20.5l1.6-4.7A8.4 8.4 0 1 1 21 11.5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.9" />
+    </svg>
+  );
+}
+
+function BookmarkIcon() {
+  return (
+    <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 24 24" width="16">
+      <path d="M6 4.8c0-1 .8-1.8 1.8-1.8h8.4c1 0 1.8.8 1.8 1.8V21l-6-3.8L6 21V4.8Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.9" />
+    </svg>
+  );
+}
+
+function ShareIcon() {
+  return (
+    <svg aria-hidden="true" fill="none" height="16" viewBox="0 0 24 24" width="16">
+      <path d="M14.5 5 20 10.5 14.5 16v-3.4c-5.8 0-9.2 2.1-11 6.4.7-7 4-10.2 11-10.2V5Z" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.9" />
+    </svg>
+  );
+}
 
 export function TikTokFramePreview({
   videoId,
@@ -166,6 +198,39 @@ export function TikTokFramePreview({
           <span style={{ fontSize: "1.22em" }}>♪</span>
           TikTok
         </span>
+
+        <div
+          aria-hidden="true"
+          style={{
+            bottom: "clamp(42px, 9vw, 66px)",
+            color: "#fff",
+            display: "grid",
+            gap: "clamp(8px, 1.8vw, 12px)",
+            justifyItems: "center",
+            pointerEvents: "none",
+            position: "absolute",
+            right: "clamp(8px, 2.5vw, 14px)",
+            textShadow: "0 1px 4px rgba(0,0,0,.95)",
+            zIndex: 2,
+          }}
+        >
+          {[<HeartIcon key="heart" />, <CommentIcon key="comment" />, <BookmarkIcon key="bookmark" />, <ShareIcon key="share" />].map((icon, index) => (
+            <span
+              key={index}
+              style={{
+                alignItems: "center",
+                background: "rgba(20,20,20,.34)",
+                borderRadius: "999px",
+                display: "inline-flex",
+                height: "clamp(25px, 4.8vw, 34px)",
+                justifyContent: "center",
+                width: "clamp(25px, 4.8vw, 34px)",
+              }}
+            >
+              {icon}
+            </span>
+          ))}
+        </div>
       </>
     );
   }
