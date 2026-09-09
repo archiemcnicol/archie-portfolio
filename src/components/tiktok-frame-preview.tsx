@@ -10,7 +10,8 @@ const STATIC_FRAME_PREVIEWS: Record<string, string> = {
   "7415251227971259680": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968221/superdry-approved-1080.webp",
 };
 
-const TIKTOK_PROFILE_AVATAR = "/brand-work/tiktok-profile-avatar-reference.png";
+const TIKTOK_PROFILE_AVATAR =
+  "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788976238/tiktok-profile-avatar-centred-exact-v3.png";
 
 function HeartIcon() {
   return (
@@ -141,20 +142,31 @@ export function TikTokFramePreview({
             zIndex: 2,
           }}
         >
-          <img
-            alt=""
-            src={TIKTOK_PROFILE_AVATAR}
+          <span
             style={{
-              background: "transparent",
               border: "1px solid rgba(255,255,255,.82)",
               borderRadius: "999px",
               display: "block",
+              flex: "0 0 auto",
               height: "clamp(24px, 4.6vw, 34px)",
-              objectFit: "cover",
-              objectPosition: "50% 50%",
+              overflow: "hidden",
               width: "clamp(24px, 4.6vw, 34px)",
             }}
-          />
+          >
+            <img
+              alt=""
+              src={TIKTOK_PROFILE_AVATAR}
+              style={{
+                display: "block",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center center",
+                transform: "scale(1.03)",
+                transformOrigin: "center center",
+                width: "100%",
+              }}
+            />
+          </span>
 
           <span
             style={{
