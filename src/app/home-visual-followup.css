@@ -1,14 +1,14 @@
 /* Homepage visual follow-up from annotated review — 2026-09-09 */
 
-/* Restore the originally selected New York bridge frame while keeping delivery local and stable. */
+/* Keep the selected New York bridge frame while preserving stable local delivery. */
 .home-hero-landscape::before {
   background-image: url("/portfolio/archive/1jMKQ_PpbgFKy8wQ6Nx5LTjuR8NqwipVI.webp") !important;
   background-position: 50% 48% !important;
 }
 
-/* Restore the user-selected Sicily flag frame used before the later replacement. */
+/* Use the visually verified Sicily frame with the flags visible in the streetscape. */
 .home-route-photo-media::before {
-  background-image: url("/portfolio/archive/1ScrcYlxrEZj5KQX2PN53rv78u_33Qmao.webp") !important;
+  background-image: url("/portfolio/archive/1Nnp6S7PLiq6q6p1r5L0vl82sHX71Z4kj.webp") !important;
   background-position: 50% 50% !important;
 }
 
@@ -34,22 +34,35 @@
   ) !important;
 }
 
-/* Professional, Performance and Digital: turn the small badge into a proper visual field,
-   matching the amount of visual weight carried by the media on the first two cards. */
+/* The first two cards already carry real media; remove the redundant small neon badges. */
+.home-page #selected-work a:nth-child(-n+2) [class*="routeIcon"] {
+  display: none !important;
+}
+
+/* Professional, Performance and Digital use oversized line iconography as the visual field.
+   These cards have no photography/video, so the icon is deliberately large enough to occupy
+   the otherwise empty right-hand space rather than reading as a small badge. */
 .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] {
   z-index: 1 !important;
   top: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
   left: auto !important;
-  width: 40% !important;
+  width: 47% !important;
   height: 100% !important;
   display: grid !important;
   place-items: center !important;
+  overflow: hidden !important;
+  color: #d8ff34 !important;
   border: 0 !important;
-  border-left: 1px solid rgba(245,241,234,.08) !important;
-  background:
-    linear-gradient(90deg, rgba(17,17,17,0), rgba(216,255,52,.025) 45%, rgba(216,255,52,.075)) !important;
+  border-left: 1px solid rgba(245,241,234,.09) !important;
+  background: linear-gradient(
+    90deg,
+    rgba(17,17,17,0) 0%,
+    rgba(216,255,52,.025) 26%,
+    rgba(216,255,52,.065) 58%,
+    rgba(216,255,52,.115) 100%
+  ) !important;
   backdrop-filter: none !important;
   opacity: 1 !important;
   transform: none !important;
@@ -58,30 +71,38 @@
 }
 
 .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] svg {
-  width: 58% !important;
-  height: 58% !important;
-  opacity: .42;
+  display: block !important;
+  width: 88% !important;
+  height: 88% !important;
+  color: #d8ff34 !important;
+  opacity: .7 !important;
+  transform: none;
   transition: opacity .25s ease, transform .25s ease;
 }
 
 .home-page #selected-work a:nth-child(n+3):hover [class*="routeIcon"] {
   opacity: 1 !important;
   transform: none !important;
-  background:
-    linear-gradient(90deg, rgba(17,17,17,0), rgba(216,255,52,.045) 42%, rgba(216,255,52,.11)) !important;
+  background: linear-gradient(
+    90deg,
+    rgba(17,17,17,0) 0%,
+    rgba(216,255,52,.04) 24%,
+    rgba(216,255,52,.09) 58%,
+    rgba(216,255,52,.15) 100%
+  ) !important;
 }
 
 .home-page #selected-work a:nth-child(n+3):hover [class*="routeIcon"] svg {
-  opacity: .62;
+  opacity: .92 !important;
   transform: scale(1.035);
 }
 
 .home-page #selected-work a:nth-child(n+3) h3 {
-  max-width: 59% !important;
+  max-width: 54% !important;
 }
 
 .home-page #selected-work a:nth-child(n+3) p {
-  max-width: 56% !important;
+  max-width: 51% !important;
 }
 
 @media (max-width: 760px) {
@@ -104,37 +125,38 @@
   }
 
   .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] {
-    width: 37% !important;
+    width: 43% !important;
   }
 
   .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] svg {
-    width: 56% !important;
-    height: 56% !important;
+    width: 84% !important;
+    height: 84% !important;
+    opacity: .62 !important;
   }
 
   .home-page #selected-work a:nth-child(n+3) h3 {
-    max-width: 63% !important;
+    max-width: 59% !important;
   }
 
   .home-page #selected-work a:nth-child(n+3) p {
-    max-width: 60% !important;
+    max-width: 56% !important;
   }
 }
 
 @media (max-width: 480px) {
   .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] {
-    width: 34% !important;
+    width: 40% !important;
   }
 
   .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] svg {
-    width: 62% !important;
-    height: 62% !important;
-    opacity: .34;
+    width: 86% !important;
+    height: 86% !important;
+    opacity: .54 !important;
   }
 
   .home-page #selected-work a:nth-child(n+3) h3,
   .home-page #selected-work a:nth-child(n+3) p {
-    max-width: 66% !important;
+    max-width: 62% !important;
   }
 }
 
