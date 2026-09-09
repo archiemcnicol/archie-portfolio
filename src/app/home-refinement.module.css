@@ -148,6 +148,33 @@
   z-index: 2;
 }
 
+.routeIcon {
+  position: absolute;
+  z-index: 2;
+  top: 46px;
+  left: 20px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(245,241,234,.28);
+  color: #d8ff34;
+  background: rgba(17,17,17,.28);
+  backdrop-filter: blur(6px);
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+
+.routeIcon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.compactChapter:hover .routeIcon {
+  transform: translateY(-2px);
+  background: rgba(216,255,52,.12);
+  border-color: rgba(216,255,52,.48);
+}
+
 .compactChapter h3 {
   max-width: 62%;
   font-size: clamp(30px, 3vw, 46px) !important;
@@ -240,6 +267,13 @@
   .compactChapter:not(:has(.compactMedia))::after {
     background: #111;
   }
+
+  .routeIcon {
+    top: 42px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -279,9 +313,19 @@
   .heroActions > :first-child {
     grid-column: 1 / -1;
   }
+
+  .routeIcon {
+    top: 40px;
+    left: 14px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .routeIcon svg { width: 21px; height: 21px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .compactMedia img,
-  .tiktokMedia { transition: none; }
+  .tiktokMedia,
+  .routeIcon { transition: none; }
 }
