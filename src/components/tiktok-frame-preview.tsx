@@ -11,7 +11,7 @@ const STATIC_FRAME_PREVIEWS: Record<string, string> = {
 };
 
 const TIKTOK_PROFILE_AVATAR =
-  "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968297/tiktok-profile-avatar-hq.png";
+  "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788970617/tiktok-profile-avatar-centered.png";
 
 function HeartIcon() {
   return (
@@ -152,6 +152,7 @@ export function TikTokFramePreview({
               display: "block",
               height: "clamp(24px, 4.6vw, 34px)",
               objectFit: "cover",
+              objectPosition: "50% 50%",
               width: "clamp(24px, 4.6vw, 34px)",
             }}
           />
