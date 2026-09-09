@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CataloguePhoto } from "@/lib/photography-taxonomy";
+import { portfolioImageSrc } from "@/lib/portfolio-image-src";
 import styles from "./portfolio-archive.module.css";
 
 const DESKTOP_GAP = 14;
@@ -214,7 +215,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
                     height={photo.height}
                     loading="lazy"
                     sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
-                    src={photo.src}
+                    src={portfolioImageSrc(photo.src)}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     width={photo.width}
                   />
@@ -257,7 +258,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
               fill
               priority
               sizes="100vw"
-              src={activePhoto.src}
+              src={portfolioImageSrc(activePhoto.src)}
             />
           </div>
           <button
