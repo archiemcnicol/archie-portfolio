@@ -41,7 +41,7 @@ function selectedProjectCover(slug: PhotographySeriesSlug) {
 
 const HERO_PHOTOGRAPHY = selectedProjectCover("new-york-2026-06-10");
 const PHOTOGRAPHY_ROUTE_IMAGE =
-  HOME_ARCHIVE.find((photo) => photo.originalName === "DSC03273.jpg") ??
+  HOME_ARCHIVE.find((photo) => photo.id === "1CLNkTDJhvrkD-L1ZgdXYQlxPw8DKEdiS") ??
   selectedProjectCover("sicily-2025-08-28");
 
 function coverStyle(position?: string) {
@@ -52,7 +52,7 @@ function RouteIcon({ type }: { type: "creator" | "photography" | "professional" 
   const common = { fill: "none", stroke: "currentColor", strokeLinecap: "round" as const, strokeLinejoin: "round" as const, strokeWidth: 1.6 };
 
   if (type === "photography") {
-    return <svg aria-hidden="true" viewBox="0 0 32 32"><path {...common} d="M7 10.5h4l1.4-2.5h7.2l1.4 2.5h4a2 2 0 0 1 2 2V24a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V12.5a2 2 0 0 1 2-2Z"/><circle {...common} cx="16" cy="18" r="5"/></svg>;
+    return <svg aria-hidden="true" viewBox="0 0 32 32"><path {...common} d="M7 10.5h4l1.4-2.5h7.2l1.4-2.5h7.2l1.4 2.5h4a2 2 0 0 1 2 2V24a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V12.5a2 2 0 0 1 2-2Z"/><circle {...common} cx="16" cy="18" r="5"/></svg>;
   }
   if (type === "professional") {
     return <svg aria-hidden="true" viewBox="0 0 32 32"><circle {...common} cx="11" cy="11" r="4"/><circle {...common} cx="22" cy="13" r="3"/><path {...common} d="M4.5 25c.7-5 3.2-7.5 7.5-7.5S18.8 20 19.5 25M19 19c4.4.1 7 2.1 7.7 6"/></svg>;
@@ -158,7 +158,7 @@ export default function Home() {
 
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter} home-route-photo-card`} href="/photography">
               <div className={`${refine.compactMedia} home-route-photo-media`} aria-hidden="true">
-                {PHOTOGRAPHY_ROUTE_IMAGE ? <Image alt="" fill sizes="(max-width: 760px) 100vw, 30vw" src={portfolioImageSrc(PHOTOGRAPHY_ROUTE_IMAGE.src)} style={coverStyle(PHOTOGRAPHY_ROUTE_IMAGE.position)} /> : null}
+                {PHOTOGRAPHY_ROUTE_IMAGE ? <Image alt="" fill sizes="(max-width: 760px) 100vw, 30vw" src={portfolioImageSrc(PHOTOGRAPHY_ROUTE_IMAGE.src)} /> : null}
               </div>
               <div className={styles.chapterTop}><span>02 / Photography</span><span>Projects · Dates · Archive</span></div>
               <span className={refine.routeIcon}><RouteIcon type="photography" /></span>
