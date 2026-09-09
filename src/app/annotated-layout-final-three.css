@@ -1,0 +1,71 @@
+/* Remaining annotated visual QA fixes — 2026-09-09 */
+
+/* Creator / brand work: align the left-hand introduction with the active content on the right
+   so the hero no longer leaves a large unused block above the headline. */
+.brand-page .brand-hero {
+  padding-top: clamp(60px, 5vw, 78px) !important;
+}
+
+.brand-page .brand-hero-grid {
+  align-items: start !important;
+}
+
+.brand-page .brand-hero-side {
+  padding-top: 0 !important;
+}
+
+/* Professional: use the hero space more efficiently and keep the headline as two deliberate,
+   readable statements instead of letting the display type break into oversized fragments. */
+.professional-page .professional-hero {
+  padding-top: clamp(44px, 4.5vw, 60px) !important;
+  padding-bottom: clamp(52px, 5vw, 68px) !important;
+}
+
+.professional-page .professional-hero h1 {
+  max-width: 930px !important;
+  font-size: clamp(56px, 6.4vw, 102px) !important;
+  line-height: .86 !important;
+  letter-spacing: -.068em !important;
+}
+
+/* Professional continue-elsewhere cards: use one enclosing border and internal dividers.
+   This removes the stray vertical border fragments visible below the cards. */
+.professional-page [class*="nextLinks"] {
+  border: 1px solid rgba(255,255,255,.2) !important;
+  overflow: hidden;
+}
+
+.professional-page [class*="nextLinks"] > a {
+  border: 0 !important;
+}
+
+.professional-page [class*="nextLinks"] > a + a {
+  border-left: 1px solid rgba(255,255,255,.2) !important;
+}
+
+@media (max-width: 940px) {
+  .professional-page .professional-hero h1 {
+    max-width: 860px !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .brand-page .brand-hero {
+    padding-top: 42px !important;
+  }
+
+  .professional-page .professional-hero {
+    padding-top: 38px !important;
+  }
+
+  .professional-page .professional-hero h1 {
+    max-width: 100% !important;
+    font-size: clamp(50px, 14.5vw, 76px) !important;
+    line-height: .88 !important;
+  }
+
+  .professional-page [class*="nextLinks"] > a + a {
+    border-left: 0 !important;
+    border-top: 1px solid rgba(255,255,255,.2) !important;
+  }
+}
