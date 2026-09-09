@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { TIKTOK_PROFILE_AVATAR } from "../lib/tiktok-profile-avatar";
 
 // User-approved HQ static covers for Nike and Superdry. Other campaigns continue to use
 // TikTok's live player. The static previews use stable CDN assets while retaining platform
@@ -10,6 +9,8 @@ const STATIC_FRAME_PREVIEWS: Record<string, string> = {
   "7592280935027035414": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968155/nike-approved-1080.webp",
   "7415251227971259680": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968221/superdry-approved-1080.webp",
 };
+
+const TIKTOK_PROFILE_AVATAR = "/brand-work/tiktok-profile-avatar.png";
 
 function HeartIcon() {
   return (
