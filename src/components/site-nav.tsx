@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } from "react";
 import styles from "./site-nav.module.css";
 
 const workLinks = [
@@ -79,6 +79,13 @@ export function SiteNav() {
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
   const closeMenu = () => setMenuOpen(false);
 
+  const trackMenuPointer = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const panel = event.currentTarget;
+    const rect = panel.getBoundingClientRect();
+    panel.style.setProperty("--menu-x", `${event.clientX - rect.left}px`);
+    panel.style.setProperty("--menu-y", `${event.clientY - rect.top}px`);
+  };
+
   return (
     <header className="nav nav-photography">
       <div className="wrap nav-inner">
@@ -110,6 +117,7 @@ export function SiteNav() {
         className={styles.menuPanel}
         data-open={menuOpen ? "true" : "false"}
         id="site-navigation"
+        onPointerMove={trackMenuPointer}
       >
         <nav className={styles.menuInner} aria-label="Explore the site" ref={mobileNavRef}>
           <div className={styles.menuIntro}>
