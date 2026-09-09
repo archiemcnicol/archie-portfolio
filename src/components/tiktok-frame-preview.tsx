@@ -11,7 +11,7 @@ const STATIC_FRAME_PREVIEWS: Record<string, string> = {
 };
 
 const TIKTOK_PROFILE_AVATAR =
-  "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788970617/tiktok-profile-avatar-centered.png";
+  "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788971078/tiktok-profile-avatar-final.png";
 
 function HeartIcon() {
   return (
