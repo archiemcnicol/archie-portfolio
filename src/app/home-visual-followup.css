@@ -6,9 +6,9 @@
   background-position: 50% 48% !important;
 }
 
-/* Use the visually verified Sicily frame with the flags visible in the streetscape. */
+/* Exact user-selected photography card image: DSC03273.jpg. */
 .home-route-photo-media::before {
-  background-image: url("/portfolio/archive/1Nnp6S7PLiq6q6p1r5L0vl82sHX71Z4kj.webp") !important;
+  background-image: url("/portfolio/archive/1CLNkTDJhvrkD-L1ZgdXYQlxPw8DKEdiS.webp") !important;
   background-position: 50% 50% !important;
 }
 
@@ -40,10 +40,9 @@
 }
 
 /* Professional, Performance and Digital use oversized line iconography as the visual field.
-   These cards have no photography/video, so the icon is deliberately large enough to occupy
-   the otherwise empty right-hand space rather than reading as a small badge. */
+   Keep it above the card's ::after overlay so it remains visible in production. */
 .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] {
-  z-index: 1 !important;
+  z-index: 3 !important;
   top: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
