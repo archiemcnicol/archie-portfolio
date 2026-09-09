@@ -123,8 +123,8 @@
 }
 
 .brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > a::before {
-  content: "Watch on TikTok\A TIKTOK";
-  white-space: pre !important;
+  content: "Watch on TikTok";
+  white-space: normal !important;
   color: currentColor !important;
   font-size: 11px !important;
   font-weight: 800 !important;
