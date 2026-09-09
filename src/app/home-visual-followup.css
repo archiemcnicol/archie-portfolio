@@ -1,0 +1,146 @@
+/* Homepage visual follow-up from annotated review — 2026-09-09 */
+
+/* Restore the originally selected New York bridge frame while keeping delivery local and stable. */
+.home-hero-landscape::before {
+  background-image: url("/portfolio/archive/1jMKQ_PpbgFKy8wQ6Nx5LTjuR8NqwipVI.webp") !important;
+  background-position: 50% 48% !important;
+}
+
+/* Restore the photography tile's original Sicily selection rather than the later replacement. */
+.home-route-photo-media::before {
+  background-image: url("/portfolio/archive/1KcJ5G0LS0ISsLDjiVRVhzlad4AyG0iXW.webp") !important;
+  background-position: 50% 50% !important;
+}
+
+/* Let more of the image sit beneath the overlay, then transition into the black card gradually. */
+.home-route-photo-media {
+  width: 64% !important;
+}
+
+.home-route-photo-card::after {
+  background: linear-gradient(
+    90deg,
+    #111 0%,
+    #111 27%,
+    rgba(17,17,17,.995) 34%,
+    rgba(17,17,17,.96) 42%,
+    rgba(17,17,17,.88) 50%,
+    rgba(17,17,17,.72) 60%,
+    rgba(17,17,17,.52) 70%,
+    rgba(17,17,17,.31) 80%,
+    rgba(17,17,17,.15) 89%,
+    rgba(17,17,17,.05) 96%,
+    rgba(17,17,17,0) 100%
+  ) !important;
+}
+
+/* Professional, Performance and Digital: turn the small badge into a proper visual field,
+   matching the amount of visual weight carried by the media on the first two cards. */
+.home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] {
+  z-index: 1 !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: auto !important;
+  width: 40% !important;
+  height: 100% !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(245,241,234,.08) !important;
+  background:
+    linear-gradient(90deg, rgba(17,17,17,0), rgba(216,255,52,.025) 45%, rgba(216,255,52,.075)) !important;
+  backdrop-filter: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: none;
+  transition: background .25s ease !important;
+}
+
+.home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] svg {
+  width: 58% !important;
+  height: 58% !important;
+  opacity: .42;
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.home-page #selected-work a:nth-child(n+3):hover [class*="routeIcon"] {
+  opacity: 1 !important;
+  transform: none !important;
+  background:
+    linear-gradient(90deg, rgba(17,17,17,0), rgba(216,255,52,.045) 42%, rgba(216,255,52,.11)) !important;
+}
+
+.home-page #selected-work a:nth-child(n+3):hover [class*="routeIcon"] svg {
+  opacity: .62;
+  transform: scale(1.035);
+}
+
+.home-page #selected-work a:nth-child(n+3) h3 {
+  max-width: 59% !important;
+}
+
+.home-page #selected-work a:nth-child(n+3) p {
+  max-width: 56% !important;
+}
+
+@media (max-width: 760px) {
+  .home-route-photo-media {
+    width: 66% !important;
+  }
+
+  .home-route-photo-card::after {
+    background: linear-gradient(
+      90deg,
+      #111 0%,
+      #111 28%,
+      rgba(17,17,17,.98) 38%,
+      rgba(17,17,17,.86) 50%,
+      rgba(17,17,17,.62) 64%,
+      rgba(17,17,17,.32) 78%,
+      rgba(17,17,17,.09) 91%,
+      rgba(17,17,17,0) 100%
+    ) !important;
+  }
+
+  .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] {
+    width: 37% !important;
+  }
+
+  .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] svg {
+    width: 56% !important;
+    height: 56% !important;
+  }
+
+  .home-page #selected-work a:nth-child(n+3) h3 {
+    max-width: 63% !important;
+  }
+
+  .home-page #selected-work a:nth-child(n+3) p {
+    max-width: 60% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] {
+    width: 34% !important;
+  }
+
+  .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] svg {
+    width: 62% !important;
+    height: 62% !important;
+    opacity: .34;
+  }
+
+  .home-page #selected-work a:nth-child(n+3) h3,
+  .home-page #selected-work a:nth-child(n+3) p {
+    max-width: 66% !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"],
+  .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] svg {
+    transition: none !important;
+  }
+}
