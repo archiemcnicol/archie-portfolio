@@ -1,0 +1,249 @@
+/* First-ten annotated visual QA pass — 2026-09-09 */
+
+/* Business / commercial: remove dead hero space and give the capability rows more presence. */
+.digital-hero {
+  padding: clamp(42px, 4.4vw, 58px) 0 clamp(48px, 5vw, 66px) !important;
+}
+.digital-hero > .wrap { align-items: center !important; }
+.digital-services {
+  padding-top: clamp(58px, 6vw, 76px) !important;
+  padding-bottom: clamp(68px, 7vw, 88px) !important;
+}
+.digital-services a {
+  min-height: 132px !important;
+  grid-template-columns: 44px 78px minmax(240px, .82fr) minmax(0, 1.18fr) 24px !important;
+  gap: 22px !important;
+}
+.digital-services a h2 {
+  font-size: clamp(31px, 3.25vw, 52px) !important;
+  line-height: .96 !important;
+}
+.digital-services a p {
+  max-width: 690px !important;
+  font-size: 13px !important;
+  line-height: 1.48 !important;
+}
+
+/* Performance: pull both supporting columns up into the composition. */
+.performance-hero {
+  padding: clamp(44px, 4.6vw, 62px) 0 clamp(42px, 4.4vw, 58px) !important;
+}
+.performance-hero > .wrap { align-items: start !important; }
+.performance-hero > .wrap > :last-child {
+  margin-top: clamp(62px, 7vw, 100px) !important;
+}
+.performance-private {
+  padding: clamp(54px, 5.5vw, 72px) 0 clamp(58px, 6vw, 78px) !important;
+}
+.performance-private header {
+  align-items: start !important;
+  margin-bottom: 0 !important;
+}
+.performance-private header > :last-child {
+  padding-top: clamp(14px, 1.8vw, 24px) !important;
+}
+
+/* About: compact education transition and give every timeline chapter an identifying mark. */
+.about-experience-section {
+  padding-bottom: clamp(58px, 6vw, 76px) !important;
+}
+.about-education {
+  padding-top: clamp(42px, 4.4vw, 58px) !important;
+  padding-bottom: clamp(42px, 4.4vw, 58px) !important;
+}
+.about-experience-section [class*="timelineRow"] > [class*="index"] {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 38px;
+}
+.about-experience-section [class*="timelineRow"] > [class*="index"]::after {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 34px;
+  box-sizing: border-box;
+  border: 1px solid rgba(216,255,52,.5);
+  background-color: rgba(216,255,52,.035);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 21px 21px;
+}
+.about-experience-section [class*="timelineRow"]:nth-child(1) > [class*="index"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23d8ff34%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%2010.5h5l1.6-2.8h6.8l1.6%202.8h5a2%202%200%200%201%202%202v11a2%202%200%200%201-2%202H6a2%202%200%200%201-2-2v-11a2%202%200%200%201%202-2Z%22%2F%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%2218%22%20r%3D%225%22%2F%3E%3C%2Fsvg%3E");
+}
+.about-experience-section [class*="timelineRow"]:nth-child(2) > [class*="index"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23d8ff34%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M16%207c0-2%201.2-3%203-3%201.5%200%202.7.9%202.7%202.4%200%202.2-2.8%202.8-4.8%204.5%22%2F%3E%3Cpath%20d%3D%22m16%2010.8-11%209.6h22l-11-9.6Z%22%2F%3E%3C%2Fsvg%3E");
+}
+.about-experience-section [class*="timelineRow"]:nth-child(3) > [class*="index"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23d8ff34%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%209.2h20l-6.2%206.5H6l20%207.1H6l6.2-6.5H26L6%209.2Z%22%2F%3E%3C%2Fsvg%3E");
+}
+.about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+  border-radius: 999px;
+  border-color: rgba(255,255,255,.42);
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/v1788976238/tiktok-profile-avatar-centred-exact-v3.png");
+  background-size: cover;
+}
+.about-experience-section [class*="timelineRow"]:nth-child(5) > [class*="index"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23d8ff34%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M6%2025V16M12%2025V11M18%2025v-6M24%2025V7%22%2F%3E%3Cpath%20d%3D%22m5%2013%207-5%206%207%208-10%22%2F%3E%3C%2Fsvg%3E");
+}
+.about-experience-section [class*="timelineRow"]:nth-child(6) > [class*="index"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23d8ff34%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%226%22%20y%3D%225%22%20width%3D%2220%22%20height%3D%2222%22%20rx%3D%221.5%22%2F%3E%3Cpath%20d%3D%22M11%2021%2016%2010l5%2011M12.5%2018h7%22%2F%3E%3C%2Fsvg%3E");
+}
+.about-experience-section [class*="timelineRow"]:nth-child(7) > [class*="index"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22none%22%20stroke%3D%22%23d8ff34%22%20stroke-width%3D%221.8%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m12%209-7%207%207%207M20%209l7%207-7%207M18.5%206l-5%2020%22%2F%3E%3C%2Fsvg%3E");
+}
+
+/* Contact: use the right side of the hero rather than leaving an empty upper panel. */
+.contact-page > section:first-child {
+  padding: clamp(44px, 4.6vw, 60px) 0 clamp(50px, 5vw, 68px) !important;
+}
+.contact-page > section:first-child > .wrap {
+  align-items: start !important;
+}
+.contact-page > section:first-child > .wrap > p {
+  margin-top: clamp(72px, 8vw, 116px) !important;
+}
+
+/* Home hero: replace the two unreliable archive thumbnails with stable local covers.
+   The generated restoration is intentionally used only for the visibly soft travel portrait. */
+.home-hero-landscape::before,
+.home-route-photo-media::before,
+.home-hero-portrait::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  pointer-events: none;
+}
+.home-hero-landscape::before {
+  background-image: url("/home/homepage-new-york-cover.webp");
+  background-position: 50% 46%;
+}
+.home-route-photo-media::before {
+  background-image: url("/home/homepage-sicily-cover.webp");
+  background-position: 50% 45%;
+}
+.home-hero-portrait::before {
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/e_gen_restore/c_scale,w_1000/e_sharpen/q_auto:best/v1788834592/archie-greece.webp");
+  background-position: center;
+}
+.home-hero-landscape > img,
+.home-route-photo-media > img,
+.home-hero-portrait > img {
+  opacity: 0 !important;
+}
+
+/* Home route cards: equal, denser cards with the non-media iconography acting as a visual anchor. */
+.home-page #selected-work a {
+  height: 240px !important;
+  min-height: 240px !important;
+}
+.home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] {
+  top: 50% !important;
+  right: 22px !important;
+  left: auto !important;
+  width: 92px !important;
+  height: 92px !important;
+  border: 0 !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  opacity: .2;
+  transform: translateY(-50%) !important;
+}
+.home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] svg {
+  width: 74px !important;
+  height: 74px !important;
+}
+.home-page #selected-work a:nth-child(n+3):hover [class*="routeIcon"] {
+  opacity: .32;
+  transform: translateY(-50%) scale(1.035) !important;
+}
+.home-page #selected-work a:nth-child(n+3) h3 {
+  max-width: 78% !important;
+}
+.home-page #selected-work a:nth-child(n+3) p {
+  max-width: 68% !important;
+}
+.home-page #selected-work a:nth-child(3) h3 {
+  max-width: 72% !important;
+  line-height: .9 !important;
+}
+
+@media (max-width: 960px) {
+  .performance-hero > .wrap > :last-child {
+    margin-top: 0 !important;
+  }
+  .performance-private header > :last-child {
+    padding-top: 0 !important;
+  }
+  .contact-page > section:first-child > .wrap > p {
+    margin-top: 0 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .digital-services a {
+    grid-template-columns: 36px 66px minmax(180px, .78fr) minmax(0, 1.22fr) 22px !important;
+    min-height: 118px !important;
+    gap: 16px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .home-page #selected-work a {
+    height: 230px !important;
+    min-height: 230px !important;
+  }
+  .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] {
+    right: 14px !important;
+    width: 74px !important;
+    height: 74px !important;
+    opacity: .16;
+  }
+  .home-page #selected-work a:nth-child(n+3) [class*="routeIcon"] svg {
+    width: 58px !important;
+    height: 58px !important;
+  }
+  .home-page #selected-work a:nth-child(n+3) h3 {
+    max-width: 82% !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .digital-hero,
+  .performance-hero,
+  .contact-page > section:first-child {
+    padding-top: 34px !important;
+  }
+  .digital-services a {
+    grid-template-columns: 28px 1fr 22px !important;
+    gap: 9px 12px !important;
+    min-height: 0 !important;
+    padding: 20px 0 !important;
+  }
+  .digital-services a > strong {
+    grid-column: 2;
+  }
+  .digital-services a h2,
+  .digital-services a p {
+    grid-column: 2 / -1;
+  }
+  .digital-services a b {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .about-experience-section [class*="timelineRow"] > [class*="index"]::after {
+    width: 30px;
+    height: 30px;
+    background-size: 18px 18px;
+  }
+  .about-education {
+    padding-top: 36px !important;
+    padding-bottom: 36px !important;
+  }
+}
