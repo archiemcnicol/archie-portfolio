@@ -40,7 +40,9 @@ function selectedProjectCover(slug: PhotographySeriesSlug) {
 }
 
 const HERO_PHOTOGRAPHY = selectedProjectCover("new-york-2026-06-10");
-const PHOTOGRAPHY_ROUTE_IMAGE = selectedProjectCover("sicily-2025-08-28");
+const PHOTOGRAPHY_ROUTE_IMAGE =
+  HOME_ARCHIVE.find((photo) => photo.id === "1CLNkTDJhvrkD-L1ZgdXYQlxPw8DKEdiS") ??
+  selectedProjectCover("sicily-2025-08-28");
 
 function coverStyle(position?: string) {
   return position ? { objectPosition: position } : undefined;
@@ -156,7 +158,7 @@ export default function Home() {
 
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter} home-route-photo-card`} href="/photography">
               <div className={`${refine.compactMedia} home-route-photo-media`} aria-hidden="true">
-                {PHOTOGRAPHY_ROUTE_IMAGE ? <Image alt="" fill sizes="(max-width: 760px) 100vw, 30vw" src={portfolioImageSrc(PHOTOGRAPHY_ROUTE_IMAGE.src)} style={coverStyle(PHOTOGRAPHY_ROUTE_IMAGE.position)} /> : null}
+                {PHOTOGRAPHY_ROUTE_IMAGE ? <Image alt="" fill sizes="(max-width: 760px) 100vw, 30vw" src={portfolioImageSrc(PHOTOGRAPHY_ROUTE_IMAGE.src)} /> : null}
               </div>
               <div className={styles.chapterTop}><span>02 / Photography</span><span>Projects · Dates · Archive</span></div>
               <span className={refine.routeIcon}><RouteIcon type="photography" /></span>
