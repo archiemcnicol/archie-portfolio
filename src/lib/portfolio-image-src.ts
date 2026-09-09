@@ -1,23 +1,8 @@
-const JSDELIVR_PORTFOLIO_PREFIX =
-  "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/";
-
-const RAW_GITHUB_PORTFOLIO_PREFIX =
-  "https://raw.githubusercontent.com/archiemcnicol/archie-portfolio/main/public/portfolio/archive/";
-
 /**
- * Portfolio photographs are already deployed inside /public/portfolio/archive.
- * Always prefer the same-origin copy so image delivery does not depend on a
- * third-party GitHub CDN. Existing catalogue data can keep its historical URL;
- * this normaliser makes the rendered site deterministic.
+ * Keep photography delivery on the canonical archive URL stored in the catalogue.
+ * The previous same-origin rewrite caused production project thumbnails to point at
+ * archive files that were not consistently present in the deployed public bundle.
  */
 export function portfolioImageSrc(src: string) {
-  if (src.startsWith(JSDELIVR_PORTFOLIO_PREFIX)) {
-    return `/portfolio/archive/${src.slice(JSDELIVR_PORTFOLIO_PREFIX.length)}`;
-  }
-
-  if (src.startsWith(RAW_GITHUB_PORTFOLIO_PREFIX)) {
-    return `/portfolio/archive/${src.slice(RAW_GITHUB_PORTFOLIO_PREFIX.length)}`;
-  }
-
   return src;
 }
