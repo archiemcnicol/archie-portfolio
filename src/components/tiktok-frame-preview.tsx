@@ -4,9 +4,9 @@ import { useEffect, useMemo, useRef } from "react";
 import { NIKE_APPROVED_COVER } from "@/lib/nike-cover-data";
 import { SUPERDRY_APPROVED_COVER } from "@/lib/superdry-cover-data";
 
-// These two covers are embedded directly from the user-approved frames. Keeping the
-// image data in the client bundle avoids the binary asset-transfer issue that previously
-// produced black panels. Other campaigns continue to use the live TikTok player.
+// User-approved static covers for Nike and Superdry. Other campaigns continue to use
+// TikTok's live player. The static versions deliberately include a lightweight TikTok
+// attribution layer so they retain the same platform identity as the live previews.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
   "7592280935027035414": NIKE_APPROVED_COVER,
   "7415251227971259680": SUPERDRY_APPROVED_COVER,
@@ -74,26 +74,99 @@ export function TikTokFramePreview({
 
   if (staticFrame) {
     return (
-      <img
-        alt=""
-        aria-hidden="true"
-        className={className}
-        decoding="async"
-        loading="eager"
-        src={staticFrame}
-        style={{
-          background: "#080808",
-          display: "block",
-          height: "100%",
-          inset: 0,
-          objectFit: "contain",
-          objectPosition: "center",
-          pointerEvents: "none",
-          position: "absolute",
-          width: "100%",
-          zIndex: 0,
-        }}
-      />
+      <>
+        <img
+          alt=""
+          aria-hidden="true"
+          className={className}
+          decoding="async"
+          loading="eager"
+          src={staticFrame}
+          style={{
+            background: "#080808",
+            display: "block",
+            height: "100%",
+            inset: 0,
+            objectFit: "cover",
+            objectPosition: "center center",
+            pointerEvents: "none",
+            position: "absolute",
+            width: "100%",
+            zIndex: 0,
+          }}
+        />
+
+        <div
+          aria-hidden="true"
+          style={{
+            alignItems: "center",
+            display: "flex",
+            gap: "clamp(5px, 1vw, 8px)",
+            left: "clamp(8px, 2.6vw, 14px)",
+            pointerEvents: "none",
+            position: "absolute",
+            top: "clamp(8px, 2.6vw, 14px)",
+            zIndex: 2,
+          }}
+        >
+          <span
+            style={{
+              alignItems: "center",
+              background: "rgba(20,20,20,.82)",
+              border: "1px solid rgba(255,255,255,.68)",
+              borderRadius: "999px",
+              color: "#fff",
+              display: "inline-flex",
+              fontSize: "clamp(8px, 1.6vw, 11px)",
+              fontWeight: 800,
+              height: "clamp(24px, 4.6vw, 34px)",
+              justifyContent: "center",
+              letterSpacing: "-.02em",
+              textShadow: "0 1px 3px rgba(0,0,0,.8)",
+              width: "clamp(24px, 4.6vw, 34px)",
+            }}
+          >
+            AM
+          </span>
+
+          <span
+            style={{
+              color: "#fff",
+              display: "grid",
+              lineHeight: 1.08,
+              textShadow: "0 1px 4px rgba(0,0,0,.95)",
+            }}
+          >
+            <strong style={{ fontSize: "clamp(9px, 1.9vw, 13px)", fontWeight: 700 }}>
+              Archie McNicol
+            </strong>
+            <span style={{ fontSize: "clamp(8px, 1.55vw, 11px)", opacity: .92 }}>
+              @fitswitharchie
+            </span>
+          </span>
+        </div>
+
+        <span
+          aria-hidden="true"
+          style={{
+            alignItems: "center",
+            color: "#fff",
+            display: "inline-flex",
+            fontSize: "clamp(9px, 1.8vw, 13px)",
+            fontWeight: 700,
+            gap: "4px",
+            pointerEvents: "none",
+            position: "absolute",
+            right: "clamp(8px, 2.6vw, 14px)",
+            textShadow: "0 1px 4px rgba(0,0,0,.95)",
+            top: "clamp(10px, 2.8vw, 15px)",
+            zIndex: 2,
+          }}
+        >
+          <span style={{ fontSize: "1.22em" }}>♪</span>
+          TikTok
+        </span>
+      </>
     );
   }
 
