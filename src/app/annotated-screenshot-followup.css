@@ -11,8 +11,7 @@
   text-transform: none !important;
 }
 
-/* Digital capabilities: give wrapped service names enough real row height and width.
-   This deliberately overrides the earlier annotated density pass. */
+/* Digital capabilities: give wrapped service names enough real row height and width. */
 .digital-services a {
   min-height: 0 !important;
   padding: 20px 0 !important;
@@ -37,17 +36,21 @@
   line-height: 1.5 !important;
 }
 
-/* Creator / BOSS: keep the two videos clearly separate, but make each one use
-   the same analytics + full-width action language as the other campaign blocks. */
+/* BOSS measured deliverables.
+   Important: target the direct child item rather than [class*="measuredDeliverable"] alone,
+   because that substring also matches the measuredDeliverables parent and previously collapsed
+   the grid into one large bordered block. */
 .brand-page [class*="measuredDeliverables"] {
   width: 100% !important;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
-  gap: 26px !important;
+  gap: 24px !important;
   margin-top: 20px !important;
+  border: 0 !important;
+  background: transparent !important;
 }
 
-.brand-page [class*="measuredDeliverable"] {
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] {
   width: 100% !important;
   min-width: 0 !important;
   padding: 0 !important;
@@ -56,24 +59,26 @@
   background: transparent !important;
 }
 
-.brand-page [class*="measuredDeliverable"] [class*="deliverableHead"] {
+/* Video/date/platform + views/likes form one enclosed analytics box. */
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > [class*="deliverableHead"] {
   width: 100% !important;
   margin: 0 !important;
-  padding: 0 0 12px !important;
+  padding: 12px 13px !important;
   display: flex !important;
   align-items: baseline !important;
   justify-content: space-between !important;
   gap: 14px !important;
+  border: 1px solid var(--line) !important;
   border-bottom: 1px solid var(--line) !important;
 }
 
-.brand-page [class*="measuredDeliverable"] [class*="deliverableHead"] strong {
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > [class*="deliverableHead"] strong {
   font-size: 11px !important;
   line-height: 1.4 !important;
   letter-spacing: .035em !important;
 }
 
-.brand-page [class*="measuredDeliverable"] [class*="deliverableHead"] span {
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > [class*="deliverableHead"] span {
   color: var(--muted) !important;
   font-size: 8px !important;
   line-height: 1.3 !important;
@@ -81,33 +86,33 @@
   text-transform: uppercase !important;
 }
 
-.brand-page [class*="measuredDeliverable"] [class*="analytics"] {
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > [class*="analytics"] {
   width: 100% !important;
   margin: 0 !important;
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  border-top: 0 !important;
+  border: 0 !important;
+  border-right: 1px solid var(--line) !important;
   border-bottom: 1px solid var(--line) !important;
-}
-
-.brand-page [class*="measuredDeliverable"] [class*="analytics"] > div {
-  min-height: 68px !important;
-  padding: 11px 11px 11px 0 !important;
-}
-
-.brand-page [class*="measuredDeliverable"] [class*="analytics"] > div + div {
-  padding-left: 13px !important;
   border-left: 1px solid var(--line) !important;
 }
 
-/* Match the existing Moschino-style action row instead of enclosing the whole
-   analytics unit inside another card. */
-.brand-page [class*="measuredDeliverable"] > a {
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > [class*="analytics"] > div {
+  min-height: 72px !important;
+  padding: 12px 13px !important;
+}
+
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > [class*="analytics"] > div + div {
+  border-left: 1px solid var(--line) !important;
+}
+
+/* TikTok action is its own separate box beneath the analytics box, matching the rest of the UI. */
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > a {
   position: relative !important;
   width: 100% !important;
   min-height: 56px !important;
-  margin: 14px 0 0 !important;
-  padding: 12px 42px 12px 13px !important;
+  margin: 8px 0 0 !important;
+  padding: 11px 42px 11px 13px !important;
   display: flex !important;
   align-items: center !important;
   border: 1px solid var(--line) !important;
@@ -117,7 +122,7 @@
   transition: background .16s ease, color .16s ease !important;
 }
 
-.brand-page [class*="measuredDeliverable"] > a::before {
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > a::before {
   content: "Watch on TikTok\A TIKTOK";
   white-space: pre !important;
   color: currentColor !important;
@@ -127,7 +132,7 @@
   letter-spacing: .01em !important;
 }
 
-.brand-page [class*="measuredDeliverable"] > a::after {
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > a::after {
   content: "↗";
   position: absolute;
   right: 13px;
@@ -137,15 +142,14 @@
   font-weight: 800;
 }
 
-.brand-page [class*="measuredDeliverable"] > a:hover,
-.brand-page [class*="measuredDeliverable"] > a:focus-visible {
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > a:hover,
+.brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > a:focus-visible {
   background: #111 !important;
   color: #fff !important;
   text-decoration: none !important;
 }
 
-/* Creator work archive: brand/client names should use the site's normal display sans,
-   not the condensed utility face that is reserved for labels. */
+/* Creator work archive: brand/client names use the site's normal display sans. */
 #work-archive {
   font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif !important;
   font-stretch: normal !important;
@@ -210,19 +214,19 @@
 
 @media (max-width: 560px) {
   .brand-page [class*="measuredDeliverables"] {
-    gap: 22px !important;
+    gap: 20px !important;
   }
 
-  .brand-page [class*="measuredDeliverable"] [class*="analytics"] > div {
+  .brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > [class*="deliverableHead"] {
+    padding: 10px 11px !important;
+  }
+
+  .brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > [class*="analytics"] > div {
     min-height: 64px !important;
-    padding: 10px 10px 10px 0 !important;
+    padding: 10px 11px !important;
   }
 
-  .brand-page [class*="measuredDeliverable"] [class*="analytics"] > div + div {
-    padding-left: 11px !important;
-  }
-
-  .brand-page [class*="measuredDeliverable"] > a {
+  .brand-page [class*="measuredDeliverables"] > [class*="measuredDeliverable"] > a {
     min-height: 54px !important;
     padding-right: 38px !important;
     padding-left: 11px !important;
