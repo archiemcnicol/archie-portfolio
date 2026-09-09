@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/generate-tiktok-avatar.mjs && next build",
+    "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "verify:security": "node scripts/scan-secrets.mjs && node scripts/verify-security-config.mjs",
