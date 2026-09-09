@@ -1,0 +1,106 @@
+/* About / Background timeline icon rail — 2026-09-10 */
+
+@media (min-width: 1001px) {
+  .about-page .cv-timeline .cv-timeline-row,
+  .about-experience-section [class*="timelineRow"] {
+    grid-template-columns: 68px 120px 340px minmax(0, 1fr) 24px !important;
+  }
+}
+
+.about-page .cv-timeline .cv-timeline-row > [class*="index"],
+.about-experience-section [class*="timelineRow"] > [class*="index"] {
+  width: 100% !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-self: stretch !important;
+  gap: 10px !important;
+  padding-top: 0 !important;
+  text-align: center !important;
+}
+
+.about-page .cv-timeline .cv-timeline-row > [class*="index"]::after,
+.about-experience-section [class*="timelineRow"] > [class*="index"]::after {
+  flex: 0 0 auto !important;
+  width: 50px !important;
+  height: 50px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  border: 1px solid rgba(216,255,52,.58) !important;
+  background-color: rgba(216,255,52,.035) !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 29px 29px !important;
+}
+
+/* Proper CapCut mark rather than the earlier approximation. */
+.about-page .cv-timeline .cv-timeline-row:nth-child(3) > [class*="index"]::after,
+.about-experience-section [class*="timelineRow"]:nth-child(3) > [class*="index"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%225%200%2030%2023.01%22%3E%3Cpath%20fill%3D%22%23d8ff34%22%20d%3D%22M33.454%205.655v-3.97l-4.773%202.508v-.15c.001-1.584-1.135-2.538-2.777-2.538H10.77c-1.733%200-2.778.955-2.778%202.537V8.05l6.688%203.454-6.688%203.49v4c0%201.557%201.052%202.51%202.778%202.51H25.9c1.642%200%202.778-.955%202.778-2.507v-.208l4.775%202.536v-4.03l-11.103-5.79zM18.5%2013.477l8.208%204.297H10.263zm8.15-8.24-8.15%204.27-8.237-4.27z%22%2F%3E%3C%2Fsvg%3E") !important;
+  background-size: 33px auto !important;
+}
+
+.about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
+.about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50% !important;
+  border-color: rgba(255,255,255,.42) !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+@media (max-width: 1000px) and (min-width: 761px) {
+  .about-page .cv-timeline .cv-timeline-row,
+  .about-experience-section [class*="timelineRow"] {
+    grid-template-columns: 62px 108px minmax(250px,.9fr) minmax(0,1.1fr) 22px !important;
+  }
+
+  .about-page .cv-timeline .cv-timeline-row > [class*="index"]::after,
+  .about-experience-section [class*="timelineRow"] > [class*="index"]::after,
+  .about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
+  .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+    width: 46px !important;
+    height: 46px !important;
+    background-size: 27px 27px !important;
+  }
+
+  .about-page .cv-timeline .cv-timeline-row:nth-child(3) > [class*="index"]::after,
+  .about-experience-section [class*="timelineRow"]:nth-child(3) > [class*="index"]::after {
+    background-size: 31px auto !important;
+  }
+
+  .about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
+  .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+    background-size: cover !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .about-page .cv-timeline .cv-timeline-row > [class*="index"],
+  .about-experience-section [class*="timelineRow"] > [class*="index"] {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .about-page .cv-timeline .cv-timeline-row > [class*="index"]::after,
+  .about-experience-section [class*="timelineRow"] > [class*="index"]::after,
+  .about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
+  .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+    width: 42px !important;
+    height: 42px !important;
+    background-size: 24px 24px !important;
+  }
+
+  .about-page .cv-timeline .cv-timeline-row:nth-child(3) > [class*="index"]::after,
+  .about-experience-section [class*="timelineRow"]:nth-child(3) > [class*="index"]::after {
+    background-size: 28px auto !important;
+  }
+
+  .about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
+  .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+    background-size: cover !important;
+  }
+}
