@@ -1,0 +1,15 @@
+/* Centre the two BOSS TikTok previews within the full campaign row on desktop.
+   The copy/analytics column is taller than the 9:16 previews, so centring the media
+   removes the large one-sided void beneath them without distorting either video. */
+@media (min-width: 901px) {
+  .brand-page article:has([data-brand="boss-bottled-beyond"]) > div:nth-child(2) {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brand-page article:has([data-brand="boss-bottled-beyond"]) > div:nth-child(2) > div {
+    width: 100%;
+  }
+}
