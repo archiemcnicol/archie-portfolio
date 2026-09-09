@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { NIKE_APPROVED_COVER } from "@/lib/nike-cover-data";
 import { SUPERDRY_APPROVED_COVER } from "@/lib/superdry-cover-data";
+import { TIKTOK_PROFILE_AVATAR } from "@/lib/tiktok-profile-avatar";
 
 // User-approved static covers for Nike and Superdry. Other campaigns continue to use
 // TikTok's live player. Static covers retain the same platform identity and visual rhythm
@@ -143,25 +144,19 @@ export function TikTokFramePreview({
             zIndex: 2,
           }}
         >
-          <span
+          <img
+            alt=""
+            src={TIKTOK_PROFILE_AVATAR}
             style={{
-              alignItems: "center",
-              background: "rgba(20,20,20,.82)",
-              border: "1px solid rgba(255,255,255,.68)",
+              background: "#111",
+              border: "1px solid rgba(255,255,255,.82)",
               borderRadius: "999px",
-              color: "#fff",
-              display: "inline-flex",
-              fontSize: "clamp(8px, 1.6vw, 11px)",
-              fontWeight: 800,
+              display: "block",
               height: "clamp(24px, 4.6vw, 34px)",
-              justifyContent: "center",
-              letterSpacing: "-.02em",
-              textShadow: "0 1px 3px rgba(0,0,0,.8)",
+              objectFit: "cover",
               width: "clamp(24px, 4.6vw, 34px)",
             }}
-          >
-            AM
-          </span>
+          />
 
           <span
             style={{
