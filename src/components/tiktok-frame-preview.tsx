@@ -2,12 +2,12 @@
 
 import { useEffect, useMemo, useRef } from "react";
 
-// Nike and Superdry use exact user-approved, verified local JPEG cover frames.
-// These files are committed as real JPEG binaries in /public/brand-work, so they avoid
-// TikTok frame timing, remote-CDN delivery and Next image optimisation entirely.
+// User-supplied, approved 9:16 cover frames for Nike and Superdry. These live with the
+// rest of the campaign assets in public/brand-work and are used consistently everywhere
+// those TikTok previews appear. Other campaigns continue to use the live TikTok player.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
-  "7592280935027035414": "/brand-work/nike-cover-approved.jpg",
-  "7415251227971259680": "/brand-work/superdry-cover-approved.jpg",
+  "7592280935027035414": "/brand-work/nike-user-approved-cover.webp",
+  "7415251227971259680": "/brand-work/superdry-user-approved-cover.webp",
 };
 
 export function TikTokFramePreview({
@@ -76,7 +76,7 @@ export function TikTokFramePreview({
         alt=""
         aria-hidden="true"
         className={className}
-        decoding="sync"
+        decoding="async"
         loading="eager"
         src={staticFrame}
         style={{
