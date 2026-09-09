@@ -10,7 +10,7 @@ export const PUBLIC_PROFILE = {
   email: "fitswitharchie@gmail.com",
   location: "United Kingdom",
   tiktok: "https://www.tiktok.com/@fitswitharchie",
-  instagram: "https://www.instagram.com/fitswitharchie/",
+  instagram: "https://www.instagram.com/archie.mcnichol/",
   linkedin: "https://uk.linkedin.com/in/archie-mcnicol-73b5a5283",
   pexels: "https://www.pexels.com/@archie-mcnicol-559645417",
 } as const;
