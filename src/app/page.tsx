@@ -40,7 +40,9 @@ function selectedProjectCover(slug: PhotographySeriesSlug) {
 }
 
 const HERO_PHOTOGRAPHY = selectedProjectCover("new-york-2026-06-10");
-const PHOTOGRAPHY_ROUTE_IMAGE = selectedProjectCover("sicily-2025-08-28");
+const PHOTOGRAPHY_ROUTE_IMAGE =
+  HOME_ARCHIVE.find((photo) => photo.originalName === "DSC03273.jpg") ??
+  selectedProjectCover("sicily-2025-08-28");
 
 function coverStyle(position?: string) {
   return position ? { objectPosition: position } : undefined;
