@@ -16,6 +16,7 @@ import "./media-fixes.css";
 import "./mobile-parity.css";
 import "./space-usage-pass.css";
 import "./annotated-layout-polish.css";
+import "./annotated-media-paths.css";
 import { SiteFrame } from "@/components/site-frame";
 import { PUBLIC_PROFILE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
