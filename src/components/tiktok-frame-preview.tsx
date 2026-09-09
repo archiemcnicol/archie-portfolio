@@ -10,7 +10,7 @@ const STATIC_FRAME_PREVIEWS: Record<string, string> = {
   "7415251227971259680": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968221/superdry-approved-1080.webp",
 };
 
-const TIKTOK_PROFILE_AVATAR = "/brand-work/tiktok-profile-avatar.png";
+const TIKTOK_PROFILE_AVATAR = "/brand-work/tiktok-profile-avatar-reference.png";
 
 function HeartIcon() {
   return (
@@ -145,7 +145,7 @@ export function TikTokFramePreview({
             alt=""
             src={TIKTOK_PROFILE_AVATAR}
             style={{
-              background: "#111",
+              background: "transparent",
               border: "1px solid rgba(255,255,255,.82)",
               borderRadius: "999px",
               display: "block",
