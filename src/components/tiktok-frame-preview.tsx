@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
+import { NIKE_APPROVED_COVER } from "@/lib/nike-cover-data";
+import { SUPERDRY_APPROVED_COVER } from "@/lib/superdry-cover-data";
 
-// User-supplied, approved 9:16 cover frames for Nike and Superdry. These live with the
-// rest of the campaign assets in public/brand-work and are used consistently everywhere
-// those TikTok previews appear. Other campaigns continue to use the live TikTok player.
+// These two covers are embedded directly from the user-approved frames. Keeping the
+// image data in the client bundle avoids the binary asset-transfer issue that previously
+// produced black panels. Other campaigns continue to use the live TikTok player.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
-  "7592280935027035414": "/brand-work/nike-user-approved-cover.webp",
-  "7415251227971259680": "/brand-work/superdry-user-approved-cover.webp",
+  "7592280935027035414": NIKE_APPROVED_COVER,
+  "7415251227971259680": SUPERDRY_APPROVED_COVER,
 };
 
 export function TikTokFramePreview({
