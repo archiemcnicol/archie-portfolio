@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { NIKE_APPROVED_COVER } from "@/lib/nike-cover-data";
-import { SUPERDRY_APPROVED_COVER } from "@/lib/superdry-cover-data";
-import { TIKTOK_PROFILE_AVATAR } from "@/lib/tiktok-profile-avatar";
 
-// User-approved static covers for Nike and Superdry. Other campaigns continue to use
-// TikTok's live player. Static covers retain the same platform identity and visual rhythm
-// as the live previews without inventing engagement counts.
+// User-approved HQ static covers for Nike and Superdry. Other campaigns continue to use
+// TikTok's live player. The static previews use stable CDN assets while retaining platform
+// identity and the same visual rhythm as the live previews without inventing engagement counts.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
-  "7592280935027035414": NIKE_APPROVED_COVER,
-  "7415251227971259680": SUPERDRY_APPROVED_COVER,
+  "7592280935027035414": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968155/nike-approved-1080.webp",
+  "7415251227971259680": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968221/superdry-approved-1080.webp",
 };
+
+const TIKTOK_PROFILE_AVATAR =
+  "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968297/tiktok-profile-avatar-hq.png";
 
 function HeartIcon() {
   return (
@@ -124,8 +124,6 @@ export function TikTokFramePreview({
             objectPosition: "center center",
             pointerEvents: "none",
             position: "absolute",
-            transform: "scale(1.13)",
-            transformOrigin: "center center",
             width: "100%",
             zIndex: 0,
           }}
