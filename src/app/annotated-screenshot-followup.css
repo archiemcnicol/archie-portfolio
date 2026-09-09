@@ -1,0 +1,175 @@
+/* Follow-up fixes from the annotated production screenshots — 2026-09-09. */
+
+/* Shared header: use the same system sans typography as the body and footer. */
+.nav-photography .site-brand-name {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif !important;
+  font-stretch: normal !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: -.04em !important;
+  text-transform: none !important;
+}
+
+/* Digital capabilities: give wrapped service names enough real row height and width.
+   This deliberately overrides the earlier annotated density pass. */
+.digital-services a {
+  min-height: 0 !important;
+  padding: 20px 0 !important;
+  grid-template-columns: 42px 74px minmax(330px, .9fr) minmax(300px, 1.1fr) 24px !important;
+  gap: 18px !important;
+  align-items: center !important;
+}
+
+.digital-services a h2 {
+  width: 100% !important;
+  max-width: 13ch !important;
+  margin: 0 !important;
+  font-size: clamp(30px, 2.75vw, 46px) !important;
+  line-height: .94 !important;
+  letter-spacing: -.052em !important;
+}
+
+.digital-services a p {
+  max-width: 650px !important;
+  margin: 0 !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+}
+
+/* Creator / BOSS: each measured video should read like a complete analytics unit,
+   stacked one above the other rather than squeezed into parallel cards. */
+.brand-page [class*="measuredDeliverables"] {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 10px !important;
+  margin-top: 18px !important;
+}
+
+.brand-page [class*="measuredDeliverable"] {
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  border: 1px solid var(--line) !important;
+  background: transparent !important;
+}
+
+.brand-page [class*="measuredDeliverable"] [class*="deliverableHead"] {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 12px 13px !important;
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+
+.brand-page [class*="measuredDeliverable"] [class*="analytics"] {
+  width: 100% !important;
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+}
+
+.brand-page [class*="measuredDeliverable"] [class*="analytics"] > div {
+  min-height: 74px !important;
+  padding: 12px 13px !important;
+}
+
+.brand-page [class*="measuredDeliverable"] [class*="analytics"] > div + div {
+  border-left: 1px solid var(--line) !important;
+}
+
+.brand-page [class*="measuredDeliverable"] > a {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 12px 13px !important;
+  display: block !important;
+  border-top: 1px solid var(--line) !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+
+/* Creator work archive: brand/client names should use the site's normal display sans,
+   not the condensed utility face that is reserved for labels. */
+#work-archive {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif !important;
+  font-stretch: normal !important;
+}
+
+#work-archive [class*="archiveTop"] strong {
+  font-family: inherit !important;
+  font-stretch: normal !important;
+  font-weight: 800 !important;
+  line-height: .96 !important;
+  letter-spacing: -.05em !important;
+}
+
+@media (max-width: 1050px) {
+  .digital-services a {
+    grid-template-columns: 36px 66px minmax(260px, .9fr) minmax(250px, 1.1fr) 22px !important;
+    gap: 15px !important;
+  }
+
+  .digital-services a h2 {
+    font-size: clamp(29px, 3.4vw, 42px) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .nav-photography .site-brand-name {
+    font-size: 14px !important;
+  }
+
+  .digital-services a {
+    grid-template-columns: 30px minmax(0, 1fr) 22px !important;
+    gap: 8px 12px !important;
+    padding: 19px 0 !important;
+  }
+
+  .digital-services a > span {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .digital-services a > strong {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .digital-services a h2 {
+    grid-column: 2 / -1 !important;
+    max-width: 100% !important;
+    font-size: clamp(30px, 8.6vw, 43px) !important;
+  }
+
+  .digital-services a p {
+    grid-column: 2 / -1 !important;
+    max-width: 54ch !important;
+  }
+
+  .digital-services a b {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .brand-page [class*="measuredDeliverable"] [class*="analytics"] > div {
+    min-height: 66px !important;
+    padding: 10px 11px !important;
+  }
+
+  .brand-page [class*="measuredDeliverable"] [class*="deliverableHead"],
+  .brand-page [class*="measuredDeliverable"] > a {
+    padding-right: 11px !important;
+    padding-left: 11px !important;
+  }
+}
