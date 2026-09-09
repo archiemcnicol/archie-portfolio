@@ -8,6 +8,7 @@ import type {
   CataloguePhoto,
   PhotographySeriesDefinition,
 } from "@/lib/photography-final-taxonomy";
+import { portfolioImageSrc } from "@/lib/portfolio-image-src";
 import styles from "./photography-explorer.module.css";
 
 type SeriesCard = Pick<
@@ -253,7 +254,7 @@ export function PhotographyExplorer({
                         fill
                         priority={index < 6}
                         sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                        src={item.cover.src}
+                        src={portfolioImageSrc(item.cover.src)}
                         style={{ objectPosition: item.coverPosition ?? "50% 50%" }}
                       />
                     ) : null}
@@ -263,7 +264,7 @@ export function PhotographyExplorer({
                         className={styles.secondaryImage}
                         fill
                         sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                        src={hoverImage.src}
+                        src={portfolioImageSrc(hoverImage.src)}
                         style={{ objectPosition: item.hover ? item.hoverPosition ?? "50% 50%" : item.coverPosition ?? "50% 50%" }}
                       />
                     ) : null}
