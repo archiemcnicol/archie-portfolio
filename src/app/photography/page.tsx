@@ -87,7 +87,7 @@ const SERIES = PHOTOGRAPHY_SERIES.filter((series) => series.public)
 
 export default function PhotographyPage() {
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} photography-page`}>
       <h1 className={styles.visuallyHidden}>Photography by Archie McNicol</h1>
       <PhotographyExplorer photos={PHOTOS} series={SERIES} />
     </main>
