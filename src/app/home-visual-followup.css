@@ -6,9 +6,9 @@
   background-position: 50% 48% !important;
 }
 
-/* Restore the photography tile's original Sicily selection rather than the later replacement. */
+/* Restore the user-selected Sicily flag frame used before the later replacement. */
 .home-route-photo-media::before {
-  background-image: url("/portfolio/archive/1KcJ5G0LS0ISsLDjiVRVhzlad4AyG0iXW.webp") !important;
+  background-image: url("/portfolio/archive/1ScrcYlxrEZj5KQX2PN53rv78u_33Qmao.webp") !important;
   background-position: 50% 50% !important;
 }
 
