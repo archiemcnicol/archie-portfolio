@@ -32,6 +32,7 @@ const nextConfig: NextConfig = {
       },
     ],
     localPatterns: [
+      { pathname: "/portfolio/archive/**" },
       { pathname: "/portfolio/web/**" },
       { pathname: "/brand-work/**" },
     ],
