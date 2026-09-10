@@ -59,9 +59,9 @@
   background-position: 50% 50% !important;
 }
 
-/* Creator avatar: marker placement stays fixed. The source crop now uses almost the
-   full clean image area, so more of the original photo is visible while still filling
-   the circle edge-to-edge without exposing the dark outer pixels. */
+/* Creator avatar: keep the marker placement fixed, but use a substantially wider
+   symmetrical crop from the clean source. Removing the previous x/y crop offsets
+   re-centres the subject, while the 248px crop reveals almost the full source image. */
 .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"] {
   position: relative !important;
   align-self: stretch !important;
@@ -81,7 +81,7 @@
   border-radius: 50% !important;
   border-color: rgba(255,255,255,.42) !important;
   background-color: transparent !important;
-  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/c_crop,g_center,h_224,w_224,x_16,y_8/e_gen_restore/c_fill,g_center,h_512,w_512/f_auto/q_auto:best/v1788971749/tiktok-profile-avatar-scale-corrected.png") !important;
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/c_crop,g_center,h_248,w_248/e_gen_restore/c_fill,g_center,h_512,w_512/f_auto/q_auto:best/v1788971749/tiktok-profile-avatar-scale-corrected.png") !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-position: 50% 50% !important;
