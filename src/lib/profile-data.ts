@@ -78,19 +78,7 @@ export const BACKGROUND_MILESTONES = [
     title: "Performance partnerships",
     copy: "Expanded creator work into commerce, tracking sign-ups, parcels and freight rather than stopping at reach.",
   },
-  {
-    period: "2026",
-    title: "Full-time creative focus",
-    copy: "Completed A-levels and moved directly into full-time creative work.",
-  },
 ] as const;
-
-export const EDUCATION = {
-  period: "Completed 2026",
-  title: "A-levels",
-  subjects: ["Photography — A*", "Geography — B", "Media Studies — C"],
-  summary: "Moved directly into full-time creative work after completing A-levels.",
-};
 
 export const SELECTED_CLIENTS = [
   "Nike",

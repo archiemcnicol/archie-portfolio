@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   BACKGROUND_MILESTONES,
-  EDUCATION,
   EXPERIENCE,
   PROFILE_STATS,
   SELECTED_CLIENTS,
@@ -16,7 +15,7 @@ import refresh from "./about-refresh.module.css";
 export const metadata: Metadata = {
   title: "About — Archie McNicol",
   description:
-    "About Archie McNicol — background, experience, education and creative work across content, community management, photography, performance and digital projects.",
+    "About Archie McNicol — background, experience and creative work across content, community management, photography, performance and digital projects.",
   alternates: { canonical: "/about" },
 };
 
@@ -61,7 +60,6 @@ const ABOUT_TIMELINE: AboutTimelineItem[] = [
   experience("CapCut UK"),
   experience("@fitswitharchie"),
   experience("Performance partnerships"),
-  milestone("Full-time creative focus", "Post A-level transition", ["Creator work", "Photography", "Community", "Digital"]),
   experience("Digital projects"),
 ];
 
@@ -136,22 +134,6 @@ export default function AboutPage() {
           </div>
         </section>
       </div>
-
-      <section className={`${cvStyles.education} about-education`}>
-        <div className={`wrap ${cvStyles.educationGrid}`}>
-          <div>
-            <div className={cvStyles.sectionLabel}>Education</div>
-            <div className={cvStyles.educationDate}>{EDUCATION.period}</div>
-          </div>
-          <div>
-            <h2>{EDUCATION.title}</h2>
-            <div className={cvStyles.subjects}>
-              {EDUCATION.subjects.map((subject) => <span key={subject}>{subject}</span>)}
-            </div>
-            <p>{EDUCATION.summary}</p>
-          </div>
-        </div>
-      </section>
 
       <section className={`${cvStyles.toolkitSection} about-toolkit`}>
         <div className="wrap">
