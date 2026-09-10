@@ -54,7 +54,7 @@
 
 /* Proper CapCut mark, optically centred inside the same 64px frame. */
 .about-experience-section [class*="timelineRow"]:nth-child(3) > [class*="index"]::after {
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%225%200%2030%2023.01%22%3E%3Cpath%20fill%3D%22%23d8ff34%22%20d%3D%22M33.454%205.655v-3.97l-4.773%202.508v-.15c.001-1.584-1.135-2.538-2.777-2.538H10.77c-1.733%200-2.778.955-2.778%202.537V8.05l6.688%203.454-6.688%203.49v4c0%201.557%201.052%202.51%202.778%202.51H25.9c1.642%200%202.778-.955%202.778-2.507v-.208l4.775%202.536v-4.03l-11.103-5.79zM18.5%2013.477l8.208%204.297H10.263zm8.15-8.24-8.237-4.27z%22%2F%3E%3C%2Fsvg%3E") !important;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%225%200%2030%2023.01%22%3E%3Cpath%20fill%3D%22%23d8ff34%22%20d%3D%22M33.454%205.655v-3.97l-4.773%202.508v-.15c.001-1.584-1.135-2.538-2.777-2.538H10.77c-1.733%200-2.778.955-2.778%202.537V8.05l6.688%203.454-6.688%203.49v4c0%201.557%201.052%202.51%202.778%202.51H25.9c1.642%200%202.778-.955%202.778-2.507v-.208l4.775%202.536v-4.03l-11.103-5.79zM18.5%2013.477l8.208%204.297H10.263zm8.15-8.24-8.15%204.27-8.237-4.27z%22%2F%3E%3C%2Fsvg%3E") !important;
   background-size: 44px auto !important;
   background-position: 50% 50% !important;
 }
