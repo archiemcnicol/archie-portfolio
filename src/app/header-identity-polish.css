@@ -1,0 +1,149 @@
+/* Header identity polish — editorial wordmark and restrained interaction. */
+
+.nav-photography {
+  border-bottom: 1px solid rgba(255,255,255,.08) !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.018), rgba(255,255,255,0)),
+    #202020 !important;
+  box-shadow: 0 1px 0 rgba(0,0,0,.2);
+}
+
+.nav-photography .site-brand {
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 0 4px;
+  color: #f7f7f4;
+  outline: none;
+}
+
+/* Keep the semantic name in the DOM while rendering a more distinctive editorial wordmark. */
+.nav-photography .site-brand-name {
+  display: inline-flex !important;
+  align-items: baseline;
+  gap: 9px;
+  color: inherit !important;
+  font-size: 0 !important;
+  font-stretch: normal !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  line-height: 1 !important;
+  text-transform: none !important;
+  white-space: nowrap;
+}
+
+.nav-photography .site-brand-name::before {
+  content: "ARCHIE";
+  display: inline-block;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 760;
+  line-height: 1;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  transform: translateY(-1px);
+  transition: letter-spacing .22s ease, opacity .22s ease;
+}
+
+.nav-photography .site-brand-name::after {
+  content: "McNicol";
+  display: inline-block;
+  padding-left: 10px;
+  border-left: 1px solid rgba(255,255,255,.28);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: .92;
+  letter-spacing: -.055em;
+  transform: translateY(1px);
+  transform-origin: left center;
+  transition: transform .22s ease, border-color .22s ease;
+}
+
+@media (hover: hover) {
+  .nav-photography .site-brand:hover .site-brand-name::before {
+    letter-spacing: .22em;
+    opacity: .84;
+  }
+
+  .nav-photography .site-brand:hover .site-brand-name::after {
+    border-left-color: rgba(255,255,255,.52);
+    transform: translate(2px, 1px);
+  }
+
+  .nav-photography button[aria-controls="site-navigation"]:hover {
+    border-color: rgba(255,255,255,.16) !important;
+    background: rgba(255,255,255,.045) !important;
+  }
+}
+
+.nav-photography .site-brand:focus-visible {
+  outline: 1px solid rgba(255,255,255,.58);
+  outline-offset: 6px;
+}
+
+.nav-photography button[aria-controls="site-navigation"] {
+  width: 40px !important;
+  height: 40px !important;
+  padding: 0 8px !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  transition: border-color .18s ease, background .18s ease !important;
+}
+
+.nav-photography button[aria-controls="site-navigation"]:focus-visible {
+  border-color: rgba(255,255,255,.38) !important;
+  outline: 0;
+}
+
+@media (max-width: 880px) {
+  .nav-photography .site-brand {
+    min-height: 36px;
+    padding-left: 0;
+  }
+
+  .nav-photography .site-brand-name {
+    gap: 7px;
+  }
+
+  .nav-photography .site-brand-name::before {
+    font-size: 9px;
+    letter-spacing: .16em;
+  }
+
+  .nav-photography .site-brand-name::after {
+    padding-left: 8px;
+    font-size: 18px;
+  }
+
+  .nav-photography button[aria-controls="site-navigation"] {
+    width: 38px !important;
+    height: 38px !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .nav-photography .site-brand-name {
+    gap: 6px;
+  }
+
+  .nav-photography .site-brand-name::before {
+    font-size: 8px;
+    letter-spacing: .14em;
+  }
+
+  .nav-photography .site-brand-name::after {
+    padding-left: 7px;
+    font-size: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-photography .site-brand-name::before,
+  .nav-photography .site-brand-name::after,
+  .nav-photography button[aria-controls="site-navigation"] {
+    transition: none !important;
+  }
+}
