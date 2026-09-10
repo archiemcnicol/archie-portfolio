@@ -59,16 +59,29 @@
   background-position: 50% 50% !important;
 }
 
-/* Creator avatar: use the 256px centred source rather than the old 52px crop.
-   The square source is cropped by the circular frame at the exact same centre point
-   as every other timeline marker. */
+/* Creator avatar: centre the marker against the entire height of row 04, not beneath
+   the row number. This puts its centre on the same icon-rail x-axis while also placing
+   it exactly halfway between the horizontal separators above and below the row. */
+.about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"] {
+  position: relative !important;
+  align-self: stretch !important;
+  min-height: 100% !important;
+}
+
 .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
   width: 64px !important;
   height: 64px !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
+  justify-self: auto !important;
+  align-self: auto !important;
   border-radius: 50% !important;
   border-color: rgba(255,255,255,.42) !important;
   background-color: transparent !important;
-  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/v1788974392/tiktok-profile-avatar-centred-v2.png") !important;
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/e_gen_restore/c_fill,g_center,h_512,w_512/f_auto/q_auto:best/v1788974392/tiktok-profile-avatar-centred-v2.png") !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-position: 50% 50% !important;
@@ -80,8 +93,7 @@
     gap: 15px !important;
   }
 
-  .about-experience-section [class*="timelineRow"] > [class*="index"]::after,
-  .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+  .about-experience-section [class*="timelineRow"] > [class*="index"]::after {
     width: 58px !important;
     height: 58px !important;
     background-size: 36px 36px !important;
@@ -92,6 +104,8 @@
   }
 
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+    width: 58px !important;
+    height: 58px !important;
     background-size: cover !important;
     background-position: 50% 50% !important;
   }
@@ -112,8 +126,7 @@
     row-gap: 9px !important;
   }
 
-  .about-experience-section [class*="timelineRow"] > [class*="index"]::after,
-  .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+  .about-experience-section [class*="timelineRow"] > [class*="index"]::after {
     width: 50px !important;
     height: 50px !important;
     background-size: 31px 31px !important;
@@ -124,6 +137,8 @@
   }
 
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
+    width: 50px !important;
+    height: 50px !important;
     background-size: cover !important;
     background-position: 50% 50% !important;
   }
