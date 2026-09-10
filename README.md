@@ -35,7 +35,7 @@ Public creator data lives in `src/lib/brand-work.ts`. Client names, campaign par
 
 - `src/lib/profile-data.ts` holds public background, experience and toolkit data used by the About and Professional sections.
 - `src/lib/affiliate-public.ts` holds only the anonymised public commerce aggregates used by the Performance page.
-- Partner-level performance records and private content-review source records are retained in Supabase and are not part of the public application runtime or GitHub source tree.
+- Partner-level performance records are retained in private Supabase storage; private content-review source records are also retained in Supabase. Neither is part of the public application runtime or GitHub source tree.
 - Public contact email: `fitswitharchie@gmail.com`.
 - Personal contact information, more specific personal location details and unpublished commercial terms must not be added to public data files.
 
@@ -50,7 +50,7 @@ The public app ships no admin utility, API routes or nested affiliate-reporting 
 - Next.js App Router
 - React
 - Vercel
-- Cloudinary for the production-managed avatar asset
+- Cloudinary for the production-managed avatar and static creator preview assets
 - Supabase for private source records only; it is not a public-site runtime dependency
 
 ## Local setup
