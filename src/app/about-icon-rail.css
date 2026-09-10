@@ -59,10 +59,9 @@
   background-position: 50% 50% !important;
 }
 
-/* Creator avatar: use the clean 256px source and the established optical centre.
-   The 194px square is the largest square crop that can remain centred on the person
-   without running beyond the source boundary, so zooming out any further would force
-   either an off-centre subject or visible empty/black edge. */
+/* Creator avatar: use the full restored 512px source with no manual crop at all.
+   The source is square, so it can fill the square marker at its maximum zoomed-out
+   state without introducing any empty/black padding; the circular mask only clips corners. */
 .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"] {
   position: relative !important;
   align-self: stretch !important;
@@ -82,7 +81,7 @@
   border-radius: 50% !important;
   border-color: rgba(255,255,255,.42) !important;
   background-color: transparent !important;
-  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/c_crop,g_center,h_194,w_194,x_31,y_2/e_gen_restore/c_fill,h_512,w_512/f_auto/q_auto:best/v1788971749/tiktok-profile-avatar-scale-corrected.png") !important;
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/v1789009372/tiktok-profile-avatar-full-restored-512.jpg") !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-position: 50% 50% !important;
