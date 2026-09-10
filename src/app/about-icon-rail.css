@@ -59,9 +59,9 @@
   background-position: 50% 50% !important;
 }
 
-/* Creator avatar: keep the marker placement fixed, but use a substantially wider
-   symmetrical crop from the clean source. Removing the previous x/y crop offsets
-   re-centres the subject, while the 248px crop reveals almost the full source image. */
+/* Creator avatar: copy the exact composition already used by the correctly centred
+   TikTok profile image elsewhere on the site. No manual x/y crop is applied here;
+   the reference itself already has the subject centred and fills the circular frame. */
 .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"] {
   position: relative !important;
   align-self: stretch !important;
@@ -81,9 +81,9 @@
   border-radius: 50% !important;
   border-color: rgba(255,255,255,.42) !important;
   background-color: transparent !important;
-  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/c_crop,g_center,h_248,w_248/e_gen_restore/c_fill,g_center,h_512,w_512/f_auto/q_auto:best/v1788971749/tiktok-profile-avatar-scale-corrected.png") !important;
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/e_gen_restore/c_scale,w_512/f_auto/q_auto:best/v1788976238/tiktok-profile-avatar-centred-exact-v3.png") !important;
   background-repeat: no-repeat !important;
-  background-size: cover !important;
+  background-size: 100% 100% !important;
   background-position: 50% 50% !important;
 }
 
@@ -106,7 +106,7 @@
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
     width: 58px !important;
     height: 58px !important;
-    background-size: cover !important;
+    background-size: 100% 100% !important;
     background-position: 50% 50% !important;
   }
 }
@@ -139,7 +139,7 @@
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
     width: 50px !important;
     height: 50px !important;
-    background-size: cover !important;
+    background-size: 100% 100% !important;
     background-position: 50% 50% !important;
   }
 }
