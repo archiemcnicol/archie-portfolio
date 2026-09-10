@@ -1,4 +1,4 @@
-/* Header identity polish — editorial wordmark and restrained interaction. */
+/* Header identity polish — Option 1: singular editorial A mark. */
 
 .nav-photography {
   border-bottom: 1px solid rgba(255,255,255,.08) !important;
@@ -11,66 +11,60 @@
 .nav-photography .site-brand {
   display: inline-flex;
   align-items: center;
-  min-height: 38px;
-  padding: 0 4px;
-  color: #f7f7f4;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0;
+  color: #f5f1ea;
   outline: none;
 }
 
-/* Keep the semantic name in the DOM while rendering a more distinctive editorial wordmark. */
-.nav-photography .site-brand-name {
+/* Reuse the existing semantic brand markup, but render only the editorial A. */
+.nav-photography .brand-mark {
   display: inline-flex !important;
-  align-items: baseline;
-  gap: 9px;
-  color: inherit !important;
-  font-size: 0 !important;
-  font-stretch: normal !important;
-  font-weight: 400 !important;
-  letter-spacing: 0 !important;
-  line-height: 1 !important;
-  text-transform: none !important;
-  white-space: nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 40px;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
 }
 
-.nav-photography .site-brand-name::before {
-  content: "ARCHIE";
-  display: inline-block;
-  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 760;
-  line-height: 1;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  transform: translateY(-1px);
-  transition: letter-spacing .22s ease, opacity .22s ease;
-}
-
-.nav-photography .site-brand-name::after {
-  content: "McNicol";
-  display: inline-block;
-  padding-left: 10px;
-  border-left: 1px solid rgba(255,255,255,.28);
+.nav-photography .brand-mark-letter {
+  display: block;
+  color: #f5f1ea;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 20px;
+  font-size: 31px;
   font-style: italic;
   font-weight: 400;
-  line-height: .92;
-  letter-spacing: -.055em;
-  transform: translateY(1px);
-  transform-origin: left center;
-  transition: transform .22s ease, border-color .22s ease;
+  line-height: .82;
+  letter-spacing: -.09em;
+  transform: translate(-1px, 1px) skewX(-2deg);
+  transform-origin: center;
+  transition: transform .22s ease, opacity .22s ease;
+}
+
+/* Keep the full name available to assistive technology without duplicating it visually. */
+.nav-photography .site-brand-name {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 @media (hover: hover) {
-  .nav-photography .site-brand:hover .site-brand-name::before {
-    letter-spacing: .22em;
+  .nav-photography .site-brand:hover .brand-mark-letter {
     opacity: .84;
-  }
-
-  .nav-photography .site-brand:hover .site-brand-name::after {
-    border-left-color: rgba(255,255,255,.52);
-    transform: translate(2px, 1px);
+    transform: translate(1px, 1px) skewX(-4deg) scale(1.035);
   }
 
   .nav-photography button[aria-controls="site-navigation"]:hover {
@@ -81,7 +75,7 @@
 
 .nav-photography .site-brand:focus-visible {
   outline: 1px solid rgba(255,255,255,.58);
-  outline-offset: 6px;
+  outline-offset: 5px;
 }
 
 .nav-photography button[aria-controls="site-navigation"] {
@@ -100,22 +94,17 @@
 
 @media (max-width: 880px) {
   .nav-photography .site-brand {
-    min-height: 36px;
-    padding-left: 0;
+    min-width: 38px;
+    min-height: 38px;
   }
 
-  .nav-photography .site-brand-name {
-    gap: 7px;
+  .nav-photography .brand-mark {
+    width: 31px;
+    height: 36px;
   }
 
-  .nav-photography .site-brand-name::before {
-    font-size: 9px;
-    letter-spacing: .16em;
-  }
-
-  .nav-photography .site-brand-name::after {
-    padding-left: 8px;
-    font-size: 18px;
+  .nav-photography .brand-mark-letter {
+    font-size: 28px;
   }
 
   .nav-photography button[aria-controls="site-navigation"] {
@@ -125,24 +114,21 @@
 }
 
 @media (max-width: 430px) {
-  .nav-photography .site-brand-name {
-    gap: 6px;
+  .nav-photography .site-brand {
+    min-width: 36px;
   }
 
-  .nav-photography .site-brand-name::before {
-    font-size: 8px;
-    letter-spacing: .14em;
+  .nav-photography .brand-mark {
+    width: 29px;
   }
 
-  .nav-photography .site-brand-name::after {
-    padding-left: 7px;
-    font-size: 17px;
+  .nav-photography .brand-mark-letter {
+    font-size: 26px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-photography .site-brand-name::before,
-  .nav-photography .site-brand-name::after,
+  .nav-photography .brand-mark-letter,
   .nav-photography button[aria-controls="site-navigation"] {
     transition: none !important;
   }
