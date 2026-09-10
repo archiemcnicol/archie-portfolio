@@ -298,6 +298,16 @@
 }
 
 @media (hover: none) {
+  /* Touch browsers can leave :hover stuck after a tap. Keep the primary cover
+     visible so the desktop cross-fade cannot hide it while the secondary image
+     is intentionally removed on touch devices. */
+  .seriesCard:hover .primaryImage,
+  .seriesCard:focus-visible .primaryImage,
+  .seriesCard:active .primaryImage {
+    opacity: 1;
+    transform: scale(1.001);
+  }
+
   .secondaryImage { display: none; }
 
   .seriesOverlay {
