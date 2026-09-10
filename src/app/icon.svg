@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Archie McNicol framed A mark">
-  <rect width="64" height="64" rx="14" fill="#111111"/>
-  <path d="M13 21V13h8" fill="none" stroke="#D8FF34" stroke-width="3" stroke-linecap="square"/>
-  <path d="M51 43v8h-8" fill="none" stroke="#D8FF34" stroke-width="3" stroke-linecap="square"/>
-  <path d="M32 15 47.5 49h-7.2l-3.2-7.7H26.9L23.7 49h-7.2L32 15Zm-2.7 20.2h5.4L32 28.7l-2.7 6.5Z" fill="#F5F1EA"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Archie McNicol editorial A mark">
+  <rect width="64" height="64" fill="#20201F"/>
+  <g transform="translate(2 0) skewX(-7)">
+    <path d="M13.5 49.5 32.8 13h8.9l8.8 36.5h-8.1l-1.8-8.4H25.7l-4.2 8.4h-8Zm15.3-14.8h10.6l-2.5-12.4-8.1 12.4Z" fill="#F4F4F1"/>
+    <path d="M12.9 49.5h12.8v2.5H11.4l1.5-2.5Zm28.6 0h11.3V52H41l.5-2.5Z" fill="#F4F4F1"/>
+  </g>
 </svg>
