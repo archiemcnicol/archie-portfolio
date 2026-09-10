@@ -130,7 +130,7 @@ export default function Home() {
           <div><strong>25K+</strong><span>Social community</span></div>
           <div><strong>20M+</strong><span>Creator views</span></div>
           <div><strong>3+ yrs</strong><span>Community operations</span></div>
-          <div><strong>A*</strong><span>Photography · 2026</span></div>
+          <div><strong>616</strong><span>Photographs in public archive</span></div>
         </div>
       </section>
 
