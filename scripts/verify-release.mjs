@@ -81,7 +81,10 @@ assert(!siteConfig.includes("archiemcnicol002@gmail.com"), "personal email remai
 assert(!llms.includes("archiemcnicol002@gmail.com"), "personal email remains in llms.txt");
 
 assert(!icon.includes("<circle"), "favicon must not regress to the notification-dot treatment");
-assert(icon.includes("stroke=\"#D8FF34\""), "favicon framing detail is missing");
+assert(!/#D8FF34/i.test(icon), "legacy green favicon accent has returned");
+assert(!/<rect[^>]+rx=/i.test(icon), "favicon must not regress to the rounded app-tile frame");
+assert(icon.includes('aria-label="Archie McNicol editorial A mark"'), "editorial A favicon identity is missing");
+assert(icon.includes('fill="#F4F4F1"'), "favicon must retain the off-white editorial A");
 assert(rootLayout.includes('card: "summary_large_image"'), "large Twitter/X share cards must remain enabled");
 
 // The public performance page is intentionally aggregate-only. It may show the approved
