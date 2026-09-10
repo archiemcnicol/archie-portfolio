@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { type MouseEvent, useEffect, useMemo, useState } from "react";
 import { PortfolioArchive } from "@/components/portfolio-archive";
 import type {
   CataloguePhoto,
@@ -74,6 +74,7 @@ export function PhotographyExplorer({
 }) {
   const [filterOpen, setFilterOpen] = useState(false);
   const [archiveView, setArchiveView] = useState<ArchiveView>(null);
+  const [activeSeries, setActiveSeries] = useState<string | null>(null);
 
   const visiblePhotos = useMemo(() => {
     if (archiveView === "all") return photos;
@@ -105,14 +106,26 @@ export function PhotographyExplorer({
 
   function chooseArchive(view: Exclude<ArchiveView, null>) {
     setArchiveView(view);
+    setActiveSeries(null);
     setFilterOpen(false);
     writeUrl(view);
   }
 
   function showProjects() {
     setArchiveView(null);
+    setActiveSeries(null);
     setFilterOpen(false);
     writeUrl(null);
+  }
+
+  function handleSeriesClick(event: MouseEvent<HTMLAnchorElement>, slug: string) {
+    const touchLike = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    if (!touchLike) return;
+
+    if (activeSeries !== slug) {
+      event.preventDefault();
+      setActiveSeries(slug);
+    }
   }
 
   useEffect(() => {
@@ -122,18 +135,32 @@ export function PhotographyExplorer({
       const requestedView = params.get("view");
       const nextStyle = requestedStyle ? VIEW_FROM_SLUG.get(requestedStyle) ?? null : null;
       setArchiveView(nextStyle ?? (requestedView === "all" ? "all" : null));
+      setActiveSeries(null);
       setFilterOpen(false);
+    };
+
+    const clearTouchPreview = (event: PointerEvent) => {
+      if (!window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+      const target = event.target;
+      if (target instanceof Element && !target.closest("[data-series-card]")) {
+        setActiveSeries(null);
+      }
     };
 
     applyLocation();
     window.addEventListener("popstate", applyLocation);
+    document.addEventListener("pointerdown", clearTouchPreview);
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setFilterOpen(false);
+      if (event.key === "Escape") {
+        setActiveSeries(null);
+        setFilterOpen(false);
+      }
     };
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
       window.removeEventListener("popstate", applyLocation);
+      document.removeEventListener("pointerdown", clearTouchPreview);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, []);
@@ -243,8 +270,11 @@ export function PhotographyExplorer({
                 <Link
                   aria-label={`View ${item.title} — ${item.count} ${item.count === 1 ? "image" : "images"}`}
                   className={styles.seriesCard}
+                  data-active={activeSeries === item.slug ? "true" : undefined}
+                  data-series-card
                   href={`/photography/${item.slug}`}
                   key={item.slug}
+                  onClick={(event) => handleSeriesClick(event, item.slug)}
                 >
                   <span className={styles.seriesImage}>
                     {item.cover ? (
