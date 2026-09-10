@@ -2,12 +2,12 @@
 
 import { useEffect, useMemo, useRef } from "react";
 
-// Retained static covers for Nike and Superdry. Other campaigns continue to use
-// TikTok's live player. These local production assets avoid duplicate external media while
-// retaining platform identity and the same visual rhythm as the live previews.
+// Retained production-quality static covers for Nike and Superdry. Other campaigns continue
+// to use TikTok's live player. These are the only dedicated static preview assets kept in
+// Cloudinary alongside the current profile avatar.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
-  "7592280935027035414": "/brand-work/nike-2026-01-07.webp",
-  "7415251227971259680": "/brand-work/superdry-2024-09-16.webp",
+  "7592280935027035414": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1789016503/nike-approved-1080.webp",
+  "7415251227971259680": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1789016515/superdry-approved-1080.webp",
 };
 
 const TIKTOK_PROFILE_AVATAR =
