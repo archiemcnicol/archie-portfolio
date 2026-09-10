@@ -2,6 +2,8 @@
 
 Production portfolio for Archie McNicol — UK content creator, photographer, community manager and digital creative.
 
+This repository is currently at its completed production baseline following the final security, dependency and redundant-asset cleanup pass.
+
 ## Public routes
 
 - `/` — portfolio overview
