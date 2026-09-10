@@ -124,6 +124,8 @@ export function TikTokFramePreview({
             objectPosition: "center center",
             pointerEvents: "none",
             position: "absolute",
+            transform: "scale(1.13)",
+            transformOrigin: "center center",
             width: "100%",
             zIndex: 0,
           }}
