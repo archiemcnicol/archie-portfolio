@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: center;
   min-height: 42px;
-  padding: 0 5px;
+  padding: 0 6px;
   color: #f5f1ea;
   outline: none;
 }
@@ -37,12 +37,12 @@
   border: 0 !important;
   color: #f5f1ea !important;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-  font-size: 16.5px !important;
+  font-size: 19px !important;
   font-style: normal !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
   font-stretch: normal !important;
-  line-height: 1 !important;
-  letter-spacing: -.042em !important;
+  line-height: .98 !important;
+  letter-spacing: -.048em !important;
   text-transform: none !important;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
@@ -52,8 +52,8 @@
 
 @media (hover: hover) {
   .nav-photography .site-brand:hover .site-brand-name {
-    opacity: .86;
-    letter-spacing: -.028em !important;
+    opacity: .88;
+    letter-spacing: -.034em !important;
     transform: translateY(-.5px) scale(1.006);
   }
 
@@ -85,12 +85,12 @@
 @media (max-width: 880px) {
   .nav-photography .site-brand {
     min-height: 38px;
-    padding-inline: 3px;
+    padding-inline: 4px;
   }
 
   .nav-photography .site-brand-name {
-    font-size: 15.5px !important;
-    letter-spacing: -.038em !important;
+    font-size: 18px !important;
+    letter-spacing: -.044em !important;
   }
 
   .nav-photography button[aria-controls="site-navigation"] {
@@ -101,8 +101,8 @@
 
 @media (max-width: 430px) {
   .nav-photography .site-brand-name {
-    font-size: 14.5px !important;
-    letter-spacing: -.034em !important;
+    font-size: 17px !important;
+    letter-spacing: -.04em !important;
   }
 }
 
