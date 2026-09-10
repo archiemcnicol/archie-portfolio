@@ -12,7 +12,7 @@ Production portfolio for Archie McNicol — UK content creator, photographer, co
 - `/affiliate` — anonymised public commerce-performance overview
 - `/professional` — professional operating experience and creator-operations case study
 - `/professional/capcut` — detailed CapCut UK creator-community and cross-border operations experience
-- `/about` — background, experience, education and profile
+- `/about` — background, experience, toolkit and profile
 - `/contact` — public contact routes
 
 `/cv` is a legacy redirect to `/about#background` and is not part of the public route index.
@@ -33,7 +33,7 @@ Public creator data lives in `src/lib/brand-work.ts`. Client names, campaign par
 
 ## Profile and performance data
 
-- `src/lib/profile-data.ts` holds public background, experience, education and toolkit data used by the About and Professional sections.
+- `src/lib/profile-data.ts` holds public background, experience and toolkit data used by the About and Professional sections.
 - `src/lib/affiliate-public.ts` holds only the anonymised public commerce aggregates used by the Performance page.
 - Partner-level performance records are retained in private Supabase storage rather than in the public GitHub source tree.
 - Public contact email: `fitswitharchie@gmail.com`.
