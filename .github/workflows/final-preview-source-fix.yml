@@ -1,0 +1,45 @@
+name: Final preview source fix
+
+on:
+  push:
+    branches:
+      - chore/final-production-cleanup
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: chore/final-production-cleanup
+          fetch-depth: 0
+
+      - name: Restore production-quality preview sources
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('src/components/tiktok-frame-preview.tsx')
+          text = path.read_text()
+          replacements = {
+              '/brand-work/nike-2026-01-07.webp': 'https://res.cloudinary.com/i1xhlvd6/image/upload/v1789016503/nike-approved-1080.webp',
+              '/brand-work/superdry-2024-09-16.webp': 'https://res.cloudinary.com/i1xhlvd6/image/upload/v1789016515/superdry-approved-1080.webp',
+              "// Retained static covers for Nike and Superdry. Other campaigns continue to use\n// TikTok's live player. These local production assets avoid duplicate external media while\n// retaining platform identity and the same visual rhythm as the live previews.": "// Retained production-quality static covers for Nike and Superdry. Other campaigns continue\n// to use TikTok's live player. These are the only dedicated static preview assets kept in\n// Cloudinary alongside the current profile avatar.",
+          }
+          for old, new in replacements.items():
+              if old not in text:
+                  raise SystemExit(f'missing expected reference: {old}')
+              text = text.replace(old, new)
+          path.write_text(text)
+          PY
+          rm .github/workflows/final-preview-source-fix.yml
+
+      - name: Commit final preview sources
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/components/tiktok-frame-preview.tsx .github/workflows/final-preview-source-fix.yml
+          git commit -m "Restore production-quality static preview sources"
+          git push origin HEAD:chore/final-production-cleanup
