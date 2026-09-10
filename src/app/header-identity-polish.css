@@ -1,4 +1,4 @@
-/* Header identity polish — full-name editorial wordmark. */
+/* Header identity polish — full-name clean geometric wordmark. */
 
 .nav-photography {
   border-bottom: 1px solid rgba(255,255,255,.08) !important;
@@ -36,23 +36,24 @@
   white-space: nowrap !important;
   border: 0 !important;
   color: #f5f1ea !important;
-  font-family: Didot, "Bodoni 72", "Iowan Old Style", Georgia, "Times New Roman", serif !important;
-  font-size: 18px !important;
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif !important;
+  font-size: 15px !important;
   font-style: normal !important;
-  font-weight: 400 !important;
+  font-weight: 720 !important;
+  font-stretch: normal !important;
   line-height: 1 !important;
-  letter-spacing: -.038em !important;
+  letter-spacing: -.035em !important;
   text-transform: none !important;
   text-rendering: geometricPrecision;
   transform: translateY(-.5px);
-  transition: opacity .2s ease, letter-spacing .2s ease, transform .2s ease;
+  transition: opacity .18s ease, letter-spacing .18s ease, transform .18s ease;
 }
 
 @media (hover: hover) {
   .nav-photography .site-brand:hover .site-brand-name {
     opacity: .86;
-    letter-spacing: -.02em !important;
-    transform: translateY(-.5px) scale(1.012);
+    letter-spacing: -.018em !important;
+    transform: translateY(-.5px) scale(1.01);
   }
 
   .nav-photography button[aria-controls="site-navigation"]:hover {
@@ -87,8 +88,8 @@
   }
 
   .nav-photography .site-brand-name {
-    font-size: 17px !important;
-    letter-spacing: -.032em !important;
+    font-size: 14px !important;
+    letter-spacing: -.03em !important;
   }
 
   .nav-photography button[aria-controls="site-navigation"] {
@@ -99,7 +100,7 @@
 
 @media (max-width: 430px) {
   .nav-photography .site-brand-name {
-    font-size: 16px !important;
+    font-size: 13px !important;
     letter-spacing: -.025em !important;
   }
 }
