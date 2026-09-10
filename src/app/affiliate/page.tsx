@@ -25,7 +25,7 @@ export default function AffiliatePage() {
             <h1>Performance beyond the post.</h1>
           </div>
           <div className={styles.heroSide}>
-            <p>Creator-led commerce tracked from sign-up through parcel and freight activity. Partner details stay private.</p>
+            <p>Creator-led commerce tracked from sign-up through parcel and freight activity.</p>
             <a href="#overview">View public record ↓</a>
           </div>
         </div>
