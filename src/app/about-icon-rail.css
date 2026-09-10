@@ -59,9 +59,9 @@
   background-position: 50% 50% !important;
 }
 
-/* Creator avatar: keep the marker centred against the entire row, but use a clean
-   512px crop in which the person has been optically centred inside the source itself.
-   This avoids relying on background-position against an off-centre circular source. */
+/* Creator avatar: keep the marker centred against the entire row, while using a
+   slightly wider source crop so the subject has more breathing room without exposing
+   empty edges inside the circular marker. */
 .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"] {
   position: relative !important;
   align-self: stretch !important;
@@ -81,7 +81,7 @@
   border-radius: 50% !important;
   border-color: rgba(255,255,255,.42) !important;
   background-color: transparent !important;
-  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/v1789005487/tiktok-profile-avatar-centred-final-v4.jpg") !important;
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/v1789005745/tiktok-profile-avatar-centred-final-v5.jpg") !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-position: 50% 50% !important;
