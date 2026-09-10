@@ -1,0 +1,37 @@
+name: Final dependency cleanup
+
+on:
+  push:
+    branches:
+      - chore/final-production-cleanup
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: chore/final-production-cleanup
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Remove unused Supabase runtime packages
+        run: |
+          npm ci
+          npm uninstall @supabase/ssr @supabase/supabase-js
+          rm .github/workflows/final-dependency-cleanup.yml
+
+      - name: Commit dependency cleanup and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json .github/workflows/final-dependency-cleanup.yml
+          git commit -m "Remove unused Supabase runtime dependencies"
+          git push origin HEAD:chore/final-production-cleanup
