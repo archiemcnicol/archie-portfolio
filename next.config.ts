@@ -22,9 +22,7 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "commons.wikimedia.org", pathname: "/wiki/Special:Redirect/file/**" },
-      { protocol: "https", hostname: "res.cloudinary.com", pathname: "/i1xhlvd6/**" },
       {
         protocol: "https",
         hostname: "cdn.jsdelivr.net",
