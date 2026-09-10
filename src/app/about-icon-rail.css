@@ -59,10 +59,9 @@
   background-position: 50% 50% !important;
 }
 
-/* Creator avatar: centre the marker against the entire height of row 04, not beneath
-   the row number. Use the clean pre-padding source, restored at 512px. The later v2
-   source had already been scaled and padded, which baked black/grey edge artefacts
-   into the circular crop. */
+/* Creator avatar: keep the marker centred against the entire row, but use a clean
+   512px crop in which the person has been optically centred inside the source itself.
+   This avoids relying on background-position against an off-centre circular source. */
 .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"] {
   position: relative !important;
   align-self: stretch !important;
@@ -82,7 +81,7 @@
   border-radius: 50% !important;
   border-color: rgba(255,255,255,.42) !important;
   background-color: transparent !important;
-  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/e_gen_restore/c_fill,g_center,h_512,w_512/f_auto/q_auto:best/v1788971749/tiktok-profile-avatar-scale-corrected.png") !important;
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/v1789005487/tiktok-profile-avatar-centred-final-v4.jpg") !important;
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-position: 50% 50% !important;
