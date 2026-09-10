@@ -59,12 +59,17 @@
   background-position: 50% 50% !important;
 }
 
-/* Avatar uses exactly the same outer dimensions and centre point. */
+/* Creator avatar: use the 256px centred source rather than the old 52px crop.
+   The square source is cropped by the circular frame at the exact same centre point
+   as every other timeline marker. */
 .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
   width: 64px !important;
   height: 64px !important;
   border-radius: 50% !important;
   border-color: rgba(255,255,255,.42) !important;
+  background-color: transparent !important;
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/v1788974392/tiktok-profile-avatar-centred-v2.png") !important;
+  background-repeat: no-repeat !important;
   background-size: cover !important;
   background-position: 50% 50% !important;
 }
@@ -88,6 +93,7 @@
 
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
     background-size: cover !important;
+    background-position: 50% 50% !important;
   }
 }
 
@@ -119,5 +125,6 @@
 
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
     background-size: cover !important;
+    background-position: 50% 50% !important;
   }
 }
