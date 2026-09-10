@@ -6,6 +6,13 @@ import { useEffect, useMemo, useRef } from "react";
 // to use TikTok's live player. These are the only dedicated static preview assets kept in
 // Cloudinary alongside the current profile avatar.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
+  "7592280935027035414": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1789069525/nike-user-approved-cover-1200.png",
+  "7415251227971259680": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1789069539/superdry-user-approved-cover-1200.png",
+};
+
+// Keep the previous verified Cloudinary renders as a last-resort fallback so a transient
+// delivery failure cannot leave either campaign card blank.
+const STATIC_FRAME_FALLBACKS: Record<string, string> = {
   "7592280935027035414": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1789016503/nike-approved-1080.webp",
   "7415251227971259680": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1789016515/superdry-approved-1080.webp",
 };
@@ -114,6 +121,12 @@ export function TikTokFramePreview({
           className={className}
           decoding="async"
           loading="eager"
+          onError={(event) => {
+            const fallback = STATIC_FRAME_FALLBACKS[videoId];
+            if (fallback && event.currentTarget.src !== fallback) {
+              event.currentTarget.src = fallback;
+            }
+          }}
           src={staticFrame}
           style={{
             background: "#080808",
