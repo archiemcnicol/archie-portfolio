@@ -59,10 +59,9 @@
   background-position: 50% 50% !important;
 }
 
-/* Creator avatar: retain the full restored 512px source and the corrected marker placement.
-   A minimal 10% overscan creates just enough safe image outside the circular frame to move the
-   composition left without exposing black/empty edge. Vertical positioning stays at exactly 50%,
-   so top and bottom are cropped equally. */
+/* Creator avatar: use the dedicated 512px composition with the person centred in the
+   source itself. The image has been extended around the subject rather than shifted or
+   zoomed in with CSS, so the marker can render it at 1:1 with no positional hacks. */
 .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"] {
   position: relative !important;
   align-self: stretch !important;
@@ -82,10 +81,10 @@
   border-radius: 50% !important;
   border-color: rgba(255,255,255,.42) !important;
   background-color: transparent !important;
-  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/v1789009372/tiktok-profile-avatar-full-restored-512.jpg") !important;
+  background-image: url("https://res.cloudinary.com/i1xhlvd6/image/upload/v1789012088/tiktok-profile-avatar-centred-zoomout-v9.jpg") !important;
   background-repeat: no-repeat !important;
-  background-size: 110% 110% !important;
-  background-position: calc(50% - 3px) 50% !important;
+  background-size: 100% 100% !important;
+  background-position: 50% 50% !important;
 }
 
 @media (max-width: 1000px) and (min-width: 761px) {
@@ -107,8 +106,8 @@
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
     width: 58px !important;
     height: 58px !important;
-    background-size: 110% 110% !important;
-    background-position: calc(50% - 2.7px) 50% !important;
+    background-size: 100% 100% !important;
+    background-position: 50% 50% !important;
   }
 }
 
@@ -140,7 +139,7 @@
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
     width: 50px !important;
     height: 50px !important;
-    background-size: 110% 110% !important;
-    background-position: calc(50% - 2.3px) 50% !important;
+    background-size: 100% 100% !important;
+    background-position: 50% 50% !important;
   }
 }
