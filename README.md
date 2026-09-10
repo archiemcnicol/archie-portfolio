@@ -35,7 +35,7 @@ Public creator data lives in `src/lib/brand-work.ts`. Client names, campaign par
 
 - `src/lib/profile-data.ts` holds public background, experience and toolkit data used by the About and Professional sections.
 - `src/lib/affiliate-public.ts` holds only the anonymised public commerce aggregates used by the Performance page.
-- Partner-level performance records are retained in private Supabase storage rather than in the public GitHub source tree.
+- Partner-level performance records are retained in private Supabase storage; private content-review source records are also retained in Supabase. Neither is part of the public application runtime or GitHub source tree.
 - Public contact email: `fitswitharchie@gmail.com`.
 - Personal contact information, more specific personal location details and unpublished commercial terms must not be added to public data files.
 
@@ -43,23 +43,21 @@ Public creator data lives in `src/lib/brand-work.ts`. Client names, campaign par
 
 The site uses Next.js metadata routes and file conventions for route-specific metadata, canonical URLs, `sitemap.xml`, `robots.txt`, `llms.txt`, Person/WebSite structured data, OpenGraph/Twitter images, a custom 404 page and the site favicon.
 
-The current public app ships no admin utility or nested affiliate-reporting pages. `robots.txt` keeps `/admin/`, `/api/` and nested `/affiliate/` paths blocked as a fail-safe against future private tooling or reporting accidentally becoming crawlable.
+The public app ships no admin utility, API routes or nested affiliate-reporting pages. `robots.txt` keeps `/admin/`, `/api/` and nested `/affiliate/` paths blocked as a fail-safe against future private tooling or reporting accidentally becoming crawlable.
 
 ## Stack
 
 - Next.js App Router
 - React
 - Vercel
-- Supabase for private/source data and future authenticated functionality
-- Cloudinary for managed media workflows
+- Cloudinary for the production-managed avatar and static creator preview assets
+- Supabase for private source records only; it is not a public-site runtime dependency
 
 ## Local setup
 
 1. `npm install`
-2. Copy `.env.example` to `.env.local`.
-3. Set `NEXT_PUBLIC_SITE_URL` to the canonical production origin when running outside Vercel's automatic production URL environment.
-4. Add the Supabase public URL and publishable key when using Supabase-backed features.
-5. `npm run dev`
+2. Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` only when overriding the canonical production origin.
+3. `npm run dev`
 
 Do not commit `.env.local`.
 

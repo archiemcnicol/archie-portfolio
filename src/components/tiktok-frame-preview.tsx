@@ -2,16 +2,16 @@
 
 import { useEffect, useMemo, useRef } from "react";
 
-// User-approved HQ static covers for Nike and Superdry. Other campaigns continue to use
-// TikTok's live player. The static previews use stable CDN assets while retaining platform
-// identity and the same visual rhythm as the live previews without inventing engagement counts.
+// Retained production-quality static covers for Nike and Superdry. Other campaigns continue
+// to use TikTok's live player. These are the only dedicated static preview assets kept in
+// Cloudinary alongside the current profile avatar.
 const STATIC_FRAME_PREVIEWS: Record<string, string> = {
-  "7592280935027035414": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968155/nike-approved-1080.webp",
-  "7415251227971259680": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788968221/superdry-approved-1080.webp",
+  "7592280935027035414": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1789016503/nike-approved-1080.webp",
+  "7415251227971259680": "https://res.cloudinary.com/i1xhlvd6/image/upload/v1789016515/superdry-approved-1080.webp",
 };
 
 const TIKTOK_PROFILE_AVATAR =
-  "https://res.cloudinary.com/i1xhlvd6/image/upload/v1788976238/tiktok-profile-avatar-centred-exact-v3.png";
+  "https://res.cloudinary.com/i1xhlvd6/image/upload/v1789012088/tiktok-profile-avatar-centred-zoomout-v9.jpg";
 
 function HeartIcon() {
   return (
