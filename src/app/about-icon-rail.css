@@ -1,51 +1,66 @@
-/* About / Background timeline icon rail — 2026-09-10 */
+/* About / Background timeline icon rail — 2026-09-10
+   Final alignment pass: every timeline row uses the same inset, the icon rail has
+   a fixed centre line, and the markers are large enough to properly occupy it. */
+
+/* Links previously received horizontal padding from list-interaction-polish.css
+   while the two static milestone rows did not. Normalise every row so the icon,
+   date and role columns start on exactly the same x-axis. */
+.about-experience-section [class*="timelineRow"] {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
 
 @media (min-width: 1001px) {
-  .about-page .cv-timeline .cv-timeline-row,
   .about-experience-section [class*="timelineRow"] {
-    grid-template-columns: 68px 120px 340px minmax(0, 1fr) 24px !important;
+    grid-template-columns: 78px 116px 326px minmax(0, 1fr) 24px !important;
+    gap: 17px !important;
   }
 }
 
-.about-page .cv-timeline .cv-timeline-row > [class*="index"],
+/* The number and icon share one fixed rail. Keeping the rail width explicit means
+   all seven markers remain perfectly aligned even when a row is an article rather
+   than a link or has much taller content on the right. */
 .about-experience-section [class*="timelineRow"] > [class*="index"] {
   width: 100% !important;
   min-width: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  align-self: stretch !important;
   justify-self: stretch !important;
-  gap: 10px !important;
-  padding-top: 0 !important;
+  display: grid !important;
+  grid-template-rows: auto auto !important;
+  align-content: start !important;
+  justify-items: center !important;
+  row-gap: 12px !important;
+  padding: 0 !important;
   text-align: center !important;
+  box-sizing: border-box !important;
 }
 
-.about-page .cv-timeline .cv-timeline-row > [class*="index"]::after,
 .about-experience-section [class*="timelineRow"] > [class*="index"]::after {
-  flex: 0 0 auto !important;
-  width: 50px !important;
-  height: 50px !important;
+  content: "";
+  width: 64px !important;
+  height: 64px !important;
   margin: 0 !important;
   box-sizing: border-box !important;
   display: block !important;
-  border: 1px solid rgba(216,255,52,.58) !important;
+  border: 1px solid rgba(216,255,52,.6) !important;
   background-color: rgba(216,255,52,.035) !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
-  background-size: 29px 29px !important;
+  background-size: 36px 36px !important;
 }
 
 /* Proper CapCut mark rather than the earlier approximation. */
-.about-page .cv-timeline .cv-timeline-row:nth-child(3) > [class*="index"]::after,
 .about-experience-section [class*="timelineRow"]:nth-child(3) > [class*="index"]::after {
   background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%225%200%2030%2023.01%22%3E%3Cpath%20fill%3D%22%23d8ff34%22%20d%3D%22M33.454%205.655v-3.97l-4.773%202.508v-.15c.001-1.584-1.135-2.538-2.777-2.538H10.77c-1.733%200-2.778.955-2.778%202.537V8.05l6.688%203.454-6.688%203.49v4c0%201.557%201.052%202.51%202.778%202.51H25.9c1.642%200%202.778-.955%202.778-2.507v-.208l4.775%202.536v-4.03l-11.103-5.79zM18.5%2013.477l8.208%204.297H10.263zm8.15-8.24-8.15%204.27-8.237-4.27z%22%2F%3E%3C%2Fsvg%3E") !important;
-  background-size: 33px auto !important;
+  background-size: 41px auto !important;
 }
 
-.about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
+/* Avatar uses the exact same footprint and centre line as every graphic marker. */
 .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
-  width: 50px !important;
-  height: 50px !important;
+  width: 64px !important;
+  height: 64px !important;
   border-radius: 50% !important;
   border-color: rgba(255,255,255,.42) !important;
   background-size: cover !important;
@@ -53,53 +68,50 @@
 }
 
 @media (max-width: 1000px) and (min-width: 761px) {
-  .about-page .cv-timeline .cv-timeline-row,
   .about-experience-section [class*="timelineRow"] {
-    grid-template-columns: 62px 108px minmax(250px,.9fr) minmax(0,1.1fr) 22px !important;
+    grid-template-columns: 70px 104px minmax(238px,.92fr) minmax(0,1.08fr) 22px !important;
+    gap: 15px !important;
   }
 
-  .about-page .cv-timeline .cv-timeline-row > [class*="index"]::after,
   .about-experience-section [class*="timelineRow"] > [class*="index"]::after,
-  .about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
-    width: 46px !important;
-    height: 46px !important;
-    background-size: 27px 27px !important;
+    width: 58px !important;
+    height: 58px !important;
+    background-size: 33px 33px !important;
   }
 
-  .about-page .cv-timeline .cv-timeline-row:nth-child(3) > [class*="index"]::after,
   .about-experience-section [class*="timelineRow"]:nth-child(3) > [class*="index"]::after {
-    background-size: 31px auto !important;
+    background-size: 38px auto !important;
   }
 
-  .about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
     background-size: cover !important;
   }
 }
 
 @media (max-width: 760px) {
-  .about-page .cv-timeline .cv-timeline-row > [class*="index"],
+  .about-experience-section [class*="timelineRow"] {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
   .about-experience-section [class*="timelineRow"] > [class*="index"] {
-    align-items: flex-start !important;
-    text-align: left !important;
+    justify-items: center !important;
+    text-align: center !important;
+    row-gap: 9px !important;
   }
 
-  .about-page .cv-timeline .cv-timeline-row > [class*="index"]::after,
   .about-experience-section [class*="timelineRow"] > [class*="index"]::after,
-  .about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
-    width: 42px !important;
-    height: 42px !important;
-    background-size: 24px 24px !important;
+    width: 50px !important;
+    height: 50px !important;
+    background-size: 28px 28px !important;
   }
 
-  .about-page .cv-timeline .cv-timeline-row:nth-child(3) > [class*="index"]::after,
   .about-experience-section [class*="timelineRow"]:nth-child(3) > [class*="index"]::after {
-    background-size: 28px auto !important;
+    background-size: 33px auto !important;
   }
 
-  .about-page .cv-timeline .cv-timeline-row:nth-child(4) > [class*="index"]::after,
   .about-experience-section [class*="timelineRow"]:nth-child(4) > [class*="index"]::after {
     background-size: cover !important;
   }
