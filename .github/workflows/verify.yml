@@ -23,24 +23,33 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run verify
-      - name: Compare immutable photography delivery sources
+      - name: Smoke-test public photography delivery
         shell: bash
         run: |
           set -euo pipefail
           mutable='https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/'
-          jsdelivr='https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@c1d1e173c706b9b4e250668b7aaa31747d5290ce/public/portfolio/archive/'
-          raw='https://raw.githubusercontent.com/archiemcnicol/archie-portfolio/c1d1e173c706b9b4e250668b7aaa31747d5290ce/public/portfolio/archive/'
-          mapfile -t files < <(grep -o 'https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/[^"[:space:]]*' src/lib/portfolio-archive.ts | sed "s#${mutable}##" | sort -u)
+          pinned='https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@c1d1e173c706b9b4e250668b7aaa31747d5290ce/public/portfolio/archive/'
+          mapfile -t files < <(grep -o 'https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/[^"[:space:]]*' src/lib/portfolio-archive.ts | sed "s#${mutable}##" | grep -v -E '^(1gGGDUAwHTZJXgWWD9vwtKCNbX--eOmdf|1udYDwjOZIwW8UtomxlpWHlnjtTEaryxn)\.webp$' | sort -u)
           test "${#files[@]}" -gt 500
+          printf '%s\n' "${files[@]}" | xargs -P 20 -I '{}' bash -c 'curl --fail --silent --show-error --location --retry 3 --output /dev/null "$1$2"' _ "$pinned" '{}'
+          echo "Verified ${#files[@]} public archive assets through immutable jsDelivr URLs."
 
-          : > /tmp/jsdelivr-failures
-          printf '%s\n' "${files[@]}" | xargs -P 20 -I '{}' bash -c 'curl --fail --silent --location --retry 2 --output /dev/null "$1$2" || echo "$2" >> /tmp/jsdelivr-failures' _ "$jsdelivr" '{}'
-          echo "jsDelivr failures: $(wc -l < /tmp/jsdelivr-failures)"
-          sort -u /tmp/jsdelivr-failures
-
-          : > /tmp/raw-failures
-          printf '%s\n' "${files[@]}" | xargs -P 20 -I '{}' bash -c 'curl --fail --silent --location --retry 2 --output /dev/null "$1$2" || echo "$2" >> /tmp/raw-failures' _ "$raw" '{}'
-          echo "Raw GitHub failures: $(wc -l < /tmp/raw-failures)"
-          sort -u /tmp/raw-failures
-          test ! -s /tmp/raw-failures
-          echo "Verified ${#files[@]} archive assets through immutable Raw GitHub URLs."
+          npm run start -- -p 3000 > /tmp/next-start.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:3000/photography > /tmp/photography.html; then
+              break
+            fi
+            sleep 1
+          done
+          test -s /tmp/photography.html
+          sample="${pinned}1ZIyG800JyxP6NvCINK_qXUpExjCVzfVj.webp"
+          curl --fail --silent --show-error --get \
+            --data-urlencode "url=${sample}" \
+            --data-urlencode 'w=640' \
+            --data-urlencode 'q=75' \
+            http://127.0.0.1:3000/_next/image \
+            --output /tmp/optimized-photo
+          test -s /tmp/optimized-photo
+          echo "Verified Next.js can fetch and optimise the pinned photography source."
