@@ -45,7 +45,8 @@ assert(landing.html.includes("https://res.cloudinary.com"), "Cloudinary origin m
 assert(/rel=["']preconnect["'][^>]*href=["']https:\/\/res\.cloudinary\.com["']|href=["']https:\/\/res\.cloudinary\.com["'][^>]*rel=["']preconnect["']/i.test(landing.html), "Cloudinary preconnect is missing");
 
 const newYork = inspectPage("/photography/new-york-2026-06-10");
-assert(newYork.metrics.srcsets === 30, `New York should initially render 30 responsive photo srcsets, got ${newYork.metrics.srcsets}`);
+assert(newYork.metrics.images === 30, `New York should render 30 initial photo elements, got ${newYork.metrics.images}`);
+assert(newYork.metrics.srcsets >= 30 && newYork.metrics.srcsets <= 31, `New York should emit 30 photo srcsets plus at most one preload srcset, got ${newYork.metrics.srcsets}`);
 
 const pinned = "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@c1d1e173c706b9b4e250668b7aaa31747d5290ce/public/portfolio/archive/1brvBeAr_V3HreAuopD87U6K0hxffR63F.webp";
 const encoded = encodeURIComponent(pinned);
