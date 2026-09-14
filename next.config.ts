@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
         hostname: "cdn.jsdelivr.net",
         pathname: "/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.jsdelivr.net",
+        pathname: "/gh/archiemcnicol/archie-portfolio@c1d1e173c706b9b4e250668b7aaa31747d5290ce/public/portfolio/archive/**",
+      },
     ],
     localPatterns: [
       { pathname: "/portfolio/archive/**" },
