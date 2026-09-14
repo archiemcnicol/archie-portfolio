@@ -17,20 +17,26 @@ for (const route of routes) {
   console.log(`\n=== ${url} ===`);
   const html = curl(url, ["--fail"]);
   console.log(`html bytes: ${Buffer.byteLength(html)}`);
-  const matches = [...html.matchAll(/(?:src|srcSet)="([^"]*\/_next\/image\?[^\"]+)"/g)];
-  console.log(`optimised image refs: ${matches.length}`);
-  const first = matches[0]?.[1]?.replaceAll("&amp;", "&");
+
+  const srcValues = [...html.matchAll(/\ssrc="([^"]+)"/g)].map((match) => match[1].replaceAll("&amp;", "&"));
+  const optimiserRefs = srcValues.filter((src) => src.includes("/_next/image?"));
+  console.log(`optimiser src refs: ${optimiserRefs.length}`);
+  const first = optimiserRefs[0];
   if (!first) {
-    console.log("NO OPTIMISED IMAGE URL FOUND");
+    console.log("NO OPTIMISER SRC FOUND");
+    console.log(srcValues.slice(0, 5));
     continue;
   }
+
   const imageUrl = first.startsWith("http") ? first : base + first;
   console.log(`first optimiser URL: ${imageUrl}`);
   try {
-    const output = curl(imageUrl, ["--fail", "--output", "/tmp/prod-image", "--write-out", "%{http_code} %{content_type} %{size_download} %{url_effective}"]);
+    const output = curl(imageUrl, ["--output", "/tmp/prod-image", "--write-out", "%{http_code} %{content_type} %{size_download} %{url_effective}"]);
     console.log(`optimiser GET: ${output}`);
+    const preview = execFileSync("head", ["-c", "200", "/tmp/prod-image"], { encoding: "utf8" });
+    console.log(`optimiser body prefix: ${JSON.stringify(preview)}`);
   } catch (error) {
-    console.log("optimiser GET failed");
+    console.log("optimiser GET transport failed");
     console.log(error.stdout?.toString() || "");
     console.log(error.stderr?.toString() || "");
   }
@@ -38,13 +44,7 @@ for (const route of routes) {
   const decoded = new URL(imageUrl).searchParams.get("url") || "";
   console.log(`upstream URL: ${decoded}`);
   if (decoded) {
-    try {
-      const upstream = curl(decoded, ["--fail", "--output", "/tmp/upstream-image", "--write-out", "%{http_code} %{content_type} %{size_download} %{url_effective}"]);
-      console.log(`upstream GET: ${upstream}`);
-    } catch (error) {
-      console.log("upstream GET failed");
-      console.log(error.stdout?.toString() || "");
-      console.log(error.stderr?.toString() || "");
-    }
+    const upstream = curl(decoded, ["--output", "/tmp/upstream-image", "--write-out", "%{http_code} %{content_type} %{size_download} %{url_effective}"]);
+    console.log(`upstream GET: ${upstream}`);
   }
 }
