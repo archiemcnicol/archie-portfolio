@@ -23,3 +23,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run verify
+      - name: Diagnose production photography images
+        run: node scripts/diagnose-production-images.mjs
