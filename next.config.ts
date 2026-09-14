@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    // Vercel's production image optimiser is currently returning HTTP 402
+    // (OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED). The site's media is already
+    // published as web-ready assets, so serve source files directly instead.
+    unoptimized: true,
     remotePatterns: [
       { protocol: "https", hostname: "commons.wikimedia.org", pathname: "/wiki/Special:Redirect/file/**" },
       {
