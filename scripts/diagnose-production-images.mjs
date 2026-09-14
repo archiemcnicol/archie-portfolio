@@ -20,31 +20,18 @@ for (const route of routes) {
 
   const srcValues = [...html.matchAll(/\ssrc="([^"]+)"/g)].map((match) => match[1].replaceAll("&amp;", "&"));
   const optimiserRefs = srcValues.filter((src) => src.includes("/_next/image?"));
+  const directPhotoRefs = srcValues.filter((src) => src.includes("cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@c1d1e173"));
+
   console.log(`optimiser src refs: ${optimiserRefs.length}`);
-  const first = optimiserRefs[0];
-  if (!first) {
-    console.log("NO OPTIMISER SRC FOUND");
-    console.log(srcValues.slice(0, 5));
-    continue;
+  console.log(`direct pinned photo refs: ${directPhotoRefs.length}`);
+  if (optimiserRefs.length) {
+    throw new Error(`Production still renders ${optimiserRefs.length} Vercel optimiser URLs on ${route}`);
+  }
+  if (!directPhotoRefs.length) {
+    throw new Error(`No direct pinned photography URLs found on ${route}`);
   }
 
-  const imageUrl = first.startsWith("http") ? first : base + first;
-  console.log(`first optimiser URL: ${imageUrl}`);
-  try {
-    const output = curl(imageUrl, ["--output", "/tmp/prod-image", "--write-out", "%{http_code} %{content_type} %{size_download} %{url_effective}"]);
-    console.log(`optimiser GET: ${output}`);
-    const preview = execFileSync("head", ["-c", "200", "/tmp/prod-image"], { encoding: "utf8" });
-    console.log(`optimiser body prefix: ${JSON.stringify(preview)}`);
-  } catch (error) {
-    console.log("optimiser GET transport failed");
-    console.log(error.stdout?.toString() || "");
-    console.log(error.stderr?.toString() || "");
-  }
-
-  const decoded = new URL(imageUrl).searchParams.get("url") || "";
-  console.log(`upstream URL: ${decoded}`);
-  if (decoded) {
-    const upstream = curl(decoded, ["--output", "/tmp/upstream-image", "--write-out", "%{http_code} %{content_type} %{size_download} %{url_effective}"]);
-    console.log(`upstream GET: ${upstream}`);
-  }
+  const imageUrl = directPhotoRefs[0];
+  const output = curl(imageUrl, ["--fail", "--output", "/tmp/prod-image", "--write-out", "%{http_code} %{content_type} %{size_download} %{url_effective}"]);
+  console.log(`direct image GET: ${output}`);
 }
