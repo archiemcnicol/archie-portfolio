@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { type MouseEvent, useEffect, useMemo, useState } from "react";
 import { PortfolioArchive } from "@/components/portfolio-archive";
@@ -8,7 +7,11 @@ import type {
   CataloguePhoto,
   PhotographySeriesDefinition,
 } from "@/lib/photography-final-taxonomy";
-import { portfolioImageSrc } from "@/lib/portfolio-image-src";
+import {
+  PORTFOLIO_CARD_WIDTHS,
+  portfolioResponsiveSrc,
+  portfolioResponsiveSrcSet,
+} from "@/lib/portfolio-image-src";
 import styles from "./photography-explorer.module.css";
 
 type SeriesCard = Pick<
@@ -278,24 +281,48 @@ export function PhotographyExplorer({
                 >
                   <span className={styles.seriesImage}>
                     {item.cover ? (
-                      <Image
+                      <img
                         alt=""
                         className={styles.primaryImage}
-                        fill
-                        priority={index < 6}
+                        decoding="async"
+                        fetchPriority={index < 6 ? "high" : "auto"}
+                        height={item.cover.height}
+                        loading={index < 6 ? "eager" : "lazy"}
                         sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                        src={portfolioImageSrc(item.cover.src)}
-                        style={{ objectPosition: item.coverPosition ?? "50% 50%" }}
+                        src={portfolioResponsiveSrc(item.cover.src, 1600)}
+                        srcSet={portfolioResponsiveSrcSet(item.cover.src, PORTFOLIO_CARD_WIDTHS)}
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          objectPosition: item.coverPosition ?? "50% 50%",
+                        }}
+                        width={item.cover.width}
                       />
                     ) : null}
                     {hoverImage ? (
-                      <Image
+                      <img
                         alt=""
                         className={styles.secondaryImage}
-                        fill
+                        decoding="async"
+                        height={hoverImage.height}
+                        loading="lazy"
                         sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                        src={portfolioImageSrc(hoverImage.src)}
-                        style={{ objectPosition: item.hover ? item.hoverPosition ?? "50% 50%" : item.coverPosition ?? "50% 50%" }}
+                        src={portfolioResponsiveSrc(hoverImage.src, 1600)}
+                        srcSet={portfolioResponsiveSrcSet(hoverImage.src, PORTFOLIO_CARD_WIDTHS)}
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          objectPosition: item.hover
+                            ? item.hoverPosition ?? "50% 50%"
+                            : item.coverPosition ?? "50% 50%",
+                        }}
+                        width={hoverImage.width}
                       />
                     ) : null}
                     <span className={styles.seriesOverlay}>
