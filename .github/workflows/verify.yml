@@ -23,20 +23,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run verify
-      - name: Smoke-test pinned photography CDN
+      - name: Smoke-test every pinned photography asset
         shell: bash
         run: |
           set -euo pipefail
-          base='https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@c1d1e173c706b9b4e250668b7aaa31747d5290ce/public/portfolio/archive/'
-          files=(
-            '1ZIyG800JyxP6NvCINK_qXUpExjCVzfVj.webp'
-            '1brvBeAr_V3HreAuopD87U6K0hxffR63F.webp'
-            '12qI9G0HbbkaHEZ7A9197XuZZmNDvfQWO.webp'
-            '1-0iHqq5AryQ5qaP_z0YVRr-SIprHyAXn.webp'
-            '10HqNSdmEWcN6U0JvNfoaY6DHsDMAOymK.webp'
-          )
-          for file in "${files[@]}"; do
-            curl --fail --silent --show-error --location --retry 3 --output /tmp/photo.webp "${base}${file}"
-            test -s /tmp/photo.webp
-            test "$(head -c 4 /tmp/photo.webp)" = 'RIFF'
-          done
+          mutable='https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/'
+          pinned='https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@c1d1e173c706b9b4e250668b7aaa31747d5290ce/public/portfolio/archive/'
+          mapfile -t files < <(grep -o 'https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@main/public/portfolio/archive/[^"[:space:]]*' src/lib/portfolio-archive.ts | sed "s#${mutable}##" | sort -u)
+          test "${#files[@]}" -gt 500
+          printf '%s\n' "${files[@]}" | xargs -P 20 -I '{}' bash -c 'curl --fail --silent --show-error --location --retry 3 --output /dev/null "$1$2"' _ "$pinned" '{}'
+          echo "Verified ${#files[@]} pinned photography assets."
