@@ -78,6 +78,8 @@ export function PhotographyExplorer({
   const [filterOpen, setFilterOpen] = useState(false);
   const [archiveView, setArchiveView] = useState<ArchiveView>(null);
   const [activeSeries, setActiveSeries] = useState<string | null>(null);
+  const [hoverRequested, setHoverRequested] = useState<Set<string>>(() => new Set());
+  const [hoverReady, setHoverReady] = useState<Set<string>>(() => new Set());
 
   const visiblePhotos = useMemo(() => {
     if (archiveView === "all") return photos;
@@ -91,6 +93,24 @@ export function PhotographyExplorer({
     : archiveView
       ? FILTER_BY_KEY.get(archiveView)?.label ?? null
       : null;
+
+  function requestHover(slug: string) {
+    setHoverRequested((current) => {
+      if (current.has(slug)) return current;
+      const next = new Set(current);
+      next.add(slug);
+      return next;
+    });
+  }
+
+  function markHoverReady(slug: string) {
+    setHoverReady((current) => {
+      if (current.has(slug)) return current;
+      const next = new Set(current);
+      next.add(slug);
+      return next;
+    });
+  }
 
   function writeUrl(view: ArchiveView) {
     const url = new URL(window.location.href);
@@ -121,12 +141,17 @@ export function PhotographyExplorer({
     writeUrl(null);
   }
 
-  function handleSeriesClick(event: MouseEvent<HTMLAnchorElement>, slug: string) {
+  function handleSeriesClick(
+    event: MouseEvent<HTMLAnchorElement>,
+    slug: string,
+    hasHover: boolean,
+  ) {
     const touchLike = window.matchMedia("(hover: none), (pointer: coarse)").matches;
-    if (!touchLike) return;
+    if (!touchLike || !hasHover) return;
 
     if (activeSeries !== slug) {
       event.preventDefault();
+      requestHover(slug);
       setActiveSeries(slug);
     }
   }
@@ -267,17 +292,27 @@ export function PhotographyExplorer({
           <div className={styles.seriesGrid}>
             {series.map((item, index) => {
               const projectName = item.title.split(" · ")[0];
-              const hoverImage = item.hover ?? item.cover;
+              const hasHover = Boolean(item.hover);
+              const shouldRenderHover = hasHover && hoverRequested.has(item.slug);
+              const isHoverReady = hoverReady.has(item.slug);
 
               return (
                 <Link
                   aria-label={`View ${item.title} — ${item.count} ${item.count === 1 ? "image" : "images"}`}
                   className={styles.seriesCard}
                   data-active={activeSeries === item.slug ? "true" : undefined}
+                  data-has-hover={hasHover ? "true" : undefined}
+                  data-hover-ready={isHoverReady ? "true" : undefined}
                   data-series-card
                   href={`/photography/${item.slug}`}
                   key={item.slug}
-                  onClick={(event) => handleSeriesClick(event, item.slug)}
+                  onClick={(event) => handleSeriesClick(event, item.slug, hasHover)}
+                  onFocus={() => {
+                    if (hasHover) requestHover(item.slug);
+                  }}
+                  onMouseEnter={() => {
+                    if (hasHover) requestHover(item.slug);
+                  }}
                 >
                   <span className={styles.seriesImage}>
                     {item.cover ? (
@@ -285,12 +320,12 @@ export function PhotographyExplorer({
                         alt=""
                         className={styles.primaryImage}
                         decoding="async"
-                        fetchPriority={index < 6 ? "high" : "auto"}
+                        fetchPriority={index === 0 ? "high" : "auto"}
                         height={item.cover.height}
-                        loading={index < 6 ? "eager" : "lazy"}
+                        loading={index === 0 ? "eager" : "lazy"}
                         sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                        src={portfolioResponsiveSrc(item.cover.src, 1600)}
-                        srcSet={portfolioResponsiveSrcSet(item.cover.src, PORTFOLIO_CARD_WIDTHS)}
+                        src={portfolioResponsiveSrc(item.cover.src, 1280, "good")}
+                        srcSet={portfolioResponsiveSrcSet(item.cover.src, PORTFOLIO_CARD_WIDTHS, "good")}
                         style={{
                           position: "absolute",
                           inset: 0,
@@ -302,27 +337,26 @@ export function PhotographyExplorer({
                         width={item.cover.width}
                       />
                     ) : null}
-                    {hoverImage ? (
+                    {item.hover && shouldRenderHover ? (
                       <img
                         alt=""
                         className={styles.secondaryImage}
                         decoding="async"
-                        height={hoverImage.height}
-                        loading="lazy"
+                        height={item.hover.height}
+                        loading="eager"
+                        onLoad={() => markHoverReady(item.slug)}
                         sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                        src={portfolioResponsiveSrc(hoverImage.src, 1600)}
-                        srcSet={portfolioResponsiveSrcSet(hoverImage.src, PORTFOLIO_CARD_WIDTHS)}
+                        src={portfolioResponsiveSrc(item.hover.src, 1280, "good")}
+                        srcSet={portfolioResponsiveSrcSet(item.hover.src, PORTFOLIO_CARD_WIDTHS, "good")}
                         style={{
                           position: "absolute",
                           inset: 0,
                           width: "100%",
                           height: "100%",
                           objectFit: "cover",
-                          objectPosition: item.hover
-                            ? item.hoverPosition ?? "50% 50%"
-                            : item.coverPosition ?? "50% 50%",
+                          objectPosition: item.hoverPosition ?? "50% 50%",
                         }}
-                        width={hoverImage.width}
+                        width={item.hover.width}
                       />
                     ) : null}
                     <span className={styles.seriesOverlay}>
