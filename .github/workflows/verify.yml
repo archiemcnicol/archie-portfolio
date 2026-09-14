@@ -23,3 +23,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run verify
+      - name: Diagnose high-resolution portfolio delivery
+        run: node scripts/diagnose-hires.mjs
