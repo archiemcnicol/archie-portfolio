@@ -23,3 +23,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run verify
+      - name: Diagnose live photography performance
+        run: node scripts/diagnose-photo-performance.mjs
