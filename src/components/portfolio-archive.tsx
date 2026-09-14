@@ -12,6 +12,8 @@ import styles from "./portfolio-archive.module.css";
 
 const DESKTOP_GAP = 14;
 const MOBILE_GAP = 10;
+const INITIAL_VISIBLE_PHOTOS = 48;
+const LOAD_MORE_BATCH = 48;
 
 type PortfolioPhoto = CataloguePhoto;
 
@@ -91,15 +93,19 @@ function buildJustifiedRows(items: IndexedPhoto[], width: number): ArchiveRow[] 
 export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [galleryWidth, setGalleryWidth] = useState(1200);
+  const [visibleCount, setVisibleCount] = useState(() =>
+    Math.min(INITIAL_VISIBLE_PHOTOS, photos.length),
+  );
   const galleryRef = useRef<HTMLDivElement>(null);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLButtonElement | null>(null);
   const activePhoto = activeIndex === null ? null : photos[activeIndex];
 
   const indexedPhotos = useMemo(
-    () => photos.map((photo, index) => ({ photo, index })),
-    [photos],
+    () => photos.slice(0, visibleCount).map((photo, index) => ({ photo, index })),
+    [photos, visibleCount],
   );
 
   const rows = useMemo(
@@ -115,6 +121,10 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
   function closePhoto() {
     setActiveIndex(null);
   }
+
+  useEffect(() => {
+    setVisibleCount(Math.min(INITIAL_VISIBLE_PHOTOS, photos.length));
+  }, [photos]);
 
   useEffect(() => {
     if (activeIndex !== null && activeIndex >= photos.length) setActiveIndex(null);
@@ -135,6 +145,40 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (visibleCount >= photos.length) return;
+    const sentinel = loadMoreRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        setVisibleCount((current) =>
+          Math.min(photos.length, current + LOAD_MORE_BATCH),
+        );
+      },
+      { rootMargin: "1200px 0px" },
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [photos.length, visibleCount]);
+
+  useEffect(() => {
+    if (activeIndex === null || photos.length < 2) return;
+
+    const nextPhoto = photos[(activeIndex + 1) % photos.length];
+    const preload = new window.Image();
+    preload.decoding = "async";
+    preload.sizes = "100vw";
+    preload.srcset = portfolioResponsiveSrcSet(
+      nextPhoto.src,
+      PORTFOLIO_VIEWER_WIDTHS,
+      "best",
+    );
+    preload.src = portfolioResponsiveSrc(nextPhoto.src, 2560, "best");
+  }, [activeIndex, photos]);
 
   useEffect(() => {
     if (activeIndex === null) {
@@ -217,11 +261,12 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
                     alt={photo.title}
                     className={styles.archiveCardImage}
                     decoding="async"
+                    fetchPriority={index === 0 ? "high" : "auto"}
                     height={photo.height}
-                    loading="lazy"
+                    loading={index === 0 ? "eager" : "lazy"}
                     sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
-                    src={portfolioResponsiveSrc(photo.src, 1600)}
-                    srcSet={portfolioResponsiveSrcSet(photo.src, PORTFOLIO_CARD_WIDTHS)}
+                    src={portfolioResponsiveSrc(photo.src, 1280, "good")}
+                    srcSet={portfolioResponsiveSrcSet(photo.src, PORTFOLIO_CARD_WIDTHS, "good")}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     width={photo.width}
                   />
@@ -231,6 +276,9 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
             ))}
           </div>
         ))}
+        {visibleCount < photos.length ? (
+          <div aria-hidden="true" className={styles.loadMoreSentinel} ref={loadMoreRef} />
+        ) : null}
       </div>
 
       {activePhoto && activeIndex !== null ? (
@@ -265,8 +313,8 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
               fetchPriority="high"
               height={activePhoto.height}
               sizes="100vw"
-              src={portfolioResponsiveSrc(activePhoto.src, 3200)}
-              srcSet={portfolioResponsiveSrcSet(activePhoto.src, PORTFOLIO_VIEWER_WIDTHS)}
+              src={portfolioResponsiveSrc(activePhoto.src, 3200, "best")}
+              srcSet={portfolioResponsiveSrcSet(activePhoto.src, PORTFOLIO_VIEWER_WIDTHS, "best")}
               style={{
                 position: "absolute",
                 inset: 0,

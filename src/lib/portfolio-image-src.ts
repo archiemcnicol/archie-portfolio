@@ -15,6 +15,8 @@ const CLOUDINARY_FETCH_PREFIX =
 export const PORTFOLIO_CARD_WIDTHS = [480, 720, 960, 1280, 1600] as const;
 export const PORTFOLIO_VIEWER_WIDTHS = [960, 1280, 1600, 2048, 2560, 3200] as const;
 
+export type PortfolioImageQuality = "good" | "best";
+
 /**
  * Serve the photography archive from an immutable Git commit on jsDelivr.
  * Using @main can retain stale CDN state after a force-push/history purge, while
@@ -40,21 +42,25 @@ export function portfolioImageSrc(src: string) {
 
 /**
  * Build a responsive Cloudinary fetch URL without touching Vercel's image
- * optimiser. Cloudinary creates the requested delivery width and caches it at
- * the edge; f_auto/q_auto:best keeps high-density displays crisp while avoiding
- * a single oversized download for every card.
+ * optimiser. Cards use q_auto:good to reduce transfer size; the full-screen
+ * viewer keeps q_auto:best for maximum display quality.
  */
-export function portfolioResponsiveSrc(src: string, width: number) {
+export function portfolioResponsiveSrc(
+  src: string,
+  width: number,
+  quality: PortfolioImageQuality = "best",
+) {
   const source = portfolioImageSrc(src);
   const safeWidth = Math.max(320, Math.min(3200, Math.round(width)));
-  return `${CLOUDINARY_FETCH_PREFIX}c_scale,w_${safeWidth}/f_auto/q_auto:best/${encodeURIComponent(source)}`;
+  return `${CLOUDINARY_FETCH_PREFIX}c_scale,w_${safeWidth}/f_auto/q_auto:${quality}/${encodeURIComponent(source)}`;
 }
 
 export function portfolioResponsiveSrcSet(
   src: string,
   widths: readonly number[],
+  quality: PortfolioImageQuality = "best",
 ) {
   return widths
-    .map((width) => `${portfolioResponsiveSrc(src, width)} ${width}w`)
+    .map((width) => `${portfolioResponsiveSrc(src, width, quality)} ${width}w`)
     .join(", ");
 }

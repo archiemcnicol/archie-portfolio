@@ -233,14 +233,14 @@
   text-transform: uppercase;
 }
 
-.seriesCard:hover .primaryImage,
-.seriesCard:focus-visible .primaryImage {
+.seriesCard[data-has-hover="true"][data-hover-ready="true"]:hover .primaryImage,
+.seriesCard[data-has-hover="true"][data-hover-ready="true"]:focus-visible .primaryImage {
   opacity: 0;
   transform: scale(1.012);
 }
 
-.seriesCard:hover .secondaryImage,
-.seriesCard:focus-visible .secondaryImage {
+.seriesCard[data-has-hover="true"][data-hover-ready="true"]:hover .secondaryImage,
+.seriesCard[data-has-hover="true"][data-hover-ready="true"]:focus-visible .secondaryImage {
   opacity: 1;
   transform: scale(1.012);
 }
@@ -298,9 +298,8 @@
 }
 
 @media (hover: none), (pointer: coarse) {
-  /* Touch equivalent of the desktop hover: first tap previews the alternate
-     project image; the second tap follows the project link. Keeping both images
-     rendered also avoids the blank-card state caused by sticky mobile :hover. */
+  /* Touch equivalent of desktop hover. Alternate project images are fetched
+     only after the first tap, then swapped in once that request has completed. */
   .secondaryImage {
     display: block;
     opacity: 0;
@@ -320,12 +319,12 @@
     transform: scale(1.001);
   }
 
-  .seriesCard[data-active="true"] .primaryImage {
+  .seriesCard[data-active="true"][data-hover-ready="true"] .primaryImage {
     opacity: 0;
     transform: scale(1.012);
   }
 
-  .seriesCard[data-active="true"] .secondaryImage {
+  .seriesCard[data-active="true"][data-hover-ready="true"] .secondaryImage {
     opacity: 1;
     transform: scale(1.012);
   }
