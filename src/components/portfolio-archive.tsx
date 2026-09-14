@@ -1,9 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CataloguePhoto } from "@/lib/photography-taxonomy";
-import { portfolioImageSrc } from "@/lib/portfolio-image-src";
+import {
+  PORTFOLIO_CARD_WIDTHS,
+  PORTFOLIO_VIEWER_WIDTHS,
+  portfolioResponsiveSrc,
+  portfolioResponsiveSrcSet,
+} from "@/lib/portfolio-image-src";
 import styles from "./portfolio-archive.module.css";
 
 const DESKTOP_GAP = 14;
@@ -209,13 +213,15 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
                   onClick={(event) => openPhoto(index, event.currentTarget)}
                   type="button"
                 >
-                  <Image
+                  <img
                     alt={photo.title}
                     className={styles.archiveCardImage}
+                    decoding="async"
                     height={photo.height}
                     loading="lazy"
                     sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
-                    src={portfolioImageSrc(photo.src)}
+                    src={portfolioResponsiveSrc(photo.src, 1600)}
+                    srcSet={portfolioResponsiveSrcSet(photo.src, PORTFOLIO_CARD_WIDTHS)}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                     width={photo.width}
                   />
@@ -253,12 +259,22 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
             ←
           </button>
           <div className="archive-viewer-image">
-            <Image
+            <img
               alt={activePhoto.title}
-              fill
-              priority
+              decoding="async"
+              fetchPriority="high"
+              height={activePhoto.height}
               sizes="100vw"
-              src={portfolioImageSrc(activePhoto.src)}
+              src={portfolioResponsiveSrc(activePhoto.src, 3200)}
+              srcSet={portfolioResponsiveSrcSet(activePhoto.src, PORTFOLIO_VIEWER_WIDTHS)}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+              }}
+              width={activePhoto.width}
             />
           </div>
           <button
