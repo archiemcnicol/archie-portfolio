@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type MouseEvent, useEffect, useMemo, useState } from "react";
+import { type MouseEvent, type SyntheticEvent, useEffect, useMemo, useState } from "react";
 import { PortfolioArchive } from "@/components/portfolio-archive";
 import type {
   CataloguePhoto,
@@ -9,6 +9,7 @@ import type {
 } from "@/lib/photography-final-taxonomy";
 import {
   PORTFOLIO_CARD_WIDTHS,
+  portfolioImageSrc,
   portfolioResponsiveSrc,
   portfolioResponsiveSrcSet,
 } from "@/lib/portfolio-image-src";
@@ -67,6 +68,17 @@ const VIEW_FROM_SLUG = new Map<string, FilterView>([
   ["portrait-lifestyle", "landscape"],
   ["travel-documentary", "landscape"],
 ]);
+
+function fallBackToSource(
+  event: SyntheticEvent<HTMLImageElement>,
+  source: string,
+) {
+  const image = event.currentTarget;
+  if (image.dataset.sourceFallback === "true") return;
+  image.dataset.sourceFallback = "true";
+  image.removeAttribute("srcset");
+  image.src = portfolioImageSrc(source);
+}
 
 export function PhotographyExplorer({
   photos,
@@ -323,6 +335,7 @@ export function PhotographyExplorer({
                         fetchPriority={index === 0 ? "high" : "auto"}
                         height={item.cover.height}
                         loading={index === 0 ? "eager" : "lazy"}
+                        onError={(event) => fallBackToSource(event, item.cover!.src)}
                         sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
                         src={portfolioResponsiveSrc(item.cover.src, 1280, "good")}
                         srcSet={portfolioResponsiveSrcSet(item.cover.src, PORTFOLIO_CARD_WIDTHS, "good")}
@@ -344,6 +357,7 @@ export function PhotographyExplorer({
                         decoding="async"
                         height={item.hover.height}
                         loading="eager"
+                        onError={(event) => fallBackToSource(event, item.hover!.src)}
                         onLoad={() => markHoverReady(item.slug)}
                         sizes="(max-width: 680px) 100vw, (max-width: 1100px) 50vw, 33vw"
                         src={portfolioResponsiveSrc(item.hover.src, 1280, "good")}
