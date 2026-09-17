@@ -23,6 +23,13 @@ const responsibilities = [
   ["UK ↔ Shanghai liaison", "Move policy, programme, payment and product information clearly between UK creators and the Shanghai internal team."],
 ] as const;
 
+const creatorPerformance = [
+  ["15.5M+", "CapCut views"],
+  ["1.97M", "Template uses"],
+  ["1.16M", "Exports"],
+  ["150M+", "TikTok views via templates"],
+] as const;
+
 const agenticSteps = [
   ["01", "Ingest", "Read-only Discord activity enters the workflow without giving the system outbound control."],
   ["02", "Resolve", "Creator conversations are extracted into cases, reconciled against history and checked for duplicates or recurrence."],
@@ -64,6 +71,26 @@ export default function CapCutPage() {
           <div className="wrap">
             <span>UK ↔ Shanghai</span>
             <p>I turn creator questions and issues into actionable internal context, then bring decisions back clearly.</p>
+          </div>
+        </section>
+
+        <section className={`${styles.performance} capcut-performance`}>
+          <div className="wrap">
+            <div className={styles.performanceHead}>
+              <span className={styles.sectionLabel}>Creator-side perspective</span>
+              <p>
+                I also work from inside the creator experience itself. That gives the operational role a direct view of the workflows,
+                creative decisions and product behaviours that affect adoption and continued participation.
+              </p>
+            </div>
+            <div className={styles.performanceGrid}>
+              {creatorPerformance.map(([value, label]) => (
+                <div key={label}>
+                  <strong>{value}</strong>
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
