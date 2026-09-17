@@ -3,7 +3,7 @@ export type ExperienceItem = {
   title: string;
   role: string;
   summary: string;
-  href: string;
+  href?: string;
   highlights: string[];
 };
 
@@ -11,10 +11,11 @@ export const EXPERIENCE: ExperienceItem[] = [
   {
     period: "2026 — present",
     title: "Digital projects",
-    role: "Web / content systems",
-    summary: "Web builds and content systems for publishing, analytics and asset management.",
+    role: "Web / AI / content systems",
+    summary:
+      "Web builds, data systems and a fully operational agentic AI workflow for creator operations, publishing, analytics and asset management.",
     href: "/business",
-    highlights: ["Next.js", "Vercel", "Supabase", "Cloudinary", "Content systems"],
+    highlights: ["Agentic AI", "Next.js", "Railway", "Supabase", "Vercel", "Cloudinary"],
   },
   {
     period: "2024 — present",
@@ -38,9 +39,17 @@ export const EXPERIENCE: ExperienceItem[] = [
     title: "CapCut UK",
     role: "Community manager / creator operations",
     summary:
-      "UK creator operations with the internal team in Shanghai across support, challenges, payments, reporting and issue escalation.",
+      "UK creator operations with the internal team in Shanghai across support, challenges, payments, reporting, AI and generative-product support, and issue escalation.",
     href: "/professional/capcut",
-    highlights: ["UK creator support", "UK ↔ Shanghai", "Cross-border communication", "Payments", "Bug escalation", "Reporting"],
+    highlights: ["UK creator support", "UK ↔ Shanghai", "AI product support", "Payments", "Bug escalation", "Reporting"],
+  },
+  {
+    period: "2023 — 2024",
+    title: "Fancensus",
+    role: "Freelance video game analyst",
+    summary:
+      "Analysed and maintained video-game industry data across social media, content creators, digital marketplaces and online storefronts, including PlayStation and Xbox stores.",
+    highlights: ["Social media", "Content creators", "PlayStation / Xbox", "Digital marketplaces", "Data quality"],
   },
   {
     period: "2018 — present",
@@ -115,8 +124,8 @@ export const TOOLKIT = [
     ],
   },
   {
-    title: "Web / data",
-    items: ["Next.js", "React", "Vercel", "Supabase", "Cloudinary", "CSV workflows", "Spreadsheet reporting"],
+    title: "AI / web / data",
+    items: ["Agentic AI workflows", "Knowledge retrieval", "Railway", "Supabase", "Vercel", "Cloudinary", "Next.js", "CSV workflows"],
   },
 ] as const;
 
