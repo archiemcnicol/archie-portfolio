@@ -15,16 +15,16 @@ import refresh from "./about-refresh.module.css";
 export const metadata: Metadata = {
   title: "About — Archie McNicol",
   description:
-    "About Archie McNicol — background, experience and creative work across content, community management, photography, performance and digital projects.",
+    "About Archie McNicol — background, experience and creative work across content, community management, photography, performance, AI systems and digital projects.",
   alternates: { canonical: "/about" },
 };
 
 const chapters = [
   ["01", "Creator work", "Campaigns, collaborations and results.", "/creator"],
-  ["02", "Professional", "Creator operations and UK ↔ Shanghai communication.", "/professional"],
+  ["02", "Professional", "Creator operations, AI systems and UK ↔ Shanghai communication.", "/professional"],
   ["03", "Performance", "Registrations, parcels and freight.", "/affiliate"],
   ["04", "Photography", "Projects and full archive.", "/photography"],
-  ["05", "Digital", "Web builds and content systems.", "/business"],
+  ["05", "Digital", "Web builds, AI workflows and content systems.", "/business"],
 ] as const;
 
 type AboutTimelineItem = {
@@ -57,6 +57,7 @@ function milestone(title: string, role: string, highlights: readonly string[]): 
 const ABOUT_TIMELINE: AboutTimelineItem[] = [
   experience("Photography"),
   milestone("Fashion / e-commerce", "Independent fashion project", ["Branding", "E-commerce", "Customer communication"]),
+  experience("Fancensus"),
   experience("CapCut UK"),
   experience("@fitswitharchie"),
   experience("Performance partnerships"),
@@ -73,7 +74,7 @@ export default function AboutPage() {
             <h1>The full picture, in one place.</h1>
           </div>
           <div className={styles.heroSide}>
-            <p>UK creator, photographer and community manager working across campaigns, creator operations and digital projects.</p>
+            <p>UK creator, photographer and community manager working across campaigns, creator operations, AI systems and digital projects.</p>
             <a className={styles.inlineLink} href="#background">Background &amp; experience ↓</a>
           </div>
         </div>
