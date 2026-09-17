@@ -5,7 +5,7 @@ import styles from "./professional.module.css";
 export const metadata: Metadata = {
   title: "Professional Experience — Archie McNicol",
   description:
-    "Professional operating experience from Archie McNicol across creator-community management, AI-assisted creator operations, cross-border communication and issue escalation between the UK and Shanghai, China.",
+    "Professional experience from Archie McNicol across creator operations, AI-assisted systems, community management, cross-border communication and video-game industry analysis.",
   alternates: { canonical: "/professional" },
 };
 
@@ -32,6 +32,16 @@ const operatingAreas = [
   },
 ] as const;
 
+const fancensusAreas = [
+  "Social media",
+  "Content creators",
+  "Digital marketplaces",
+  "Online storefronts",
+  "PlayStation",
+  "Xbox",
+  "Data quality",
+] as const;
+
 export default function ProfessionalPage() {
   return (
     <main className={`${styles.page} professional-page`}>
@@ -42,7 +52,7 @@ export default function ProfessionalPage() {
             <h1>People on one side. Systems on the other.</h1>
           </div>
           <div className={styles.heroSide}>
-            <p>Creator operations between UK communities and internal teams, supported by clear handovers, structured reporting and AI-assisted operational systems.</p>
+            <p>Creator operations, data work and AI-assisted systems built around clear context, reliable handovers and follow-through.</p>
             <Link href="/about#background">Full chronology →</Link>
           </div>
         </div>
@@ -72,6 +82,28 @@ export default function ProfessionalPage() {
             </p>
 
             <Link className={styles.caseLink} href="/professional/capcut">Open the CapCut case study ↗</Link>
+          </div>
+        </div>
+      </section>
+
+      <section className={`${styles.secondaryExperience} professional-secondary-experience`}>
+        <div className={`wrap ${styles.secondaryGrid}`}>
+          <div className={styles.secondaryLead}>
+            <span>Additional experience</span>
+            <strong>Fancensus</strong>
+            <small>2023 — 2024 · Freelance</small>
+          </div>
+          <div className={styles.secondaryBody}>
+            <span>Video game analyst</span>
+            <p>
+              Analysed and maintained video-game industry data across social media, content creators, digital marketplaces and
+              online storefronts, supporting the tracking of visibility and performance across global markets. The work included
+              large volumes of console-store and retail data across PlayStation, Xbox and wider online retailers, with accuracy and
+              consistency central to the role.
+            </p>
+            <div className={styles.secondaryTags}>
+              {fancensusAreas.map((area) => <span key={area}>{area}</span>)}
+            </div>
           </div>
         </div>
       </section>
