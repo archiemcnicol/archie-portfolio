@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { type SyntheticEvent, useEffect, useMemo, useRef, useState } from "react";
 import type { CataloguePhoto } from "@/lib/photography-taxonomy";
 import {
   PORTFOLIO_CARD_WIDTHS,
   PORTFOLIO_VIEWER_WIDTHS,
+  portfolioImageSrc,
   portfolioResponsiveSrc,
   portfolioResponsiveSrcSet,
 } from "@/lib/portfolio-image-src";
@@ -88,6 +89,17 @@ function buildJustifiedRows(items: IndexedPhoto[], width: number): ArchiveRow[] 
     items: row,
     height: rowHeight(row, width, gap),
   }));
+}
+
+function fallBackToSource(
+  event: SyntheticEvent<HTMLImageElement>,
+  source: string,
+) {
+  const image = event.currentTarget;
+  if (image.dataset.sourceFallback === "true") return;
+  image.dataset.sourceFallback = "true";
+  image.removeAttribute("srcset");
+  image.src = portfolioImageSrc(source);
 }
 
 export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
@@ -264,6 +276,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
                     fetchPriority={index === 0 ? "high" : "auto"}
                     height={photo.height}
                     loading={index === 0 ? "eager" : "lazy"}
+                    onError={(event) => fallBackToSource(event, photo.src)}
                     sizes="(max-width: 600px) 100vw, (max-width: 980px) 50vw, 33vw"
                     src={portfolioResponsiveSrc(photo.src, 1280, "good")}
                     srcSet={portfolioResponsiveSrcSet(photo.src, PORTFOLIO_CARD_WIDTHS, "good")}
@@ -312,6 +325,7 @@ export function PortfolioArchive({ photos }: PortfolioArchiveProps) {
               decoding="async"
               fetchPriority="high"
               height={activePhoto.height}
+              onError={(event) => fallBackToSource(event, activePhoto.src)}
               sizes="100vw"
               src={portfolioResponsiveSrc(activePhoto.src, 3200, "best")}
               srcSet={portfolioResponsiveSrcSet(activePhoto.src, PORTFOLIO_VIEWER_WIDTHS, "best")}
