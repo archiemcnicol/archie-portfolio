@@ -19,6 +19,7 @@
 .kicker,
 .sectionHead > span,
 .caseLead > span,
+.secondaryLead > span,
 .bridgeLabel,
 .next > div > span {
   font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
@@ -146,6 +147,73 @@
   font-size: clamp(30px, 4.2vw, 62px);
   line-height: .98;
   letter-spacing: -.055em;
+}
+
+.secondaryExperience {
+  padding: clamp(68px, 7.5vw, 96px) 0;
+  background: #ddd8d0;
+  border-top: 1px solid rgba(17,17,17,.12);
+}
+
+.secondaryGrid {
+  display: grid;
+  grid-template-columns: minmax(220px, .58fr) minmax(0, 1.42fr);
+  gap: clamp(44px, 7vw, 92px);
+  align-items: start;
+}
+
+.secondaryLead {
+  display: grid;
+  gap: 9px;
+}
+
+.secondaryLead > span {
+  color: #77736d;
+}
+
+.secondaryLead > strong {
+  margin-top: 14px;
+  font-size: clamp(42px, 5.6vw, 82px);
+  line-height: .86;
+  letter-spacing: -.064em;
+}
+
+.secondaryLead > small,
+.secondaryBody > span {
+  color: #6c6963;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.secondaryBody {
+  min-width: 0;
+  padding-top: 2px;
+}
+
+.secondaryBody > p {
+  max-width: 860px;
+  margin: 22px 0 28px;
+  font-size: clamp(22px, 2.7vw, 38px);
+  line-height: 1.06;
+  letter-spacing: -.04em;
+}
+
+.secondaryTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.secondaryTags span {
+  padding: 7px 9px 6px;
+  border: 1px solid rgba(17,17,17,.2);
+  color: #5f5c57;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
 }
 
 .operating {
@@ -352,7 +420,8 @@
 
 @media (max-width: 940px) {
   .heroGrid,
-  .caseGrid {
+  .caseGrid,
+  .secondaryGrid {
     grid-template-columns: 1fr;
   }
 
@@ -409,6 +478,10 @@
 
   .caseBody > p {
     font-size: clamp(30px, 9.6vw, 48px);
+  }
+
+  .secondaryBody > p {
+    font-size: clamp(24px, 7.5vw, 36px);
   }
 
   .sectionHead {
