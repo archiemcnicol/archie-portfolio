@@ -1,0 +1,3 @@
+# The photography archive is delivered from the immutable jsDelivr/Cloudinary pipeline.
+# Keeping these source WebPs out of Vercel prevents ~121 MB being duplicated into every deployment.
+public/portfolio/archive
