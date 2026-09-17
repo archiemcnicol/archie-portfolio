@@ -13,6 +13,15 @@
 .intro span, .sectionLabel { color: #777; font-size: 9px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
 .intro p { max-width: 1030px; margin: 0; font-size: clamp(30px, 4.2vw, 60px); line-height: .98; letter-spacing: -.055em; }
 
+.performance { padding: clamp(58px, 7vw, 82px) 0 clamp(62px, 7vw, 88px); background: #ece7df; color: #111; border-bottom: 1px solid var(--line); }
+.performanceHead { display: grid; grid-template-columns: minmax(150px, .36fr) minmax(0, 1.64fr); gap: clamp(26px, 5vw, 54px); align-items: start; }
+.performanceHead p { max-width: 820px; margin: 0; color: #575752; font-size: 14px; line-height: 1.6; }
+.performanceGrid { margin-top: clamp(36px, 5vw, 58px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid rgba(17,17,17,.2); border-bottom: 1px solid rgba(17,17,17,.2); }
+.performanceGrid > div { min-width: 0; padding: 22px 20px 22px 0; }
+.performanceGrid > div + div { padding-left: 20px; border-left: 1px solid rgba(17,17,17,.2); }
+.performanceGrid strong { display: block; font-size: clamp(34px, 4.2vw, 62px); line-height: .9; letter-spacing: -.058em; }
+.performanceGrid span { display: block; margin-top: 11px; color: #6c6c67; font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+
 .responsibilities { padding: clamp(80px, 8vw, 102px) 0 clamp(88px, 9vw, 112px); }
 .responsibilities .sectionLabel { color: var(--muted); }
 .responsibilityList { margin-top: 26px; border-top: 1px solid var(--line); }
@@ -20,6 +29,20 @@
 .responsibilityList article > span { color: var(--muted); font-size: 9px; letter-spacing: .08em; }
 .responsibilityList h2 { margin: 0; font-size: clamp(25px, 3vw, 46px); line-height: .98; letter-spacing: -.048em; }
 .responsibilityList p { max-width: 690px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+.agentic { padding: clamp(86px, 9vw, 118px) 0 clamp(90px, 9vw, 122px); background: #111; color: #f5f1ea; }
+.agentic .sectionLabel { color: #7f7f79; }
+.agenticHead { display: grid; grid-template-columns: minmax(0, 1.16fr) minmax(280px, .84fr); gap: clamp(36px, 7vw, 92px); align-items: end; }
+.agenticHead h2 { max-width: 900px; margin: 18px 0 0; font-size: clamp(48px, 6.4vw, 96px); line-height: .88; letter-spacing: -.062em; }
+.agenticHead > p { max-width: 620px; margin: 0; color: #a4a49d; font-size: 14px; line-height: 1.62; }
+.agenticSteps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(50px, 6vw, 76px); border-top: 1px solid rgba(245,241,234,.24); border-bottom: 1px solid rgba(245,241,234,.24); }
+.agenticSteps article { min-width: 0; min-height: 286px; padding: 22px 22px 24px 0; display: flex; flex-direction: column; }
+.agenticSteps article + article { padding-left: 22px; border-left: 1px solid rgba(245,241,234,.24); }
+.agenticSteps article > span { color: #6f6f69; font-size: 9px; letter-spacing: .08em; }
+.agenticSteps strong { margin-top: auto; color: #d8ff34; font-size: clamp(27px, 2.8vw, 41px); line-height: .95; letter-spacing: -.045em; }
+.agenticSteps p { margin: 12px 0 0; color: #a4a49d; font-size: 12px; line-height: 1.55; }
+.agenticStack { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; }
+.agenticStack span { padding: 7px 9px 6px; border: 1px solid rgba(245,241,234,.2); color: #b8b8b1; font-size: 8px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
 
 .workflow { padding: clamp(78px, 8vw, 96px) 0 clamp(84px, 9vw, 106px); background: #d8ff34; color: #111; }
 .workflow .sectionLabel { color: rgba(17,17,17,.58); }
@@ -37,21 +60,31 @@
 .links a:hover { color: #d8ff34; }
 
 @media (max-width: 900px) {
-  .heroGrid, .intro .wrap { grid-template-columns: 1fr; gap: 30px; }
-  .steps { grid-template-columns: 1fr 1fr; }
-  .steps > div:nth-child(3) { border-left: 0; border-top: 1px solid rgba(17,17,17,.28); }
-  .steps > div:nth-child(4) { border-top: 1px solid rgba(17,17,17,.28); }
+  .heroGrid, .intro .wrap, .performanceHead, .agenticHead { grid-template-columns: 1fr; gap: 30px; }
+  .performanceGrid, .steps, .agenticSteps { grid-template-columns: 1fr 1fr; }
+  .performanceGrid > div:nth-child(3) { border-left: 0; border-top: 1px solid rgba(17,17,17,.2); }
+  .performanceGrid > div:nth-child(4) { border-top: 1px solid rgba(17,17,17,.2); }
+  .steps > div:nth-child(3), .agenticSteps article:nth-child(3) { border-left: 0; border-top: 1px solid rgba(17,17,17,.28); }
+  .agenticSteps article:nth-child(3) { border-top-color: rgba(245,241,234,.24); }
+  .steps > div:nth-child(4), .agenticSteps article:nth-child(4) { border-top: 1px solid rgba(17,17,17,.28); }
+  .agenticSteps article:nth-child(4) { border-top-color: rgba(245,241,234,.24); }
 }
 
 @media (max-width: 620px) {
   .hero { padding-top: 54px; }
   .hero h1 { font-size: clamp(52px, 16vw, 80px); }
   .intro p { font-size: clamp(30px, 9.5vw, 48px); }
+  .performanceGrid { grid-template-columns: 1fr 1fr; }
+  .performanceGrid > div { padding: 18px 12px 18px 0; }
+  .performanceGrid > div + div { padding-left: 12px; }
+  .performanceGrid strong { font-size: clamp(30px, 10vw, 44px); }
   .responsibilityList article { grid-template-columns: 28px 1fr; gap: 10px 12px; }
   .responsibilityList p { grid-column: 2; }
-  .steps { grid-template-columns: 1fr; }
-  .steps > div, .steps > div + div { min-height: 190px; padding: 20px 0; border-left: 0; border-top: 1px solid rgba(17,17,17,.28); }
-  .steps > div:first-child { border-top: 0; }
+  .agenticHead h2 { font-size: clamp(42px, 13vw, 66px); }
+  .steps, .agenticSteps { grid-template-columns: 1fr; }
+  .steps > div, .steps > div + div, .agenticSteps article, .agenticSteps article + article { min-height: 190px; padding: 20px 0; border-left: 0; border-top: 1px solid rgba(17,17,17,.28); }
+  .agenticSteps article, .agenticSteps article + article { border-top-color: rgba(245,241,234,.24); }
+  .steps > div:first-child, .agenticSteps article:first-child { border-top: 0; }
   .links .wrap { grid-template-columns: 1fr; }
   .links a, .links a + a { min-height: 64px; padding: 14px 0; border-right: 0; border-top: 1px solid rgba(255,255,255,.22); }
 }

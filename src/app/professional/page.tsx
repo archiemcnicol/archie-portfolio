@@ -5,7 +5,7 @@ import styles from "./professional.module.css";
 export const metadata: Metadata = {
   title: "Professional Experience — Archie McNicol",
   description:
-    "Professional operating experience from Archie McNicol, centred on creator-community management, cross-border communication and creator operations between the UK and Shanghai, China.",
+    "Professional operating experience from Archie McNicol across creator-community management, AI-assisted creator operations, cross-border communication and issue escalation between the UK and Shanghai, China.",
   alternates: { canonical: "/professional" },
 };
 
@@ -23,12 +23,12 @@ const operatingAreas = [
   {
     label: "Issue routing",
     title: "Escalate with context.",
-    copy: "Turn bugs and creator issues into clear internal context.",
+    copy: "Turn bugs, AI-generation failures and creator issues into clear internal context.",
   },
   {
-    label: "Reporting & follow-through",
-    title: "Close the loop.",
-    copy: "Weekly reporting, handovers and unresolved follow-ups.",
+    label: "Systems & reporting",
+    title: "Build operational memory.",
+    copy: "Weekly reporting, case history, AI-assisted classification and unresolved follow-through.",
   },
 ] as const;
 
@@ -42,7 +42,7 @@ export default function ProfessionalPage() {
             <h1>People on one side. Systems on the other.</h1>
           </div>
           <div className={styles.heroSide}>
-            <p>Creator operations between UK communities and internal teams, with clear handovers and follow-through.</p>
+            <p>Creator operations between UK communities and internal teams, supported by clear handovers, structured reporting and AI-assisted operational systems.</p>
             <Link href="/about#background">Full chronology →</Link>
           </div>
         </div>
@@ -66,7 +66,9 @@ export default function ProfessionalPage() {
 
             <p>
               I manage the creator-facing layer between the UK community and the internal team in Shanghai across support,
-              challenges, payments, reporting and issue escalation.
+              challenges, payments, AI and generative-product issues, reporting and escalation. Alongside that work, I built a
+              fully operational CreatorOps agentic AI workflow for turning high-volume creator conversations into structured cases,
+              evidence-linked history and clear next actions while keeping human review authoritative.
             </p>
 
             <Link className={styles.caseLink} href="/professional/capcut">Open the CapCut case study ↗</Link>
