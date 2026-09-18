@@ -9,6 +9,9 @@ const LOCAL_PORTFOLIO_PREFIX = "/portfolio/archive/";
 const PINNED_PORTFOLIO_PREFIX =
   "https://cdn.jsdelivr.net/gh/archiemcnicol/archie-portfolio@c1d1e173c706b9b4e250668b7aaa31747d5290ce/public/portfolio/archive/";
 
+const PINNED_RAW_GITHUB_PORTFOLIO_PREFIX =
+  "https://raw.githubusercontent.com/archiemcnicol/archie-portfolio/c1d1e173c706b9b4e250668b7aaa31747d5290ce/public/portfolio/archive/";
+
 const CLOUDINARY_FETCH_PREFIX =
   "https://res.cloudinary.com/i1xhlvd6/image/fetch/";
 
@@ -38,6 +41,21 @@ export function portfolioImageSrc(src: string) {
   }
 
   return src;
+}
+
+/**
+ * Last-resort origin for archive photographs. This deliberately uses a different
+ * CDN/origin from both Cloudinary and jsDelivr so a device or network-specific
+ * delivery failure can still recover the image.
+ */
+export function portfolioRawImageSrc(src: string) {
+  const pinned = portfolioImageSrc(src);
+
+  if (pinned.startsWith(PINNED_PORTFOLIO_PREFIX)) {
+    return `${PINNED_RAW_GITHUB_PORTFOLIO_PREFIX}${pinned.slice(PINNED_PORTFOLIO_PREFIX.length)}`;
+  }
+
+  return pinned;
 }
 
 /**
