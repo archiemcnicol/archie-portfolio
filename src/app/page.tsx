@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ResilientPortfolioImage } from "@/components/resilient-portfolio-image";
 import { TikTokFramePreview } from "@/components/tiktok-frame-preview";
 import { PORTFOLIO_ARCHIVE_PHOTOS } from "@/lib/portfolio-archive";
 import {
@@ -8,7 +9,6 @@ import {
   type PhotographySeriesSlug,
 } from "@/lib/photography-final-taxonomy";
 import { PHOTOGRAPHY_DISPLAY } from "@/lib/photography-display";
-import { portfolioImageSrc } from "@/lib/portfolio-image-src";
 import styles from "./home.module.css";
 import refine from "./home-refinement.module.css";
 
@@ -88,13 +88,14 @@ export default function Home() {
               href="/photography/new-york-2026-06-10"
             >
               {HERO_PHOTOGRAPHY ? (
-                <Image
+                <ResilientPortfolioImage
                   alt="Selected New York photograph from Archie McNicol's photography portfolio"
-                  fill
                   priority
+                  quality="good"
                   sizes="(max-width: 760px) 44vw, 25vw"
-                  src={portfolioImageSrc(HERO_PHOTOGRAPHY.src)}
+                  source={HERO_PHOTOGRAPHY.src}
                   style={coverStyle(HERO_PHOTOGRAPHY.position)}
+                  width={1280}
                 />
               ) : null}
               <span className={styles.imageLabel}><b>Photography</b><b>New York · Jun 2026</b></span>
@@ -158,7 +159,15 @@ export default function Home() {
 
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter} home-route-photo-card`} href="/photography">
               <div className={`${refine.compactMedia} home-route-photo-media`} aria-hidden="true">
-                {PHOTOGRAPHY_ROUTE_IMAGE ? <Image alt="" fill sizes="(max-width: 760px) 100vw, 30vw" src={portfolioImageSrc(PHOTOGRAPHY_ROUTE_IMAGE.src)} /> : null}
+                {PHOTOGRAPHY_ROUTE_IMAGE ? (
+                  <ResilientPortfolioImage
+                    alt=""
+                    quality="good"
+                    sizes="(max-width: 760px) 100vw, 30vw"
+                    source={PHOTOGRAPHY_ROUTE_IMAGE.src}
+                    width={1280}
+                  />
+                ) : null}
               </div>
               <div className={styles.chapterTop}><span>02 / Photography</span><span>Projects · Dates · Archive</span></div>
               <span className={refine.routeIcon}><RouteIcon type="photography" /></span>
