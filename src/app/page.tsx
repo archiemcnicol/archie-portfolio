@@ -22,8 +22,7 @@ export const metadata: Metadata = {
 const TRAVEL_PORTRAIT =
   "https://res.cloudinary.com/i1xhlvd6/image/upload/c_scale,w_1000/e_sharpen/q_auto:best/v1788834592/archie-greece.webp";
 
-const HOME_NEW_YORK_COVER =
-  "https://res.cloudinary.com/i1xhlvd6/image/upload/f_auto,q_auto:good,c_scale,w_1280/v1789696272/portfolio/home-new-york-brooklyn-bridge.webp";
+const HOME_NEW_YORK_COVER = "/site/home-new-york-brooklyn-bridge-v2.webp";
 
 const EXCLUDED_PHOTO_NAMES = new Set([
   "IMG_2473.jpg",
