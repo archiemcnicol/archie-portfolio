@@ -71,13 +71,13 @@ export default function ProfessionalPage() {
               <div><span>Role</span><strong>Community manager / creator operations</strong></div>
               <div><span>Experience</span><strong>3+ years</strong></div>
               <div><span>Market</span><strong>United Kingdom</strong></div>
-              <div><span>Internal team</span><strong>Shanghai, China</strong></div>
+              <div><span>Internal / global team</span><strong>Cross-market operations</strong></div>
             </div>
 
             <p>
-              I manage the creator-facing layer between the UK community and the internal team in Shanghai across support,
-              challenges, payments, AI and generative-product issues, reporting and escalation. Alongside that work, I built a
-              fully operational CreatorOps agentic AI workflow for turning high-volume creator conversations into structured cases,
+              I manage the creator-facing layer between the UK community and the wider internal team across support, challenges,
+              payments, AI and generative-product issues, reporting and escalation. Alongside that work, I built a fully
+              operational CreatorOps agentic AI workflow that turns high-volume creator conversations into structured cases,
               evidence-linked history and clear next actions while keeping human review authoritative.
             </p>
 
@@ -125,13 +125,13 @@ export default function ProfessionalPage() {
 
       <section className={`${styles.bridge} professional-bridge`}>
         <div className={`wrap ${styles.bridgeInner}`}>
-          <div className={styles.bridgeLabel}>Cross-border communication</div>
-          <div className={styles.flow} aria-label="UK to Shanghai communication flow">
+          <div className={styles.bridgeLabel}>Cross-team communication</div>
+          <div className={styles.flow} aria-label="UK creator to internal-team communication flow">
             <div><span>01</span><strong>UK creators</strong><small>Questions · feedback · issues</small></div>
             <b>→</b>
             <div><span>02</span><strong>Clarify & route</strong><small>Context · priority · ownership</small></div>
             <b>→</b>
-            <div><span>03</span><strong>Shanghai internal team</strong><small>Review · decision · action</small></div>
+            <div><span>03</span><strong>Internal / global team</strong><small>Review · decision · action</small></div>
             <b>→</b>
             <div><span>04</span><strong>Close the loop</strong><small>Creator update · follow-through</small></div>
           </div>
