@@ -20,7 +20,7 @@ const responsibilities = [
   ["Creator AI Agent rollout", "Configured and supported a CapCut AI Agent rollout in the UK creator community, then provided qualitative feedback on real creator usage."],
   ["Reporting", "Weekly workload, activity, bugs and operational follow-ups."],
   ["Multi-market systems", "Experience across UK, French and German creator-server systems."],
-  ["UK ↔ Shanghai liaison", "Move policy, programme, payment and product information clearly between UK creators and the Shanghai internal team."],
+  ["Creator ↔ internal-team liaison", "Move policy, programme, payment and product information clearly between UK creators and the wider internal team."],
 ] as const;
 
 const creatorPerformance = [
@@ -61,7 +61,7 @@ export default function CapCutPage() {
               <div><span>Role</span><strong>Community Manager / creator operations</strong></div>
               <div><span>Experience</span><strong>3+ years</strong></div>
               <div><span>Primary market</span><strong>United Kingdom</strong></div>
-              <div><span>Internal team</span><strong>Shanghai, China</strong></div>
+              <div><span>Internal / global team</span><strong>Cross-market operations</strong></div>
               <div><span>AI / systems</span><strong>Generative support · CreatorOps workflow</strong></div>
             </div>
           </div>
@@ -69,7 +69,7 @@ export default function CapCutPage() {
 
         <section className={`${styles.intro} capcut-intro`}>
           <div className="wrap">
-            <span>UK ↔ Shanghai</span>
+            <span>Creator ↔ internal team</span>
             <p>I turn creator questions and issues into actionable internal context, then bring decisions back clearly.</p>
           </div>
         </section>
@@ -150,7 +150,7 @@ export default function CapCutPage() {
             <div className={styles.steps}>
               <div><span>01</span><strong>Listen</strong><p>Question, payment issue, challenge query or product problem.</p></div>
               <div><span>02</span><strong>Clarify</strong><p>Get enough context to decide whether it needs escalation.</p></div>
-              <div><span>03</span><strong>Route</strong><p>Send it to the right internal contact in Shanghai.</p></div>
+              <div><span>03</span><strong>Route</strong><p>Send it to the right internal contact with the context needed to act.</p></div>
               <div><span>04</span><strong>Close</strong><p>Return the update, log the work and carry forward anything unresolved.</p></div>
             </div>
           </div>

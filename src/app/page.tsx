@@ -22,6 +22,9 @@ export const metadata: Metadata = {
 const TRAVEL_PORTRAIT =
   "https://res.cloudinary.com/i1xhlvd6/image/upload/c_scale,w_1000/e_sharpen/q_auto:best/v1788834592/archie-greece.webp";
 
+const HOME_NEW_YORK_COVER =
+  "https://res.cloudinary.com/i1xhlvd6/image/upload/f_auto,q_auto:good,c_scale,w_1280/v1789696272/portfolio/home-new-york-brooklyn-bridge.webp";
+
 const EXCLUDED_PHOTO_NAMES = new Set([
   "IMG_2473.jpg",
   "IMG_2469.jpg",
@@ -88,14 +91,14 @@ export default function Home() {
               href="/photography/new-york-2026-06-10"
             >
               {HERO_PHOTOGRAPHY ? (
-                <ResilientPortfolioImage
+                <Image
                   alt="Selected New York photograph from Archie McNicol's photography portfolio"
+                  fill
                   priority
-                  quality="good"
                   sizes="(max-width: 760px) 44vw, 25vw"
-                  source={HERO_PHOTOGRAPHY.src}
+                  src={HOME_NEW_YORK_COVER}
                   style={coverStyle(HERO_PHOTOGRAPHY.position)}
-                  width={1280}
+                  unoptimized
                 />
               ) : null}
               <span className={styles.imageLabel}><b>Photography</b><b>New York · Jun 2026</b></span>
@@ -177,7 +180,7 @@ export default function Home() {
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/professional">
               <div className={styles.chapterTop}><span>03 / Professional</span><span>Community · Operations</span></div>
               <span className={refine.routeIcon}><RouteIcon type="professional" /></span>
-              <div className={styles.chapterBottom}><h3>Behind the content.</h3><p>Creator operations and UK ↔ Shanghai communication.</p><span className={styles.chapterArrow}>↗</span></div>
+              <div className={styles.chapterBottom}><h3>Behind the content.</h3><p>Creator operations, AI systems and global-team coordination.</p><span className={styles.chapterArrow}>↗</span></div>
             </Link>
 
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/affiliate">

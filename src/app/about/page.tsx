@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 const chapters = [
   ["01", "Creator work", "Campaigns, collaborations and results.", "/creator"],
-  ["02", "Professional", "Creator operations, AI systems and UK ↔ Shanghai communication.", "/professional"],
+  ["02", "Professional", "Creator operations, AI systems and global-team coordination.", "/professional"],
   ["03", "Performance", "Registrations, parcels and freight.", "/affiliate"],
   ["04", "Photography", "Projects and full archive.", "/photography"],
   ["05", "Digital", "Web builds, AI workflows and content systems.", "/business"],
@@ -63,6 +63,27 @@ const ABOUT_TIMELINE: AboutTimelineItem[] = [
   experience("Performance partnerships"),
   experience("Digital projects"),
 ];
+
+function timelineIcon(title: string) {
+  switch (title) {
+    case "Photography":
+      return "photography";
+    case "Fashion / e-commerce":
+      return "fashion";
+    case "Fancensus":
+      return "fancensus";
+    case "CapCut UK":
+      return "capcut";
+    case "@fitswitharchie":
+      return "creator";
+    case "Performance partnerships":
+      return "performance";
+    case "Digital projects":
+      return "digital";
+    default:
+      return "default";
+  }
+}
 
 export default function AboutPage() {
   return (
@@ -123,11 +144,11 @@ export default function AboutPage() {
               );
 
               return item.href ? (
-                <Link className={cvStyles.timelineRow} href={item.href} key={`${item.period}-${item.title}`}>
+                <Link className={cvStyles.timelineRow} data-icon={timelineIcon(item.title)} href={item.href} key={`${item.period}-${item.title}`}>
                   {content}
                 </Link>
               ) : (
-                <article className={`${cvStyles.timelineRow} ${refresh.timelineStatic}`} key={`${item.period}-${item.title}`}>
+                <article className={`${cvStyles.timelineRow} ${refresh.timelineStatic}`} data-icon={timelineIcon(item.title)} key={`${item.period}-${item.title}`}>
                   {content}
                 </article>
               );

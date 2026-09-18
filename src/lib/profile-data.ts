@@ -39,9 +39,9 @@ export const EXPERIENCE: ExperienceItem[] = [
     title: "CapCut UK",
     role: "Community manager / creator operations",
     summary:
-      "UK creator operations with the internal team in Shanghai across support, challenges, payments, reporting, AI and generative-product support, and issue escalation.",
+      "UK creator operations with the wider internal team across support, challenges, payments, reporting, AI and generative-product support, and issue escalation.",
     href: "/professional/capcut",
-    highlights: ["UK creator support", "UK ↔ Shanghai", "AI product support", "Payments", "Bug escalation", "Reporting"],
+    highlights: ["UK creator support", "Global team coordination", "AI product support", "Payments", "Bug escalation", "Reporting"],
   },
   {
     period: "2023 — 2024",
@@ -75,7 +75,7 @@ export const BACKGROUND_MILESTONES = [
   {
     period: "2023",
     title: "Creator community operations",
-    copy: "Started the CapCut UK role across creator support, challenges, payments, moderation and UK ↔ Shanghai communication.",
+    copy: "Started the CapCut UK role across creator support, challenges, payments, moderation and coordination with the wider internal team.",
   },
   {
     period: "2024",
