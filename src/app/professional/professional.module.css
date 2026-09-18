@@ -93,9 +93,9 @@
 
 .caseLead > strong {
   margin-top: 16px;
-  font-size: clamp(50px, 7vw, 104px);
-  line-height: .84;
-  letter-spacing: -.068em;
+  font-size: clamp(42px, 5.6vw, 82px);
+  line-height: .86;
+  letter-spacing: -.064em;
 }
 
 .caseLead > small {
