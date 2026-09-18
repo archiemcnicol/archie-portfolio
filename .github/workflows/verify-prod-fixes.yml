@@ -1,0 +1,45 @@
+name: Verify production homepage and professional fixes
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Verify homepage cover is same-origin and healthy
+        run: |
+          set -euo pipefail
+          curl -fsSL https://archiemcnicol.com/ -o /tmp/home.html
+          grep -q '/site/home-new-york-brooklyn-bridge-v2.webp' /tmp/home.html
+          curl -fsSL -D /tmp/cover.headers             https://archiemcnicol.com/site/home-new-york-brooklyn-bridge-v2.webp             -o /tmp/cover.webp
+          grep -qi '^content-type: image/webp' /tmp/cover.headers
+          bytes=$(wc -c < /tmp/cover.webp)
+          test "$bytes" -gt 100000
+          echo "Cover bytes: $bytes"
+          file /tmp/cover.webp
+
+      - name: Verify Professional heading scale is unified
+        run: |
+          set -euo pipefail
+          curl -fsSL https://archiemcnicol.com/professional -o /tmp/pro.html
+          python - <<'PY'
+          import re, subprocess
+          from pathlib import Path
+          html=Path('/tmp/pro.html').read_text()
+          hrefs=re.findall(r'href="([^"]+\.css)"', html)
+          css=''
+          for href in hrefs:
+              url='https://archiemcnicol.com'+href if href.startswith('/') else href
+              css += subprocess.check_output(['curl','-fsSL',url], text=True)
+          needle='clamp(42px,5.6vw,82px)'
+          count=css.replace(' ','').count(needle)
+          print('Unified heading scale occurrences:', count)
+          if count < 2:
+              raise SystemExit(f'Expected shared CapCut/Fancensus scale twice, found {count}')
+          PY
