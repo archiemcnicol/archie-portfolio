@@ -2,15 +2,32 @@ name: Clean old Vercel deployments
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/cleanup-vercel-deployments.yml"
+      - "scripts/cleanup-vercel-deployments.mjs"
 
 permissions:
   contents: read
 
+concurrency:
+  group: vercel-deployment-cleanup
+  cancel-in-progress: false
+
 jobs:
   cleanup:
-    name: Delete old Vercel deployments
+    name: Clean ${{ matrix.project }}
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        project:
+          - archie-portfolio
+          - creator-ops-agent
+
     steps:
       - uses: actions/checkout@v6
 
@@ -24,11 +41,11 @@ jobs:
         run: |
           if [ -z "$VERCEL_TOKEN" ]; then
             echo "::error::Missing VERCEL_TOKEN repository secret."
-            echo "Create a Vercel access token, then add it at Settings > Secrets and variables > Actions > New repository secret."
             exit 1
           fi
 
       - name: Delete old deployments
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT: ${{ matrix.project }}
         run: node scripts/cleanup-vercel-deployments.mjs
