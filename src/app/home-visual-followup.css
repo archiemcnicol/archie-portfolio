@@ -1,15 +1,26 @@
 /* Homepage visual follow-up from annotated review — 2026-09-09 */
 
-/* Keep the selected New York bridge frame while preserving stable local delivery. */
-.home-hero-landscape::before {
-  background-image: url("/portfolio/archive/1jMKQ_PpbgFKy8wQ6Nx5LTjuR8NqwipVI.webp") !important;
-  background-position: 50% 48% !important;
+/* The homepage photography cards use their real <img> elements.
+   Older polish CSS hid those elements and painted /portfolio/archive files through
+   ::before instead. That archive is intentionally excluded from Vercel, so those
+   pseudo-elements could render as empty grey cards in production. */
+.home-hero-landscape::before,
+.home-route-photo-media::before {
+  content: none !important;
+  background-image: none !important;
 }
 
-/* Exact user-selected photography card image: DSC03273.jpg. */
-.home-route-photo-media::before {
-  background-image: url("/portfolio/archive/1CLNkTDJhvrkD-L1ZgdXYQlxPw8DKEdiS.webp") !important;
-  background-position: 50% 50% !important;
+.home-hero-landscape > img,
+.home-route-photo-media > img {
+  opacity: 1 !important;
+}
+
+.home-hero-landscape > img {
+  object-position: 50% 48% !important;
+}
+
+.home-route-photo-media > img {
+  object-position: 50% 50% !important;
 }
 
 /* Let more of the image sit beneath the overlay, then transition into the black card gradually. */
