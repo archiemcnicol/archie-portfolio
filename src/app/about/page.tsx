@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 const chapters = [
   ["01", "Creator work", "Campaigns, collaborations and results.", "/creator"],
-  ["02", "Professional", "Creator operations, AI systems and global-team coordination.", "/professional"],
+  ["02", "Professional", "Creator operations, AI systems and international-team coordination.", "/professional"],
   ["03", "Performance", "Registrations, parcels and freight.", "/affiliate"],
   ["04", "Photography", "Projects and full archive.", "/photography"],
   ["05", "Digital", "Web builds, AI workflows and content systems.", "/business"],
@@ -95,7 +95,7 @@ export default function AboutPage() {
             <h1>The full picture, in one place.</h1>
           </div>
           <div className={styles.heroSide}>
-            <p>UK creator, photographer and community manager working across campaigns, creator operations, AI systems and digital projects.</p>
+            <p>UK creator-operations and community professional, content creator and photographer working across campaigns, AI systems and digital projects.</p>
             <a className={styles.inlineLink} href="#background">Background &amp; experience ↓</a>
           </div>
         </div>
