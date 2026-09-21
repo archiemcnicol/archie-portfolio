@@ -18,9 +18,9 @@ export const EXPERIENCE: ExperienceItem[] = [
     highlights: ["Agentic AI", "Next.js", "Railway", "Supabase", "Vercel", "Cloudinary"],
   },
   {
-    period: "2024 — present",
+    period: "Mar 2024 — present",
     title: "@fitswitharchie",
-    role: "Content creator",
+    role: "Content creator & social media",
     summary:
       "Fashion and lifestyle creator with a 25K+ community, 20M+ views and paid or gifted campaigns across fashion, fragrance, live commerce and events.",
     href: "/creator",
@@ -35,27 +35,27 @@ export const EXPERIENCE: ExperienceItem[] = [
     highlights: ["Sign-ups", "Parcels", "Freight", "Dashboards", "Reporting", "Performance analysis"],
   },
   {
-    period: "2023 — present",
+    period: "Apr 2023 — present",
     title: "CapCut UK",
     role: "Community manager / creator operations",
     summary:
-      "UK creator operations with the wider internal team across support, challenges, payments, reporting, AI and generative-product support, and issue escalation.",
+      "UK creator operations with international internal teams across support, challenges, payments, reporting, creator feedback, AI and generative-product support, and issue escalation.",
     href: "/professional/capcut",
-    highlights: ["UK creator support", "Global team coordination", "AI product support", "Payments", "Bug escalation", "Reporting"],
+    highlights: ["UK creator support", "International team coordination", "AI product support", "Payments", "Bug escalation", "Reporting"],
   },
   {
-    period: "2023 — 2024",
+    period: "2023 — 2024 · 1 year 6 months",
     title: "Fancensus",
     role: "Freelance video game analyst",
     summary:
-      "Analysed and maintained video-game industry data across social media, content creators, digital marketplaces and online storefronts, including PlayStation and Xbox stores.",
+      "Analysed and maintained video-game industry data across social media, content creators, digital marketplaces and online storefronts, supporting visibility, engagement and performance tracking across global markets including PlayStation and Xbox ecosystems.",
     highlights: ["Social media", "Content creators", "PlayStation / Xbox", "Digital marketplaces", "Data quality"],
   },
   {
     period: "2018 — present",
     title: "Photography",
-    role: "Travel / aerial / event / lifestyle photographer",
-    summary: "Travel, aerial, event and lifestyle photography built into a 616-image public archive.",
+    role: "Lifestyle / fashion / event / travel photographer",
+    summary: "Lifestyle, fashion, event and travel photography, alongside short-form video and a 616-image public archive.",
     href: "/photography",
     highlights: ["Travel", "Aerial", "Events", "Lifestyle", "Editing", "Pexels"],
   },
@@ -98,7 +98,7 @@ export const SELECTED_CLIENTS = [
   "DAVIDOFF",
   "Jean Paul Gaultier",
   "Whatnot",
-  "Sketch.co / All Points East",
+  "All Points East",
 ] as const;
 
 export const TOOLKIT = [
@@ -132,6 +132,6 @@ export const TOOLKIT = [
 export const PROFILE_STATS = [
   ["25K+", "Social community"],
   ["20M+", "Views across creator content"],
-  ["3+ yrs", "Creator-community experience"],
+  ["3+ yrs", "CapCut UK creator ecosystem"],
   ["616", "Photographs in the public archive"],
 ] as const;
