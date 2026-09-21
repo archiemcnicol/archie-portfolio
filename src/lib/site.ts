@@ -1,7 +1,7 @@
 export const SITE_NAME = "Archie McNicol";
 
 export const SITE_DESCRIPTION =
-  "Portfolio of Archie McNicol — a UK content creator, photographer, community manager and digital creative working across brand campaigns, photography, performance partnerships and online projects.";
+  "Portfolio of Archie McNicol — creator operations, community management, content, AI systems, photography, brand campaigns, performance and digital projects.";
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://archiemcnicol.com";
