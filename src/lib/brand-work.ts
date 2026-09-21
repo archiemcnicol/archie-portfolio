@@ -327,8 +327,8 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     ],
   },
   {
-    brand: "Sketch.co",
-    detail: "All Points East / Tyler, The Creator · two event-promotion videos",
+    brand: "All Points East",
+    detail: "Tyler, The Creator · two event-promotion videos",
     period: "Aug 2026",
     links: [
       {
