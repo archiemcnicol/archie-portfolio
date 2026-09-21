@@ -4,7 +4,7 @@ import { buildBreadcrumbSchema, serialiseJsonLd } from "@/lib/structured-data";
 import styles from "./capcut.module.css";
 
 export const metadata: Metadata = {
-  title: "CapCut UK Community Management — Archie McNicol",
+  title: "CapCut UK Creator Operations & Community — Archie McNicol",
   description:
     "Professional experience across CapCut UK creator operations, AI and generative-product support, issue escalation, reporting and an agentic AI workflow built for creator operations.",
   alternates: { canonical: "/professional/capcut" },
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 const responsibilities = [
   ["Creator support", "Questions, programme guidance, clarifications and follow-up for UK creators."],
   ["Community moderation", "Discord moderation, announcements and day-to-day community upkeep."],
+  ["Creator relationships & outreach", "Maintain established relationships across the CapCut UK creator community, including creators working with AI and generative tools; previously referred around 20–30 creators into the ecosystem."],
   ["Challenge operations", "Participation questions, winner communication, template requirements and grading."],
   ["Payments & bonuses", "Payment and bonus status, programme requirements and escalations."],
   ["Bug escalation", "Turn creator-reported product issues into reproducible internal context."],
@@ -20,7 +21,7 @@ const responsibilities = [
   ["Creator AI Agent rollout", "Configured and supported a CapCut AI Agent rollout in the UK creator community, then provided qualitative feedback on real creator usage."],
   ["Reporting", "Weekly workload, activity, bugs and operational follow-ups."],
   ["Multi-market systems", "Experience across UK, French and German creator-server systems."],
-  ["Creator ↔ internal-team liaison", "Move policy, programme, payment and product information clearly between UK creators and the wider internal team."],
+  ["Creator ↔ internal-team liaison", "Move policy, programme, payment and product information clearly between UK creators and international internal teams."],
 ] as const;
 
 const creatorPerformance = [
@@ -58,10 +59,10 @@ export default function CapCutPage() {
               <h1>Community is an operations job.</h1>
             </div>
             <div className={styles.heroMeta}>
-              <div><span>Role</span><strong>Community Manager / creator operations</strong></div>
+              <div><span>Role</span><strong>Freelance Community Manager / creator operations</strong></div>
               <div><span>Experience</span><strong>3+ years</strong></div>
               <div><span>Primary market</span><strong>United Kingdom</strong></div>
-              <div><span>Internal / global team</span><strong>Cross-market operations</strong></div>
+              <div><span>International internal teams</span><strong>Cross-market operations</strong></div>
               <div><span>AI / systems</span><strong>Generative support · CreatorOps workflow</strong></div>
             </div>
           </div>
@@ -70,7 +71,7 @@ export default function CapCutPage() {
         <section className={`${styles.intro} capcut-intro`}>
           <div className="wrap">
             <span>Creator ↔ internal team</span>
-            <p>I turn creator questions and issues into actionable internal context, then bring decisions back clearly.</p>
+            <p>I support UK creators across programmes, challenges, product issues and AI/generative features, turning questions and evidence into actionable internal context and bringing decisions back clearly.</p>
           </div>
         </section>
 
@@ -134,7 +135,8 @@ export default function CapCutPage() {
             <div className={styles.agenticStack} aria-label="CreatorOps AI workflow stack and capabilities">
               <span>Railway</span>
               <span>Supabase</span>
-              <span>Vercel</span>
+              <span>Vercel / Next.js</span>
+              <span>GitHub</span>
               <span>Persistent case history</span>
               <span>Evidence-linked records</span>
               <span>Knowledge retrieval</span>
