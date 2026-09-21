@@ -13,9 +13,9 @@ import styles from "./home.module.css";
 import refine from "./home-refinement.module.css";
 
 export const metadata: Metadata = {
-  title: "Archie McNicol — Creator, Photographer & Digital Creative",
+  title: "Archie McNicol — Creator Operations, Community, Content & AI",
   description:
-    "Portfolio of Archie McNicol: creator work, photography, community operations, performance and digital projects.",
+    "Portfolio of Archie McNicol across creator operations, community management, content, AI systems, photography, performance and digital projects.",
   alternates: { canonical: "/" },
 };
 
@@ -75,7 +75,7 @@ export default function Home() {
         <div className={`${styles.heroInner} ${refine.heroInner} home-hero-inner`}>
           <div className={styles.heroMeta}>
             <span>Archie McNicol / Portfolio</span>
-            <span>Creator · Photographer · Community</span>
+            <span>Creator Operations · Community · Content · AI</span>
             <span>United Kingdom</span>
           </div>
 
@@ -132,7 +132,7 @@ export default function Home() {
         <div className={`${styles.proofGrid} ${refine.proofGrid}`}>
           <div><strong>25K+</strong><span>Social community</span></div>
           <div><strong>20M+</strong><span>Creator views</span></div>
-          <div><strong>3+ yrs</strong><span>Community operations</span></div>
+          <div><strong>3+ yrs</strong><span>CapCut UK creator ecosystem</span></div>
           <div><strong>616</strong><span>Photographs in public archive</span></div>
         </div>
       </section>
@@ -177,9 +177,9 @@ export default function Home() {
             </Link>
 
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/professional">
-              <div className={styles.chapterTop}><span>03 / Professional</span><span>Community · Operations</span></div>
+              <div className={styles.chapterTop}><span>03 / Professional</span><span>Creator ops · AI systems</span></div>
               <span className={refine.routeIcon}><RouteIcon type="professional" /></span>
-              <div className={styles.chapterBottom}><h3>Behind the content.</h3><p>Creator operations, AI systems and global-team coordination.</p><span className={styles.chapterArrow}>↗</span></div>
+              <div className={styles.chapterBottom}><h3>Behind the content.</h3><p>CapCut UK, creator operations, community and AI systems.</p><span className={styles.chapterArrow}>↗</span></div>
             </Link>
 
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/affiliate">
