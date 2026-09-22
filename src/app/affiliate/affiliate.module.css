@@ -28,21 +28,20 @@
 .dashboardHead span { color: #777; font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif; font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .dashboardHead h2 { margin: 14px 0 0; font-size: clamp(46px, 6.2vw, 88px); line-height: .88; letter-spacing: -.065em; }
 .dashboardHead p { max-width: 600px; margin: 0; color: #aaa; font-size: 14px; line-height: 1.5; }
-.chart { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 58px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.18); }
-.month { min-width: 0; display: grid; grid-template-rows: 250px auto auto auto; gap: 8px; padding: 0 16px 18px; border-bottom: 1px solid rgba(255,255,255,.18); }
+.chart { height: 390px; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 8px; align-items: end; margin-top: 58px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.18); }
+.month { height: 100%; min-width: 0; display: grid; grid-template-rows: 1fr auto auto; gap: 6px; }
 .barStage { min-height: 0; display: flex; align-items: end; }
 .registrationBar { position: relative; width: 100%; min-height: 18px; background: #f1f1ed; transition: transform .16s ease; }
 .month:hover .registrationBar { transform: translateY(-3px); }
-.registrationBar > span { position: absolute; left: 50%; top: -20px; transform: translateX(-50%); color: #f4f4f1; font-size: 8px; font-weight: 800; white-space: nowrap; }
-.month > strong { color: #f4f4f1; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
-.month > small { color: #777; font-size: 8px; line-height: 1.35; }
-.platformDetails { display: grid; gap: 8px; margin-top: 10px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.12); }
-.platformDetails span { display: flex; justify-content: space-between; gap: 16px; color: #8f8f89; font-size: 8px; line-height: 1.4; text-transform: uppercase; letter-spacing: .05em; }
-.platformDetails b { color: #f4f4f1; font-weight: 700; text-align: right; text-transform: none; letter-spacing: 0; }
+.registrationBar > span { position: absolute; left: 50%; top: -18px; transform: translateX(-50%); color: #f4f4f1; font-size: 7px; font-weight: 800; white-space: nowrap; }
+.parcelBar { position: absolute; right: 0; bottom: 0; left: 0; min-height: 5px; background: #777; }
+.month > strong { color: #f4f4f1; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.month > small { overflow: hidden; color: #777; font-size: 7px; white-space: nowrap; text-overflow: ellipsis; }
 .legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 22px; color: #999; font-size: 8px; letter-spacing: .08em; text-transform: uppercase; }
 .legend span { display: inline-flex; align-items: center; gap: 7px; }
 .legend i { width: 12px; height: 12px; display: inline-block; }
 .legendRegistration { background: #f1f1ed; }
+.legendParcel { background: #777; }
 
 @media (max-width: 960px) {
   .heroGrid, .dashboardHead, .partnershipsHead { grid-template-columns: 1fr; gap: 34px; }
@@ -50,8 +49,7 @@
   .metricRail { grid-template-columns: repeat(2, 1fr); }
   .metricRail > div:nth-child(3) { border-left: 0; border-top: 1px solid rgba(255,255,255,.22); }
   .metricRail > div:nth-child(4) { border-top: 1px solid rgba(255,255,255,.22); }
-  .chart { grid-template-columns: 1fr; }
-  .month { grid-template-rows: 190px auto auto auto; padding-inline: 0; }
+  .chart { overflow-x: auto; grid-template-columns: repeat(12, minmax(62px, 1fr)); overscroll-behavior-inline: contain; scrollbar-width: thin; }
 }
 
 @media (max-width: 620px) {
@@ -60,6 +58,5 @@
   .metricRail > div { min-height: 128px; }
   .partnerships { padding-top: 72px; }
   .dashboard { padding-top: 72px; }
-  .chart { margin-top: 42px; }
-  .month { grid-template-rows: 160px auto auto auto; }
+  .chart { height: 320px; margin-top: 42px; }
 }
