@@ -38,13 +38,13 @@ export default function BusinessPage() {
         <div className={`wrap ${styles.heroGrid}`}>
           <div>
             <div className={styles.kicker}>AI &amp; Digital / built systems</div>
-            <h1>Build what the work is missing.</h1>
+            <h1>AI &amp; Digital.</h1>
           </div>
 
           <div className={styles.heroSide}>
             <p>
-              Two live systems built around real work: CreatorOps for creator-support operations, and this portfolio for structured
-              content, publishing and deployment.
+              Systems I have designed and built around real work: CreatorOps for creator-support operations, and this portfolio for
+              structured content, publishing and deployment.
             </p>
             <div className={styles.heroIndex} aria-label="AI and digital case studies">
               <span><b>01</b> CreatorOps</span>
@@ -56,11 +56,8 @@ export default function BusinessPage() {
 
       <section className={styles.manifesto}>
         <div className="wrap">
-          <span>Systems, not filler</span>
-          <p>
-            This section is focused on the things I have actually designed and built. Each project started with a practical problem,
-            then became a working system I could use, test and keep improving.
-          </p>
+          <span>Build what the work is missing</span>
+          <p>Practical problems turned into working systems I can use, test and keep improving.</p>
         </div>
       </section>
 
