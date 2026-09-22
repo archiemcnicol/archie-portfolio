@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buildBreadcrumbSchema, serialiseJsonLd } from "@/lib/structured-data";
+import { CAPCUT_CREATOR_PERFORMANCE, CAPCUT_OPERATIONS, CREATOROPS_PERFORMANCE } from "@/lib/performance-data";
 import styles from "./capcut.module.css";
 
 export const metadata: Metadata = {
@@ -11,24 +12,24 @@ export const metadata: Metadata = {
 };
 
 const responsibilities = [
-  ["Creator support", "Questions, programme guidance, clarifications and follow-up for UK creators."],
-  ["Community moderation", "Discord moderation, announcements and day-to-day community upkeep."],
-  ["Creator relationships & outreach", "Maintain established relationships across the CapCut UK creator community, including creators working with AI and generative tools; previously referred around 20–30 creators into the ecosystem."],
-  ["Challenge operations", "Participation questions, winner communication, template requirements and grading."],
-  ["Payments & bonuses", "Payment and bonus status, programme requirements and escalations."],
-  ["Bug escalation", "Turn creator-reported product issues into reproducible internal context."],
+  ["Creator relationships & outreach", `Established relationships across the CapCut UK creator community, including creators working with AI and generative tools; approximately ${CAPCUT_OPERATIONS.referredCreatorsDisplay} creators referred into the ecosystem overall.`],
   ["AI & generative support", "Gather context around generation failures, feature access and product issues, then feed findings back internally."],
   ["Creator AI Agent rollout", "Configured and supported a CapCut AI Agent rollout in the UK creator community, then provided qualitative feedback on real creator usage."],
-  ["Reporting", "Weekly workload, activity, bugs and operational follow-ups."],
-  ["Multi-market systems", "Experience across UK, French and German creator-server systems."],
+  ["Challenge operations", "Participation questions, winner communication, template requirements and grading."],
   ["Creator ↔ internal-team liaison", "Move policy, programme, payment and product information clearly between UK creators and international internal teams."],
+  ["Reporting", "Weekly workload, activity, bugs and operational follow-ups."],
+  ["Creator support", "Questions, programme guidance, clarifications and follow-up for UK creators."],
+  ["Bug escalation", "Turn creator-reported product issues into reproducible internal context."],
+  ["Payments & bonuses", "Payment and bonus status, programme requirements and escalations."],
+  ["Community moderation", "Discord moderation, announcements and day-to-day community upkeep."],
+  ["Multi-market systems", "Experience across UK, French and German creator-server systems."],
 ] as const;
 
 const creatorPerformance = [
-  ["15.5M+", "CapCut views"],
-  ["1.97M", "Template uses"],
-  ["1.16M", "Exports"],
-  ["150M+", "TikTok views via templates"],
+  [CAPCUT_CREATOR_PERFORMANCE.viewsDisplay, "CapCut views"],
+  [CAPCUT_CREATOR_PERFORMANCE.templateUsesDisplay, "Template uses"],
+  [CAPCUT_CREATOR_PERFORMANCE.exportsDisplay, "Exports"],
+  [CAPCUT_CREATOR_PERFORMANCE.tiktokViewsViaTemplatesDisplay, "TikTok views via templates"],
 ] as const;
 
 const agenticSteps = [
@@ -108,7 +109,7 @@ export default function CapCutPage() {
           </div>
         </section>
 
-        <section className={`${styles.agentic} capcut-agentic`}>
+        <section className={`${styles.agentic} capcut-agentic`} id="creatorops">
           <div className="wrap">
             <div className={styles.agenticHead}>
               <div>
@@ -116,9 +117,10 @@ export default function CapCutPage() {
                 <h2>Turn conversation into structured operational memory.</h2>
               </div>
               <p>
-                Alongside the day-to-day creator role, I designed and built a fully operational, tool-using CreatorOps AI system.
-                It converts high-volume creator conversations into searchable cases, evidence-linked history and clear next actions
-                without handing decision authority to the model.
+                I independently designed and built CreatorOps to turn high-volume Discord support into persistent, searchable cases,
+                evidence-linked history and clear next actions. It has indexed {CREATOROPS_PERFORMANCE.completedCasesDisplay} completed
+                case records, including {CREATOROPS_PERFORMANCE.recordsHandledByMeDisplay} records of support handled by me; Discord
+                ingestion is read-only and outbound actions remain human-approved.
               </p>
             </div>
 
@@ -130,6 +132,18 @@ export default function CapCutPage() {
                   <p>{copy}</p>
                 </article>
               ))}
+            </div>
+
+            <div className={styles.creatorOpsScale} aria-label="CreatorOps operational scale">
+              <div><strong>{CREATOROPS_PERFORMANCE.completedCasesDisplay}</strong><span>Completed case records indexed</span></div>
+              <div><strong>{CREATOROPS_PERFORMANCE.recordsHandledByMeDisplay}</strong><span>Records of support handled by me</span></div>
+            </div>
+
+            <div className={styles.workspaceAccess}>
+              <a href="https://creator-ops-agent-p3hi9y7v7-archiemcnicol002-8423.vercel.app" rel="noreferrer" target="_blank">
+                Operational workspace — restricted access ↗
+              </a>
+              <p>The workspace contains private creator-support data, so public access is restricted. This case study shows its architecture, controls and anonymised operational scale.</p>
             </div>
 
             <div className={styles.agenticStack} aria-label="CreatorOps AI workflow stack and capabilities">
