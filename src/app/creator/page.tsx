@@ -7,6 +7,7 @@ import {
   PUBLIC_CAMPAIGNS,
   SELECTED_PERFORMANCE,
 } from "@/lib/brand-work";
+import { GENERAL_CREATOR_PERFORMANCE } from "@/lib/performance-data";
 import styles from "./brand-work.module.css";
 import consistency from "./brand-work-consistency.module.css";
 
@@ -72,8 +73,8 @@ export default function CreatorPage() {
       </section>
 
       <section className="wrap brand-proof" aria-label="Creator overview">
-        <div><strong>25k+</strong><span>Social community</span></div>
-        <div><strong>20M+</strong><span>Views across content</span></div>
+        <div><strong>{GENERAL_CREATOR_PERFORMANCE.audienceDisplay}</strong><span>Audience</span></div>
+        <div><strong>{GENERAL_CREATOR_PERFORMANCE.verifiedVisibleVideoViewsDisplay}</strong><span>Verified video views</span></div>
         <div><strong>UK</strong><span>Fashion & lifestyle audience</span></div>
         <div><strong>Short-form</strong><span>TikTok and Reels</span></div>
       </section>
