@@ -151,13 +151,31 @@ export default function Home() {
       <section className={`${styles.chapters} ${refine.chapters}`} id="selected-work">
         <div className={styles.sectionWrap}>
           <div className={`${styles.chapterGrid} ${refine.chapterGrid}`}>
+            <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/professional">
+              <div className={styles.chapterTop}><span>01 / Professional</span><span>CapCut · Creator ops · AI</span></div>
+              <span className={refine.routeIcon}><RouteIcon type="professional" /></span>
+              <div className={styles.chapterBottom}><h3>Behind the content.</h3><p>CapCut UK, creator operations, community and AI systems.</p><span className={styles.chapterArrow}>↗</span></div>
+            </Link>
+
+            <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/business">
+              <div className={styles.chapterTop}><span>02 / AI &amp; Digital</span><span>CreatorOps · Web systems</span></div>
+              <span className={refine.routeIcon}><RouteIcon type="digital" /></span>
+              <div className={styles.chapterBottom}><h3>AI &amp; digital.</h3><p>CreatorOps and web systems.</p><span className={styles.chapterArrow}>↗</span></div>
+            </Link>
+
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/creator">
               <div className={`${refine.compactMedia} ${refine.tiktokMedia}`} aria-hidden="true">
                 <TikTokFramePreview className={refine.routeTikTok} seekTo={1.05} title="Nike creator campaign preview" videoId="7592280935027035414" />
               </div>
-              <div className={styles.chapterTop}><span>01 / Brand work</span><span>Campaigns · Creator content</span></div>
+              <div className={styles.chapterTop}><span>03 / Brand work</span><span>Campaigns · Creator content</span></div>
               <span className={refine.routeIcon}><RouteIcon type="creator" /></span>
               <div className={styles.chapterBottom}><h3>Creator &amp; brand work.</h3><p>Campaigns, collaborations and results.</p><span className={styles.chapterArrow}>↗</span></div>
+            </Link>
+
+            <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/affiliate">
+              <div className={styles.chapterTop}><span>04 / Performance</span><span>Analytics · Commercial outcomes</span></div>
+              <span className={refine.routeIcon}><RouteIcon type="performance" /></span>
+              <div className={styles.chapterBottom}><h3>Beyond views.</h3><p>Users, parcels and freight.</p><span className={styles.chapterArrow}>↗</span></div>
             </Link>
 
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter} home-route-photo-card`} href="/photography">
@@ -172,27 +190,9 @@ export default function Home() {
                   />
                 ) : null}
               </div>
-              <div className={styles.chapterTop}><span>02 / Photography</span><span>Projects · Dates · Archive</span></div>
+              <div className={styles.chapterTop}><span>05 / Photography</span><span>Projects · Dates · Archive</span></div>
               <span className={refine.routeIcon}><RouteIcon type="photography" /></span>
               <div className={styles.chapterBottom}><h3>Photography.</h3><p>Projects and full archive.</p><span className={styles.chapterArrow}>↗</span></div>
-            </Link>
-
-            <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/professional">
-              <div className={styles.chapterTop}><span>03 / Professional</span><span>CapCut · Creator ops · AI</span></div>
-              <span className={refine.routeIcon}><RouteIcon type="professional" /></span>
-              <div className={styles.chapterBottom}><h3>Behind the content.</h3><p>CapCut UK, creator operations, community and AI systems.</p><span className={styles.chapterArrow}>↗</span></div>
-            </Link>
-
-            <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/affiliate">
-              <div className={styles.chapterTop}><span>04 / Performance</span><span>Analytics · Commercial outcomes</span></div>
-              <span className={refine.routeIcon}><RouteIcon type="performance" /></span>
-              <div className={styles.chapterBottom}><h3>Beyond views.</h3><p>Users, parcels and freight.</p><span className={styles.chapterArrow}>↗</span></div>
-            </Link>
-
-            <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/business">
-              <div className={styles.chapterTop}><span>05 / AI &amp; Digital</span><span>CreatorOps · Web systems</span></div>
-              <span className={refine.routeIcon}><RouteIcon type="digital" /></span>
-              <div className={styles.chapterBottom}><h3>AI &amp; digital.</h3><p>CreatorOps and web systems.</p><span className={styles.chapterArrow}>↗</span></div>
             </Link>
           </div>
         </div>
