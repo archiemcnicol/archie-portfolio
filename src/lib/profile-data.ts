@@ -1,3 +1,5 @@
+import { GENERAL_CREATOR_PERFORMANCE } from "@/lib/performance-data";
+
 export type ExperienceItem = {
   period: string;
   title: string;
@@ -22,9 +24,9 @@ export const EXPERIENCE: ExperienceItem[] = [
     title: "@fitswitharchie",
     role: "Content creator & social media",
     summary:
-      "Fashion and lifestyle creator with a 25K+ community, 20M+ views and paid or gifted campaigns across fashion, fragrance, live commerce and events.",
+      `Fashion and lifestyle creator with a ${GENERAL_CREATOR_PERFORMANCE.audienceDisplay} audience, ${GENERAL_CREATOR_PERFORMANCE.verifiedVisibleVideoViewsDisplay} verified visible cross-platform video views and paid or gifted campaigns across fashion, fragrance, live commerce and events.`,
     href: "/creator",
-    highlights: ["25K+ community", "20M+ views", "TikTok", "Reels", "Brand campaigns", "Live commerce"],
+    highlights: [GENERAL_CREATOR_PERFORMANCE.audienceDisplay + " audience", GENERAL_CREATOR_PERFORMANCE.verifiedVisibleVideoViewsDisplay + " verified video views", "TikTok", "Reels", "Brand campaigns", "Live commerce"],
   },
   {
     period: "2024 — 2026",
@@ -80,7 +82,7 @@ export const BACKGROUND_MILESTONES = [
   {
     period: "2024",
     title: "@fitswitharchie grows",
-    copy: "Fashion and lifestyle content grew into regular brand work and a community that passed 25K followers and 20M views.",
+    copy: `Fashion and lifestyle content grew into regular brand work, a ${GENERAL_CREATOR_PERFORMANCE.audienceDisplay} audience and ${GENERAL_CREATOR_PERFORMANCE.verifiedVisibleVideoViewsDisplay} verified visible cross-platform video views.`,
   },
   {
     period: "2024–26",
@@ -125,13 +127,13 @@ export const TOOLKIT = [
   },
   {
     title: "AI / web / data",
-    items: ["Agentic AI workflows", "Knowledge retrieval", "Railway", "Supabase", "Vercel", "Cloudinary", "Next.js", "CSV workflows"],
+    items: ["CapCut AI", "Seedance", "Higgsfield", "ChatGPT", "Agentic AI workflows", "Knowledge retrieval", "Railway", "Supabase", "Vercel", "Next.js"],
   },
 ] as const;
 
 export const PROFILE_STATS = [
-  ["25K+", "Social community"],
-  ["20M+", "Views across creator content"],
+  [GENERAL_CREATOR_PERFORMANCE.audienceDisplay, "Audience"],
+  [GENERAL_CREATOR_PERFORMANCE.verifiedVisibleVideoViewsDisplay, "Verified video views"],
   ["3+ yrs", "CapCut UK creator ecosystem"],
   ["616", "Photographs in the public archive"],
 ] as const;

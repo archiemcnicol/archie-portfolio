@@ -48,6 +48,17 @@
   color: #f4f4f1;
 }
 
+.emailGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 5vw, 72px);
+}
+
+.emailGrid > div + div {
+  padding-left: clamp(28px, 5vw, 72px);
+  border-left: 1px solid rgba(255,255,255,.12);
+}
+
 .emailBand span {
   display: block;
   margin-bottom: 18px;
@@ -193,6 +204,18 @@
 
   .hero p {
     max-width: 640px;
+  }
+
+  .emailGrid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .emailGrid > div + div {
+    padding-top: 30px;
+    padding-left: 0;
+    border-top: 1px solid rgba(255,255,255,.12);
+    border-left: 0;
   }
 
   .socials .wrap {

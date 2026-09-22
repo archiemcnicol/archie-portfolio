@@ -15,17 +15,17 @@ export function SiteFrame({ children }: { children: React.ReactNode }) {
         <div className="wrap footer-compact-main">
           <div className="footer-compact-name">
             <strong>Archie McNicol</strong>
-            <span>Creator · Photographer · Digital Creative</span>
+            <span>Creator Operations · Community · Content · AI Systems</span>
           </div>
 
           <nav className="footer-compact-group" aria-label="Footer work navigation">
             <span>Explore</span>
             <div className="footer-compact-links">
-              <Link href="/creator">Brand work</Link>
-              <Link href="/photography">Photography</Link>
               <Link href="/professional">Professional</Link>
+              <Link href="/creator">Brand work</Link>
               <Link href="/affiliate">Performance</Link>
-              <Link href="/business">Digital</Link>
+              <Link href="/business">AI &amp; Digital</Link>
+              <Link href="/photography">Photography</Link>
               <Link href="/about">About</Link>
               <Link href="/contact">Contact</Link>
             </div>
@@ -34,7 +34,7 @@ export function SiteFrame({ children }: { children: React.ReactNode }) {
           <div className="footer-compact-group">
             <span>Find me</span>
             <div className="footer-compact-links footer-social-links">
-              <a href={`mailto:${PUBLIC_PROFILE.email}`}>Email</a>
+              <a href={`mailto:${PUBLIC_PROFILE.professionalEmail}`}>Email</a>
               <a href={PUBLIC_PROFILE.instagram} rel="noreferrer" target="_blank">Instagram ↗</a>
               <a href={PUBLIC_PROFILE.tiktok} rel="noreferrer" target="_blank">TikTok ↗</a>
               <a href={PUBLIC_PROFILE.linkedin} rel="noreferrer" target="_blank">LinkedIn ↗</a>

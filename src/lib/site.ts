@@ -1,13 +1,15 @@
 export const SITE_NAME = "Archie McNicol";
 
 export const SITE_DESCRIPTION =
-  "Portfolio of Archie McNicol — creator operations, community management, content, AI systems, photography, brand campaigns, performance and digital projects.";
+  "Portfolio of Archie McNicol — a creator operations and community specialist with CapCut UK experience across AI systems, creator campaigns, performance, photography and digital projects.";
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://archiemcnicol.com";
 
 export const PUBLIC_PROFILE = {
-  email: "fitswitharchie@gmail.com",
+  email: "archiemcnicol002@gmail.com",
+  professionalEmail: "archiemcnicol002@gmail.com",
+  creatorEmail: "fitswitharchie@gmail.com",
   location: "United Kingdom",
   tiktok: "https://www.tiktok.com/@fitswitharchie",
   instagram: "https://www.instagram.com/archie.mcnichol/",

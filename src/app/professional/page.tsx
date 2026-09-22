@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CAPCUT_OPERATIONS } from "@/lib/performance-data";
 import styles from "./professional.module.css";
 
 export const metadata: Metadata = {
@@ -63,7 +64,7 @@ export default function ProfessionalPage() {
           <div className={styles.caseLead}>
             <span>Primary case study</span>
             <strong>CapCut UK</strong>
-            <small>2023 — present</small>
+            <small>Apr 2023 — present</small>
           </div>
 
           <div className={styles.caseBody}>
@@ -78,7 +79,8 @@ export default function ProfessionalPage() {
               I manage the creator-facing layer between the UK community and international internal teams across support, programmes and challenges,
               payments, AI and generative-product issues, creator feedback, reporting and escalation. Alongside that work, I built a fully
               operational CreatorOps agentic AI workflow that turns high-volume creator conversations into structured cases,
-              evidence-linked history and clear next actions while keeping human review authoritative.
+              evidence-linked history and clear next actions while keeping human review authoritative. I also maintain established UK creator
+              relationships, including creators working with AI and generative tools, and have referred approximately {CAPCUT_OPERATIONS.referredCreatorsDisplay} creators into the ecosystem.
             </p>
 
             <Link className={styles.caseLink} href="/professional/capcut">Open the CapCut case study ↗</Link>
