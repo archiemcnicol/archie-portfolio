@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  COMMERCE_LIFETIME_PUBLIC,
-  COMMERCE_MONTHLY_PUBLIC,
-} from "@/lib/affiliate-public";
+import { AFFILIATE_PERFORMANCE } from "@/lib/performance-data";
 import styles from "./affiliate.module.css";
 
 export const metadata: Metadata = {
   title: "Commerce Performance — Archie McNicol",
   description:
-    "A public overview of creator-led commerce performance by Archie McNicol, covering tracked sign-ups, parcels and freight while keeping partner-level reporting private.",
+    "A public overview of creator-led commerce performance by Archie McNicol, covering registrations, verified activations, recorded parcels and tracked freight.",
   alternates: { canonical: "/affiliate" },
 };
 
-const maxRegistrations = Math.max(...COMMERCE_MONTHLY_PUBLIC.map((month) => month.registrations));
+const platforms = AFFILIATE_PERFORMANCE.platforms;
+const totals = AFFILIATE_PERFORMANCE.totals;
+const maxRegistrations = Math.max(...platforms.map((platform) => platform.registrations));
 
 export default function AffiliatePage() {
   return (
@@ -25,7 +24,7 @@ export default function AffiliatePage() {
             <h1>Performance beyond the post.</h1>
           </div>
           <div className={styles.heroSide}>
-            <p>Creator-led commerce tracked from sign-up through parcel and freight activity.</p>
+            <p>Creator-led commerce measured through registrations, verified activations and, where evidenced, parcel and freight activity.</p>
             <a href="#overview">View public record ↓</a>
           </div>
         </div>
@@ -37,61 +36,71 @@ export default function AffiliatePage() {
         aria-label="Lifetime commerce performance summary"
       >
         <div>
-          <span>Partnerships</span>
-          <strong>{COMMERCE_LIFETIME_PUBLIC.partnerships}</strong>
-          <small>{COMMERCE_LIFETIME_PUBLIC.period}</small>
+          <span>Total registrations</span>
+          <strong>{totals.registrations.toLocaleString("en-GB")}</strong>
+          <small>ACBuy · USFans · Sugargoo</small>
         </div>
         <div>
-          <span>Tracked sign-ups</span>
-          <strong>{COMMERCE_LIFETIME_PUBLIC.registrations.toLocaleString("en-GB")}</strong>
-          <small>Retained records</small>
+          <span>Verified activated users</span>
+          <strong>{totals.verifiedActivatedUsersDisplay}</strong>
+          <small>ACBuy + USFans · Sugargoo unavailable</small>
         </div>
         <div>
-          <span>Parcels shipped</span>
-          <strong>{COMMERCE_LIFETIME_PUBLIC.parcels.toLocaleString("en-GB")}</strong>
-          <small>Where shipment data exists</small>
+          <span>Recorded parcels</span>
+          <strong>{totals.recordedParcelsDisplay}</strong>
+          <small>Available ACBuy data</small>
         </div>
         <div>
           <span>Tracked freight</span>
-          <strong>${COMMERCE_LIFETIME_PUBLIC.freightThousands}K</strong>
-          <small>Retained record</small>
+          <strong>{totals.trackedFreightYuanDisplay}</strong>
+          <small>{totals.trackedFreightUsdDisplay} · available ACBuy data</small>
         </div>
       </section>
 
-      <section className={`${styles.dashboard} performance-dashboard`} aria-labelledby="public-monthly-performance">
+      <section className={`${styles.dashboard} performance-dashboard`} aria-labelledby="platform-performance">
         <div className="wrap">
           <header className={styles.dashboardHead}>
             <div>
-              <span>Public record / retained monthly dataset</span>
-              <h2 id="public-monthly-performance">Users into parcels.</h2>
+              <span>Public record / platform data</span>
+              <h2 id="platform-performance">Comparable where the data allows.</h2>
             </div>
-            <p>Registered users with parcels nested inside each month.</p>
+            <p>
+              Registration totals can be compared across all three platforms. Activation coverage is available for ACBuy and USFans;
+              Sugargoo activation data is unavailable and is not treated as zero. Parcel and freight figures are evidenced through ACBuy.
+            </p>
           </header>
 
-          <div className={styles.chart} aria-label="Monthly registered users versus parcels shipped">
-            {COMMERCE_MONTHLY_PUBLIC.map((month) => (
-              <div className={styles.month} key={month.month}>
+          <div className={styles.chart} aria-label="Affiliate registrations by platform with activation coverage">
+            {platforms.map((platform) => (
+              <article className={styles.month} key={platform.id}>
                 <div className={styles.barStage}>
                   <div
                     className={styles.registrationBar}
-                    style={{ height: `${Math.max(5, month.registrations / maxRegistrations * 100)}%` }}
+                    style={{ height: `${Math.max(8, platform.registrations / maxRegistrations * 100)}%` }}
                   >
-                    <span>{month.registrations.toLocaleString("en-GB")}</span>
-                    <div
-                      className={styles.parcelBar}
-                      style={{ height: `${Math.max(4, month.parcels / month.registrations * 100)}%` }}
-                    />
+                    <span>{platform.registrations.toLocaleString("en-GB")}</span>
                   </div>
                 </div>
-                <strong>{month.month}</strong>
-                <small>{month.parcels.toLocaleString("en-GB")} parcels</small>
-              </div>
+                <strong>{platform.name}</strong>
+                <small>{platform.registrations.toLocaleString("en-GB")} registrations</small>
+                <div className={styles.platformDetails}>
+                  <span>Activated users <b>{platform.activatedUsers?.toLocaleString("en-GB") ?? "Data unavailable"}</b></span>
+                  <span>Activation rate <b>{platform.activationRateDisplay}</b></span>
+                  {platform.recordedParcels !== null ? (
+                    <span>Recorded parcels <b>{platform.recordedParcels.toLocaleString("en-GB")}</b></span>
+                  ) : null}
+                  {platform.trackedFreightYuan !== null ? (
+                    <span>Tracked freight <b>¥{platform.trackedFreightYuan.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b></span>
+                  ) : null}
+                  <span>Registration data captured <b>{platform.registrationDataCaptured}</b></span>
+                </div>
+              </article>
             ))}
           </div>
 
           <div className={styles.legend}>
-            <span><i className={styles.legendRegistration} /> Registered users</span>
-            <span><i className={styles.legendParcel} /> Parcels shipped</span>
+            <span><i className={styles.legendRegistration} /> Registrations</span>
+            <span>Activation rates shown only where comparable data exists</span>
           </div>
         </div>
       </section>
@@ -100,11 +109,14 @@ export default function AffiliatePage() {
         <div className="wrap">
           <header className={styles.partnershipsHead}>
             <div>
-              <span>Private reporting</span>
-              <h2>Partner-level detail stays private.</h2>
+              <span>Dataset boundaries</span>
+              <h2>Traffic, registrations and activations stay separate.</h2>
             </div>
             <div>
-              <p>Partner names, conversion detail and commercial terms are shared privately when relevant.</p>
+              <p>
+                Link traffic, affiliate registrations, verified activations, parcels and freight come from different measurement sources.
+                They are not presented as one artificial conversion funnel.
+              </p>
               <Link className={styles.privateAccessLink} href="/contact">Request details ↗</Link>
             </div>
           </header>
