@@ -182,9 +182,9 @@ export default function CapCutPage() {
 
             <div className={styles.workspaceAccess}>
               <a href="https://creator-ops-agent.vercel.app" rel="noreferrer" target="_blank">
-                Operational workspace — restricted access ↗
+                Open live CreatorOps workspace ↗
               </a>
-              <p>The workspace contains private creator-support data, so public access is restricted. This case study shows its architecture, controls and anonymised operational scale.</p>
+              <p>Live CreatorOps workspace available during the application period. Recruiters can explore the operational system directly, including its case workflow, evidence history, reporting and live operational scale.</p>
             </div>
 
             <div className={styles.agenticStack} aria-label="CreatorOps AI workflow stack and capabilities">
