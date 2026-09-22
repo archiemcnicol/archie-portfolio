@@ -92,6 +92,9 @@ export default function AffiliatePage() {
                   {platform.trackedFreightYuan !== null ? (
                     <span>Tracked freight <b>¥{platform.trackedFreightYuan.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</b></span>
                   ) : null}
+                  {platform.trackedFreightUsdApprox !== null ? (
+                    <span>Approx. freight USD <b>≈ ${platform.trackedFreightUsdApprox.toLocaleString("en-GB")} USD</b></span>
+                  ) : null}
                   <span>Registration data captured <b>{platform.registrationDataCaptured}</b></span>
                 </div>
               </article>
