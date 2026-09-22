@@ -47,6 +47,12 @@
 .creatorOpsScale strong { display: block; color: #d8ff34; font-size: clamp(34px, 4.2vw, 62px); line-height: .9; letter-spacing: -.058em; }
 .creatorOpsScale span { display: block; margin-top: 10px; color: #8f8f89; font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 
+.creatorOpsDashboard { width: min(88%, 960px); margin: clamp(32px, 4vw, 48px) auto 0; }
+.creatorOpsDashboardButton { width: 100%; padding: 0; display: block; overflow: hidden; border: 1px solid rgba(245,241,234,.2); background: #0b0c10; color: inherit; cursor: zoom-in; }
+.creatorOpsDashboardButton:focus-visible { outline: 3px solid #d8ff34; outline-offset: 4px; }
+.creatorOpsDashboardImage { width: 100%; height: auto; display: block; object-fit: contain; }
+.creatorOpsDashboard figcaption { margin-top: 16px; color: #8f8f89; font-size: 9px; line-height: 1.5; letter-spacing: .06em; }
+
 .workspaceAccess { margin-top: 26px; display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr); gap: 26px; align-items: start; }
 .workspaceAccess a { color: #d8ff34; font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .workspaceAccess a:hover { text-decoration: underline; text-underline-offset: 4px; }
@@ -93,6 +99,9 @@
   .responsibilityList article { grid-template-columns: 28px 1fr; gap: 10px 12px; }
   .responsibilityList p { grid-column: 2; }
   .agenticHead h2 { font-size: clamp(42px, 13vw, 66px); }
+  .creatorOpsDashboard { width: 100%; margin-top: 28px; }
+  .creatorOpsDashboard figcaption { margin-top: 12px; }
+  .agenticSteps { margin-top: 38px; }
   .steps, .agenticSteps, .creatorOpsScale { grid-template-columns: 1fr; }
   .creatorOpsScale > div, .creatorOpsScale > div + div { padding: 18px 0; border-left: 0; border-top: 1px solid rgba(245,241,234,.24); }
   .creatorOpsScale > div:first-child { border-top: 0; }
