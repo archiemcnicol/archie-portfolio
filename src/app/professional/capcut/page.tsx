@@ -131,7 +131,6 @@ export default function CapCutPage() {
             </div>
 
             <div className={styles.creatorOpsEvidence}>
-              <span className={styles.sectionLabel}>Live system snapshot</span>
               <figure className={styles.creatorOpsDashboard}>
                 <CaseStudyImageLightbox
                   alt="CreatorOps operations dashboard showing active cases, follow-ups, 2,839 completed cases and 1,216 support records handled."
@@ -143,6 +142,31 @@ export default function CapCutPage() {
                 />
                 <figcaption>CreatorOps dashboard snapshot — operational case tracking and evidence-backed creator support.</figcaption>
               </figure>
+
+              <aside className={styles.creatorOpsContext} aria-label="What CreatorOps does">
+                <span className={styles.sectionLabel}>Live system snapshot</span>
+                <h3>What CreatorOps actually does.</h3>
+                <p>
+                  CreatorOps is a working operations layer I built around high-volume Discord support. Instead of leaving creator
+                  questions, bugs and follow-ups scattered across long message histories, it turns them into persistent cases with
+                  evidence, status and a clear next action.
+                </p>
+                <div className={styles.creatorOpsContextPoints}>
+                  <div>
+                    <strong>Why I built it</strong>
+                    <p>Repeated issues and unresolved follow-ups were difficult to see across fast-moving support conversations. The system gives that work durable operational memory.</p>
+                  </div>
+                  <div>
+                    <strong>How it works</strong>
+                    <p>Approved Discord channels are ingested read-only. New reports are reconciled against case history, classified and linked to the evidence needed for review or escalation.</p>
+                  </div>
+                  <div>
+                    <strong>Human control</strong>
+                    <p>CreatorOps can prepare monitoring, escalation and response work, but it cannot autonomously message creators. Human review remains authoritative and outbound actions stay approval-gated.</p>
+                  </div>
+                </div>
+                <small>The dashboard is a point-in-time snapshot; the surrounding 2,800+ and 1,200+ figures are deliberately rounded.</small>
+              </aside>
             </div>
 
             <div className={styles.agenticSteps}>
