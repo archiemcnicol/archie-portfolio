@@ -461,8 +461,10 @@
 @media (max-width: 760px) {
   .hero { padding-top: 20px; }
   .heroInner { min-height: auto; padding-bottom: 34px; }
-  .heroMeta { grid-template-columns: 1fr 1fr; }
-  .heroMeta span:nth-child(2) { display: none; }
+  .heroMeta { grid-template-columns: 1fr 1fr; row-gap: 8px; }
+  .heroMeta span:first-child { grid-column: 1; grid-row: 2; }
+  .heroMeta span:nth-child(2) { display: block; grid-column: 1 / -1; grid-row: 1; text-align: left; }
+  .heroMeta span:last-child { grid-column: 2; grid-row: 2; }
   .name { margin-top: 48px; font-size: clamp(62px, 20.5vw, 116px); line-height: .78; }
   .name span:last-child { margin-left: 0; }
   .heroCollage {
