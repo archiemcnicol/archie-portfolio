@@ -79,7 +79,8 @@ export default function ProfessionalPage() {
               I manage the creator-facing layer between the UK community and international internal teams across support, programmes and challenges,
               payments, AI and generative-product issues, creator feedback, reporting and escalation. Alongside that work, I built a fully
               operational CreatorOps agentic AI workflow that turns high-volume creator conversations into structured cases,
-              evidence-linked history and clear next actions while keeping human review authoritative. I also maintain established UK creator
+              evidence-linked history and action-ready next steps. The current deployment keeps outbound creator messaging review-gated,
+              while the same action layer is designed to extend into automatic responses, updates and routine follow-up. I also maintain established UK creator
               relationships, including creators working with AI and generative tools, and have referred approximately {CAPCUT_OPERATIONS.referredCreatorsDisplay} creators into the ecosystem.
             </p>
 
