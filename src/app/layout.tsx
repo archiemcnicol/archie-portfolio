@@ -27,7 +27,7 @@ import { PUBLIC_PROFILE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/sit
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: `${SITE_NAME} — Creator, Photographer & Digital Creative`,
+  title: `${SITE_NAME} — Creator Operations, Community, Content & AI`,
   description: SITE_DESCRIPTION,
   applicationName: `${SITE_NAME} Portfolio`,
   authors: [{ name: SITE_NAME }],
@@ -35,22 +35,25 @@ export const metadata: Metadata = {
   keywords: [
     "Archie McNicol",
     "fitswitharchie",
+    "creator operations",
+    "CapCut UK",
+    "AI creator operations",
     "UK content creator",
-    "photographer",
     "community manager",
+    "photographer",
     "brand content",
     "TikTok creator",
   ],
   openGraph: {
     type: "website",
     siteName: `${SITE_NAME} Portfolio`,
-    title: `${SITE_NAME} — Creator, Photographer & Digital Creative`,
+    title: `${SITE_NAME} — Creator Operations, Community, Content & AI`,
     description: SITE_DESCRIPTION,
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — Creator, Photographer & Digital Creative`,
+    title: `${SITE_NAME} — Creator Operations, Community, Content & AI`,
     description: SITE_DESCRIPTION,
   },
   robots: { index: true, follow: true },
@@ -69,7 +72,7 @@ const personSchema = {
   name: SITE_NAME,
   url: SITE_URL,
   email: `mailto:${PUBLIC_PROFILE.email}`,
-  jobTitle: "Content creator, community manager and photographer",
+  jobTitle: "Creator operations and community specialist",
   homeLocation: { "@type": "Country", name: "United Kingdom" },
   sameAs: [
     PUBLIC_PROFILE.instagram,
