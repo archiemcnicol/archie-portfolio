@@ -130,17 +130,20 @@ export default function CapCutPage() {
               <div><strong>{CREATOROPS_PERFORMANCE.recordsHandledByMeDisplay}</strong><span>Records of support handled by me</span></div>
             </div>
 
-            <figure className={styles.creatorOpsDashboard}>
-              <CaseStudyImageLightbox
-                alt="CreatorOps operations dashboard showing active cases, follow-ups, 2,839 completed cases and 1,216 support records handled."
-                buttonClassName={styles.creatorOpsDashboardButton}
-                height={480}
-                imageClassName={styles.creatorOpsDashboardImage}
-                src="/site/creatorops-overview-public.png"
-                width={840}
-              />
-              <figcaption>CreatorOps dashboard snapshot — operational case tracking and evidence-backed creator support.</figcaption>
-            </figure>
+            <div className={styles.creatorOpsEvidence}>
+              <span className={styles.sectionLabel}>Live system snapshot</span>
+              <figure className={styles.creatorOpsDashboard}>
+                <CaseStudyImageLightbox
+                  alt="CreatorOps operations dashboard showing active cases, follow-ups, 2,839 completed cases and 1,216 support records handled."
+                  buttonClassName={styles.creatorOpsDashboardButton}
+                  height={480}
+                  imageClassName={styles.creatorOpsDashboardImage}
+                  src="/site/creatorops-overview-public.png"
+                  width={840}
+                />
+                <figcaption>CreatorOps dashboard snapshot — operational case tracking and evidence-backed creator support.</figcaption>
+              </figure>
+            </div>
 
             <div className={styles.agenticSteps}>
               {agenticSteps.map(([number, title, copy]) => (
