@@ -14,7 +14,7 @@ const workLinks = [
 ] as const;
 
 const profileLinks = [
-  ["About", "/about", "Background, education & experience"],
+  ["About", "/about", "Background & experience"],
   ["Contact", "/contact", "Work together"],
 ] as const;
 
