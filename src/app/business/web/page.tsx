@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const stack = ["Next.js", "React", "Vercel", "Supabase", "Cloudinary"];
 const breadcrumbSchema = buildBreadcrumbSchema([
   { name: "Home", path: "/" },
-  { name: "Business & Commercial Work", path: "/business" },
+  { name: "AI & Digital", path: "/business" },
   { name: "Web & Digital Projects", path: "/business/web" },
 ]);
 
@@ -59,7 +59,7 @@ export default function WebWorkPage() {
         </section>
 
         <section className={styles.links}>
-          <div className="wrap"><Link href="/business">← Commercial work</Link><Link href="/contact">Web project enquiry ↗</Link></div>
+          <div className="wrap"><Link href="/business">← AI &amp; Digital</Link><Link href="/contact">Web project enquiry ↗</Link></div>
         </section>
       </main>
     </>
