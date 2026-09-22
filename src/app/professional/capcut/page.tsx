@@ -181,7 +181,7 @@ export default function CapCutPage() {
             </div>
 
             <div className={styles.workspaceAccess}>
-              <a href="https://creator-ops-agent-p3hi9y7v7-archiemcnicol002-8423.vercel.app" rel="noreferrer" target="_blank">
+              <a href="https://creator-ops-agent.vercel.app" rel="noreferrer" target="_blank">
                 Operational workspace — restricted access ↗
               </a>
               <p>The workspace contains private creator-support data, so public access is restricted. This case study shows its architecture, controls and anonymised operational scale.</p>
