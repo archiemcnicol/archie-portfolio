@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CaseStudyImageLightbox } from "@/components/case-study-image-lightbox";
 import { buildBreadcrumbSchema, serialiseJsonLd } from "@/lib/structured-data";
 import { CAPCUT_CREATOR_PERFORMANCE, CAPCUT_OPERATIONS, CREATOROPS_PERFORMANCE } from "@/lib/performance-data";
 import styles from "./capcut.module.css";
@@ -124,6 +125,23 @@ export default function CapCutPage() {
               </p>
             </div>
 
+            <div className={styles.creatorOpsScale} aria-label="CreatorOps operational scale">
+              <div><strong>{CREATOROPS_PERFORMANCE.completedCasesDisplay}</strong><span>Completed case records indexed</span></div>
+              <div><strong>{CREATOROPS_PERFORMANCE.recordsHandledByMeDisplay}</strong><span>Records of support handled by me</span></div>
+            </div>
+
+            <figure className={styles.creatorOpsDashboard}>
+              <CaseStudyImageLightbox
+                alt="CreatorOps operations dashboard showing active cases, follow-ups, 2,839 completed cases and 1,216 support records handled."
+                buttonClassName={styles.creatorOpsDashboardButton}
+                height={480}
+                imageClassName={styles.creatorOpsDashboardImage}
+                src="/site/creatorops-overview-public.png"
+                width={840}
+              />
+              <figcaption>CreatorOps dashboard snapshot — operational case tracking and evidence-backed creator support.</figcaption>
+            </figure>
+
             <div className={styles.agenticSteps}>
               {agenticSteps.map(([number, title, copy]) => (
                 <article key={number}>
@@ -132,11 +150,6 @@ export default function CapCutPage() {
                   <p>{copy}</p>
                 </article>
               ))}
-            </div>
-
-            <div className={styles.creatorOpsScale} aria-label="CreatorOps operational scale">
-              <div><strong>{CREATOROPS_PERFORMANCE.completedCasesDisplay}</strong><span>Completed case records indexed</span></div>
-              <div><strong>{CREATOROPS_PERFORMANCE.recordsHandledByMeDisplay}</strong><span>Records of support handled by me</span></div>
             </div>
 
             <div className={styles.workspaceAccess}>
