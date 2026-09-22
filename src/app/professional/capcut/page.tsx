@@ -37,7 +37,7 @@ const agenticSteps = [
   ["01", "Ingest", "Read-only Discord activity enters the workflow without giving the system outbound control."],
   ["02", "Resolve", "Creator conversations are extracted into cases, reconciled against history and checked for duplicates or recurrence."],
   ["03", "Decide", "Issue type, priority, status and next action are classified while relevant knowledge and similar cases are retrieved."],
-  ["04", "Govern", "The system can prepare monitoring, escalation or response work, but human review stays authoritative and outbound actions remain approval-gated."],
+  ["04", "Act", "The system prepares monitoring, escalation and response actions. The current deployment routes outbound creator messages through review, while the action layer is designed to support automated responses and status updates in a later implementation."],
 ] as const;
 
 const breadcrumbSchema = buildBreadcrumbSchema([
@@ -120,8 +120,9 @@ export default function CapCutPage() {
               <p>
                 I independently designed and built CreatorOps to turn high-volume Discord support into persistent, searchable cases,
                 evidence-linked history and clear next actions. It has indexed {CREATOROPS_PERFORMANCE.completedCasesDisplay} completed
-                case records, including {CREATOROPS_PERFORMANCE.recordsHandledByMeDisplay} records of support handled by me; Discord
-                ingestion is read-only and outbound actions remain human-approved.
+                case records, including {CREATOROPS_PERFORMANCE.recordsHandledByMeDisplay} records of support handled by me. Discord
+                ingestion is read-only; outbound creator messages are review-gated in the current deployment, with the action layer
+                designed for further automation.
               </p>
             </div>
 
@@ -161,8 +162,8 @@ export default function CapCutPage() {
                     <p>Approved Discord channels are ingested read-only. New reports are reconciled against case history, classified and linked to the evidence needed for review or escalation.</p>
                   </div>
                   <div>
-                    <strong>Human control</strong>
-                    <p>CreatorOps can prepare monitoring, escalation and response work, but it cannot autonomously message creators. Human review remains authoritative and outbound actions stay approval-gated.</p>
+                    <strong>Automation path</strong>
+                    <p>CreatorOps already prepares monitoring, escalation and response work. The current deployment keeps outbound creator messages behind review, but the same action layer can be extended to send automatic responses, status updates and routine follow-up.</p>
                   </div>
                 </div>
                 <small>The dashboard is a point-in-time snapshot; the surrounding 2,800+ and 1,200+ figures are deliberately rounded.</small>
@@ -202,7 +203,7 @@ export default function CapCutPage() {
 
         <section className={`${styles.workflow} capcut-workflow`}>
           <div className="wrap">
-            <div className={styles.sectionLabel}>Human operating loop</div>
+            <div className={styles.sectionLabel}>Operational loop</div>
             <div className={styles.steps}>
               <div><span>01</span><strong>Listen</strong><p>Question, payment issue, challenge query or product problem.</p></div>
               <div><span>02</span><strong>Clarify</strong><p>Get enough context to decide whether it needs escalation.</p></div>

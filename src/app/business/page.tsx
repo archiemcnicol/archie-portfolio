@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/business" },
 };
 
-const creatorOpsFlow = ["Discord", "Cases", "Evidence", "Human review"] as const;
+const creatorOpsFlow = ["Discord", "Cases", "Evidence", "Action-ready"] as const;
 const portfolioFlow = ["Content", "Structured data", "Build", "Deploy"] as const;
 
 const creatorOpsStack = [
@@ -69,8 +69,9 @@ export default function BusinessPage() {
               <h2 id="creatorops-title">CreatorOps.</h2>
             </div>
             <p>
-              A working operations layer for high-volume creator support. CreatorOps turns long Discord conversations into persistent,
-              searchable cases with evidence, status and clear next actions while keeping human review in control.
+              A working agentic operations layer for high-volume creator support. CreatorOps turns long Discord conversations into
+              persistent, searchable cases with evidence, status and clear next actions, then prepares the work needed to respond,
+              escalate or update creators.
             </p>
           </div>
 
@@ -85,7 +86,7 @@ export default function BusinessPage() {
             </div>
             <div className={styles.proofStatement}>
               <span>Operating principle</span>
-              <p>Read-only ingestion. Evidence-backed history. Human-approved outbound actions.</p>
+              <p>Read-only ingestion. Evidence-backed history. Agent-prepared actions and responses.</p>
             </div>
           </div>
 
@@ -113,8 +114,8 @@ export default function BusinessPage() {
                 <p>CreatorOps reconciles new reports against history, links the underlying evidence and keeps a durable case record.</p>
               </div>
               <div>
-                <span>Control</span>
-                <p>The system can prepare monitoring, escalation and response work, but people remain authoritative at the decision point.</p>
+                <span>Automation path</span>
+                <p>The current deployment holds outbound creator messages for review. The same action layer is designed to extend into automatic responses, creator updates and routine follow-up where that level of automation is appropriate.</p>
               </div>
             </div>
           </div>
