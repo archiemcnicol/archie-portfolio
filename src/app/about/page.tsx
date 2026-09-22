@@ -20,11 +20,11 @@ export const metadata: Metadata = {
 };
 
 const chapters = [
-  ["01", "Creator work", "Campaigns, collaborations and results.", "/creator"],
-  ["02", "Professional", "Creator operations, AI systems and international-team coordination.", "/professional"],
-  ["03", "Performance", "Registrations, parcels and freight.", "/affiliate"],
-  ["04", "Photography", "Projects and full archive.", "/photography"],
-  ["05", "Digital", "Web builds, AI workflows and content systems.", "/business"],
+  ["01", "Professional", "CapCut, creator operations, community and AI systems.", "/professional"],
+  ["02", "Brand work", "Campaigns, collaborations and results.", "/creator"],
+  ["03", "Performance", "Analytics and commercial outcomes.", "/affiliate"],
+  ["04", "AI & Digital", "CreatorOps, web systems and digital projects.", "/business"],
+  ["05", "Photography", "Projects and full archive.", "/photography"],
 ] as const;
 
 type AboutTimelineItem = {
