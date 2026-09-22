@@ -274,6 +274,25 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     ],
   },
   {
+    brand: "All Points East",
+    detail: "Event-promotion creator campaign · Tyler, The Creator · two videos",
+    period: "Aug 2026",
+    links: [
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
+        platform: "TikTok",
+        analytics: { views: "11.6K", likes: "374" },
+      },
+      {
+        label: "TikTok 2",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008",
+        platform: "TikTok",
+        analytics: { views: "16.6K", likes: "1,048" },
+      },
+    ],
+  },
+  {
     brand: "Moschino",
     detail: "Toy fragrance campaign · TikTok + Instagram Reel",
     period: "23 Jun 2025",
@@ -324,25 +343,6 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     analytics: { views: "2.1K", likes: "62" },
     links: [
       { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7523993384546077974", platform: "TikTok" },
-    ],
-  },
-  {
-    brand: "All Points East",
-    detail: "Tyler, The Creator · two event-promotion videos",
-    period: "Aug 2026",
-    links: [
-      {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
-        platform: "TikTok",
-        analytics: { views: "11.6K", likes: "374" },
-      },
-      {
-        label: "TikTok 2",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008",
-        platform: "TikTok",
-        analytics: { views: "16.6K", likes: "1,048" },
-      },
     ],
   },
   {
