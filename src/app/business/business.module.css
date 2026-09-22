@@ -213,58 +213,51 @@
 }
 
 .systemGrid {
-  margin-top: clamp(28px, 3.5vw, 42px);
-  display: grid;
-  grid-template-columns: minmax(0, 1.28fr) minmax(320px, .72fr);
-  gap: clamp(26px, 4vw, 48px);
+  margin-top: clamp(28px, 3.5vw, 40px);
 }
 
 .systemDiagram {
-  padding: 16px;
-  border: 1px solid rgba(245,241,234,.22);
-  background:
-    linear-gradient(rgba(216,255,52,.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(216,255,52,.025) 1px, transparent 1px),
-    #131410;
-  background-size: 34px 34px, 34px 34px, auto;
+  display: grid;
+  grid-template-columns: minmax(120px, .23fr) minmax(0, 1.77fr);
+  gap: clamp(20px, 3vw, 36px);
+  align-items: start;
 }
 
 .diagramLabel {
+  padding-top: 14px;
   color: #777;
 }
 
 .flow {
-  margin-top: 18px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid rgba(245,241,234,.22);
-  border-bottom: 1px solid rgba(245,241,234,.22);
+  border-top: 1px solid rgba(245,241,234,.24);
+  border-bottom: 1px solid rgba(245,241,234,.24);
 }
 
 .flowItem {
   position: relative;
   min-width: 0;
-  min-height: 112px;
-  padding: 14px 14px 14px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  padding: 13px 14px 14px 0;
 }
 
 .flowItem + .flowItem {
   padding-left: 14px;
-  border-left: 1px solid rgba(245,241,234,.22);
+  border-left: 1px solid rgba(245,241,234,.24);
 }
 
 .flowItem > span {
+  display: block;
   color: #66665f;
   font-size: 8px;
   letter-spacing: .08em;
 }
 
 .flowItem strong {
+  display: block;
+  margin-top: 18px;
   color: #d8ff34;
-  font-size: clamp(19px, 2vw, 28px);
+  font-size: clamp(18px, 1.8vw, 25px);
   line-height: .96;
   letter-spacing: -.04em;
 }
@@ -272,28 +265,35 @@
 .flowItem i {
   position: absolute;
   top: 50%;
-  right: -11px;
+  right: -9px;
   z-index: 2;
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   display: grid;
   place-items: center;
-  background: #131410;
+  transform: translateY(-50%);
+  background: #111;
   color: #777;
   font-style: normal;
-  font-size: 13px;
+  font-size: 11px;
 }
 
 .caseNotes {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   border-top: 1px solid rgba(245,241,234,.24);
+  border-bottom: 1px solid rgba(245,241,234,.24);
 }
 
 .caseNotes > div {
-  display: grid;
-  grid-template-columns: 90px 1fr;
-  gap: 18px;
-  padding: 14px 0;
-  border-bottom: 1px solid rgba(245,241,234,.24);
+  min-width: 0;
+  padding: 14px 18px 15px 0;
+}
+
+.caseNotes > div + div {
+  padding-left: 18px;
+  border-left: 1px solid rgba(245,241,234,.24);
 }
 
 .caseNotes span {
@@ -305,10 +305,11 @@
 }
 
 .caseNotes p {
-  margin: 0;
+  max-width: 34ch;
+  margin: 8px 0 0;
   color: #9a9a93;
-  font-size: 12px;
-  line-height: 1.55;
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .caseFooter,
@@ -580,9 +581,17 @@
 @media (max-width: 980px) {
   .heroGrid,
   .caseHeader,
-  .systemGrid,
   .portfolioBody {
     grid-template-columns: 1fr;
+  }
+
+  .systemDiagram {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .diagramLabel {
+    padding-top: 0;
   }
 
   .heroSide {
@@ -662,44 +671,52 @@
     grid-column: auto;
   }
 
-  .systemDiagram {
-    padding: 14px;
-  }
-
   .flow {
-    grid-template-columns: 1fr;
-    margin-top: 16px;
+    grid-template-columns: 1fr 1fr;
   }
 
   .flowItem,
   .flowItem + .flowItem {
-    min-height: 0;
-    padding: 12px 0;
+    padding: 12px 12px 13px 0;
     border-left: 0;
     border-top: 1px solid rgba(245,241,234,.2);
   }
 
-  .flowItem:first-child {
+  .flowItem:nth-child(2n) {
+    padding-left: 12px;
+    border-left: 1px solid rgba(245,241,234,.2);
+  }
+
+  .flowItem:nth-child(-n + 2) {
     border-top: 0;
   }
 
-  .flowItem {
-    display: grid;
-    grid-template-columns: 32px 1fr;
-    gap: 12px;
-    align-items: center;
-  }
-
   .flowItem strong {
-    font-size: 25px;
+    margin-top: 12px;
+    font-size: 22px;
   }
 
   .flowItem i {
     display: none;
   }
 
-  .caseNotes > div {
-    grid-template-columns: 72px 1fr;
+  .caseNotes {
+    grid-template-columns: 1fr;
+  }
+
+  .caseNotes > div,
+  .caseNotes > div + div {
+    padding: 12px 0 13px;
+    border-left: 0;
+    border-top: 1px solid rgba(245,241,234,.2);
+  }
+
+  .caseNotes > div:first-child {
+    border-top: 0;
+  }
+
+  .caseNotes p {
+    max-width: none;
   }
 
   .caseFooter,
