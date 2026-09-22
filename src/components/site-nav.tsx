@@ -6,11 +6,11 @@ import { type PointerEvent as ReactPointerEvent, useEffect, useRef, useState } f
 import styles from "./site-nav.module.css";
 
 const workLinks = [
-  ["Brand work", "/creator", "Campaigns & creator content"],
-  ["Photography", "/photography", "Projects & full archive"],
-  ["Professional", "/professional", "Community & operations"],
-  ["Performance", "/affiliate", "Commerce & outcomes"],
-  ["Digital", "/business", "Web & systems"],
+  ["Professional", "/professional", "CapCut · Creator ops · AI"],
+  ["Brand work", "/creator", "Campaigns · Creator content"],
+  ["Performance", "/affiliate", "Analytics · Commercial outcomes"],
+  ["AI & Digital", "/business", "CreatorOps · Web systems"],
+  ["Photography", "/photography", "Projects · Full archive"],
 ] as const;
 
 const profileLinks = [
