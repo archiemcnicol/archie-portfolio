@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 };
 
 const routes = [
+  ["Professional", "CapCut, creator operations, community and AI systems.", "/professional"],
   ["Brand campaign", "Campaigns, events and product integrations.", "/creator"],
+  ["AI & Digital", "CreatorOps, web systems and digital projects.", "/business"],
   ["Photography", "Travel, event and commercial photography.", "/photography"],
-  ["Commercial / web", "Sites, digital projects and mixed creative briefs.", "/business"],
-  ["Professional", "Community management and creator operations.", "/professional"],
 ] as const;
 
 export default function ContactPage() {
@@ -27,9 +27,15 @@ export default function ContactPage() {
       </section>
 
       <section className={styles.emailBand}>
-        <div className="wrap">
-          <span>Email</span>
-          <a href={`mailto:${PUBLIC_PROFILE.email}`}>{PUBLIC_PROFILE.email}<b>↗</b></a>
+        <div className={`wrap ${styles.emailGrid}`}>
+          <div>
+            <span>Professional / creator operations</span>
+            <a href={`mailto:${PUBLIC_PROFILE.professionalEmail}`}>{PUBLIC_PROFILE.professionalEmail}<b>↗</b></a>
+          </div>
+          <div>
+            <span>Creator campaigns</span>
+            <a href={`mailto:${PUBLIC_PROFILE.creatorEmail}`}>{PUBLIC_PROFILE.creatorEmail}<b>↗</b></a>
+          </div>
         </div>
       </section>
 
