@@ -35,23 +35,25 @@
 .agenticHead { display: grid; grid-template-columns: minmax(0, 1.16fr) minmax(280px, .84fr); gap: clamp(36px, 7vw, 92px); align-items: end; }
 .agenticHead h2 { max-width: 900px; margin: 18px 0 0; font-size: clamp(48px, 6.4vw, 96px); line-height: .88; letter-spacing: -.062em; }
 .agenticHead > p { max-width: 620px; margin: 0; color: #a4a49d; font-size: 14px; line-height: 1.62; }
-.agenticSteps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(50px, 6vw, 76px); border-top: 1px solid rgba(245,241,234,.24); border-bottom: 1px solid rgba(245,241,234,.24); }
-.agenticSteps article { min-width: 0; min-height: 286px; padding: 22px 22px 24px 0; display: flex; flex-direction: column; }
-.agenticSteps article + article { padding-left: 22px; border-left: 1px solid rgba(245,241,234,.24); }
+.agenticSteps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(34px, 4vw, 48px); border-top: 1px solid rgba(245,241,234,.24); border-bottom: 1px solid rgba(245,241,234,.24); }
+.agenticSteps article { min-width: 0; padding: 19px 20px 22px 0; display: flex; flex-direction: column; }
+.agenticSteps article + article { padding-left: 20px; border-left: 1px solid rgba(245,241,234,.24); }
 .agenticSteps article > span { color: #6f6f69; font-size: 9px; letter-spacing: .08em; }
-.agenticSteps strong { margin-top: auto; color: #d8ff34; font-size: clamp(27px, 2.8vw, 41px); line-height: .95; letter-spacing: -.045em; }
-.agenticSteps p { margin: 12px 0 0; color: #a4a49d; font-size: 12px; line-height: 1.55; }
+.agenticSteps strong { margin-top: clamp(30px, 3vw, 44px); color: #d8ff34; font-size: clamp(27px, 2.8vw, 41px); line-height: .95; letter-spacing: -.045em; }
+.agenticSteps p { max-width: 31ch; margin: 10px 0 0; color: #a4a49d; font-size: 12px; line-height: 1.5; }
 .creatorOpsScale { margin-top: 34px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid rgba(245,241,234,.24); border-bottom: 1px solid rgba(245,241,234,.24); }
 .creatorOpsScale > div { min-width: 0; padding: 20px 20px 20px 0; }
 .creatorOpsScale > div + div { padding-left: 20px; border-left: 1px solid rgba(245,241,234,.24); }
 .creatorOpsScale strong { display: block; color: #d8ff34; font-size: clamp(34px, 4.2vw, 62px); line-height: .9; letter-spacing: -.058em; }
 .creatorOpsScale span { display: block; margin-top: 10px; color: #8f8f89; font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 
-.creatorOpsDashboard { width: min(88%, 960px); margin: clamp(32px, 4vw, 48px) auto 0; }
-.creatorOpsDashboardButton { width: 100%; padding: 0; display: block; overflow: hidden; border: 1px solid rgba(245,241,234,.2); background: #0b0c10; color: inherit; cursor: zoom-in; }
+.creatorOpsEvidence { margin-top: clamp(30px, 4vw, 44px); display: grid; grid-template-columns: minmax(140px, .32fr) minmax(0, 1.68fr); gap: clamp(28px, 5vw, 46px); align-items: start; padding-bottom: clamp(28px, 3vw, 38px); border-bottom: 1px solid rgba(245,241,234,.24); }
+.creatorOpsEvidence > .sectionLabel { padding-top: 4px; }
+.creatorOpsDashboard { width: 100%; max-width: 840px; margin: 0 0 0 auto; }
+.creatorOpsDashboardButton { width: 100%; padding: 0; display: block; overflow: hidden; border: 0; background: transparent; color: inherit; cursor: zoom-in; }
 .creatorOpsDashboardButton:focus-visible { outline: 3px solid #d8ff34; outline-offset: 4px; }
-.creatorOpsDashboardImage { width: 100%; height: auto; display: block; object-fit: contain; }
-.creatorOpsDashboard figcaption { margin-top: 16px; color: #8f8f89; font-size: 9px; line-height: 1.5; letter-spacing: .06em; }
+.creatorOpsDashboardImage { width: 100%; height: auto; display: block; object-fit: contain; image-rendering: auto; }
+.creatorOpsDashboard figcaption { margin-top: 10px; color: #7f7f79; font-size: 8px; line-height: 1.5; letter-spacing: .07em; text-transform: uppercase; }
 
 .workspaceAccess { margin-top: 26px; display: grid; grid-template-columns: minmax(260px, .72fr) minmax(0, 1.28fr); gap: 26px; align-items: start; }
 .workspaceAccess a { color: #d8ff34; font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
@@ -78,6 +80,8 @@
 
 @media (max-width: 900px) {
   .heroGrid, .intro .wrap, .performanceHead, .agenticHead { grid-template-columns: 1fr; gap: 30px; }
+  .creatorOpsEvidence { grid-template-columns: 1fr; gap: 14px; }
+  .creatorOpsDashboard { margin-left: 0; }
   .performanceGrid, .steps, .agenticSteps { grid-template-columns: 1fr 1fr; }
   .workspaceAccess { grid-template-columns: 1fr; }
   .performanceGrid > div:nth-child(3) { border-left: 0; border-top: 1px solid rgba(17,17,17,.2); }
@@ -99,14 +103,16 @@
   .responsibilityList article { grid-template-columns: 28px 1fr; gap: 10px 12px; }
   .responsibilityList p { grid-column: 2; }
   .agenticHead h2 { font-size: clamp(42px, 13vw, 66px); }
-  .creatorOpsDashboard { width: 100%; margin-top: 28px; }
-  .creatorOpsDashboard figcaption { margin-top: 12px; }
-  .agenticSteps { margin-top: 38px; }
+  .creatorOpsEvidence { margin-top: 26px; padding-bottom: 24px; }
+  .creatorOpsDashboard { width: 100%; max-width: none; }
+  .creatorOpsDashboard figcaption { margin-top: 9px; }
+  .agenticSteps { margin-top: 28px; }
   .steps, .agenticSteps, .creatorOpsScale { grid-template-columns: 1fr; }
   .creatorOpsScale > div, .creatorOpsScale > div + div { padding: 18px 0; border-left: 0; border-top: 1px solid rgba(245,241,234,.24); }
   .creatorOpsScale > div:first-child { border-top: 0; }
-  .steps > div, .steps > div + div, .agenticSteps article, .agenticSteps article + article { min-height: 190px; padding: 20px 0; border-left: 0; border-top: 1px solid rgba(17,17,17,.28); }
-  .agenticSteps article, .agenticSteps article + article { border-top-color: rgba(245,241,234,.24); }
+  .steps > div, .steps > div + div { min-height: 190px; padding: 20px 0; border-left: 0; border-top: 1px solid rgba(17,17,17,.28); }
+  .agenticSteps article, .agenticSteps article + article { min-height: 0; padding: 17px 0 18px; border-left: 0; border-top: 1px solid rgba(245,241,234,.24); }
+  .agenticSteps strong { margin-top: 24px; }
   .steps > div:first-child, .agenticSteps article:first-child { border-top: 0; }
   .links .wrap { grid-template-columns: 1fr; }
   .links a, .links a + a { min-height: 64px; padding: 14px 0; border-right: 0; border-top: 1px solid rgba(255,255,255,.22); }
