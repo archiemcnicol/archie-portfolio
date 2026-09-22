@@ -66,6 +66,10 @@ export const AFFILIATE_PERFORMANCE = {
   ],
 } as const;
 
+export const CAPCUT_OPERATIONS = {
+  referredCreatorsDisplay: "20–30",
+} as const;
+
 export const CAPCUT_CREATOR_PERFORMANCE = {
   viewsDisplay: "15.5M+",
   templateUsesDisplay: "1.97M",
