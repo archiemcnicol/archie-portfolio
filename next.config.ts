@@ -18,6 +18,12 @@ const nextConfig: NextConfig = {
         source: "/(.*)",
         headers: securityHeaders,
       },
+      // These public assets can change at the same URL; use a bounded TTL,
+      // rather than marking mutable filenames immutable for a year.
+      ...["/brand-work/:path*", "/portfolio/:path*"].map((source) => ({
+        source,
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400" }],
+      })),
     ];
   },
   images: {

@@ -9,7 +9,7 @@ import styles from "./affiliate.module.css";
 export const metadata: Metadata = {
   title: "Commerce Performance — Archie McNicol",
   description:
-    "A public overview of creator-led commerce performance by Archie McNicol, covering registrations, verified activations, recorded parcels and tracked freight while keeping partner-level reporting private.",
+    "A public overview of creator-led commerce performance by Archie McNicol, covering registrations, verified users, recorded parcels and tracked freight while keeping partner-level reporting private.",
   alternates: { canonical: "/affiliate" },
 };
 

@@ -7,8 +7,8 @@ export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://archiemcnicol.com";
 
 export const PUBLIC_PROFILE = {
-  email: "archiemcnicol002@gmail.com",
-  professionalEmail: "archiemcnicol002@gmail.com",
+  email: "fitswitharchie@gmail.com",
+  professionalEmail: "fitswitharchie@gmail.com",
   creatorEmail: "fitswitharchie@gmail.com",
   location: "United Kingdom",
   tiktok: "https://www.tiktok.com/@fitswitharchie",

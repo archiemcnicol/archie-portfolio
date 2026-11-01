@@ -29,6 +29,10 @@ const PROJECT_ALIASES: Record<string, string> = {
   "preca-italy": "aprica-italy",
 };
 
+// Every valid series and legacy alias is generated below. Unknown bot-supplied
+// slugs should return a static 404 without rendering a new server page.
+export const dynamicParams = false;
+
 const RAW_PHOTOS = PORTFOLIO_ARCHIVE_PHOTOS.filter(
   (photo) => !EXCLUDED_PHOTO_NAMES.has(photo.originalName),
 );
