@@ -1,0 +1,7 @@
+# Controlled recovery publishing
+
+The `recovery/**` namespace, including the current recovery branch, disables automatic Vercel Git deployments through `vercel.json`. Existing route, domain, redirect and authentication configuration is unchanged. Other branches retain their existing behavior, so merging into a production branch can still deploy. Manual deployments and deploy hooks are separate and are not disabled by this file.
+
+Do not push/merge/deploy or activate an unblock as part of local verification. Before an authorized publish, verify the connected existing Vercel project, production branch and branch rules, inspect GitHub workflows/deploy hooks, and require a deployment-suppression control outside the first incoming commit if zero deployment risk is required. Never rely on suspension, `[skip ci]`, draft PR state or an Ignored Build Step to prevent all preview usage. Verify no deployment was queued after the first branch push before opening a PR or publishing another repository.
+
+Node is bounded to `22.x` in the manifest and lockfile to match the verified local/CI major instead of inheriting an untested 24.x project default. No dependency versions changed. The workspace `FINAL_RECOVERY_RELEASE_PLAN.md` contains the exact approved candidate SHAs, read-only evidence, eligibility and controlled rollout/rollback gates. This document does not authorize a deployment or change the project's access model.

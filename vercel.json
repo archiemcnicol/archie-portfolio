@@ -2,7 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
     "deploymentEnabled": {
-      "diagnose/*": false
+      "diagnose/*": false,
+      "recovery/**": false,
+      "recovery/hobby-usage-2026-11-01": false
     }
   }
 }

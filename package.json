@@ -23,5 +23,8 @@
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
     "typescript": "7.0.2"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
