@@ -239,7 +239,7 @@ export default function CreatorPage() {
         <div className="wrap brand-roster-grid">
           <div>
             <div className="section-title">Work archive</div>
-            <p className="brand-roster-intro">A broader record of brand, agency, music and event work, with campaign partners and commissioning contacts kept distinct from the client name.</p>
+            <p className="brand-roster-intro">Brand, agency, music, food and event work in chronological order, oldest to newest. Multi-video campaigns follow the same order; undated work is shown last.</p>
           </div>
           <div className={styles.partnershipGrid} aria-label="Brand work archive">
             {PARTNERSHIP_ROSTER.map((partnership, index) => {
