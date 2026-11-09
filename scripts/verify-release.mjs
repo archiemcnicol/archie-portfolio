@@ -31,7 +31,7 @@ const assert = (condition, message) => {
   if (!condition) failures.push(message);
 };
 
-const publicCampaignIds = ["nike", "boss-bottled-beyond", "jean-paul-gaultier-le-male-2025", "moschino-toy", "puma-suede-2026", "superdry-2024"];
+const publicCampaignIds = ["boss-bottled-beyond", "puma-suede-2026", "all-points-east-2026", "nike", "jean-paul-gaultier-le-male-2025", "moschino-toy", "superdry-2024"];
 for (const id of publicCampaignIds) assert(brandWork.includes(`id: "${id}"`), `public campaign is missing: ${id}`);
 
 assert(/analytics:\s*\{ views: "22\.5K", likes: "1,077" \}/.test(brandWork), "Nike performance baseline has changed unexpectedly");
@@ -72,7 +72,7 @@ const archiveBrandOrder = [...archiveData.matchAll(/\n  \{\n    brand: "([^"]+)"
 // Videos within multi-video campaigns stay oldest-to-newest.
 const expectedArchiveOrder = [
   "Afrikana", "BOSS", "Whatnot", "PUMA", "All Points East", "Nike",
-  "KORA Works", "Moschino Toy Boy 2", "Jean Paul Gaultier", "TILT",
+  "KORA Works", "Jean Paul Gaultier", "TILT",
   "DAVIDOFF", "Moschino", "The Supermade", "Inflation", "Domno Vintage",
   "Lyle & Scott", "KiLLOWEN", "Snoop", "WINTR", "Firmoo",
   "TEE CLAN", "VSZN", "SPYDA", "Unfounded Studios", "Superdry",
@@ -101,6 +101,18 @@ const selectedCampaignData = brandWork.slice(
   brandWork.indexOf("export const PUBLIC_CAMPAIGNS:"),
   brandWork.indexOf("export const SELECTED_PERFORMANCE:"),
 );
+const selectedCampaignOrder = [...selectedCampaignData.matchAll(/\n  \{\n    id: "([^"]+)"/g)].map((match) => match[1]);
+assert(selectedCampaignOrder.length === publicCampaignIds.length &&
+  publicCampaignIds.every((id, index) => selectedCampaignOrder[index] === id),
+  "Selected creative work must be complete and newest-to-oldest");
+assert(selectedCampaignData.includes('id: "all-points-east-2026"') &&
+  selectedCampaignData.includes('video/7678728230278303008') &&
+  selectedCampaignData.includes('views: "16.6K", likes: "1,048"'),
+  "All Points East must be featured with its strongest verified 27 August video");
+assert(creatorPage.includes('videoId: "7678728230278303008"'), "All Points East must reuse the existing TikTok frame preview");
+assert(archiveData.includes('brand: "All Points East"') &&
+  archiveData.includes('views: "11.6K", likes: "374"'),
+  "All Points East first video must remain in archive");
 assert(!selectedCampaignData.includes('id: "afrikana-2026-11"'), "Afrikana must remain archive-only, not selected creative work");
 assert(archiveData.includes('brand: "Afrikana"'), "Afrikana gifted PR must remain in Work Archive");
 assert(!/ebay/i.test(brandWork), "Uncompleted eBay opportunity must not be represented as collaboration work");
@@ -109,19 +121,17 @@ assert(selectedCampaignData.includes('video/7552940839467633923'), "Jean Paul Ga
 assert(creatorPage.includes('videoId: "7552940839467633923"'), "Jean Paul Gaultier must reuse the TikTok preview player without hosting media");
 assert(selectedCampaignData.includes('id: "puma-suede-2026"'), "Confirmed PUMA gifting must be featured");
 const pumaSelectedStart = selectedCampaignData.indexOf('id: "puma-suede-2026"');
-const pumaSelectedEnd = selectedCampaignData.indexOf('id: "superdry-2024"', pumaSelectedStart);
+const pumaSelectedEnd = selectedCampaignData.indexOf('id: "all-points-east-2026"', pumaSelectedStart);
 const featuredPuma = selectedCampaignData.slice(pumaSelectedStart, pumaSelectedEnd);
 assert(featuredPuma.includes("video/7695800477748972832"), "PUMA selected work must link to its 12 October published post");
-assert(!featuredPuma.includes("analytics:"), "PUMA must not be assigned unverified video statistics");
+assert(featuredPuma.includes('analytics: { views: "2,240", likes: "57" }'), "PUMA 12 October video must preserve the user-supplied view and like snapshot");
 assert(creatorPage.includes('videoId: "7695800477748972832"'), "PUMA must use the existing TikTok video player instead of uploading another cover");
 assert(creatorPage.includes("styles.coverFallback") && creatorPage.includes("styles.coverFallbackBrand"), "Selected campaigns without video must retain a safe fallback");
-const toyBoy2Start = archiveData.indexOf('brand: "Moschino Toy Boy 2"');
-const toyBoy2End = archiveData.indexOf("\n  },", toyBoy2Start);
-const toyBoy2Section = archiveData.slice(toyBoy2Start, toyBoy2End);
-assert(toyBoy2Section.includes("submitted for approval") && !toyBoy2Section.includes("analytics:") && !toyBoy2Section.includes("href:"), "Moschino Toy Boy 2 must not imply unverified public publication or metrics");
+assert(!archiveData.includes('brand: "Moschino Toy Boy 2"'), "Unverified November Toy Boy 2 entry must not appear in Work Archive");
+assert(archiveData.includes('brand: "Moschino"') && archiveData.includes("video/7519140859351174422"), "Original verified Moschino campaign must remain");
 
 const logoSources = [...brandWork.matchAll(/logoSrc:\s*"([^"]+)"/g)].map((match) => match[1]);
-assert(logoSources.length === publicCampaignIds.length - 2, "Only JPG and PUMA should use text wordmarks; approved existing campaign logos must be preserved");
+assert(logoSources.length === publicCampaignIds.length - 3, "JPG, PUMA and All Points East use existing non-hosted text wordmarks; original logos must be preserved");
 assert(creatorPage.includes("styles.logoWordmark"), "Selected work text wordmarks need a verified non-hosted fallback");
 assert(brandWork.includes('logoAlt: "Jean Paul Gaultier wordmark"'), "Jean Paul Gaultier text wordmark missing");
 assert(brandWork.includes('logoAlt: "PUMA wordmark"'), "PUMA text wordmark missing");
@@ -143,7 +153,7 @@ const whatnotSelectionLinks = new Set([
 const shortLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/vm\.tiktok\.com\/[^"]+)"/g)].map((match) => match[1]);
 assert(shortLinks.length === whatnotSelectionLinks.size && shortLinks.every((url) => whatnotSelectionLinks.has(url)), "Unexpected or missing TikTok short links in brand-work data");
 
-const featuredBoss = brandWork.slice(brandWork.indexOf('id: "boss-bottled-beyond"'), brandWork.indexOf('id: "jean-paul-gaultier-le-male-2025"'));
+const featuredBoss = brandWork.slice(brandWork.indexOf('id: "boss-bottled-beyond"'), brandWork.indexOf('id: "puma-suede-2026"'));
 assert(featuredBoss.includes('coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp"'), "BOSS selected work must reuse its stable, existing hero cover");
 assert((featuredBoss.match(/coverSrc:/g) ?? []).length === 1, "BOSS selected work must not request another hosted cover");
 const archiveBossStart = archiveData.indexOf('brand: "BOSS"');
@@ -155,6 +165,7 @@ const pumaStart = archiveData.indexOf('brand: "PUMA"');
 const pumaEnd = archiveData.indexOf("\n  },", pumaStart);
 const pumaSection = archiveData.slice(pumaStart, pumaEnd);
 assert(pumaSection.includes("no posting obligation") && pumaSection.includes("video/7695800477748972832"), "PUMA published gifting video must be linked in the archive");
+assert(pumaSection.includes('analytics: { views: "2,240", likes: "57" }'), "PUMA archival video views and likes must match user evidence");
 
 const selectedPerformanceLinks = [
   "7524743379410881814",
@@ -176,7 +187,11 @@ assert(creatorPage.includes(").slice(0, 1);"), "selected work must display only 
 assert(!creatorPage.includes("styles.measuredDeliverables"), "selected work still shows the old duplicate metric tiles");
 assert(creatorPage.includes('href="#work-archive"'), "additional selected campaign posts must link to the archive");
 assert(creatorPage.includes("styles.archiveDeliverables"), "work archive must retain the preferred compact deliverable layout");
-assert(creatorPage.includes("styles.archiveLinks"), "work archive compact link treatment is missing");
+assert(creatorPage.includes("const deliverables = publicLinks.map"), "Work Archive must normalise both one-video and multi-video partnerships into the same cards");
+assert(creatorPage.includes("const hasPerPostMetrics"), "Archive single-video metrics must be correctly assigned to the linked video");
+assert(!creatorPage.includes("styles.archiveLinks") && !creatorPage.includes("styles.measuredDeliverables"), "Old inconsistent work-archive layout is still used");
+assert(creatorPage.includes("styles.archiveMetricPending"), "Archive rows need a consistent fallback where statistics are unavailable");
+assert(creatorPage.includes("styles.archiveUnlinkedDeliverable"), "Ad-only Snoop must have a non-linked deliverable row");
 assert(brandConsistency.includes(".performanceAction"), "organic performance content action styling is missing");
 assert(brandConsistency.includes(":global(.brand-page .brand-section)"), "Brand Work compact section spacing is missing");
 
