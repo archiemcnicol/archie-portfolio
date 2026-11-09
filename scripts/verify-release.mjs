@@ -31,7 +31,7 @@ const assert = (condition, message) => {
   if (!condition) failures.push(message);
 };
 
-const publicCampaignIds = ["afrikana-2026-11", "nike", "boss-bottled-beyond", "moschino-toy", "superdry-2024"];
+const publicCampaignIds = ["nike", "boss-bottled-beyond", "jean-paul-gaultier-le-male-2025", "moschino-toy", "puma-suede-2026", "superdry-2024"];
 for (const id of publicCampaignIds) assert(brandWork.includes(`id: "${id}"`), `public campaign is missing: ${id}`);
 
 assert(/analytics:\s*\{ views: "22\.5K", likes: "1,077" \}/.test(brandWork), "Nike performance baseline has changed unexpectedly");
@@ -68,20 +68,21 @@ assert(whatnotSection.includes("Performance captured 9 Nov 2026"), "Whatnot metr
 
 const archiveData = brandWork.slice(brandWork.indexOf("export const PARTNERSHIP_ROSTER:"));
 const archiveBrandOrder = [...archiveData.matchAll(/\n  \{\n    brand: "([^"]+)"/g)].map((m) => m[1]);
-// Full archive is chronological by the last dated deliverable in each campaign.
-// Campaigns with several publications retain their earliest-to-latest order internally.
+// Brands newest first, based on latest documented campaign activity.
+// Videos within multi-video campaigns stay oldest-to-newest.
 const expectedArchiveOrder = [
-  "Offshore Clothing", "Vintage Crest", "In Print We Trust", "Nowhere Specific",
-  "ALY", "Superdry", "Unfounded Studios", "SPYDA", "VSZN", "TEE CLAN",
-  "Firmoo", "WINTR", "KiLLOWEN", "Lyle & Scott", "Domno Vintage",
-  "Inflation", "The Supermade", "Moschino", "DAVIDOFF", "TILT",
-  "Jean Paul Gaultier", "KORA Works", "Nike", "All Points East",
-  "PUMA", "Whatnot", "BOSS", "Afrikana", "Snoop",
+  "Afrikana", "BOSS", "Whatnot", "PUMA", "All Points East", "Nike",
+  "KORA Works", "Moschino Toy Boy 2", "Jean Paul Gaultier", "TILT",
+  "DAVIDOFF", "Moschino", "The Supermade", "Inflation", "Domno Vintage",
+  "Lyle & Scott", "KiLLOWEN", "Snoop", "WINTR", "Firmoo",
+  "TEE CLAN", "VSZN", "SPYDA", "Unfounded Studios", "Superdry",
+  "ALY", "Nowhere Specific", "In Print We Trust", "Vintage Crest",
+  "Offshore Clothing",
 ];
 assert(
   archiveBrandOrder.length === expectedArchiveOrder.length &&
   expectedArchiveOrder.every((name, index) => archiveBrandOrder[index] === name),
-  "Creator archive must be complete and oldest-to-newest by final dated deliverable",
+  "Creator work brands must be complete and newest-to-oldest by latest documented activity",
 );
 for (const [brand, first, second] of [
   ["All Points East", "TikTok 1", "TikTok 2"],
@@ -93,14 +94,37 @@ for (const [brand, first, second] of [
   const card = archiveData.slice(start, end);
   assert(card.indexOf(`label: "${first}"`) < card.indexOf(`label: "${second}"`), `${brand} videos must display oldest first`);
 }
-assert(archiveBrandOrder.at(-1) === "Snoop", "Undated brand work should remain after dated campaigns");
+assert(archiveBrandOrder.indexOf("Snoop") > archiveBrandOrder.indexOf("KiLLOWEN") && archiveBrandOrder.indexOf("Snoop") < archiveBrandOrder.indexOf("WINTR"), "Snoop December 2024 must be positioned among the 2024 work");
+
+
+const selectedCampaignData = brandWork.slice(
+  brandWork.indexOf("export const PUBLIC_CAMPAIGNS:"),
+  brandWork.indexOf("export const SELECTED_PERFORMANCE:"),
+);
+assert(!selectedCampaignData.includes('id: "afrikana-2026-11"'), "Afrikana must remain archive-only, not selected creative work");
+assert(archiveData.includes('brand: "Afrikana"'), "Afrikana gifted PR must remain in Work Archive");
+assert(!/ebay/i.test(brandWork), "Uncompleted eBay opportunity must not be represented as collaboration work");
+assert(selectedCampaignData.includes('id: "jean-paul-gaultier-le-male-2025"'), "Jean Paul Gaultier must be a featured campaign");
+assert(selectedCampaignData.includes('video/7552940839467633923'), "Jean Paul Gaultier featured TikTok link missing");
+assert(creatorPage.includes('videoId: "7552940839467633923"'), "Jean Paul Gaultier must reuse the TikTok preview player without hosting media");
+assert(selectedCampaignData.includes('id: "puma-suede-2026"'), "Confirmed PUMA gifting must be featured");
+const pumaSelectedStart = selectedCampaignData.indexOf('id: "puma-suede-2026"');
+const pumaSelectedEnd = selectedCampaignData.indexOf('id: "superdry-2024"', pumaSelectedStart);
+const featuredPuma = selectedCampaignData.slice(pumaSelectedStart, pumaSelectedEnd);
+assert(featuredPuma.includes("video/7695800477748972832"), "PUMA selected work must link to its 12 October published post");
+assert(!featuredPuma.includes("analytics:"), "PUMA must not be assigned unverified video statistics");
+assert(creatorPage.includes('videoId: "7695800477748972832"'), "PUMA must use the existing TikTok video player instead of uploading another cover");
+assert(creatorPage.includes("styles.coverFallback") && creatorPage.includes("styles.coverFallbackBrand"), "Selected campaigns without video must retain a safe fallback");
+const toyBoy2Start = archiveData.indexOf('brand: "Moschino Toy Boy 2"');
+const toyBoy2End = archiveData.indexOf("\n  },", toyBoy2Start);
+const toyBoy2Section = archiveData.slice(toyBoy2Start, toyBoy2End);
+assert(toyBoy2Section.includes("submitted for approval") && !toyBoy2Section.includes("analytics:") && !toyBoy2Section.includes("href:"), "Moschino Toy Boy 2 must not imply unverified public publication or metrics");
 
 const logoSources = [...brandWork.matchAll(/logoSrc:\s*"([^"]+)"/g)].map((match) => match[1]);
-assert(logoSources.length === publicCampaignIds.length - 1, "all selected campaigns except Afrikana must retain their verified logo images");
-assert(creatorPage.includes("styles.logoWordmark"), "Afrikana must use a text-based wordmark without external image hosting");
-assert(brandWork.includes('logoAlt: "Afrikana restaurant wordmark"'), "Afrikana featured card needs a fallback wordmark");
-assert(creatorPage.includes('videoId: "7703245313171066134"'), "Afrikana selected campaign must reuse the existing TikTok video player");
-assert(brandWork.includes("Gifted PR visit · restaurant TikTok"), "Afrikana must be labelled accurately as gifted PR");
+assert(logoSources.length === publicCampaignIds.length - 2, "Only JPG and PUMA should use text wordmarks; approved existing campaign logos must be preserved");
+assert(creatorPage.includes("styles.logoWordmark"), "Selected work text wordmarks need a verified non-hosted fallback");
+assert(brandWork.includes('logoAlt: "Jean Paul Gaultier wordmark"'), "Jean Paul Gaultier text wordmark missing");
+assert(brandWork.includes('logoAlt: "PUMA wordmark"'), "PUMA text wordmark missing");
 assert(brandConsistency.includes(".performanceAction"), "organic performance content action styling is missing");
 for (const logoSource of logoSources) assert(/^https:\/\//.test(logoSource), `logo source is not HTTPS: ${logoSource}`);
 assert(nextConfig.includes('hostname: "commons.wikimedia.org"'), "Next image config must allow the logo host");
@@ -119,7 +143,7 @@ const whatnotSelectionLinks = new Set([
 const shortLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/vm\.tiktok\.com\/[^"]+)"/g)].map((match) => match[1]);
 assert(shortLinks.length === whatnotSelectionLinks.size && shortLinks.every((url) => whatnotSelectionLinks.has(url)), "Unexpected or missing TikTok short links in brand-work data");
 
-const featuredBoss = brandWork.slice(brandWork.indexOf('id: "boss-bottled-beyond"'), brandWork.indexOf('id: "moschino-toy"'));
+const featuredBoss = brandWork.slice(brandWork.indexOf('id: "boss-bottled-beyond"'), brandWork.indexOf('id: "jean-paul-gaultier-le-male-2025"'));
 assert(featuredBoss.includes('coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp"'), "BOSS selected work must reuse its stable, existing hero cover");
 assert((featuredBoss.match(/coverSrc:/g) ?? []).length === 1, "BOSS selected work must not request another hosted cover");
 const archiveBossStart = archiveData.indexOf('brand: "BOSS"');
@@ -130,7 +154,7 @@ assert(archiveBoss.indexOf("TikTok 1 · 4 Oct") < archiveBoss.indexOf("TikTok 2 
 const pumaStart = archiveData.indexOf('brand: "PUMA"');
 const pumaEnd = archiveData.indexOf("\n  },", pumaStart);
 const pumaSection = archiveData.slice(pumaStart, pumaEnd);
-assert(pumaSection.includes("no posting obligation") && !pumaSection.includes("analytics:"), "PUMA product gifting must not be represented as measured posted content");
+assert(pumaSection.includes("no posting obligation") && pumaSection.includes("video/7695800477748972832"), "PUMA published gifting video must be linked in the archive");
 
 const selectedPerformanceLinks = [
   "7524743379410881814",
@@ -160,6 +184,8 @@ const snoopStart = brandWork.indexOf('brand: "Snoop"');
 const snoopEnd = brandWork.indexOf("\n  },", snoopStart);
 const snoopSection = snoopStart >= 0 && snoopEnd > snoopStart ? brandWork.slice(snoopStart, snoopEnd) : "";
 assert(snoopSection.includes("TikTok One"), "Snoop entry must retain TikTok One context");
+assert(snoopSection.includes('period: "Dec 2024"') && snoopSection.includes("8 Dec 2024") && snoopSection.includes("15 Dec 2024"), "Snoop December date must match the Dec 8 approval and Dec 15 deadline emails");
+assert(!snoopSection.includes("href:"), "Snoop ad-distributed creative must not get an invented public post URL");
 assert(snoopSection.includes("Creators at For You Advertising"), "Snoop entry must identify Creators at For You Advertising as the creator-side source");
 assert(!/Redpill|Candyce/i.test(snoopSection), "Snoop entry still contains the rejected Redpill/Candyce attribution");
 
