@@ -67,7 +67,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     period: "November 2026",
     format: "Gifted PR visit · restaurant TikTok",
     summary:
-      "An invited PR visit to Afrikana in Islington, with a complimentary meal in exchange for food-focused creator coverage. A conversational restaurant feature bringing food and lifestyle into the portfolio.",
+      "A gifted PR visit to Afrikana in Islington with a complimentary meal, followed by an independently styled food-review TikTok. A broader example of restaurant and lifestyle creator work.",
     logoAlt: "Afrikana restaurant wordmark",
     tone: "stone",
     brandUrl: "https://www.afrikanakitchen.com/",
