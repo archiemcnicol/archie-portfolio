@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Archie McNicol — Creator Operations, Community, Content & AI";
+export const alt = "Archie McNicol — Creator, Community & Digital Creative";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -63,11 +63,11 @@ export default function OpenGraphImage() {
               lineHeight: 0.98,
             }}
           >
-            <span>Creator Operations.</span>
-            <span>Community · Content · AI.</span>
+            <span>Creator. Community.</span>
+            <span>Digital Creative.</span>
           </div>
           <div style={{ color: "#c9c4bb", fontSize: 28, lineHeight: 1.35 }}>
-            CapCut UK · CreatorOps · Campaigns · Performance
+            Brand Work · Photography · Operations · AI
           </div>
         </div>
 

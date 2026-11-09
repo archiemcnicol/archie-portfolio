@@ -27,7 +27,7 @@ import { PUBLIC_PROFILE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/sit
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: `${SITE_NAME} — Creator Operations, Community, Content & AI`,
+  title: `${SITE_NAME} — Creator, Community & Digital Creative`,
   description: SITE_DESCRIPTION,
   applicationName: `${SITE_NAME} Portfolio`,
   authors: [{ name: SITE_NAME }],
@@ -47,13 +47,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: `${SITE_NAME} Portfolio`,
-    title: `${SITE_NAME} — Creator Operations, Community, Content & AI`,
+    title: `${SITE_NAME} — Creator, Community & Digital Creative`,
     description: SITE_DESCRIPTION,
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} — Creator Operations, Community, Content & AI`,
+    title: `${SITE_NAME} — Creator, Community & Digital Creative`,
     description: SITE_DESCRIPTION,
   },
   robots: { index: true, follow: true },
@@ -72,7 +72,7 @@ const personSchema = {
   name: SITE_NAME,
   url: SITE_URL,
   email: `mailto:${PUBLIC_PROFILE.email}`,
-  jobTitle: "Creator operations and community specialist",
+  jobTitle: "Content creator, community manager and digital creative",
   homeLocation: { "@type": "Country", name: "United Kingdom" },
   sameAs: [
     PUBLIC_PROFILE.instagram,

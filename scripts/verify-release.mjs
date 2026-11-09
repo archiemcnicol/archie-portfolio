@@ -37,7 +37,12 @@ for (const id of publicCampaignIds) assert(brandWork.includes(`id: "${id}"`), `p
 assert(/analytics:\s*\{ views: "22\.5K", likes: "1,077" \}/.test(brandWork), "Nike performance baseline has changed unexpectedly");
 assert(brandWork.includes('views: "1.8K", likes: "88"'), "BOSS video 1 metrics are missing");
 assert(brandWork.includes('views: "2.9K", likes: "134"'), "BOSS video 2 metrics are missing");
-assert(brandWork.includes('views: "1.1K", likes: "37"'), "Whatnot metrics are missing");
+// Whatnot's old first-day snapshot is no longer an accurate portfolio highlight.
+const whatnotStart = brandWork.indexOf('brand: "Whatnot"');
+const whatnotEnd = brandWork.indexOf("\n  },", whatnotStart);
+const whatnotSection = whatnotStart >= 0 && whatnotEnd > whatnotStart ? brandWork.slice(whatnotStart, whatnotEnd) : "";
+assert(whatnotSection.includes("nearing 500K views by mid-September 2026"), "Whatnot's dated performance context is missing");
+assert((whatnotSection.match(/label: "Video ·/g) ?? []).length >= 6, "Whatnot video archive is incomplete");
 
 const logoSources = [...brandWork.matchAll(/logoSrc:\s*"([^"]+)"/g)].map((match) => match[1]);
 assert(logoSources.length === publicCampaignIds.length, "every selected public campaign must have one logo source");
@@ -46,7 +51,17 @@ assert(nextConfig.includes('hostname: "commons.wikimedia.org"'), "Next image con
 
 const tiktokLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/www\.tiktok\.com\/@fitswitharchie\/video\/\d+)"/g)].map((match) => match[1]);
 assert(tiktokLinks.length >= 20, `expected a substantial canonical TikTok archive, found ${tiktokLinks.length} links`);
-assert(!brandWork.includes("https://vm.tiktok.com/"), "legacy TikTok short links remain in brand-work data");
+// Permit only these links supplied in the Whatnot Creator Programme's official
+// video-specific selection emails; all other campaign links stay canonical.
+const whatnotSelectionLinks = new Set([
+  "https://vm.tiktok.com/ZGdQPEYYo/",
+  "https://vm.tiktok.com/ZGdQbQc9e/",
+  "https://vm.tiktok.com/ZGdQo9JoQ/",
+  "https://vm.tiktok.com/ZGdCr52WA/",
+  "https://vm.tiktok.com/ZGdCQoba8/",
+]);
+const shortLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/vm\.tiktok\.com\/[^"]+)"/g)].map((match) => match[1]);
+assert(shortLinks.length === whatnotSelectionLinks.size && shortLinks.every((url) => whatnotSelectionLinks.has(url)), "Unexpected or missing TikTok short links in brand-work data");
 
 const selectedPerformanceLinks = [
   "7524743379410881814",
@@ -70,7 +85,7 @@ assert(brandConsistency.includes(".performanceAction"), "organic performance con
 assert(brandConsistency.includes(":global(.brand-page .brand-section)"), "Brand Work compact section spacing is missing");
 
 const snoopStart = brandWork.indexOf('brand: "Snoop"');
-const snoopEnd = brandWork.indexOf('brand: "Whatnot"', snoopStart);
+const snoopEnd = brandWork.indexOf("\n  },", snoopStart);
 const snoopSection = snoopStart >= 0 && snoopEnd > snoopStart ? brandWork.slice(snoopStart, snoopEnd) : "";
 assert(snoopSection.includes("TikTok One"), "Snoop entry must retain TikTok One context");
 assert(snoopSection.includes("Creators at For You Advertising"), "Snoop entry must identify Creators at For You Advertising as the creator-side source");
