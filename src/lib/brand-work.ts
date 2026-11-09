@@ -238,6 +238,21 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
 
 export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
+    brand: "Whatnot",
+    detail: "Men's fashion, sneakers and product-showcase videos for the Creator Programme. Multiple standout selections; the first submission was nearing 500K views by mid-September 2026.",
+    period: "Sep–Oct 2026",
+    brandUrl: "https://www.whatnot.com/",
+    links: [
+      { label: "Video · 3 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok" },
+      { label: "Video · 10 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7683943012715547936", platform: "TikTok" },
+      { label: "Video · 18 Sep", href: "https://vm.tiktok.com/ZGdQPEYYo/", platform: "TikTok" },
+      { label: "Video · 27 Sep", href: "https://vm.tiktok.com/ZGdQbQc9e/", platform: "TikTok" },
+      { label: "Video · 2 Oct", href: "https://vm.tiktok.com/ZGdQo9JoQ/", platform: "TikTok" },
+      { label: "Video · 12 Oct", href: "https://vm.tiktok.com/ZGdCr52WA/", platform: "TikTok" },
+      { label: "Video · 19 Oct", href: "https://vm.tiktok.com/ZGdCQoba8/", platform: "TikTok" },
+    ],
+  },
+  {
     brand: "Nike",
     detail: "Fashion product integration",
     period: "6 Jan 2026",
@@ -540,15 +555,5 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     detail: "Budgeting app creator campaign distributed through TikTok One",
     brandUrl: "https://snoop.app/",
     campaignPartner: "Creators at For You Advertising",
-  },
-  {
-    brand: "Whatnot",
-    detail: "Men's Fashion & Sneakers Creator Programme · shopping haul",
-    period: "3 Sep 2026",
-    brandUrl: "https://www.whatnot.com/",
-    analytics: { views: "1.1K", likes: "37" },
-    links: [
-      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok" },
-    ],
   },
 ];
