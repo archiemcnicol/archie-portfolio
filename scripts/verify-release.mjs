@@ -58,7 +58,7 @@ for (const [label, views, likes] of expectedWhatnotPosts) {
   previousWhatnotIndex = index;
   assert(whatnotSection.includes(`views: "${views}", likes: "${likes}"`), `Whatnot metrics are incorrect for ${label}`);
 }
-assert((whatnotSection.match(/analytics: \\{ views:/g) ?? []).length === 7, "Whatnot must have exactly seven measured rows");
+assert(whatnotSection.split('analytics: { views:').length - 1 === 7, "Whatnot must have exactly seven measured rows");
 assert(whatnotSection.includes("Performance captured 9 Nov 2026"), "Whatnot metrics require a snapshot date");
 
 const archiveData = brandWork.slice(brandWork.indexOf("export const PARTNERSHIP_ROSTER:"));
