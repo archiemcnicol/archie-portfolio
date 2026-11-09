@@ -239,17 +239,59 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
 export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "Whatnot",
-    detail: "Men's fashion, sneakers and product-showcase videos for the Creator Programme. Multiple standout selections; the first submission was nearing 500K views by mid-September 2026.",
+    detail: "Men's fashion and sneakers Creator Programme · shopping-haul and product-showcase videos. The first submission was nearing 500K views by mid-September 2026. Dashes indicate figures awaiting verification.",
     period: "Sep–Oct 2026",
     brandUrl: "https://www.whatnot.com/",
     links: [
-      { label: "Video · 3 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok" },
-      { label: "Video · 10 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7683943012715547936", platform: "TikTok" },
-      { label: "Video · 18 Sep", href: "https://vm.tiktok.com/ZGdQPEYYo/", platform: "TikTok" },
-      { label: "Video · 27 Sep", href: "https://vm.tiktok.com/ZGdQbQc9e/", platform: "TikTok" },
-      { label: "Video · 2 Oct", href: "https://vm.tiktok.com/ZGdQo9JoQ/", platform: "TikTok" },
-      { label: "Video · 12 Oct", href: "https://vm.tiktok.com/ZGdCr52WA/", platform: "TikTok" },
-      { label: "Video · 19 Oct", href: "https://vm.tiktok.com/ZGdCQoba8/", platform: "TikTok" },
+      { label: "TikTok 07 · selected 19 Oct", href: "https://vm.tiktok.com/ZGdCQoba8/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
+      { label: "TikTok 06 · selected 12 Oct", href: "https://vm.tiktok.com/ZGdCr52WA/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
+      { label: "TikTok 05 · selected 2 Oct", href: "https://vm.tiktok.com/ZGdQo9JoQ/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
+      { label: "TikTok 04 · selected 27 Sep", href: "https://vm.tiktok.com/ZGdQbQc9e/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
+      { label: "TikTok 03 · selected 18 Sep", href: "https://vm.tiktok.com/ZGdQPEYYo/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
+      { label: "TikTok 02 · 10 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7683943012715547936", platform: "TikTok", analytics: { views: "—", likes: "—" } },
+      { label: "TikTok 01 · 3 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok", analytics: { views: "≈500K (16 Sep 2026)", likes: "—" } },
+    ],
+  },
+  {
+    brand: "All Points East",
+    detail: "Event-promotion creator campaign · Tyler, The Creator · two videos",
+    period: "Aug 2026",
+    links: [
+      {
+        label: "TikTok 2",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008",
+        platform: "TikTok",
+        analytics: { views: "16.6K", likes: "1,048" },
+      },
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
+        platform: "TikTok",
+        analytics: { views: "11.6K", likes: "374" },
+      },
+    ],
+  },
+  {
+    brand: "BOSS",
+    detail: "Two BOSS Bottled fragrance integrations",
+    period: "Oct 2025 — Jan 2026",
+    brandUrl: "https://www.hugoboss.com/uk/",
+    campaignPartner: "Socially Powerful",
+    partnerUrl: "https://sociallypowerful.com/",
+    managedBy: [{ name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Account Executive" }],
+    links: [
+      {
+        label: "TikTok 2",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310",
+        platform: "TikTok",
+        analytics: { views: "2.9K", likes: "134" },
+      },
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910",
+        platform: "TikTok",
+        analytics: { views: "1.8K", likes: "88" },
+      },
     ],
   },
   {
@@ -266,45 +308,55 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     ],
   },
   {
-    brand: "BOSS",
-    detail: "Two BOSS Bottled fragrance integrations",
-    period: "Oct 2025 — Jan 2026",
-    brandUrl: "https://www.hugoboss.com/uk/",
-    campaignPartner: "Socially Powerful",
-    partnerUrl: "https://sociallypowerful.com/",
-    managedBy: [{ name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Account Executive" }],
+    brand: "KORA Works",
+    detail: "Omar+ — Frozen · paid music promotion",
+    period: "26 Nov 2025",
+    analytics: { views: "7.7K", likes: "195" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7577072259290991894", platform: "TikTok" },
+    ],
+  },
+  {
+    brand: "Jean Paul Gaultier",
+    detail: "Le Male fragrance gifting",
+    period: "Sep 2025",
+    analytics: { views: "2.8K", likes: "164" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7552940839467633923", platform: "TikTok" },
+    ],
+  },
+  {
+    brand: "TILT",
+    detail: "Go Full Tilt creator campaign · two TikTok deliverables",
+    period: "7–8 Jul 2025",
+    brandUrl: "https://www.tilt.app/",
+    campaignPartner: "Redpill",
     links: [
       {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910",
+        label: "TikTok 2",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7524743379410881814",
         platform: "TikTok",
-        analytics: { views: "1.8K", likes: "88" },
+        analytics: { views: "914.6K", likes: "5.4K" },
       },
       {
-        label: "TikTok 2",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310",
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7524371608803265814",
         platform: "TikTok",
-        analytics: { views: "2.9K", likes: "134" },
+        analytics: { views: "637.9K", likes: "4.1K" },
       },
     ],
   },
   {
-    brand: "All Points East",
-    detail: "Event-promotion creator campaign · Tyler, The Creator · two videos",
-    period: "Aug 2026",
+    brand: "DAVIDOFF",
+    detail: "Cool Elixir new fragrance launch",
+    period: "Published 6 Jul 2025",
+    brandUrl: "https://www.zinodavidoff.com/",
+    campaignPartner: "Disrupt Marketing",
+    partnerUrl: "https://disruptmarketing.co/",
+    managedBy: [{ name: "Alice Mangazzi", organisation: "Disrupt Marketing", role: "Campaign management" }],
+    analytics: { views: "2.1K", likes: "62" },
     links: [
-      {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
-        platform: "TikTok",
-        analytics: { views: "11.6K", likes: "374" },
-      },
-      {
-        label: "TikTok 2",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008",
-        platform: "TikTok",
-        analytics: { views: "16.6K", likes: "1,048" },
-      },
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7523993384546077974", platform: "TikTok" },
     ],
   },
   {
@@ -325,84 +377,6 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     ],
   },
   {
-    brand: "Superdry",
-    detail: "Fashion styling campaign · one live TikTok deliverable",
-    period: "16 Sep 2024",
-    brandUrl: "https://www.superdry.com/",
-    managedBy: [{ name: "Lydia Shute", organisation: "Superdry", role: "Campaign contact" }],
-    analytics: { views: "28.6K", likes: "665" },
-    links: [
-      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7415251227971259680", platform: "TikTok" },
-    ],
-  },
-  {
-    brand: "Lyle & Scott",
-    detail: "Fashion creator collaboration",
-    period: "1 May 2025",
-    brandUrl: "https://www.lyleandscott.com/",
-    campaignPartner: "CheekySport",
-    partnerUrl: "https://cheekysport.com/",
-    analytics: { views: "46.5K", likes: "1,676" },
-    links: [
-      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7499465138953653526", platform: "TikTok" },
-    ],
-  },
-  {
-    brand: "DAVIDOFF",
-    detail: "Cool Elixir new fragrance launch",
-    period: "Published 6 Jul 2025",
-    brandUrl: "https://www.zinodavidoff.com/",
-    campaignPartner: "Disrupt Marketing",
-    partnerUrl: "https://disruptmarketing.co/",
-    managedBy: [{ name: "Alice Mangazzi", organisation: "Disrupt Marketing", role: "Campaign management" }],
-    analytics: { views: "2.1K", likes: "62" },
-    links: [
-      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7523993384546077974", platform: "TikTok" },
-    ],
-  },
-  {
-    brand: "TILT",
-    detail: "Go Full Tilt creator campaign · two TikTok deliverables",
-    period: "7–8 Jul 2025",
-    brandUrl: "https://www.tilt.app/",
-    campaignPartner: "Redpill",
-    links: [
-      {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7524371608803265814",
-        platform: "TikTok",
-        analytics: { views: "637.9K", likes: "4.1K" },
-      },
-      {
-        label: "TikTok 2",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7524743379410881814",
-        platform: "TikTok",
-        analytics: { views: "914.6K", likes: "5.4K" },
-      },
-    ],
-  },
-  {
-    brand: "KiLLOWEN",
-    detail: "Pick Your Poison · music promotion",
-    period: "10 Mar 2025",
-    campaignPartner: "NOTION MGMT",
-    partnerUrl: "https://notionmgmt.com/",
-    analytics: { views: "271.3K", likes: "18K" },
-    links: [
-      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7480232374132018434", platform: "TikTok" },
-    ],
-  },
-  {
-    brand: "Domno Vintage",
-    detail: "Vintage and jewellery affiliate collaboration",
-    period: "7 May 2025",
-    brandUrl: "https://domno.com/",
-    analytics: { views: "5.2K", likes: "135" },
-    links: [
-      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7501481439297293590", platform: "TikTok" },
-    ],
-  },
-  {
     brand: "The Supermade",
     detail: "Streetwear collaboration",
     period: "2 Jun 2025",
@@ -419,6 +393,39 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     analytics: { views: "5.2K", likes: "182" },
     links: [
       { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7504690174270557462", platform: "TikTok" },
+    ],
+  },
+  {
+    brand: "Domno Vintage",
+    detail: "Vintage and jewellery affiliate collaboration",
+    period: "7 May 2025",
+    brandUrl: "https://domno.com/",
+    analytics: { views: "5.2K", likes: "135" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7501481439297293590", platform: "TikTok" },
+    ],
+  },
+  {
+    brand: "Lyle & Scott",
+    detail: "Fashion creator collaboration",
+    period: "1 May 2025",
+    brandUrl: "https://www.lyleandscott.com/",
+    campaignPartner: "CheekySport",
+    partnerUrl: "https://cheekysport.com/",
+    analytics: { views: "46.5K", likes: "1,676" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7499465138953653526", platform: "TikTok" },
+    ],
+  },
+  {
+    brand: "KiLLOWEN",
+    detail: "Pick Your Poison · music promotion",
+    period: "10 Mar 2025",
+    campaignPartner: "NOTION MGMT",
+    partnerUrl: "https://notionmgmt.com/",
+    analytics: { views: "271.3K", likes: "18K" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7480232374132018434", platform: "TikTok" },
     ],
   },
   {
@@ -473,17 +480,28 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     period: "Jul + Oct 2024",
     links: [
       {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7395243777901858081",
-        platform: "TikTok",
-        analytics: { views: "12.4K", likes: "559" },
-      },
-      {
         label: "TikTok 2",
         href: "https://www.tiktok.com/@fitswitharchie/video/7427512816929639712",
         platform: "TikTok",
         analytics: { views: "12.9K", likes: "609" },
       },
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7395243777901858081",
+        platform: "TikTok",
+        analytics: { views: "12.4K", likes: "559" },
+      },
+    ],
+  },
+  {
+    brand: "Superdry",
+    detail: "Fashion styling campaign · one live TikTok deliverable",
+    period: "16 Sep 2024",
+    brandUrl: "https://www.superdry.com/",
+    managedBy: [{ name: "Lydia Shute", organisation: "Superdry", role: "Campaign contact" }],
+    analytics: { views: "28.6K", likes: "665" },
+    links: [
+      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7415251227971259680", platform: "TikTok" },
     ],
   },
   {
@@ -530,24 +548,6 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     analytics: { views: "17.1K", likes: "625" },
     links: [
       { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7396362773879459104", platform: "TikTok" },
-    ],
-  },
-  {
-    brand: "Jean Paul Gaultier",
-    detail: "Le Male fragrance gifting",
-    period: "Sep 2025",
-    analytics: { views: "2.8K", likes: "164" },
-    links: [
-      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7552940839467633923", platform: "TikTok" },
-    ],
-  },
-  {
-    brand: "KORA Works",
-    detail: "Omar+ — Frozen · paid music promotion",
-    period: "26 Nov 2025",
-    analytics: { views: "7.7K", likes: "195" },
-    links: [
-      { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7577072259290991894", platform: "TikTok" },
     ],
   },
   {
