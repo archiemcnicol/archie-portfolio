@@ -28,6 +28,10 @@ const PERFORMANCE_CONTENT_LINKS: Record<string, string> = {
 };
 
 const TIKTOK_FRAME_PREVIEWS: Record<string, { videoId: string; seekTo: number }> = {
+  "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008": {
+    videoId: "7678728230278303008",
+    seekTo: 1.05,
+  },
   "https://www.tiktok.com/@fitswitharchie/video/7695800477748972832": {
     videoId: "7695800477748972832",
     seekTo: 1.05,
@@ -258,8 +262,14 @@ export default function CreatorPage() {
           <div className={styles.partnershipGrid} aria-label="Brand work archive">
             {PARTNERSHIP_ROSTER.map((partnership, index) => {
               const publicLinks = partnership.links?.filter((link) => link.href) ?? [];
-              const metricLinks = publicLinks.filter((link) => link.analytics);
-              const simpleLinks = publicLinks.filter((link) => !link.analytics);
+              // Archive entries all use identical linked deliverable cards, including
+              // campaigns with a single video whose metrics were stored at card level.
+              const hasPerPostMetrics = publicLinks.some((link) => Boolean(link.analytics));
+              const deliverables = publicLinks.map((link, linkIndex) => ({
+                ...link,
+                analytics: link.analytics ??
+                  (!hasPerPostMetrics && linkIndex === 0 ? partnership.analytics : undefined),
+              }));
 
               return (
                 <article className={styles.partnershipCard} key={`${partnership.brand}-${index}`}>
@@ -272,18 +282,28 @@ export default function CreatorPage() {
                     <span>Brand / client: <strong>{partnership.brand}</strong>{partnership.campaignPartner ? <>{" · via "}{partnership.partnerUrl ? <a href={partnership.partnerUrl} rel="noreferrer" target="_blank">{partnership.campaignPartner} ↗</a> : <strong>{partnership.campaignPartner}</strong>}</> : null}</span>
                     {partnership.managedBy?.length ? <span>Commissioned / managed by {partnership.managedBy.map((contact) => contact.organisation ? `${contact.name} · ${contact.organisation}` : contact.name).join(" · ")}</span> : null}
                   </div>
-                  {partnership.analytics ? <div className={styles.archiveAnalytics}><span>{partnership.analytics.views} views</span><span>{partnership.analytics.likes} likes</span></div> : null}
-                  {metricLinks.length ? (
+                  {deliverables.length ? (
                     <div className={styles.archiveDeliverables}>
-                      {metricLinks.map((link) => (
-                        <a href={link.href} key={`${partnership.brand}-${link.label}-metric`} rel="noreferrer" target="_blank">
+                      {deliverables.map((link) => (
+                        <a href={link.href} key={`${partnership.brand}-${link.label}-deliverable`} rel="noreferrer" target="_blank">
                           <div className={styles.archiveDeliverableHead}><strong>{link.label}</strong><b>↗</b></div>
-                          <div className={styles.archiveAnalytics}><span>{link.analytics!.views} views</span><span>{link.analytics!.likes} likes</span></div>
+                          {link.analytics ? (
+                            <div className={styles.archiveAnalytics}>
+                              <span>{link.analytics.views} views</span>
+                              <span>{link.analytics.likes} likes</span>
+                            </div>
+                          ) : <span className={styles.archiveMetricPending}>Figures not recorded</span>}
                         </a>
                       ))}
                     </div>
+                  ) : partnership.brand === "Snoop" ? (
+                    <div className={styles.archiveDeliverables}>
+                      <div className={styles.archiveUnlinkedDeliverable}>
+                        <div className={styles.archiveDeliverableHead}><strong>Ad-distributed video</strong></div>
+                        <span className={styles.archiveMetricPending}>Not available as a public post</span>
+                      </div>
+                    </div>
                   ) : null}
-                  {simpleLinks.length ? <div className={styles.archiveLinks}>{simpleLinks.map((link) => <a href={link.href} key={`${partnership.brand}-${link.label}`} rel="noreferrer" target="_blank">{link.label} ↗</a>)}</div> : null}
                 </article>
               );
             })}
