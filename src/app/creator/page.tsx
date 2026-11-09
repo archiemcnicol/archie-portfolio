@@ -135,17 +135,21 @@ export default function CreatorPage() {
         <div className="wrap">
           <div className="brand-section-heading">
             <div className="section-title">Selected creative work</div>
-            <p>Campaigns selected for the brief, execution and deliverables—not simply because a post received the largest distribution.</p>
+            <p>One representative video per campaign, selected for the brief and execution rather than simply its reach. Full deliverables are retained in the work archive.</p>
           </div>
 
           <div className="brand-campaigns">
             {PUBLIC_CAMPAIGNS.map((campaign, index) => {
+              // Highlight one stable, existing cover/preview per campaign. The archive
+              // remains the complete source for additional videos and their statistics.
               const coverLinks = campaign.links.filter(
                 (link) => link.coverSrc || Boolean(link.href && TIKTOK_FRAME_PREVIEWS[link.href]),
+              ).slice(0, 1);
+              const featuredLink = coverLinks[0] ?? campaign.links.find((link) => link.href);
+              const featuredAnalytics = featuredLink?.analytics ?? campaign.analytics;
+              const additionalDeliverables = campaign.links.filter(
+                (link) => link.href && link.href !== featuredLink?.href,
               );
-              const publicLinks = campaign.links.filter((link) => link.href);
-              const measuredDeliverables = publicLinks.filter((link) => link.analytics);
-              const standardLinks = publicLinks.filter((link) => !link.analytics);
 
               return (
                 <article className={styles.campaign} key={campaign.id}>
@@ -204,36 +208,18 @@ export default function CreatorPage() {
                       </div>
                     ) : null}
 
-                    {campaign.analytics ? (
-                      <div className={styles.analytics} aria-label={`${campaign.brand} performance`}>
-                        <div><span>Views</span><strong>{campaign.analytics.views}</strong></div>
-                        <div><span>Likes</span><strong>{campaign.analytics.likes}</strong></div>
+                    {featuredAnalytics ? (
+                      <div className={styles.analytics} aria-label={`${campaign.brand} featured video performance`}>
+                        <div><span>Views</span><strong>{featuredAnalytics.views}</strong></div>
+                        <div><span>Likes</span><strong>{featuredAnalytics.likes}</strong></div>
                       </div>
                     ) : null}
 
-                    {measuredDeliverables.length ? (
-                      <div className={styles.measuredDeliverables} aria-label={`${campaign.brand} deliverable performance`}>
-                        {measuredDeliverables.map((link) => (
-                          <div className={styles.measuredDeliverable} key={`${campaign.id}-${link.label}-performance`}>
-                            <div className={styles.deliverableHead}><strong>{link.label}</strong><span>{link.platform}</span></div>
-                            <div className={styles.analytics}>
-                              <div><span>Views</span><strong>{link.analytics!.views}</strong></div>
-                              <div><span>Likes</span><strong>{link.analytics!.likes}</strong></div>
-                            </div>
-                            <a href={link.href} rel="noreferrer" target="_blank">View on {link.platform} ↗</a>
-                          </div>
-                        ))}
-                      </div>
-                    ) : null}
-
-                    {standardLinks.length ? (
-                      <div className={styles.deliverables} aria-label={`${campaign.brand} content links`}>
-                        {standardLinks.map((link) => (
-                          <a href={link.href} key={`${campaign.id}-${link.label}-link`} rel="noreferrer" target="_blank">
-                            <span>{link.label}</span><small>{link.platform}</small><b>↗</b>
-                          </a>
-                        ))}
-                      </div>
+                    {additionalDeliverables.length ? (
+                      <>
+                        <a className={styles.brandLink} href="#work-archive">View more in the work archive ↘</a>
+                        {" · "}
+                      </>
                     ) : null}
                     {campaign.brandUrl ? <a className={styles.brandLink} href={campaign.brandUrl} rel="noreferrer" target="_blank">Visit {campaign.brand} ↗</a> : null}
                   </div>
