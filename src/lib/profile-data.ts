@@ -94,6 +94,7 @@ export const BACKGROUND_MILESTONES = [
 export const SELECTED_CLIENTS = [
   "Nike",
   "BOSS",
+  "PUMA",
   "Moschino",
   "Superdry",
   "Lyle & Scott",
