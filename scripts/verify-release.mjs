@@ -31,7 +31,7 @@ const assert = (condition, message) => {
   if (!condition) failures.push(message);
 };
 
-const publicCampaignIds = ["nike", "boss-bottled-beyond", "moschino-toy", "superdry-2024"];
+const publicCampaignIds = ["afrikana-2026-11", "nike", "boss-bottled-beyond", "moschino-toy", "superdry-2024"];
 for (const id of publicCampaignIds) assert(brandWork.includes(`id: "${id}"`), `public campaign is missing: ${id}`);
 
 assert(/analytics:\s*\{ views: "22\.5K", likes: "1,077" \}/.test(brandWork), "Nike performance baseline has changed unexpectedly");
@@ -73,7 +73,12 @@ assert(mostRecentBrands.every((name, index) => archiveBrandOrder[index] === name
 assert(archiveBrandOrder.at(-1) === "Snoop", "Undated brand work should remain after dated campaigns");
 
 const logoSources = [...brandWork.matchAll(/logoSrc:\s*"([^"]+)"/g)].map((match) => match[1]);
-assert(logoSources.length === publicCampaignIds.length, "every selected public campaign must have one logo source");
+assert(logoSources.length === publicCampaignIds.length - 1, "all selected campaigns except Afrikana must retain their verified logo images");
+assert(creatorPage.includes("styles.logoWordmark"), "Afrikana must use a text-based wordmark without external image hosting");
+assert(brandWork.includes('logoAlt: "Afrikana restaurant wordmark"'), "Afrikana featured card needs a fallback wordmark");
+assert(creatorPage.includes('videoId: "7703245313171066134"'), "Afrikana selected campaign must reuse the existing TikTok video player");
+assert(brandWork.includes("Gifted PR visit · restaurant TikTok"), "Afrikana must be labelled accurately as gifted PR");
+assert(brandConsistency.includes(".performanceAction"), "organic performance content action styling is missing");
 for (const logoSource of logoSources) assert(/^https:\/\//.test(logoSource), `logo source is not HTTPS: ${logoSource}`);
 assert(nextConfig.includes('hostname: "commons.wikimedia.org"'), "Next image config must allow the logo host");
 
