@@ -91,10 +91,10 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     id: "boss-bottled-beyond",
     brand: "BOSS",
     campaign: "BOSS Bottled fragrance work",
-    period: "October 2025 — January 2026",
-    format: "2 fragrance integrations",
+    period: "October 2025 — October 2026",
+    format: "3 fragrance integrations · one featured",
     summary:
-      "Two separate BOSS Bottled fragrance promotions translated into polished, platform-native fashion and lifestyle content.",
+      "A series of BOSS Bottled fragrance videos spanning commissioned creative work and later product gifting. One representative video is featured here; all three published posts and their results are in the work archive.",
     logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Boss_logo_2021.svg",
     logoAlt: "BOSS wordmark",
     tone: "stone",
@@ -117,6 +117,12 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310",
         platform: "TikTok",
         analytics: { views: "2.9K", likes: "134" },
+      },
+      {
+        label: "Video 03 · 30 Oct 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7702502196876709142",
+        platform: "TikTok",
+        analytics: { views: "1,948", likes: "86" },
       },
     ],
   },
@@ -238,6 +244,33 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
 
 export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
+    brand: "Afrikana",
+    detail: "Restaurant visit and food-review video at Afrikana in Islington · TikTok feature",
+    period: "1 Nov 2026",
+    brandUrl: "https://www.afrikanakitchen.com/",
+    analytics: { views: "4,827", likes: "164" },
+    links: [
+      { label: "TikTok · 1 Nov", href: "https://www.tiktok.com/@fitswitharchie/video/7703245313171066134", platform: "TikTok" },
+    ],
+  },
+  {
+    brand: "BOSS",
+    detail: "Three BOSS Bottled fragrance videos: earlier commissioned integrations and the October 2026 Bottled Beyond Intense gifting feature. Figures are individual TikTok snapshots.",
+    period: "Oct 2025 – Oct 2026",
+    brandUrl: "https://www.hugoboss.com/uk/",
+    campaignPartner: "Socially Powerful",
+    partnerUrl: "https://sociallypowerful.com/",
+    managedBy: [
+      { name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Earlier campaign and PUMA gifting" },
+      { name: "Ria Shah", organisation: "Socially Powerful", role: "October 2026 gifting" },
+    ],
+    links: [
+      { label: "TikTok 3 · 30 Oct 2026 · gifted", href: "https://www.tiktok.com/@fitswitharchie/video/7702502196876709142", platform: "TikTok", analytics: { views: "1,948", likes: "86" } },
+      { label: "TikTok 2 · 7 Jan 2026", href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310", platform: "TikTok", analytics: { views: "2.9K", likes: "134" } },
+      { label: "TikTok 1 · 4 Oct 2025", href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910", platform: "TikTok", analytics: { views: "1.8K", likes: "88" } },
+    ],
+  },
+  {
     brand: "Whatnot",
     detail: "Seven paid-partnership TikTok videos for the Whatnot Creator Programme, featuring streetwear, designer fashion and shopping hauls. Performance captured 9 Nov 2026.",
     period: "3 Sep–18 Oct 2026",
@@ -251,6 +284,15 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
       { label: "TikTok 6 · 9 Oct", href: "https://vm.tiktok.com/ZGdCr52WA/", platform: "TikTok", analytics: { views: "175.2K", likes: "72" } },
       { label: "TikTok 7 · 18 Oct", href: "https://vm.tiktok.com/ZGdCQoba8/", platform: "TikTok", analytics: { views: "366.1K", likes: "141" } },
     ],
+  },
+  {
+    brand: "PUMA",
+    detail: "PUMA Suede Classic · complimentary product gifting with no posting obligation (no verified published content link)",
+    period: "Sep 2026",
+    brandUrl: "https://uk.puma.com/uk/en",
+    campaignPartner: "Socially Powerful",
+    partnerUrl: "https://sociallypowerful.com/",
+    managedBy: [{ name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Gifting coordination" }],
   },
   {
     brand: "All Points East",
@@ -268,29 +310,6 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
         href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
         platform: "TikTok",
         analytics: { views: "11.6K", likes: "374" },
-      },
-    ],
-  },
-  {
-    brand: "BOSS",
-    detail: "Two BOSS Bottled fragrance integrations",
-    period: "Oct 2025 — Jan 2026",
-    brandUrl: "https://www.hugoboss.com/uk/",
-    campaignPartner: "Socially Powerful",
-    partnerUrl: "https://sociallypowerful.com/",
-    managedBy: [{ name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Account Executive" }],
-    links: [
-      {
-        label: "TikTok 2",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310",
-        platform: "TikTok",
-        analytics: { views: "2.9K", likes: "134" },
-      },
-      {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910",
-        platform: "TikTok",
-        analytics: { views: "1.8K", likes: "88" },
       },
     ],
   },
