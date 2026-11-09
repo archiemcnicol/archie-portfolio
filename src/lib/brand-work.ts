@@ -239,17 +239,17 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
 export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "Whatnot",
-    detail: "Men's fashion and sneakers Creator Programme · shopping-haul and product-showcase videos. The first submission was nearing 500K views by mid-September 2026. Dashes indicate figures awaiting verification.",
-    period: "Sep–Oct 2026",
+    detail: "Seven paid-partnership TikTok videos for the Whatnot Creator Programme, featuring streetwear, designer fashion and shopping hauls. Performance captured 9 Nov 2026.",
+    period: "3 Sep–18 Oct 2026",
     brandUrl: "https://www.whatnot.com/",
     links: [
-      { label: "TikTok 07 · selected 19 Oct", href: "https://vm.tiktok.com/ZGdCQoba8/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
-      { label: "TikTok 06 · selected 12 Oct", href: "https://vm.tiktok.com/ZGdCr52WA/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
-      { label: "TikTok 05 · selected 2 Oct", href: "https://vm.tiktok.com/ZGdQo9JoQ/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
-      { label: "TikTok 04 · selected 27 Sep", href: "https://vm.tiktok.com/ZGdQbQc9e/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
-      { label: "TikTok 03 · selected 18 Sep", href: "https://vm.tiktok.com/ZGdQPEYYo/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
-      { label: "TikTok 02 · 10 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7683943012715547936", platform: "TikTok", analytics: { views: "—", likes: "—" } },
-      { label: "TikTok 01 · 3 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok", analytics: { views: "≈500K (16 Sep 2026)", likes: "—" } },
+      { label: "TikTok 1 · 3 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok", analytics: { views: "474.4K", likes: "282" } },
+      { label: "TikTok 2 · 10 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7683943012715547936", platform: "TikTok", analytics: { views: "370.5K", likes: "156" } },
+      { label: "TikTok 3 · 16 Sep", href: "https://vm.tiktok.com/ZGdQPEYYo/", platform: "TikTok", analytics: { views: "258.5K", likes: "121" } },
+      { label: "TikTok 4 · 23 Sep", href: "https://vm.tiktok.com/ZGdQbQc9e/", platform: "TikTok", analytics: { views: "349.5K", likes: "180" } },
+      { label: "TikTok 5 · 1 Oct", href: "https://vm.tiktok.com/ZGdQo9JoQ/", platform: "TikTok", analytics: { views: "163.4K", likes: "101" } },
+      { label: "TikTok 6 · 9 Oct", href: "https://vm.tiktok.com/ZGdCr52WA/", platform: "TikTok", analytics: { views: "175.2K", likes: "72" } },
+      { label: "TikTok 7 · 18 Oct", href: "https://vm.tiktok.com/ZGdCQoba8/", platform: "TikTok", analytics: { views: "366.1K", likes: "141" } },
     ],
   },
   {
