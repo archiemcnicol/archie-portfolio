@@ -37,6 +37,11 @@ for (const id of publicCampaignIds) assert(brandWork.includes(`id: "${id}"`), `p
 assert(/analytics:\s*\{ views: "22\.5K", likes: "1,077" \}/.test(brandWork), "Nike performance baseline has changed unexpectedly");
 assert(brandWork.includes('views: "1.8K", likes: "88"'), "BOSS video 1 metrics are missing");
 assert(brandWork.includes('views: "2.9K", likes: "134"'), "BOSS video 2 metrics are missing");
+assert(brandWork.includes('href: "https://www.tiktok.com/@fitswitharchie/video/7702502196876709142"'), "new October 2026 BOSS video is missing");
+assert(brandWork.includes('views: "1,948", likes: "86"'), "new October 2026 BOSS video metrics are missing");
+assert(brandWork.includes('href: "https://www.tiktok.com/@fitswitharchie/video/7703245313171066134"'), "Afrikana published video is missing");
+assert(brandWork.includes('views: "4,827", likes: "164"'), "Afrikana video metrics are missing");
+assert(brandWork.includes('brand: "PUMA"') && brandWork.includes("PUMA Suede Classic"), "PUMA confirmed product gifting is missing");
 // Whatnot archive: seven original posts, from first publication to seventh.
 const whatnotStart = brandWork.indexOf('brand: "Whatnot"');
 const whatnotEnd = brandWork.indexOf("\n  },", whatnotStart);
@@ -63,7 +68,7 @@ assert(whatnotSection.includes("Performance captured 9 Nov 2026"), "Whatnot metr
 
 const archiveData = brandWork.slice(brandWork.indexOf("export const PARTNERSHIP_ROSTER:"));
 const archiveBrandOrder = [...archiveData.matchAll(/\n  \{\n    brand: "([^"]+)"/g)].map((m) => m[1]);
-const mostRecentBrands = ["Whatnot", "All Points East", "BOSS", "Nike", "KORA Works", "Jean Paul Gaultier"];
+const mostRecentBrands = ["Afrikana", "BOSS", "Whatnot", "PUMA", "All Points East", "Nike"];
 assert(mostRecentBrands.every((name, index) => archiveBrandOrder[index] === name), "Creator archive must show the most recent campaigns first");
 assert(archiveBrandOrder.at(-1) === "Snoop", "Undated brand work should remain after dated campaigns");
 
@@ -86,6 +91,18 @@ const whatnotSelectionLinks = new Set([
 const shortLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/vm\.tiktok\.com\/[^"]+)"/g)].map((match) => match[1]);
 assert(shortLinks.length === whatnotSelectionLinks.size && shortLinks.every((url) => whatnotSelectionLinks.has(url)), "Unexpected or missing TikTok short links in brand-work data");
 
+const featuredBoss = brandWork.slice(brandWork.indexOf('id: "boss-bottled-beyond"'), brandWork.indexOf('id: "moschino-toy"'));
+assert(featuredBoss.includes('coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp"'), "BOSS selected work must reuse its stable, existing hero cover");
+assert((featuredBoss.match(/coverSrc:/g) ?? []).length === 1, "BOSS selected work must not request another hosted cover");
+const archiveBoss = archiveData.slice(archiveData.indexOf('brand: "BOSS"'), archiveData.indexOf("\\n  },", archiveData.indexOf('brand: "BOSS"')));
+assert((archiveBoss.match(/analytics: \\{ views:/g) ?? []).length === 3, "BOSS archive must retain three individually measured videos");
+assert(archiveBoss.indexOf("TikTok 3 · 30 Oct") < archiveBoss.indexOf("TikTok 1 · 4 Oct"), "BOSS archive should remain newest to oldest");
+const pumaStart = archiveData.indexOf('brand: "PUMA"');
+const pumaEnd = archiveData.indexOf("\\n  },", pumaStart);
+const pumaSection = archiveData.slice(pumaStart, pumaEnd);
+assert(pumaSection.includes("no posting obligation") && !pumaSection.includes("analytics:"), "PUMA product gifting must not be represented as measured posted content");
+
+
 const selectedPerformanceLinks = [
   "7524743379410881814",
   "7524371608803265814",
@@ -101,7 +118,10 @@ assert(creatorPage.includes("PERFORMANCE_CONTENT_LINKS"), "selected organic perf
 assert(creatorPage.includes('alternates: { canonical: "/creator" }'), "Brand Work canonical URL is missing");
 assert(creatorPage.includes("styles.covers"), "selected creative work must retain the preferred large-cover layout");
 assert(creatorPage.includes("styles.analytics"), "selected creative work analytics treatment is missing");
-assert(creatorPage.includes("styles.measuredDeliverables"), "multi-video campaign analytics treatment is missing");
+assert(creatorPage.includes("const featuredAnalytics = featuredLink?.analytics ?? campaign.analytics"), "featured campaign metric fallback is missing");
+assert(creatorPage.includes(").slice(0, 1);"), "selected work must display only one hero cover per campaign");
+assert(!creatorPage.includes("styles.measuredDeliverables"), "selected work still shows the old duplicate metric tiles");
+assert(creatorPage.includes('href="#work-archive"'), "additional selected campaign posts must link to the archive");
 assert(creatorPage.includes("styles.archiveDeliverables"), "work archive must retain the preferred compact deliverable layout");
 assert(creatorPage.includes("styles.archiveLinks"), "work archive compact link treatment is missing");
 assert(brandConsistency.includes(".performanceAction"), "organic performance content action styling is missing");
