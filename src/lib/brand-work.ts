@@ -239,7 +239,7 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
 export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "Whatnot",
-    detail: "Men's fashion and sneakers Creator Programme · shopping-haul and product-showcase videos. The first submission was nearing 500K views by mid-September 2026.",
+    detail: "Men's fashion and sneakers Creator Programme · shopping-haul and product-showcase videos. The first submission was nearing 500K views by mid-September 2026. Dashes indicate figures awaiting verification.",
     period: "Sep–Oct 2026",
     brandUrl: "https://www.whatnot.com/",
     links: [
@@ -249,7 +249,7 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
       { label: "TikTok 04 · selected 27 Sep", href: "https://vm.tiktok.com/ZGdQbQc9e/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
       { label: "TikTok 03 · selected 18 Sep", href: "https://vm.tiktok.com/ZGdQPEYYo/", platform: "TikTok", analytics: { views: "—", likes: "—" } },
       { label: "TikTok 02 · 10 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7683943012715547936", platform: "TikTok", analytics: { views: "—", likes: "—" } },
-      { label: "TikTok 01 · 3 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok", analytics: { views: "≈500K*", likes: "—" } },
+      { label: "TikTok 01 · 3 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok", analytics: { views: "≈500K (16 Sep 2026)", likes: "—" } },
     ],
   },
   {
@@ -258,16 +258,16 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     period: "Aug 2026",
     links: [
       {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
-        platform: "TikTok",
-        analytics: { views: "11.6K", likes: "374" },
-      },
-      {
         label: "TikTok 2",
         href: "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008",
         platform: "TikTok",
         analytics: { views: "16.6K", likes: "1,048" },
+      },
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
+        platform: "TikTok",
+        analytics: { views: "11.6K", likes: "374" },
       },
     ],
   },
@@ -281,16 +281,16 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     managedBy: [{ name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Account Executive" }],
     links: [
       {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910",
-        platform: "TikTok",
-        analytics: { views: "1.8K", likes: "88" },
-      },
-      {
         label: "TikTok 2",
         href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310",
         platform: "TikTok",
         analytics: { views: "2.9K", likes: "134" },
+      },
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910",
+        platform: "TikTok",
+        analytics: { views: "1.8K", likes: "88" },
       },
     ],
   },
@@ -333,16 +333,16 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     campaignPartner: "Redpill",
     links: [
       {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7524371608803265814",
-        platform: "TikTok",
-        analytics: { views: "637.9K", likes: "4.1K" },
-      },
-      {
         label: "TikTok 2",
         href: "https://www.tiktok.com/@fitswitharchie/video/7524743379410881814",
         platform: "TikTok",
         analytics: { views: "914.6K", likes: "5.4K" },
+      },
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7524371608803265814",
+        platform: "TikTok",
+        analytics: { views: "637.9K", likes: "4.1K" },
       },
     ],
   },
@@ -480,16 +480,16 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     period: "Jul + Oct 2024",
     links: [
       {
-        label: "TikTok 1",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7395243777901858081",
-        platform: "TikTok",
-        analytics: { views: "12.4K", likes: "559" },
-      },
-      {
         label: "TikTok 2",
         href: "https://www.tiktok.com/@fitswitharchie/video/7427512816929639712",
         platform: "TikTok",
         analytics: { views: "12.9K", likes: "609" },
+      },
+      {
+        label: "TikTok 1",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7395243777901858081",
+        platform: "TikTok",
+        analytics: { views: "12.4K", likes: "559" },
       },
     ],
   },
