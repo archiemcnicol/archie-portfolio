@@ -61,26 +61,6 @@ export type SelectedPerformance = {
 
 export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
   {
-    id: "afrikana-2026-11",
-    brand: "Afrikana",
-    campaign: "Afrikana — Islington restaurant",
-    period: "November 2026",
-    format: "Gifted PR visit · restaurant TikTok",
-    summary:
-      "A gifted PR visit to Afrikana in Islington with a complimentary meal, followed by an independently styled food-review TikTok. A broader example of restaurant and lifestyle creator work.",
-    logoAlt: "Afrikana restaurant wordmark",
-    tone: "stone",
-    brandUrl: "https://www.afrikanakitchen.com/",
-    links: [
-      {
-        label: "TikTok · 1 Nov 2026",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7703245313171066134",
-        platform: "TikTok",
-      },
-    ],
-    analytics: { views: "4,827", likes: "164" },
-  },
-  {
     id: "nike",
     brand: "Nike",
     campaign: "Nike product integration",
@@ -146,6 +126,28 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
       },
     ],
   },
+
+  {
+    id: "jean-paul-gaultier-le-male-2025",
+    brand: "Jean Paul Gaultier",
+    campaign: "Le Male — 30 years of an icon",
+    period: "September 2025",
+    format: "Gifted fragrance · TikTok",
+    summary:
+      "Le Male Eau de Toilette gifting arranged through Campfire Collaborations for the fragrance's 30th anniversary, followed by a published TikTok with the product integrated into original fashion and lifestyle content.",
+    logoAlt: "Jean Paul Gaultier wordmark",
+    tone: "ink",
+    brandUrl: "https://www.jeanpaulgaultier.com/uk/en/c/le-male",
+    campaignPartner: "Campfire Collaborations",
+    links: [
+      {
+        label: "TikTok · 22 Sep 2025",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7552940839467633923",
+        platform: "TikTok",
+      },
+    ],
+    analytics: { views: "2.8K", likes: "164" },
+  },
   {
     id: "moschino-toy",
     brand: "Moschino",
@@ -178,6 +180,25 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
       },
     ],
     analytics: { views: "2.8K", likes: "93" },
+  },
+
+  {
+    id: "puma-suede-2026",
+    brand: "PUMA",
+    campaign: "PUMA Suede Classic",
+    period: "September 2026",
+    format: "Gifted product collaboration · no posting obligation",
+    summary:
+      "Selected for PUMA's Suede Classic creator gifting through Socially Powerful. The trainers were sent as complimentary PR, with no requirement to publish; a specific campaign video and its results have not been verified.",
+    logoAlt: "PUMA wordmark",
+    tone: "stone",
+    brandUrl: "https://uk.puma.com/uk/en",
+    campaignPartner: "Socially Powerful",
+    partnerUrl: "https://sociallypowerful.com/",
+    managedBy: [
+      { name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Gifting coordination" },
+    ],
+    links: [],
   },
   {
     id: "superdry-2024",
@@ -496,6 +517,14 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     links: [
       { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7552940839467633923", platform: "TikTok" },
     ],
+  },
+  {
+    brand: "Moschino Toy Boy 2",
+    detail: "Separate fragrance campaign via Buttermilk · Instagram Reel created and submitted for approval in November 2025; public posting has not been independently verified",
+    period: "Nov 2025",
+    brandUrl: "https://www.moschino.com/",
+    campaignPartner: "Buttermilk",
+    partnerUrl: "https://www.buttermilk.com/",
   },
   {
     brand: "KORA Works",
