@@ -13,9 +13,9 @@ import styles from "./home.module.css";
 import refine from "./home-refinement.module.css";
 
 export const metadata: Metadata = {
-  title: "Archie McNicol — Creator Operations, Community, Content & AI",
+  title: "Archie McNicol — Creator, Community & Digital Creative",
   description:
-    "Portfolio of Archie McNicol across creator operations, community management, content, AI systems, photography, performance and digital projects.",
+    "Explore Archie McNicol's brand collaborations, content, photography, community work, commercial performance and digital projects.",
   alternates: { canonical: "/" },
 };
 
@@ -71,7 +71,7 @@ export default function Home() {
         <div className={`${styles.heroInner} ${refine.heroInner} home-hero-inner`}>
           <div className={styles.heroMeta}>
             <span>Archie McNicol / Portfolio</span>
-            <span>CapCut UK · Creator Operations · AI &amp; Generative · Creator Campaigns</span>
+            <span>Creator · Community &amp; Operations · Digital Creative</span>
             <span>United Kingdom</span>
           </div>
 
@@ -147,9 +147,9 @@ export default function Home() {
         <div className={styles.sectionWrap}>
           <div className={`${styles.chapterGrid} ${refine.chapterGrid}`}>
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/professional">
-              <div className={styles.chapterTop}><span>01 / Professional</span><span>CapCut · Creator ops · AI</span></div>
+              <div className={styles.chapterTop}><span>01 / Professional</span><span>Community · Operations · AI</span></div>
               <span className={refine.routeVisual} aria-hidden="true"><RouteIcon type="professional" /></span>
-              <div className={styles.chapterBottom}><h3>Behind the content.</h3><p>CapCut UK, creator operations, community and AI systems.</p><span className={styles.chapterArrow}>↗</span></div>
+              <div className={styles.chapterBottom}><h3>Behind the content.</h3><p>Community management, creator operations and AI systems.</p><span className={styles.chapterArrow}>↗</span></div>
             </Link>
 
             <Link className={`${styles.chapter} ${refine.chapterEditorialDark} ${refine.compactChapter}`} href="/business">
