@@ -49,7 +49,7 @@ assert(whatnotSection.includes('views: "≈500K (16 Sep 2026)"'), "Whatnot's tim
 assert(whatnotSection.indexOf("selected 19 Oct") < whatnotSection.indexOf("3 Sep"), "Whatnot video links must be newest first");
 
 const archiveData = brandWork.slice(brandWork.indexOf("export const PARTNERSHIP_ROSTER:"));
-const archiveBrandOrder = [...archiveData.matchAll(/\\n  \\{\\n    brand: "([^"]+)"/g)].map((m) => m[1]);
+const archiveBrandOrder = [...archiveData.matchAll(/\n  \{\n    brand: "([^"]+)"/g)].map((m) => m[1]);
 const mostRecentBrands = ["Whatnot", "All Points East", "BOSS", "Nike", "KORA Works", "Jean Paul Gaultier"];
 assert(mostRecentBrands.every((name, index) => archiveBrandOrder[index] === name), "Creator archive must show the most recent campaigns first");
 assert(archiveBrandOrder.at(-1) === "Snoop", "Undated brand work should remain after dated campaigns");
