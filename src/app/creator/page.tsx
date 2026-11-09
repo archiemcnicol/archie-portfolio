@@ -28,6 +28,10 @@ const PERFORMANCE_CONTENT_LINKS: Record<string, string> = {
 };
 
 const TIKTOK_FRAME_PREVIEWS: Record<string, { videoId: string; seekTo: number }> = {
+  "https://www.tiktok.com/@fitswitharchie/video/7703245313171066134": {
+    videoId: "7703245313171066134",
+    seekTo: 1.05,
+  },
   "https://www.tiktok.com/@fitswitharchie/video/7592280935027035414": {
     videoId: "7592280935027035414",
     seekTo: 1.05,
@@ -196,7 +200,11 @@ export default function CreatorPage() {
                   <div className={styles.copy}>
                     <div className={styles.meta}><span>{campaign.period}</span><span>{campaign.format}</span></div>
                     <div className={styles.logoWrap} data-brand={campaign.id}>
-                      <Image className={styles.logo} src={campaign.logoSrc} alt={campaign.logoAlt} width={420} height={140} unoptimized />
+                      {campaign.logoSrc ? (
+                        <Image className={styles.logo} src={campaign.logoSrc} alt={campaign.logoAlt} width={420} height={140} unoptimized />
+                      ) : (
+                        <strong className={styles.logoWordmark} aria-label={campaign.logoAlt}>{campaign.brand}</strong>
+                      )}
                     </div>
                     <h3>{campaign.campaign}</h3>
                     <p className={styles.summary}>{campaign.summary}</p>
@@ -216,10 +224,7 @@ export default function CreatorPage() {
                     ) : null}
 
                     {additionalDeliverables.length ? (
-                      <>
-                        <a className={styles.brandLink} href="#work-archive">View more in the work archive ↘</a>
-                        {" · "}
-                      </>
+                      <a className={styles.brandLink} href="#work-archive">See more videos in the work archive ↘</a>
                     ) : null}
                     {campaign.brandUrl ? <a className={styles.brandLink} href={campaign.brandUrl} rel="noreferrer" target="_blank">Visit {campaign.brand} ↗</a> : null}
                   </div>
