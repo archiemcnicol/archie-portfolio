@@ -24,7 +24,7 @@ export type PublicCampaign = {
   period: string;
   format: string;
   summary: string;
-  logoSrc: string;
+  logoSrc?: string;
   logoAlt: string;
   tone: "ink" | "acid" | "stone" | "blue";
   brandUrl?: string;
@@ -60,6 +60,26 @@ export type SelectedPerformance = {
 };
 
 export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
+  {
+    id: "afrikana-2026-11",
+    brand: "Afrikana",
+    campaign: "Afrikana — Islington restaurant",
+    period: "November 2026",
+    format: "Gifted PR visit · restaurant TikTok",
+    summary:
+      "An invited PR visit to Afrikana in Islington, with a complimentary meal in exchange for food-focused creator coverage. A conversational restaurant feature bringing food and lifestyle into the portfolio.",
+    logoAlt: "Afrikana restaurant wordmark",
+    tone: "stone",
+    brandUrl: "https://www.afrikanakitchen.com/",
+    links: [
+      {
+        label: "TikTok · 1 Nov 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7703245313171066134",
+        platform: "TikTok",
+      },
+    ],
+    analytics: { views: "4,827", likes: "164" },
+  },
   {
     id: "nike",
     brand: "Nike",
@@ -245,7 +265,7 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
 export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "Afrikana",
-    detail: "Restaurant visit and food-review video at Afrikana in Islington · TikTok feature",
+    detail: "Gifted PR restaurant visit in Islington · complimentary meal provided in return for a food-review TikTok video",
     period: "1 Nov 2026",
     brandUrl: "https://www.afrikanakitchen.com/",
     analytics: { views: "4,827", likes: "164" },
