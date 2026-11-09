@@ -68,8 +68,31 @@ assert(whatnotSection.includes("Performance captured 9 Nov 2026"), "Whatnot metr
 
 const archiveData = brandWork.slice(brandWork.indexOf("export const PARTNERSHIP_ROSTER:"));
 const archiveBrandOrder = [...archiveData.matchAll(/\n  \{\n    brand: "([^"]+)"/g)].map((m) => m[1]);
-const mostRecentBrands = ["Afrikana", "BOSS", "Whatnot", "PUMA", "All Points East", "Nike"];
-assert(mostRecentBrands.every((name, index) => archiveBrandOrder[index] === name), "Creator archive must show the most recent campaigns first");
+// Full archive is chronological by the last dated deliverable in each campaign.
+// Campaigns with several publications retain their earliest-to-latest order internally.
+const expectedArchiveOrder = [
+  "Offshore Clothing", "Vintage Crest", "In Print We Trust", "Nowhere Specific",
+  "ALY", "Superdry", "Unfounded Studios", "SPYDA", "VSZN", "TEE CLAN",
+  "Firmoo", "WINTR", "KiLLOWEN", "Lyle & Scott", "Domno Vintage",
+  "Inflation", "The Supermade", "Moschino", "DAVIDOFF", "TILT",
+  "Jean Paul Gaultier", "KORA Works", "Nike", "All Points East",
+  "PUMA", "Whatnot", "BOSS", "Afrikana", "Snoop",
+];
+assert(
+  archiveBrandOrder.length === expectedArchiveOrder.length &&
+  expectedArchiveOrder.every((name, index) => archiveBrandOrder[index] === name),
+  "Creator archive must be complete and oldest-to-newest by final dated deliverable",
+);
+for (const [brand, first, second] of [
+  ["All Points East", "TikTok 1", "TikTok 2"],
+  ["TILT", "TikTok 1", "TikTok 2"],
+  ["Unfounded Studios", "TikTok 1", "TikTok 2"],
+]) {
+  const start = archiveData.indexOf(`brand: "${brand}"`);
+  const end = archiveData.indexOf("\n  },", start);
+  const card = archiveData.slice(start, end);
+  assert(card.indexOf(`label: "${first}"`) < card.indexOf(`label: "${second}"`), `${brand} videos must display oldest first`);
+}
 assert(archiveBrandOrder.at(-1) === "Snoop", "Undated brand work should remain after dated campaigns");
 
 const logoSources = [...brandWork.matchAll(/logoSrc:\s*"([^"]+)"/g)].map((match) => match[1]);
@@ -103,7 +126,7 @@ const archiveBossStart = archiveData.indexOf('brand: "BOSS"');
 const archiveBossEnd = archiveData.indexOf("\n  },", archiveBossStart);
 const archiveBoss = archiveData.slice(archiveBossStart, archiveBossEnd);
 assert(archiveBoss.split("analytics: { views:").length - 1 === 3, "BOSS archive must retain three individually measured videos");
-assert(archiveBoss.indexOf("TikTok 3 · 30 Oct") < archiveBoss.indexOf("TikTok 1 · 4 Oct"), "BOSS archive should remain newest to oldest");
+assert(archiveBoss.indexOf("TikTok 1 · 4 Oct") < archiveBoss.indexOf("TikTok 2 · 7 Jan") && archiveBoss.indexOf("TikTok 2 · 7 Jan") < archiveBoss.indexOf("TikTok 3 · 30 Oct"), "BOSS archive must display all three videos oldest to newest");
 const pumaStart = archiveData.indexOf('brand: "PUMA"');
 const pumaEnd = archiveData.indexOf("\n  },", pumaStart);
 const pumaSection = archiveData.slice(pumaStart, pumaEnd);
