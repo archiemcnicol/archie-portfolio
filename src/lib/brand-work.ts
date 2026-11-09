@@ -61,33 +61,6 @@ export type SelectedPerformance = {
 
 export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
   {
-    id: "nike",
-    brand: "Nike",
-    campaign: "Nike product integration",
-    period: "January 2026",
-    format: "Branded product integration",
-    summary:
-      "A fashion-led product integration built from the brief through styling, filming and edit, shaped to feel native to Archie's established short-form format.",
-    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Logo_NIKE.svg",
-    logoAlt: "Nike Swoosh logo",
-    tone: "ink",
-    brandUrl: "https://www.nike.com/gb/",
-    campaignPartner: "SuperAwesome",
-    partnerUrl: "https://www.superawesome.com/",
-    managedBy: [
-      { name: "Ryan Herrieff", organisation: "SuperAwesome", role: "Campaign contact" },
-    ],
-    links: [
-      {
-        label: "Watch on TikTok",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7592280935027035414",
-        platform: "TikTok",
-        coverSrc: "/brand-work/nike-2026-01-07.webp",
-      },
-    ],
-    analytics: { views: "22.5K", likes: "1,077" },
-  },
-  {
     id: "boss-bottled-beyond",
     brand: "BOSS",
     campaign: "BOSS Bottled fragrance work",
@@ -127,6 +100,83 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     ],
   },
 
+  {
+    id: "puma-suede-2026",
+    brand: "PUMA",
+    campaign: "PUMA Suede Classic",
+    period: "September–October 2026",
+    format: "Gifted product collaboration · TikTok",
+    summary:
+      "PUMA Suede Classic gifting organised through Socially Powerful, with no obligation to post. The trainers were featured in an original TikTok published on 12 October 2026.",
+    logoAlt: "PUMA wordmark",
+    tone: "stone",
+    brandUrl: "https://uk.puma.com/uk/en",
+    campaignPartner: "Socially Powerful",
+    partnerUrl: "https://sociallypowerful.com/",
+    managedBy: [
+      { name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Gifting coordination" },
+    ],
+    links: [
+      {
+        label: "TikTok · 12 Oct 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7695800477748972832",
+        platform: "TikTok",
+        analytics: { views: "2,240", likes: "57" },
+      },
+    ],
+  },
+  {
+    id: "all-points-east-2026",
+    brand: "All Points East",
+    campaign: "All Points East — Tyler, The Creator",
+    period: "August 2026",
+    format: "Festival promotion · two TikToks",
+    summary:
+      "Two original TikTok videos promoting All Points East and Tyler, The Creator's London appearance. The strongest-performing post is featured here, with both deliverables and their results in the work archive.",
+    logoAlt: "All Points East wordmark",
+    tone: "blue",
+    links: [
+      {
+        label: "Video 02 · 27 Aug 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008",
+        platform: "TikTok",
+        analytics: { views: "16.6K", likes: "1,048" },
+      },
+      {
+        label: "Video 01 · 21 Aug 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
+        platform: "TikTok",
+        analytics: { views: "11.6K", likes: "374" },
+      },
+    ],
+  },
+  {
+    id: "nike",
+    brand: "Nike",
+    campaign: "Nike product integration",
+    period: "January 2026",
+    format: "Branded product integration",
+    summary:
+      "A fashion-led product integration built from the brief through styling, filming and edit, shaped to feel native to Archie's established short-form format.",
+    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Logo_NIKE.svg",
+    logoAlt: "Nike Swoosh logo",
+    tone: "ink",
+    brandUrl: "https://www.nike.com/gb/",
+    campaignPartner: "SuperAwesome",
+    partnerUrl: "https://www.superawesome.com/",
+    managedBy: [
+      { name: "Ryan Herrieff", organisation: "SuperAwesome", role: "Campaign contact" },
+    ],
+    links: [
+      {
+        label: "Watch on TikTok",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7592280935027035414",
+        platform: "TikTok",
+        coverSrc: "/brand-work/nike-2026-01-07.webp",
+      },
+    ],
+    analytics: { views: "22.5K", likes: "1,077" },
+  },
   {
     id: "jean-paul-gaultier-le-male-2025",
     brand: "Jean Paul Gaultier",
@@ -182,30 +232,6 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
     analytics: { views: "2.8K", likes: "93" },
   },
 
-  {
-    id: "puma-suede-2026",
-    brand: "PUMA",
-    campaign: "PUMA Suede Classic",
-    period: "September–October 2026",
-    format: "Gifted product collaboration · TikTok",
-    summary:
-      "PUMA Suede Classic gifting organised through Socially Powerful, with no obligation to post. The trainers were featured in an original TikTok published on 12 October 2026.",
-    logoAlt: "PUMA wordmark",
-    tone: "stone",
-    brandUrl: "https://uk.puma.com/uk/en",
-    campaignPartner: "Socially Powerful",
-    partnerUrl: "https://sociallypowerful.com/",
-    managedBy: [
-      { name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Gifting coordination" },
-    ],
-    links: [
-      {
-        label: "TikTok · 12 Oct 2026",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7695800477748972832",
-        platform: "TikTok",
-      },
-    ],
-  },
   {
     id: "superdry-2024",
     brand: "Superdry",
@@ -341,7 +367,7 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     partnerUrl: "https://sociallypowerful.com/",
     managedBy: [{ name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Gifting coordination" }],
     links: [
-      { label: "TikTok · 12 Oct", href: "https://www.tiktok.com/@fitswitharchie/video/7695800477748972832", platform: "TikTok" },
+      { label: "TikTok · 12 Oct", href: "https://www.tiktok.com/@fitswitharchie/video/7695800477748972832", platform: "TikTok", analytics: { views: "2,240", likes: "57" } },
     ],
   },
   {
@@ -384,14 +410,6 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     links: [
       { label: "TikTok", href: "https://www.tiktok.com/@fitswitharchie/video/7577072259290991894", platform: "TikTok" },
     ],
-  },
-  {
-    brand: "Moschino Toy Boy 2",
-    detail: "Separate fragrance campaign via Buttermilk · Instagram Reel created and submitted for approval in November 2025; public posting has not been independently verified",
-    period: "Nov 2025",
-    brandUrl: "https://www.moschino.com/",
-    campaignPartner: "Buttermilk",
-    partnerUrl: "https://www.buttermilk.com/",
   },
   {
     brand: "Jean Paul Gaultier",
