@@ -95,7 +95,7 @@ export default function AboutPage() {
             <h1>The full picture, in one place.</h1>
           </div>
           <div className={styles.heroSide}>
-            <p>UK creator-operations and community professional, content creator and photographer working across campaigns, AI systems and digital projects.</p>
+            <p>UK content creator, community manager and photographer working across brand campaigns, creator operations, AI systems and digital projects.</p>
             <a className={styles.inlineLink} href="#background">Background &amp; experience ↓</a>
           </div>
         </div>
