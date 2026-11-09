@@ -94,14 +94,15 @@ assert(shortLinks.length === whatnotSelectionLinks.size && shortLinks.every((url
 const featuredBoss = brandWork.slice(brandWork.indexOf('id: "boss-bottled-beyond"'), brandWork.indexOf('id: "moschino-toy"'));
 assert(featuredBoss.includes('coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp"'), "BOSS selected work must reuse its stable, existing hero cover");
 assert((featuredBoss.match(/coverSrc:/g) ?? []).length === 1, "BOSS selected work must not request another hosted cover");
-const archiveBoss = archiveData.slice(archiveData.indexOf('brand: "BOSS"'), archiveData.indexOf("\\n  },", archiveData.indexOf('brand: "BOSS"')));
-assert((archiveBoss.match(/analytics: \\{ views:/g) ?? []).length === 3, "BOSS archive must retain three individually measured videos");
+const archiveBossStart = archiveData.indexOf('brand: "BOSS"');
+const archiveBossEnd = archiveData.indexOf("\n  },", archiveBossStart);
+const archiveBoss = archiveData.slice(archiveBossStart, archiveBossEnd);
+assert(archiveBoss.split("analytics: { views:").length - 1 === 3, "BOSS archive must retain three individually measured videos");
 assert(archiveBoss.indexOf("TikTok 3 · 30 Oct") < archiveBoss.indexOf("TikTok 1 · 4 Oct"), "BOSS archive should remain newest to oldest");
 const pumaStart = archiveData.indexOf('brand: "PUMA"');
-const pumaEnd = archiveData.indexOf("\\n  },", pumaStart);
+const pumaEnd = archiveData.indexOf("\n  },", pumaStart);
 const pumaSection = archiveData.slice(pumaStart, pumaEnd);
 assert(pumaSection.includes("no posting obligation") && !pumaSection.includes("analytics:"), "PUMA product gifting must not be represented as measured posted content");
-
 
 const selectedPerformanceLinks = [
   "7524743379410881814",
