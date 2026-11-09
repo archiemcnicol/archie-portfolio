@@ -42,7 +42,17 @@ const whatnotStart = brandWork.indexOf('brand: "Whatnot"');
 const whatnotEnd = brandWork.indexOf("\n  },", whatnotStart);
 const whatnotSection = whatnotStart >= 0 && whatnotEnd > whatnotStart ? brandWork.slice(whatnotStart, whatnotEnd) : "";
 assert(whatnotSection.includes("nearing 500K views by mid-September 2026"), "Whatnot's dated performance context is missing");
-assert((whatnotSection.match(/label: "Video ·/g) ?? []).length >= 6, "Whatnot video archive is incomplete");
+const whatnotVideoRows = [...whatnotSection.matchAll(/label: "TikTok 0[1-7] ·/g)];
+assert(whatnotVideoRows.length === 7, "Whatnot video archive is incomplete");
+assert((whatnotSection.match(/analytics: \{ views:/g) ?? []).length === whatnotVideoRows.length, "Whatnot video rows must retain the standard view-and-like metric slots");
+assert(whatnotSection.includes('views: "≈500K (16 Sep 2026)"'), "Whatnot's time-qualified first-video figure is missing");
+assert(whatnotSection.indexOf("selected 19 Oct") < whatnotSection.indexOf("3 Sep"), "Whatnot video links must be newest first");
+
+const archiveData = brandWork.slice(brandWork.indexOf("export const PARTNERSHIP_ROSTER:"));
+const archiveBrandOrder = [...archiveData.matchAll(/\\n  \\{\\n    brand: "([^"]+)"/g)].map((m) => m[1]);
+const mostRecentBrands = ["Whatnot", "All Points East", "BOSS", "Nike", "KORA Works", "Jean Paul Gaultier"];
+assert(mostRecentBrands.every((name, index) => archiveBrandOrder[index] === name), "Creator archive must show the most recent campaigns first");
+assert(archiveBrandOrder.at(-1) === "Snoop", "Undated brand work should remain after dated campaigns");
 
 const logoSources = [...brandWork.matchAll(/logoSrc:\s*"([^"]+)"/g)].map((match) => match[1]);
 assert(logoSources.length === publicCampaignIds.length, "every selected public campaign must have one logo source");
