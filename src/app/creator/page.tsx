@@ -28,8 +28,8 @@ const PERFORMANCE_CONTENT_LINKS: Record<string, string> = {
 };
 
 const TIKTOK_FRAME_PREVIEWS: Record<string, { videoId: string; seekTo: number }> = {
-  "https://www.tiktok.com/@fitswitharchie/video/7703245313171066134": {
-    videoId: "7703245313171066134",
+  "https://www.tiktok.com/@fitswitharchie/video/7552940839467633923": {
+    videoId: "7552940839467633923",
     seekTo: 1.05,
   },
   "https://www.tiktok.com/@fitswitharchie/video/7592280935027035414": {
@@ -160,6 +160,16 @@ export default function CreatorPage() {
                   <div className={styles.number}>{String(index + 1).padStart(2, "0")}</div>
                   <div className={styles.media}>
                     <div className={styles.covers}>
+                      {coverLinks.length === 0 ? (
+                        <div
+                          aria-hidden="true"
+                          className={`${styles.cover} ${styles.coverStatic} ${styles.coverFallback}`}
+                        >
+                          <strong className={styles.coverFallbackBrand}>{campaign.brand}</strong>
+                          <span className={styles.coverFallbackCampaign}>{campaign.campaign}</span>
+                          <small className={styles.coverFallbackType}>Confirmed gifting · No video linked</small>
+                        </div>
+                      ) : null}
                       {coverLinks.map((link) => {
                         const preview = link.href ? TIKTOK_FRAME_PREVIEWS[link.href] : undefined;
                         const media = preview ? (
