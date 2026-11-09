@@ -37,16 +37,29 @@ for (const id of publicCampaignIds) assert(brandWork.includes(`id: "${id}"`), `p
 assert(/analytics:\s*\{ views: "22\.5K", likes: "1,077" \}/.test(brandWork), "Nike performance baseline has changed unexpectedly");
 assert(brandWork.includes('views: "1.8K", likes: "88"'), "BOSS video 1 metrics are missing");
 assert(brandWork.includes('views: "2.9K", likes: "134"'), "BOSS video 2 metrics are missing");
-// Whatnot's old first-day snapshot is no longer an accurate portfolio highlight.
+// Whatnot archive: seven original posts, from first publication to seventh.
 const whatnotStart = brandWork.indexOf('brand: "Whatnot"');
 const whatnotEnd = brandWork.indexOf("\n  },", whatnotStart);
 const whatnotSection = whatnotStart >= 0 && whatnotEnd > whatnotStart ? brandWork.slice(whatnotStart, whatnotEnd) : "";
-assert(whatnotSection.includes("nearing 500K views by mid-September 2026"), "Whatnot's dated performance context is missing");
-const whatnotVideoRows = [...whatnotSection.matchAll(/label: "TikTok 0[1-7] ·/g)];
-assert(whatnotVideoRows.length === 7, "Whatnot video archive is incomplete");
-assert((whatnotSection.match(/analytics: \{ views:/g) ?? []).length === whatnotVideoRows.length, "Whatnot video rows must retain the standard view-and-like metric slots");
-assert(whatnotSection.includes('views: "≈500K (16 Sep 2026)"'), "Whatnot's time-qualified first-video figure is missing");
-assert(whatnotSection.indexOf("selected 19 Oct") < whatnotSection.indexOf("3 Sep"), "Whatnot video links must be newest first");
+const expectedWhatnotPosts = [
+  ["TikTok 1 · 3 Sep", "474.4K", "282"],
+  ["TikTok 2 · 10 Sep", "370.5K", "156"],
+  ["TikTok 3 · 16 Sep", "258.5K", "121"],
+  ["TikTok 4 · 23 Sep", "349.5K", "180"],
+  ["TikTok 5 · 1 Oct", "163.4K", "101"],
+  ["TikTok 6 · 9 Oct", "175.2K", "72"],
+  ["TikTok 7 · 18 Oct", "366.1K", "141"],
+];
+let previousWhatnotIndex = -1;
+for (const [label, views, likes] of expectedWhatnotPosts) {
+  const row = `label: "${label}"`;
+  const index = whatnotSection.indexOf(row);
+  assert(index > previousWhatnotIndex, `Whatnot chronology or video row is wrong: ${label}`);
+  previousWhatnotIndex = index;
+  assert(whatnotSection.includes(`views: "${views}", likes: "${likes}"`), `Whatnot metrics are incorrect for ${label}`);
+}
+assert(whatnotSection.split('analytics: { views:').length - 1 === 7, "Whatnot must have exactly seven measured rows");
+assert(whatnotSection.includes("Performance captured 9 Nov 2026"), "Whatnot metrics require a snapshot date");
 
 const archiveData = brandWork.slice(brandWork.indexOf("export const PARTNERSHIP_ROSTER:"));
 const archiveBrandOrder = [...archiveData.matchAll(/\n  \{\n    brand: "([^"]+)"/g)].map((m) => m[1]);
