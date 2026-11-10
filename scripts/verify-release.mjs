@@ -153,19 +153,29 @@ assert(archiveData.includes('brand: "Moschino"') && archiveData.includes("video/
 const logoSources = [...brandWork.matchAll(/logoSrc:\s*"([^"]+)"/g)].map((match) => match[1]);
 assert(logoSources.length === publicCampaignIds.length - 3, "JPG, PUMA and All Points East use existing non-hosted text wordmarks; original logos must be preserved");
 assert(creatorPage.includes("styles.logoWordmark"), "Selected work text wordmarks need a verified non-hosted fallback");
-// All seven selected campaigns must share one image and text mark canvas.
-// Avoid per-brand width overrides, optical scaling and viewport-specific size drift.
-assert(creatorWorkStyles.includes(".logo { display: block; width: 270px; max-width: 100%; height: 56px; object-fit: contain;"),
-  "Selected campaign SVG marks must share the same proportional 270×56 canvas");
-assert(creatorWorkStyles.includes(".logoWordmark { display: inline-flex; align-items: center; max-width: 100%; height: 56px;"),
-  "Text-only selected campaign marks must align to the same height as SVG marks");
-assert(!/\.logoWrap\[data-brand=/.test(creatorWorkStyles), "Brand-specific logo sizing must not return");
-const selectedMarkRuleBodies = [...creatorWorkStyles.matchAll(/\.logo(?:Wrap|Wordmark)?\s*\{([^}]*)\}/g)].map((match) => match[1]);
-assert(selectedMarkRuleBodies.length === 4 &&
-  selectedMarkRuleBodies.every((rule) => !/(?:^|;)\s*transform\s*:/.test(rule)),
-  "Selected brand marks must not use scaling transforms");
-assert((creatorWorkStyles.match(/\.logo\s*\{/g) ?? []).length === 1,
-  "Logo image dimensions must be controlled by one shared CSS rule");
+// Restore the previously approved optical sizes for five logos, changing
+// only the geometry of BOSS and Nike, which have different mark proportions.
+const expectedLogoStyles = [
+  '.logo { display: block; width: 215px; height: 54px; object-fit: contain;',
+  '.logoWordmark { color: #171717; display: inline-block; font-size: clamp(25px, 3.8vw, 38px);',
+  '.logoWrap[data-brand="jean-paul-gaultier-le-male-2025"] .logoWordmark { font-size: clamp(21px, 2.4vw, 28px);',
+  '.logoWrap[data-brand="all-points-east-2026"] .logoWordmark { font-size: clamp(22px, 2.6vw, 31px);',
+  '.logoWrap[data-brand="moschino-toy"] .logo { width: 280px; height: 67px; }',
+  '.logoWrap[data-brand="superdry-2024"] .logo { width: 282px; height: 68px; transform: scale(1.2);',
+  '.logoWrap[data-brand="nike"] .logo { width: 198px; height: 60px; }',
+  '.logoWrap[data-brand="boss-bottled-beyond"] .logo { width: 170px; height: 41px; }',
+  '  .logoWrap[data-brand="nike"] .logo { width: 180px; height: 55px; }',
+  '  .logoWrap[data-brand="boss-bottled-beyond"] .logo { width: 154px; height: 38px; }',
+  '  .logoWrap[data-brand="moschino-toy"] .logo { width: 248px; height: 60px; }',
+  '  .logoWrap[data-brand="superdry-2024"] .logo { width: 244px; height: 61px; transform: scale(1.16);',
+];
+for (const rule of expectedLogoStyles) assert(creatorWorkStyles.includes(rule),
+  `Selected work brand logo sizing regressed: ${rule}`);
+assert(!creatorWorkStyles.includes('width: 270px; max-width: 100%; height: 56px;'),
+  "Do not restore the one-size-fits-all rule that made most brand marks oversized");
+assert((creatorWorkStyles.split("\n").filter((line) => /^\s*\.logo\s*\{/.test(line))).length === 2 &&
+  creatorWorkStyles.includes('  .logo { max-width: 100%; }'),
+  "Keep the restored desktop base SVG sizing and responsive mobile max-width rule");
 
 assert(brandWork.includes('logoAlt: "Jean Paul Gaultier wordmark"'), "Jean Paul Gaultier text wordmark missing");
 assert(brandWork.includes('logoAlt: "PUMA wordmark"'), "PUMA text wordmark missing");
