@@ -24,16 +24,11 @@
 .coverLabel { position: absolute; z-index: 2; left: 12px; right: 12px; bottom: 12px; color: #fff; font-size: 9px; line-height: 1.25; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .copy { min-width: 0; padding: 2px 0 0; }
 .meta { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 10px; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; }
+/* Selected brand marks share the same optical canvas on desktop and mobile.
+   Keep every original SVG's aspect ratio; never enlarge a logo with transforms. */
 .logoWrap { display: flex; align-items: center; justify-content: flex-start; width: 300px; max-width: 100%; height: 76px; margin: 28px 0 16px; overflow: visible; }
-.logo { display: block; width: 215px; height: 54px; object-fit: contain; object-position: left center; }
-.logoWordmark { color: #171717; display: inline-block; font-size: clamp(25px, 3.8vw, 38px); font-weight: 900; letter-spacing: -.07em; line-height: 1; text-transform: uppercase; }
-.logoWrap[data-brand="jean-paul-gaultier-le-male-2025"] .logoWordmark { font-size: clamp(21px, 2.4vw, 28px); line-height: .96; max-width: 100%; }
-.logoWrap[data-brand="all-points-east-2026"] .logoWordmark { font-size: clamp(22px, 2.6vw, 31px); line-height: .95; max-width: 100%; }
-
-.logoWrap[data-brand="nike"] .logo { width: 182px; height: 56px; }
-.logoWrap[data-brand="boss-bottled-beyond"] .logo { width: 204px; height: 49px; }
-.logoWrap[data-brand="moschino-toy"] .logo { width: 280px; height: 67px; }
-.logoWrap[data-brand="superdry-2024"] .logo { width: 282px; height: 68px; transform: scale(1.2); transform-origin: left center; }
+.logo { display: block; width: 270px; max-width: 100%; height: 56px; object-fit: contain; object-position: left center; }
+.logoWordmark { display: inline-flex; align-items: center; max-width: 100%; height: 56px; color: #171717; font-size: clamp(22px, 2.5vw, 30px); font-weight: 900; letter-spacing: -.06em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
 .copy h3 { margin: 0; font-size: clamp(23px, 2.8vw, 38px); line-height: 1; letter-spacing: -.043em; }
 .summary { max-width: 610px; margin: 16px 0 22px; font-size: 15px; line-height: 1.55; color: var(--muted); }
 .credits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0 0 22px; background: var(--line); border: 1px solid var(--line); }
@@ -134,11 +129,6 @@
   .covers > *:only-child { width: min(72vw, 290px); }
   .meta { flex-direction: column; gap: 5px; }
   .logoWrap { width: 260px; height: 70px; margin-top: 22px; }
-  .logo { max-width: 100%; }
-  .logoWrap[data-brand="nike"] .logo { width: 164px; height: 50px; }
-  .logoWrap[data-brand="boss-bottled-beyond"] .logo { width: 186px; height: 45px; }
-  .logoWrap[data-brand="moschino-toy"] .logo { width: 248px; height: 60px; }
-  .logoWrap[data-brand="superdry-2024"] .logo { width: 244px; height: 61px; transform: scale(1.16); }
   .credits, .analytics { grid-template-columns: 1fr; }
   .analytics > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
   .performanceIntro h2 { font-size: clamp(38px, 11.5vw, 58px); }
