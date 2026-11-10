@@ -9,6 +9,7 @@ const exists = (relativePath) => fs.existsSync(path.join(repoRoot, relativePath)
 const brandWork = read("src/lib/brand-work.ts");
 const creatorPage = read("src/app/creator/page.tsx");
 const brandConsistency = read("src/app/creator/brand-work-consistency.module.css");
+const creatorWorkStyles = read("src/app/creator/brand-work.module.css");
 const portfolioArchive = read("src/lib/portfolio-archive.ts");
 const photographyPage = read("src/app/photography/page.tsx");
 const photographySeries = read("src/lib/photography-series.ts");
@@ -152,6 +153,20 @@ assert(archiveData.includes('brand: "Moschino"') && archiveData.includes("video/
 const logoSources = [...brandWork.matchAll(/logoSrc:\s*"([^"]+)"/g)].map((match) => match[1]);
 assert(logoSources.length === publicCampaignIds.length - 3, "JPG, PUMA and All Points East use existing non-hosted text wordmarks; original logos must be preserved");
 assert(creatorPage.includes("styles.logoWordmark"), "Selected work text wordmarks need a verified non-hosted fallback");
+// All seven selected campaigns must share one image and text mark canvas.
+// Avoid per-brand width overrides, optical scaling and viewport-specific size drift.
+assert(creatorWorkStyles.includes(".logo { display: block; width: 270px; max-width: 100%; height: 56px; object-fit: contain;"),
+  "Selected campaign SVG marks must share the same proportional 270×56 canvas");
+assert(creatorWorkStyles.includes(".logoWordmark { display: inline-flex; align-items: center; max-width: 100%; height: 56px;"),
+  "Text-only selected campaign marks must align to the same height as SVG marks");
+assert(!/\.logoWrap\[data-brand=/.test(creatorWorkStyles), "Brand-specific logo sizing must not return");
+const selectedMarkRuleBodies = [...creatorWorkStyles.matchAll(/\.logo(?:Wrap|Wordmark)?\s*\{([^}]*)\}/g)].map((match) => match[1]);
+assert(selectedMarkRuleBodies.length === 4 &&
+  selectedMarkRuleBodies.every((rule) => !/(?:^|;)\s*transform\s*:/.test(rule)),
+  "Selected brand marks must not use scaling transforms");
+assert((creatorWorkStyles.match(/\.logo\s*\{/g) ?? []).length === 1,
+  "Logo image dimensions must be controlled by one shared CSS rule");
+
 assert(brandWork.includes('logoAlt: "Jean Paul Gaultier wordmark"'), "Jean Paul Gaultier text wordmark missing");
 assert(brandWork.includes('logoAlt: "PUMA wordmark"'), "PUMA text wordmark missing");
 assert(brandConsistency.includes(".performanceAction"), "organic performance content action styling is missing");
