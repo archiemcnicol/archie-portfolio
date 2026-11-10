@@ -31,7 +31,7 @@ const assert = (condition, message) => {
   if (!condition) failures.push(message);
 };
 
-const publicCampaignIds = ["boss-bottled-beyond", "puma-suede-2026", "all-points-east-2026", "nike", "jean-paul-gaultier-le-male-2025", "moschino-toy", "superdry-2024"];
+const publicCampaignIds = ["superdry-2024", "nike", "all-points-east-2026", "jean-paul-gaultier-le-male-2025", "moschino-toy", "puma-suede-2026", "boss-bottled-beyond"];
 for (const id of publicCampaignIds) assert(brandWork.includes(`id: "${id}"`), `public campaign is missing: ${id}`);
 
 assert(/analytics:\s*\{ views: "22\.5K", likes: "1,077" \}/.test(brandWork), "Nike performance baseline has changed unexpectedly");
@@ -104,7 +104,26 @@ const selectedCampaignData = brandWork.slice(
 const selectedCampaignOrder = [...selectedCampaignData.matchAll(/\n  \{\n    id: "([^"]+)"/g)].map((match) => match[1]);
 assert(selectedCampaignOrder.length === publicCampaignIds.length &&
   publicCampaignIds.every((id, index) => selectedCampaignOrder[index] === id),
-  "Selected creative work must be complete and newest-to-oldest");
+  "Selected creative work must be ranked by featured TikTok views, with likes breaking equal-view ties");
+assert(creatorPage.includes("ordered by its recorded TikTok views"), "Featured campaign performance ordering must be clearly disclosed");
+// Featured view ranking (Superdry 28.6K; Nike 22.5K; APE 16.6K;
+// JPG and Moschino 2.8K, tied by likes; PUMA 2,240; BOSS 1.8K).
+const performanceRanking = [
+  ["superdry-2024", 'views: "28.6K", likes: "665"'],
+  ["nike", 'views: "22.5K", likes: "1,077"'],
+  ["all-points-east-2026", 'views: "16.6K", likes: "1,048"'],
+  ["jean-paul-gaultier-le-male-2025", 'views: "2.8K", likes: "164"'],
+  ["moschino-toy", 'views: "2.8K", likes: "93"'],
+  ["puma-suede-2026", 'views: "2,240", likes: "57"'],
+  ["boss-bottled-beyond", 'views: "1.8K", likes: "88"'],
+];
+for (let i = 0; i < performanceRanking.length; i++) {
+  const [id, pair] = performanceRanking[i];
+  const currentStart = selectedCampaignData.indexOf(`id: "${id}"`);
+  const currentEnd = selectedCampaignData.indexOf("\n  },", currentStart);
+  assert(currentStart >= 0 && selectedCampaignData.slice(currentStart, currentEnd).includes(pair),
+    `Performance pair missing or changed: ${id}`);
+}
 assert(selectedCampaignData.includes('id: "all-points-east-2026"') &&
   selectedCampaignData.includes('video/7678728230278303008') &&
   selectedCampaignData.includes('views: "16.6K", likes: "1,048"'),
@@ -121,7 +140,7 @@ assert(selectedCampaignData.includes('video/7552940839467633923'), "Jean Paul Ga
 assert(creatorPage.includes('videoId: "7552940839467633923"'), "Jean Paul Gaultier must reuse the TikTok preview player without hosting media");
 assert(selectedCampaignData.includes('id: "puma-suede-2026"'), "Confirmed PUMA gifting must be featured");
 const pumaSelectedStart = selectedCampaignData.indexOf('id: "puma-suede-2026"');
-const pumaSelectedEnd = selectedCampaignData.indexOf('id: "all-points-east-2026"', pumaSelectedStart);
+const pumaSelectedEnd = selectedCampaignData.indexOf("\n  },", pumaSelectedStart);
 const featuredPuma = selectedCampaignData.slice(pumaSelectedStart, pumaSelectedEnd);
 assert(featuredPuma.includes("video/7695800477748972832"), "PUMA selected work must link to its 12 October published post");
 assert(featuredPuma.includes('analytics: { views: "2,240", likes: "57" }'), "PUMA 12 October video must preserve the user-supplied view and like snapshot");
@@ -153,7 +172,9 @@ const whatnotSelectionLinks = new Set([
 const shortLinks = [...brandWork.matchAll(/href:\s*"(https:\/\/vm\.tiktok\.com\/[^"]+)"/g)].map((match) => match[1]);
 assert(shortLinks.length === whatnotSelectionLinks.size && shortLinks.every((url) => whatnotSelectionLinks.has(url)), "Unexpected or missing TikTok short links in brand-work data");
 
-const featuredBoss = brandWork.slice(brandWork.indexOf('id: "boss-bottled-beyond"'), brandWork.indexOf('id: "puma-suede-2026"'));
+const featuredBossStart = selectedCampaignData.indexOf('id: "boss-bottled-beyond"');
+const featuredBossEnd = selectedCampaignData.indexOf("\n  },", featuredBossStart);
+const featuredBoss = selectedCampaignData.slice(featuredBossStart, featuredBossEnd);
 assert(featuredBoss.includes('coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp"'), "BOSS selected work must reuse its stable, existing hero cover");
 assert((featuredBoss.match(/coverSrc:/g) ?? []).length === 1, "BOSS selected work must not request another hosted cover");
 const archiveBossStart = archiveData.indexOf('brand: "BOSS"');
