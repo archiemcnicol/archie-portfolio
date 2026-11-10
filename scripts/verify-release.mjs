@@ -265,8 +265,8 @@ assert(selectedCampaignData.includes("https://www.instagram.com/reel/DfIDW5bsc3u
 assert(selectedCampaignData.includes("https://www.instagram.com/reel/DeZi8rysvZ6/"), "PUMA featured work must link to its matching Instagram Reel");
 assert(creatorPage.includes('const instagramReels = campaign.links.filter'), "Selected Creative Work must expose its verified Instagram links");
 assert(creatorPage.includes("styles.campaignActions"), "Selected campaign actions must use a dedicated vertical stack");
-assert(creatorWorkStyles.includes(".campaignActions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 16px; }"),
-  "Selected campaign archive / Instagram / brand actions must stack vertically");
+assert(creatorWorkStyles.includes(".campaignActions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 4px; }"),
+  "Selected campaign links must stay in a vertical stack with only 4px between analytics and the first link");
 const actionStart = creatorPage.indexOf('<nav className={styles.campaignActions}');
 const actionEnd = creatorPage.indexOf('</nav>', actionStart);
 const actionMarkup = creatorPage.slice(actionStart, actionEnd);
