@@ -173,8 +173,9 @@ for (const rule of expectedLogoStyles) assert(creatorWorkStyles.includes(rule),
   `Selected work brand logo sizing regressed: ${rule}`);
 assert(!creatorWorkStyles.includes('width: 270px; max-width: 100%; height: 56px;'),
   "Do not restore the one-size-fits-all rule that made most brand marks oversized");
-assert((creatorWorkStyles.match(/\.logo\s*\{/g) ?? []).length === 1,
-  "Shared base SVG sizing must have only one rule");
+assert((creatorWorkStyles.match(/\.logo\s*\{/g) ?? []).length === 2 &&
+  creatorWorkStyles.includes('  .logo { max-width: 100%; }'),
+  "Keep only the restored desktop base SVG sizing and responsive mobile max-width rule");
 
 assert(brandWork.includes('logoAlt: "Jean Paul Gaultier wordmark"'), "Jean Paul Gaultier text wordmark missing");
 assert(brandWork.includes('logoAlt: "PUMA wordmark"'), "PUMA text wordmark missing");
