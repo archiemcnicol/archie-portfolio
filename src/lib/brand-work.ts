@@ -320,7 +320,7 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
 export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "Afrikana",
-    detail: "Gifted PR invitation and complimentary meal at Afrikana Islington · published food-review TikTok and Instagram Reel (arranged outside the email record)",
+    detail: "Gifted PR invitation and complimentary meal at Afrikana Islington · published food-review TikTok and Instagram Reel",
     period: "1 Nov 2026",
     brandUrl: "https://www.afrikanakitchen.com/",
     analytics: { views: "4,827", likes: "164" },

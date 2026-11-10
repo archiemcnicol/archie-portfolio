@@ -138,6 +138,11 @@ assert(archiveData.includes('brand: "All Points East"') &&
   "All Points East first video must remain in archive");
 assert(!selectedCampaignData.includes('id: "afrikana-2026-11"'), "Afrikana must remain archive-only, not selected creative work");
 assert(archiveData.includes('brand: "Afrikana"'), "Afrikana gifted PR must remain in Work Archive");
+// Sourcing notes provided to the assistant must not leak into public brand work.
+assert(!/arranged outside the email record|outside the email record/i.test(brandWork),
+  "Internal correspondence/source notes must not appear in public Creator Work copy");
+assert(archiveData.includes('detail: "Gifted PR invitation and complimentary meal at Afrikana Islington · published food-review TikTok and Instagram Reel"'),
+  "Afrikana public description must retain only client-facing campaign details");
 assert(!/ebay/i.test(brandWork), "Uncompleted eBay opportunity must not be represented as collaboration work");
 assert(selectedCampaignData.includes('id: "jean-paul-gaultier-le-male-2025"'), "Jean Paul Gaultier must be a featured campaign");
 assert(selectedCampaignData.includes('video/7552940839467633923'), "Jean Paul Gaultier featured TikTok link missing");
