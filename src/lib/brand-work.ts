@@ -215,6 +215,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         platform: "TikTok",
         analytics: { views: "2,240", likes: "57" },
       },
+      { label: "Instagram Reel · 12 Oct 2026", href: "https://www.instagram.com/reel/DeZi8rysvZ6/", platform: "Instagram", analytics: { views: "1,766", likes: "14" } },
     ],
   },
   {
@@ -254,6 +255,7 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
         platform: "TikTok",
         analytics: { views: "1,948", likes: "86" },
       },
+      { label: "Instagram Reel · 30 Oct 2026", href: "https://www.instagram.com/reel/DfIDW5bsc3u/", platform: "Instagram", analytics: { views: "2,925", likes: "12" } },
     ],
   },
 
@@ -318,17 +320,18 @@ export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
 export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
   {
     brand: "Afrikana",
-    detail: "Gifted PR invitation and complimentary meal at Afrikana Islington · published food-review TikTok (arranged outside the email record)",
+    detail: "Gifted PR invitation and complimentary meal at Afrikana Islington · published food-review TikTok and Instagram Reel (arranged outside the email record)",
     period: "1 Nov 2026",
     brandUrl: "https://www.afrikanakitchen.com/",
     analytics: { views: "4,827", likes: "164" },
     links: [
-      { label: "TikTok · 1 Nov", href: "https://www.tiktok.com/@fitswitharchie/video/7703245313171066134", platform: "TikTok" },
+      { label: "TikTok · 1 Nov", href: "https://www.tiktok.com/@fitswitharchie/video/7703245313171066134", platform: "TikTok" , analytics: { views: "4,827", likes: "164" } },
+      { label: "Instagram Reel · 1 Nov", href: "https://www.instagram.com/reel/DfNRxPcMnf_/", platform: "Instagram", analytics: { views: "11,966", likes: "64" } },
     ],
   },
   {
     brand: "BOSS",
-    detail: "Three BOSS Bottled fragrance videos: earlier commissioned integrations and the October 2026 Bottled Beyond Intense gifting feature. Figures are individual TikTok snapshots.",
+    detail: "Three BOSS Bottled fragrance videos: earlier commissioned integrations and the October 2026 Bottled Beyond Intense gifting feature. TikTok snapshots and Instagram Reel analytics are shown separately by platform.",
     period: "Oct 2025 – Oct 2026",
     brandUrl: "https://www.hugoboss.com/uk/",
     campaignPartner: "Socially Powerful",
@@ -341,21 +344,30 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
       { label: "TikTok 1 · 4 Oct 2025", href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910", platform: "TikTok", analytics: { views: "1.8K", likes: "88" } },
       { label: "TikTok 2 · 7 Jan 2026", href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310", platform: "TikTok", analytics: { views: "2.9K", likes: "134" } },
       { label: "TikTok 3 · 30 Oct 2026 · gifted", href: "https://www.tiktok.com/@fitswitharchie/video/7702502196876709142", platform: "TikTok", analytics: { views: "1,948", likes: "86" } },
+      { label: "Instagram Reel · 30 Oct 2026", href: "https://www.instagram.com/reel/DfIDW5bsc3u/", platform: "Instagram", analytics: { views: "2,925", likes: "12" } },
     ],
   },
   {
     brand: "Whatnot",
-    detail: "Seven paid-partnership TikTok videos for the Whatnot Creator Programme, featuring streetwear, designer fashion and shopping hauls. Performance captured 9 Nov 2026.",
-    period: "3 Sep–18 Oct 2026",
+    detail: "Seven paid-partnership TikTok videos for the Whatnot Creator Programme, plus eight published Instagram Reels featuring hauls and an additional wardrobe clear-out. TikTok figures captured 9 Nov; Instagram figures 10 Nov 2026.",
+    period: "3 Sep–25 Oct 2026",
     brandUrl: "https://www.whatnot.com/",
     links: [
       { label: "TikTok 1 · 3 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7681338945694731552", platform: "TikTok", analytics: { views: "474.4K", likes: "282" } },
       { label: "TikTok 2 · 10 Sep", href: "https://www.tiktok.com/@fitswitharchie/video/7683943012715547936", platform: "TikTok", analytics: { views: "370.5K", likes: "156" } },
+      { label: "Instagram Reel · 10 Sep", href: "https://www.instagram.com/reel/DdHRAw7MpaQ/", platform: "Instagram", analytics: { views: "1,740", likes: "10" } },
       { label: "TikTok 3 · 16 Sep", href: "https://vm.tiktok.com/ZGdQPEYYo/", platform: "TikTok", analytics: { views: "258.5K", likes: "121" } },
+      { label: "Instagram Reel · 16 Sep", href: "https://www.instagram.com/reel/DdWkYyIsDex/", platform: "Instagram", analytics: { views: "1,468", likes: "6" } },
+      { label: "Instagram · wardrobe clear-out · 17 Sep", href: "https://www.instagram.com/reel/DdZLA3DsyST/", platform: "Instagram", analytics: { views: "2,997", likes: "21" } },
       { label: "TikTok 4 · 23 Sep", href: "https://vm.tiktok.com/ZGdQbQc9e/", platform: "TikTok", analytics: { views: "349.5K", likes: "180" } },
+      { label: "Instagram Reel · 23 Sep", href: "https://www.instagram.com/reel/DdooCeaM06M/", platform: "Instagram", analytics: { views: "2,129", likes: "14" } },
       { label: "TikTok 5 · 1 Oct", href: "https://vm.tiktok.com/ZGdQo9JoQ/", platform: "TikTok", analytics: { views: "163.4K", likes: "101" } },
+      { label: "Instagram Reel · 1 Oct", href: "https://www.instagram.com/reel/Dd9jwLkhCp5/", platform: "Instagram", analytics: { views: "1,282", likes: "10" } },
       { label: "TikTok 6 · 9 Oct", href: "https://vm.tiktok.com/ZGdCr52WA/", platform: "TikTok", analytics: { views: "175.2K", likes: "72" } },
+      { label: "Instagram Reel · 9 Oct", href: "https://www.instagram.com/reel/DeR7R7Guxyy/", platform: "Instagram", analytics: { views: "1,224", likes: "6" } },
       { label: "TikTok 7 · 18 Oct", href: "https://vm.tiktok.com/ZGdCQoba8/", platform: "TikTok", analytics: { views: "366.1K", likes: "141" } },
+      { label: "Instagram Reel · 18 Oct", href: "https://www.instagram.com/reel/DepBQgMs7Vk/", platform: "Instagram", analytics: { views: "1,318", likes: "5" } },
+      { label: "Instagram Reel · 25 Oct", href: "https://www.instagram.com/reel/De7E5GMMRLB/", platform: "Instagram", analytics: { views: "1,068", likes: "2" } },
     ],
   },
   {
@@ -368,6 +380,7 @@ export const PARTNERSHIP_ROSTER: PartnershipExperience[] = [
     managedBy: [{ name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Gifting coordination" }],
     links: [
       { label: "TikTok · 12 Oct", href: "https://www.tiktok.com/@fitswitharchie/video/7695800477748972832", platform: "TikTok", analytics: { views: "2,240", likes: "57" } },
+      { label: "Instagram Reel · 12 Oct", href: "https://www.instagram.com/reel/DeZi8rysvZ6/", platform: "Instagram", analytics: { views: "1,766", likes: "14" } },
     ],
   },
   {
