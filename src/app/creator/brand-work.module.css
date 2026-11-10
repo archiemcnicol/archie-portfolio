@@ -24,8 +24,6 @@
 .coverLabel { position: absolute; z-index: 2; left: 12px; right: 12px; bottom: 12px; color: #fff; font-size: 9px; line-height: 1.25; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .copy { min-width: 0; padding: 2px 0 0; }
 .meta { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 10px; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; }
-/* Selected brand marks share the same optical canvas on desktop and mobile.
-   Keep every original SVG's aspect ratio; never enlarge a logo with transforms. */
 .logoWrap { display: flex; align-items: center; justify-content: flex-start; width: 300px; max-width: 100%; height: 76px; margin: 28px 0 16px; overflow: visible; }
 .logo { display: block; width: 215px; height: 54px; object-fit: contain; object-position: left center; }
 .logoWordmark { color: #171717; display: inline-block; font-size: clamp(25px, 3.8vw, 38px); font-weight: 900; letter-spacing: -.07em; line-height: 1; text-transform: uppercase; }
