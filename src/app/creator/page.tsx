@@ -147,7 +147,7 @@ export default function CreatorPage() {
         <div className="wrap">
           <div className="brand-section-heading">
             <div className="section-title">Selected creative work</div>
-            <p>One representative video per campaign, selected for the brief and execution rather than simply its reach. Full deliverables are retained in the work archive.</p>
+            <p>One representative video per campaign, ordered by its recorded TikTok views (with likes breaking ties). Every campaign's additional posts remain in the work archive.</p>
           </div>
 
           <div className="brand-campaigns">
