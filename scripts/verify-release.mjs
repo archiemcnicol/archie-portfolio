@@ -161,7 +161,7 @@ assert(creatorWorkStyles.includes(".logoWordmark { display: inline-flex; align-i
   "Text-only selected campaign marks must align to the same height as SVG marks");
 assert(!/\.logoWrap\[data-brand=/.test(creatorWorkStyles), "Brand-specific logo sizing must not return");
 const selectedMarkRuleBodies = [...creatorWorkStyles.matchAll(/\.logo(?:Wrap|Wordmark)?\s*\{([^}]*)\}/g)].map((match) => match[1]);
-assert(selectedMarkRuleBodies.length === 3 &&
+assert(selectedMarkRuleBodies.length === 4 &&
   selectedMarkRuleBodies.every((rule) => !/(?:^|;)\s*transform\s*:/.test(rule)),
   "Selected brand marks must not use scaling transforms");
 assert((creatorWorkStyles.match(/\.logo\s*\{/g) ?? []).length === 1,
