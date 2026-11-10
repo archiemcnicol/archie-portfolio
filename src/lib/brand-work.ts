@@ -61,94 +61,29 @@ export type SelectedPerformance = {
 
 export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
   {
-    id: "boss-bottled-beyond",
-    brand: "BOSS",
-    campaign: "BOSS Bottled fragrance work",
-    period: "October 2025 — October 2026",
-    format: "3 fragrance integrations · one featured",
+    id: "superdry-2024",
+    brand: "Superdry",
+    campaign: "Superdry styling campaign",
+    period: "September 2024",
+    format: "TikTok styling video",
     summary:
-      "A series of BOSS Bottled fragrance videos spanning commissioned creative work and later product gifting. One representative video is featured here; all three published posts and their results are in the work archive.",
-    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Boss_logo_2021.svg",
-    logoAlt: "BOSS wordmark",
-    tone: "stone",
-    brandUrl: "https://www.hugoboss.com/uk/",
-    campaignPartner: "Socially Powerful",
-    partnerUrl: "https://sociallypowerful.com/",
+      "A fashion-led styling brief commissioned directly by Superdry and developed into a native short-form deliverable. One live campaign video remains in the portfolio.",
+    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Superdry_Logo_2020.svg",
+    logoAlt: "Superdry wordmark",
+    tone: "acid",
+    brandUrl: "https://www.superdry.com/",
     managedBy: [
-      { name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Account Executive" },
+      { name: "Lydia Shute", organisation: "Superdry", role: "Campaign contact" },
     ],
     links: [
       {
-        label: "Video 01 · 4 Oct 2025",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910",
+        label: "Watch on TikTok",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7415251227971259680",
         platform: "TikTok",
-        coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp",
-        analytics: { views: "1.8K", likes: "88" },
-      },
-      {
-        label: "Video 02 · 7 Jan 2026",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310",
-        platform: "TikTok",
-        analytics: { views: "2.9K", likes: "134" },
-      },
-      {
-        label: "Video 03 · 30 Oct 2026",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7702502196876709142",
-        platform: "TikTok",
-        analytics: { views: "1,948", likes: "86" },
+        coverSrc: "/brand-work/superdry-2024-09-16.webp",
       },
     ],
-  },
-
-  {
-    id: "puma-suede-2026",
-    brand: "PUMA",
-    campaign: "PUMA Suede Classic",
-    period: "September–October 2026",
-    format: "Gifted product collaboration · TikTok",
-    summary:
-      "PUMA Suede Classic gifting organised through Socially Powerful, with no obligation to post. The trainers were featured in an original TikTok published on 12 October 2026.",
-    logoAlt: "PUMA wordmark",
-    tone: "stone",
-    brandUrl: "https://uk.puma.com/uk/en",
-    campaignPartner: "Socially Powerful",
-    partnerUrl: "https://sociallypowerful.com/",
-    managedBy: [
-      { name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Gifting coordination" },
-    ],
-    links: [
-      {
-        label: "TikTok · 12 Oct 2026",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7695800477748972832",
-        platform: "TikTok",
-        analytics: { views: "2,240", likes: "57" },
-      },
-    ],
-  },
-  {
-    id: "all-points-east-2026",
-    brand: "All Points East",
-    campaign: "All Points East — Tyler, The Creator",
-    period: "August 2026",
-    format: "Festival promotion · two TikToks",
-    summary:
-      "Two original TikTok videos promoting All Points East and Tyler, The Creator's London appearance. The strongest-performing post is featured here, with both deliverables and their results in the work archive.",
-    logoAlt: "All Points East wordmark",
-    tone: "blue",
-    links: [
-      {
-        label: "Video 02 · 27 Aug 2026",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008",
-        platform: "TikTok",
-        analytics: { views: "16.6K", likes: "1,048" },
-      },
-      {
-        label: "Video 01 · 21 Aug 2026",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
-        platform: "TikTok",
-        analytics: { views: "11.6K", likes: "374" },
-      },
-    ],
+    analytics: { views: "28.6K", likes: "665" },
   },
   {
     id: "nike",
@@ -176,6 +111,31 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
       },
     ],
     analytics: { views: "22.5K", likes: "1,077" },
+  },
+  {
+    id: "all-points-east-2026",
+    brand: "All Points East",
+    campaign: "All Points East — Tyler, The Creator",
+    period: "August 2026",
+    format: "Festival promotion · two TikToks",
+    summary:
+      "Two original TikTok videos promoting All Points East and Tyler, The Creator's London appearance. The strongest-performing post is featured here, with both deliverables and their results in the work archive.",
+    logoAlt: "All Points East wordmark",
+    tone: "blue",
+    links: [
+      {
+        label: "Video 02 · 27 Aug 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7678728230278303008",
+        platform: "TikTok",
+        analytics: { views: "16.6K", likes: "1,048" },
+      },
+      {
+        label: "Video 01 · 21 Aug 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7676507920359558422",
+        platform: "TikTok",
+        analytics: { views: "11.6K", likes: "374" },
+      },
+    ],
   },
   {
     id: "jean-paul-gaultier-le-male-2025",
@@ -233,30 +193,70 @@ export const PUBLIC_CAMPAIGNS: PublicCampaign[] = [
   },
 
   {
-    id: "superdry-2024",
-    brand: "Superdry",
-    campaign: "Superdry styling campaign",
-    period: "September 2024",
-    format: "TikTok styling video",
+    id: "puma-suede-2026",
+    brand: "PUMA",
+    campaign: "PUMA Suede Classic",
+    period: "September–October 2026",
+    format: "Gifted product collaboration · TikTok",
     summary:
-      "A fashion-led styling brief commissioned directly by Superdry and developed into a native short-form deliverable. One live campaign video remains in the portfolio.",
-    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Superdry_Logo_2020.svg",
-    logoAlt: "Superdry wordmark",
-    tone: "acid",
-    brandUrl: "https://www.superdry.com/",
+      "PUMA Suede Classic gifting organised through Socially Powerful, with no obligation to post. The trainers were featured in an original TikTok published on 12 October 2026.",
+    logoAlt: "PUMA wordmark",
+    tone: "stone",
+    brandUrl: "https://uk.puma.com/uk/en",
+    campaignPartner: "Socially Powerful",
+    partnerUrl: "https://sociallypowerful.com/",
     managedBy: [
-      { name: "Lydia Shute", organisation: "Superdry", role: "Campaign contact" },
+      { name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Gifting coordination" },
     ],
     links: [
       {
-        label: "Watch on TikTok",
-        href: "https://www.tiktok.com/@fitswitharchie/video/7415251227971259680",
+        label: "TikTok · 12 Oct 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7695800477748972832",
         platform: "TikTok",
-        coverSrc: "/brand-work/superdry-2024-09-16.webp",
+        analytics: { views: "2,240", likes: "57" },
       },
     ],
-    analytics: { views: "28.6K", likes: "665" },
   },
+  {
+    id: "boss-bottled-beyond",
+    brand: "BOSS",
+    campaign: "BOSS Bottled fragrance work",
+    period: "October 2025 — October 2026",
+    format: "3 fragrance integrations · one featured",
+    summary:
+      "A series of BOSS Bottled fragrance videos spanning commissioned creative work and later product gifting. One representative video is featured here; all three published posts and their results are in the work archive.",
+    logoSrc: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Boss_logo_2021.svg",
+    logoAlt: "BOSS wordmark",
+    tone: "stone",
+    brandUrl: "https://www.hugoboss.com/uk/",
+    campaignPartner: "Socially Powerful",
+    partnerUrl: "https://sociallypowerful.com/",
+    managedBy: [
+      { name: "Robbie Sheaves", organisation: "Socially Powerful", role: "Account Executive" },
+    ],
+    links: [
+      {
+        label: "Video 01 · 4 Oct 2025",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7557375899180485910",
+        platform: "TikTok",
+        coverSrc: "/brand-work/boss-bottled-beyond-2025-10-04.webp",
+        analytics: { views: "1.8K", likes: "88" },
+      },
+      {
+        label: "Video 02 · 7 Jan 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7592653916953644310",
+        platform: "TikTok",
+        analytics: { views: "2.9K", likes: "134" },
+      },
+      {
+        label: "Video 03 · 30 Oct 2026",
+        href: "https://www.tiktok.com/@fitswitharchie/video/7702502196876709142",
+        platform: "TikTok",
+        analytics: { views: "1,948", likes: "86" },
+      },
+    ],
+  },
+
 ];
 
 export const SELECTED_PERFORMANCE: SelectedPerformance[] = [
