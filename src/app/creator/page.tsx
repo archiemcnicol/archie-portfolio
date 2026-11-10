@@ -162,6 +162,9 @@ export default function CreatorPage() {
               const additionalDeliverables = campaign.links.filter(
                 (link) => link.href && link.href !== featuredLink?.href,
               );
+              const instagramReels = campaign.links.filter(
+                (link) => link.href && link.platform === "Instagram",
+              );
 
               return (
                 <article className={styles.campaign} key={campaign.id}>
@@ -241,10 +244,21 @@ export default function CreatorPage() {
                       </div>
                     ) : null}
 
-                    {additionalDeliverables.length ? (
-                      <a className={styles.brandLink} href="#work-archive">See more videos in the work archive ↘</a>
+                    {(additionalDeliverables.length || instagramReels.length || campaign.brandUrl) ? (
+                      <nav className={styles.campaignActions} aria-label={`${campaign.brand} campaign links`}>
+                        {additionalDeliverables.length ? (
+                          <a className={styles.brandLink} href="#work-archive">See more videos in the work archive ↘</a>
+                        ) : null}
+                        {instagramReels.map((link) => (
+                          <a className={styles.brandLink} href={link.href} key={link.href} rel="noreferrer" target="_blank">
+                            {link.label.startsWith("Instagram Reel") ? `Watch ${link.label} ↗` : "Watch on Instagram ↗"}
+                          </a>
+                        ))}
+                        {campaign.brandUrl ? (
+                          <a className={styles.brandLink} href={campaign.brandUrl} rel="noreferrer" target="_blank">Visit {campaign.brand} ↗</a>
+                        ) : null}
+                      </nav>
                     ) : null}
-                    {campaign.brandUrl ? <a className={styles.brandLink} href={campaign.brandUrl} rel="noreferrer" target="_blank">Visit {campaign.brand} ↗</a> : null}
                   </div>
                 </article>
               );

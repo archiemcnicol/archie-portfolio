@@ -62,7 +62,8 @@
 .deliverables small { grid-column: 1; color: var(--muted); font-size: 9px; line-height: 1.35; letter-spacing: .06em; text-transform: uppercase; }
 .deliverables a:hover small { color: #bbb; }
 .deliverables b { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); font-size: 13px; }
-.brandLink { display: inline-block; margin-top: 16px; color: var(--muted); font-size: 9px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.campaignActions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 16px; }
+.brandLink { display: inline-block; color: var(--muted); font-size: 9px; font-weight: 800; line-height: 1.45; letter-spacing: .09em; text-transform: uppercase; }
 .brandLink:hover { color: #111; }
 
 .performanceSection { background: #111; color: #f5f1ea; border-top-color: rgba(255,255,255,.2); }

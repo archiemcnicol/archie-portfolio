@@ -64,8 +64,28 @@ for (const [label, views, likes] of expectedWhatnotPosts) {
   previousWhatnotIndex = index;
   assert(whatnotSection.includes(`views: "${views}", likes: "${likes}"`), `Whatnot metrics are incorrect for ${label}`);
 }
-assert(whatnotSection.split('analytics: { views:').length - 1 === 7, "Whatnot must have exactly seven measured rows");
-assert(whatnotSection.includes("Performance captured 9 Nov 2026"), "Whatnot metrics require a snapshot date");
+assert((whatnotSection.match(/platform: "TikTok"/g) ?? []).length === 7, "Whatnot must retain its original seven TikToks");
+assert((whatnotSection.match(/platform: "Instagram"/g) ?? []).length === 8, "Whatnot must include eight verified Instagram Reels");
+assert(whatnotSection.split('analytics: { views:').length - 1 === 15, "Whatnot must have seven TikTok and eight Instagram metric snapshots");
+assert(whatnotSection.includes("TikTok figures captured 9 Nov; Instagram figures 10 Nov 2026"), "Whatnot platform-specific metric snapshot dates missing");
+// Verify oldest-first ordering when the TikTok deliverables and Instagram Reels are interleaved.
+const expectedWhatnotSequence = [
+  "TikTok 1 · 3 Sep", "TikTok 2 · 10 Sep", "Instagram Reel · 10 Sep",
+  "TikTok 3 · 16 Sep", "Instagram Reel · 16 Sep",
+  "Instagram · wardrobe clear-out · 17 Sep",
+  "TikTok 4 · 23 Sep", "Instagram Reel · 23 Sep",
+  "TikTok 5 · 1 Oct", "Instagram Reel · 1 Oct",
+  "TikTok 6 · 9 Oct", "Instagram Reel · 9 Oct",
+  "TikTok 7 · 18 Oct", "Instagram Reel · 18 Oct",
+  "Instagram Reel · 25 Oct",
+];
+let previousWhatnotDeliverable = -1;
+for (const label of expectedWhatnotSequence) {
+  const index = whatnotSection.indexOf(`label: "${label}"`);
+  assert(index > previousWhatnotDeliverable, `Whatnot cross-platform chronology is wrong: ${label}`);
+  previousWhatnotDeliverable = index;
+}
+assert(whatnotSection.includes("period: \"3 Sep–25 Oct 2026\""), "Whatnot period must include the additional 25 Oct Instagram Reel");
 
 const archiveData = brandWork.slice(brandWork.indexOf("export const PARTNERSHIP_ROSTER:"));
 const archiveBrandOrder = [...archiveData.matchAll(/\n  \{\n    brand: "([^"]+)"/g)].map((m) => m[1]);
@@ -205,13 +225,55 @@ assert((featuredBoss.match(/coverSrc:/g) ?? []).length === 1, "BOSS selected wor
 const archiveBossStart = archiveData.indexOf('brand: "BOSS"');
 const archiveBossEnd = archiveData.indexOf("\n  },", archiveBossStart);
 const archiveBoss = archiveData.slice(archiveBossStart, archiveBossEnd);
-assert(archiveBoss.split("analytics: { views:").length - 1 === 3, "BOSS archive must retain three individually measured videos");
+assert((archiveBoss.match(/platform: "TikTok"/g) ?? []).length === 3, "BOSS archive must retain three TikTok videos");
+assert((archiveBoss.match(/platform: "Instagram"/g) ?? []).length === 1, "BOSS archive must include one verified Instagram Reel");
+assert(archiveBoss.split("analytics: { views:").length - 1 === 4, "BOSS TikTok and Instagram must retain four distinct metric snapshots");
 assert(archiveBoss.indexOf("TikTok 1 · 4 Oct") < archiveBoss.indexOf("TikTok 2 · 7 Jan") && archiveBoss.indexOf("TikTok 2 · 7 Jan") < archiveBoss.indexOf("TikTok 3 · 30 Oct"), "BOSS archive must display all three videos oldest to newest");
 const pumaStart = archiveData.indexOf('brand: "PUMA"');
 const pumaEnd = archiveData.indexOf("\n  },", pumaStart);
 const pumaSection = archiveData.slice(pumaStart, pumaEnd);
 assert(pumaSection.includes("no posting obligation") && pumaSection.includes("video/7695800477748972832"), "PUMA published gifting video must be linked in the archive");
 assert(pumaSection.includes('analytics: { views: "2,240", likes: "57" }'), "PUMA archival video views and likes must match user evidence");
+// These 11 Reels are verified from the connected @archie.mcnicol Metricool
+// history. Each value is a per-platform snapshot on 10 November 2026.
+const newlyRecoveredReels = [
+  ["Afrikana", "DfNRxPcMnf_", "11,966", "64"],
+  ["BOSS", "DfIDW5bsc3u", "2,925", "12"],
+  ["PUMA", "DeZi8rysvZ6", "1,766", "14"],
+  ["Whatnot", "DdHRAw7MpaQ", "1,740", "10"],
+  ["Whatnot", "DdWkYyIsDex", "1,468", "6"],
+  ["Whatnot", "DdZLA3DsyST", "2,997", "21"],
+  ["Whatnot", "DdooCeaM06M", "2,129", "14"],
+  ["Whatnot", "Dd9jwLkhCp5", "1,282", "10"],
+  ["Whatnot", "DeR7R7Guxyy", "1,224", "6"],
+  ["Whatnot", "DepBQgMs7Vk", "1,318", "5"],
+  ["Whatnot", "De7E5GMMRLB", "1,068", "2"],
+];
+for (const [brand, reelId, views, likes] of newlyRecoveredReels) {
+  const start = archiveData.indexOf(`brand: "${brand}"`);
+  const end = archiveData.indexOf("\n  },", start);
+  const campaign = archiveData.slice(start, end);
+  const reelUrl = `https://www.instagram.com/reel/${reelId}/`;
+  assert(campaign.includes(`href: "${reelUrl}"`) &&
+    campaign.includes(`views: "${views}", likes: "${likes}"`),
+    `Verified Instagram permalink or metrics missing for ${brand}: ${reelId}`);
+}
+const instagramPermalinks = [...brandWork.matchAll(/https:\/\/www\.instagram\.com\/reel\/([\w-]+)\//g)].map((match) => match[1]);
+assert(new Set(instagramPermalinks).size === 12, "The 11 new Instagram Reels and original Moschino Reel must be preserved without unrelated content");
+assert(brandWork.includes("https://www.instagram.com/reel/DLP4vh6s_Kk/"), "Original Moschino Instagram Reel must remain");
+assert(selectedCampaignData.includes("https://www.instagram.com/reel/DfIDW5bsc3u/"), "BOSS featured work must link to the October Instagram Reel");
+assert(selectedCampaignData.includes("https://www.instagram.com/reel/DeZi8rysvZ6/"), "PUMA featured work must link to its matching Instagram Reel");
+assert(creatorPage.includes('const instagramReels = campaign.links.filter'), "Selected Creative Work must expose its verified Instagram links");
+assert(creatorPage.includes("styles.campaignActions"), "Selected campaign actions must use a dedicated vertical stack");
+assert(creatorWorkStyles.includes(".campaignActions { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 16px; }"),
+  "Selected campaign archive / Instagram / brand actions must stack vertically");
+const actionStart = creatorPage.indexOf('<nav className={styles.campaignActions}');
+const actionEnd = creatorPage.indexOf('</nav>', actionStart);
+const actionMarkup = creatorPage.slice(actionStart, actionEnd);
+assert(actionStart !== -1 && actionMarkup.indexOf('href="#work-archive"') < actionMarkup.indexOf('instagramReels.map') &&
+  actionMarkup.indexOf('instagramReels.map') < actionMarkup.indexOf('Visit {campaign.brand}'),
+  "Selected campaign links must display archive first, Instagram second, brand website last");
+
 
 const selectedPerformanceLinks = [
   "7524743379410881814",
