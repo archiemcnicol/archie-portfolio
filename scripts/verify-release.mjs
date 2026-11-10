@@ -159,6 +159,7 @@ assert(creatorWorkStyles.includes(".logo { display: block; width: 270px; max-wid
   "Selected campaign SVG marks must share the same proportional 270×56 canvas");
 assert(creatorWorkStyles.includes(".logoWordmark { display: inline-flex; align-items: center; max-width: 100%; height: 56px;"),
   "Text-only selected campaign marks must align to the same height as SVG marks");
+assert(!/\.logoWrap\[data-brand=/.test(creatorWorkStyles), "Brand-specific logo sizing must not return");
 const selectedMarkRuleBodies = [...creatorWorkStyles.matchAll(/\.logo(?:Wrap|Wordmark)?\s*\{([^}]*)\}/g)].map((match) => match[1]);
 assert(selectedMarkRuleBodies.length === 3 &&
   selectedMarkRuleBodies.every((rule) => !/(?:^|;)\s*transform\s*:/.test(rule)),
